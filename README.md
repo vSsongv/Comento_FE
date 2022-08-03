@@ -1,46 +1,53 @@
-# Getting Started with Create React App
+# 프로젝트 이름 및 소개
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![코멘토 로고](./comento.png)<br></br>
 
-## Available Scripts
+<b>코멘토(Comento)</b> : 코딩을 입문하는 사람이나 코딩 도중에 어려움을 겪는 사람들을 위한 서비스로, Coding + Mento == Comento입니다.
 
-In the project directory, you can run:
+## 🛠️ 기능 및 프로세스 과정 요약
 
-### `npm start`
+1. 질문자가 질문 내용이나 자료에 관한 내용을 게시
+2. 해당 내용에 도움을 줄 수 있는 멘토가 질문을 승낙
+3. 채팅을 통해 멘토(답변자)와 멘티(질문자)가 대화하여 해당 문제를 같이 해결
+   <br>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## ⏰ 개발 기간
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1️⃣차 개발기간 : 2022년 7월 1일 ~ 2022년 8월 28일
 
-### `npm test`
+## 👩‍💻 멤버 구성
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Developer<br>
+  Leader: 송진영 <br>
+  Member: 유정호, 김동연, 서지연, 강보영, 정우재, 장재균<br><br>
+- Design<br>
+  Member: ~김민아~, 신예빈 <br>
+- Management <br>
+  Member: 도원희, 노연이 <br><br>
 
-### `npm run build`
+## :computer: 코멘토가 필요한 이유
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 프로그래밍 입문자의 증가
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+코딩의 중요성이 알려지면서 코딩 관련 강의가 대학 필수 교양으로 편성되는 사례가 많아졌습니다. <br> 그에 따라 자연스레 많은 사람들이 프로그래밍을 입문하고,
+그 과정에서 어려움을 겪는 상황을 빈번하게 확인할 수 있습니다.</br> 이때 사용자가 겪는 어려움을 정확하게 설명해주고 해결해줄 멘토와 매칭하여
+해당 문제를 해결할 수 있도록 돕고자 하는 서비스입니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+<br><br>
 
-### `npm run eject`
+## :busts_in_silhouette: 서비스 사용 대상
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+[1] 프로그래밍을 처음 입문하는 사람<br>
+[2] 특정 프레임워크나 언어를 처음 다루면서 어려움을 느끼는 사람<br>
+[3] 디버깅이 익숙하지 않아 코드의 잘못된 부분을 찾는데에 어려움을 느끼는 사람
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<br>
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 사용한 프레임워크(FrameWork)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+- FE : <b> React.js</b> <p> <img src="https://velog.velcdn.com/images/jtwjs/post/3ebdc992-342a-4895-8394-5cb14fee44c8/reactJS.png" width=100 height=80> </p>
+- BE : <b> Node.js </b> <p> <img src="https://t1.daumcdn.net/cfile/tistory/9929924F5A8FD98509" width=130 height=100> </p>
 
-## Learn More
+#### UI/UX 및 Wireframe 링크
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+피그마 링크: [Figma](https://www.figma.com/file/eu6TdzgDWUbj1ZUTUbLZcT/%EC%B4%88%EC%95%88?node-id=0%3A1)
