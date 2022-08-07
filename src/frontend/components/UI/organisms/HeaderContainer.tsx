@@ -6,6 +6,7 @@ import { headerVisibilityAtom } from "./../../../../recoil/atom/headerVisibility
 
 function HeaderContainer() {
   const headerVisibility = useRecoilValue(headerVisibilityAtom);
+
   return <Header>{headerVisibility == 1 && <HeaderLogin />}</Header>;
 }
 
