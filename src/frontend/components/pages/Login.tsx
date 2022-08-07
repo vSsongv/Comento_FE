@@ -1,7 +1,10 @@
+import { headerVisibilityAtom } from "./../../../recoil/atom/headerVisibilityAtom";
 import React from "react";
+import { useResetRecoilState, useSetRecoilState } from "recoil";
 
-function Home() {
-  return <div>로그인페이지 입니다</div>;
+function Login() {
+  const setHeaderVisibility = useSetRecoilState(headerVisibilityAtom);
+  return <>홈페이지 입니다 {setHeaderVisibility(0)}</>;
 }
 
-export default Home;
+export default Login;
