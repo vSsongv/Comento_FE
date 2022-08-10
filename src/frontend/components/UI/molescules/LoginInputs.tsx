@@ -130,7 +130,7 @@ function LoginInput(props: _LoginInputProps) {
   const [pwEnabled, dcEnabled] = [props.password, props.doubleCheck];
 
   return (
-    <div onClick={() => ref.current?.focus()} style={{ cursor: "text" }}>
+    <div onClick={() => ref.current?.focus()} style={{ cursor: "text", width: '493px' }}>
       <TextBoxLabel>{props.title}</TextBoxLabel>
       <TextBoxDiv>
         <input
