@@ -1,19 +1,30 @@
 import { headerVisibilityAtom } from "./../../../recoil/atom/headerVisibilityAtom";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import SigninModal from "../UI/organisms/SigninModal";
 
 function Login() {
-  const [headerVisibility, setHeaderVisibility] =
-    useRecoilState(headerVisibilityAtom);
+  const [headerVisibility, setHeaderVisibility] = useRecoilState(headerVisibilityAtom);
   useEffect(() => {
-    setHeaderVisibility(0);
+    setHeaderVisibility(1);
     console.log(headerVisibility);
     return () => {
-      setHeaderVisibility(1);
+      setHeaderVisibility(0);
       console.log(headerVisibility);
     };
   }, []);
-  return <>로그인 페이지 입니다.</>;
+
+  return <>
+    <SigninModal onLogin={(email, pw, rememberUser) => {
+      alert([email, pw, rememberUser]);
+      return {
+        success: false,
+        emailError: 'email error',
+        pwError: 'pw error',
+        etcError: 'etc error'
+      };
+    }}/>
+  </>
 }
 
 export default Login;
