@@ -68,7 +68,7 @@ const getPwError = (s: string) => {
 }
 const getPhoneError = (s: string) => {
   if (!s) return '전화번호를 입력하세요.';
-  else return phoneRegex.test(s) ? '' : '전화변호의 형식이 올바르지 않습니다.' 
+  else return phoneRegex.test(s) ? '' : '전화번호의 형식이 올바르지 않습니다.' 
 }
 const getPwConfirmError = (pw: string, pwC: string) =>
   pw == pwC ? '' : '비밀번호가 일치하지 않습니다.';
