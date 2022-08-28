@@ -19,7 +19,6 @@ function Login() {
       alert([email, pw, rememberUser]);
       return {
         success: false,
-        emailError: 'email error',
         pwError: 'pw error',
         etcError: 'etc error'
       };

@@ -23,22 +23,22 @@ const RememberMeLabel = styled.span`
 const Space = styled.div`height: 20px`
 const BigSpace = styled.div`height: 40px`
 
-interface SignUpResultData {
+interface SigninResultData {
     success: boolean,
     emailError?: string,
     pwError?: string,
     etcError?: string
 }
-interface SignUpModalProps {
-    onLogin: (
-                email: string,
-                pw: string,
-                rememberUser: boolean
-             ) => SignUpResultData
+interface SigninModalProps {
+  onLogin: (
+    email: string,
+    pw: string,
+    rememberUser: boolean
+  ) => SigninResultData;
 }
 
 
-function SignupModal({ onLogin }: SignUpModalProps) {
+function SigninModal({ onLogin }: SigninModalProps) {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -91,4 +91,4 @@ function SignupModal({ onLogin }: SignUpModalProps) {
   );
 }
 
-export default SignupModal;
+export default SigninModal;
