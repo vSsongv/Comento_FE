@@ -7,6 +7,7 @@ import { theme } from "./frontend/styles/theme";
 import Home from "./frontend/components/pages/Home";
 import Login from "./frontend/components/pages/Login";
 import HeaderContainer from "./frontend/components/UI/organisms/HeaderContainer";
+import Question from "./frontend/components/pages/Question";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />}></Route>
               <Route path="/login" element={<Login />}></Route>
+              <Route path="/question" element={<Question />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
