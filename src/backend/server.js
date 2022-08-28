@@ -1,16 +1,73 @@
-const express = require("express");
-const httpd = require("http");
+const dotenv = require('dotenv');
+dotenv.config();
+const express = require('express');
+const session = require('express-session');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+
+const passportConfig = require('./passport');
+const passport = require('passport');
+
+const { sequelize } = require('./models/index');
+
+const pageRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
+const checkRouter = require('./routes/check')
 const app = express();
-app.set("view engine", "ejs");
 
-app.use(express.urlencoded({ extended: true }));
-require("dotenv").config();
-httpd.createServer(app).listen(process.env.PORT, function () {
-  console.log("listening on " + process.env.PORT);
+
+sequelize.sync({force : false})
+.then(() => {
+    console.log('db connect success');
+})
+.catch((err) => {
+    console.log(err);
+})
+
+passportConfig();
+app.set('port', process.env.PORT || 8001);
+
+app.use(morgan('dev'));
+
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use(cors({
+    origin:'http://localhost:8001',
+    credentials:true,
+}));
+
+app.use(cookieParser(process.env.COOKIE_SECRET));
+
+app.use(session({
+    resave: false,
+    saveUninitalized: false,
+    secret: process.env.COOKIE_SECRET,
+    cookie:{
+        httpOnly: true,
+        secure: false,
+    },
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use('/user', pageRouter);
+app.use('/user/signup', checkRouter);
+app.use('/', userRouter);
+
+app.use((req, res, next) => {
+    console.log('404 에러');
+    res.status(404).send('Not Found');
 });
 
-app.get("/", function (req, res) {
-  res.send("success");
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(err.status || 500).send(err.message);
 });
 
-app.use("/answer", require("./answer"));
+
+app.listen(app.get('port'), () => {
+    console.log(app.get('port'), '번 포트에서 대기중');
+});
+

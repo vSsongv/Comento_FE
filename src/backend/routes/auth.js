@@ -3,7 +3,6 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middleware');
-
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -36,6 +35,8 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
             nickname: req.body.nickname,
             email : req.body.email,
             password: hashedpw,
+            image: req.body.image,
+            cellphone: req.body.cellphone,
         });
         
         res.status(201).send('create user sucessfully');
