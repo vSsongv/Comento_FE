@@ -5,9 +5,9 @@ import { RecoilRoot } from "recoil";
 import GlobalStyle from "./frontend/styles/GlobalStyle";
 import { theme } from "./frontend/styles/theme";
 import Home from "./frontend/components/pages/Home";
-import Login from "./frontend/components/pages/Login";
+import SignIn from "./frontend/components/pages/SignIn";
+import SignUp from "./frontend/components/pages/SignUp";
 import HeaderContainer from "./frontend/components/UI/organisms/HeaderContainer";
-import Register from "./frontend/components/pages/Register";
 
 function App() {
   return (
@@ -19,8 +19,8 @@ function App() {
             <HeaderContainer />
             <Routes>
               <Route path="/" element={<Home />}></Route>
-              <Route path="/login" element={<Login />}></Route>
-              <Route path="/register" element={<Register />}></Route>
+              <Route path="/signin" element={<SignIn />}></Route>
+              <Route path="/signup" element={<SignUp />}></Route>
             </Routes>
           </BrowserRouter>
         </ThemeProvider>

@@ -42,16 +42,16 @@ const ImageAddInput = styled.input`
 const Space = styled.div`height: 20px`
 const BigSpace = styled.div`height: 40px`
 
-interface SignupResultData {
+interface SignUpResultData {
     success: boolean,
 }
-interface SignupModalProps {
+interface SignUpModalProps {
   onRegister: (
     email: string,
     pw: string,
     nickname: string,
     phoneNumber: string
-  ) => SignupResultData;
+  ) => SignUpResultData;
 }
 
 const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -82,7 +82,7 @@ const doNickValidation = (s:string) => {
 const doPhoneValidation = (s:string) => {
 }*/
 
-function SignupModal({onRegister}: SignupModalProps) {
+function SignUpModal({onRegister}: SignUpModalProps) {
   const [[email, setEmail], [emailError, setEmailError]] = [useState(''), useState('')];
   const [[pw, setPw], [pwError, setPwError]] = [useState(''), useState('')];
   const [[pwConfirm, setPwConfirm], [pwConfirmError, setPwConfirmError]] = [useState(''), useState('')];
@@ -245,4 +245,4 @@ function SignupModal({onRegister}: SignupModalProps) {
   </LoginModal>
   </RootContainer>)
 }
-export default SignupModal;
+export default SignUpModal;
