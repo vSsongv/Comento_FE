@@ -1,7 +1,7 @@
-import { theme } from "./../../../styles/theme";
 import React from "react";
 import styled, { css } from "styled-components";
 import { lighten, darken } from "polished";
+import { mainGradient } from "../../../styles/styleUtil";
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -52,14 +52,7 @@ const StyledButton = styled.button<ButtonProps>`
       font-size: 1rem;
       /* 색상 */
       background-color: ${BACKGROUND_COLOR};
-      ${GRADIENT &&
-      css`
-        background-image: linear-gradient(
-          90deg,
-          ${theme.color.firstColor},
-          ${theme.color.secondColor}
-        );
-      `}
+      ${GRADIENT && mainGradient}
       &:hover {
         color: ${lighten(0.1, COLOR)};
       }
