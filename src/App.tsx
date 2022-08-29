@@ -5,7 +5,8 @@ import { RecoilRoot } from "recoil";
 import GlobalStyle from "./frontend/styles/GlobalStyle";
 import { theme } from "./frontend/styles/theme";
 import Home from "./frontend/components/pages/Home";
-import Login from "./frontend/components/pages/Login";
+import SignIn from "./frontend/components/pages/SignIn";
+import SignUp from "./frontend/components/pages/SignUp";
 import HeaderContainer from "./frontend/components/UI/organisms/HeaderContainer";
 import Question from "./frontend/components/pages/Question";
 
@@ -19,8 +20,9 @@ function App() {
             <HeaderContainer />
             <Routes>
               <Route path="/" element={<Home />}></Route>
-              <Route path="/login" element={<Login />}></Route>
-              <Route path="/question" element={<Question />}></Route>
+              <Route path="/signin" element={<SignIn />}></Route>
+              <Route path="/signup" element={<SignUp />}></Route>
+
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
