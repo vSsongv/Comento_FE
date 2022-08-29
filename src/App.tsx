@@ -8,6 +8,7 @@ import Home from "./frontend/components/pages/Home";
 import SignIn from "./frontend/components/pages/SignIn";
 import SignUp from "./frontend/components/pages/SignUp";
 import HeaderContainer from "./frontend/components/UI/organisms/HeaderContainer";
+import Question from "./frontend/components/pages/Question";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
               <Route path="/" element={<Home />}></Route>
               <Route path="/signin" element={<SignIn />}></Route>
               <Route path="/signup" element={<SignUp />}></Route>
+
             </Routes>
           </BrowserRouter>
         </ThemeProvider>
