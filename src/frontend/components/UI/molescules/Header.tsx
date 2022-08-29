@@ -11,7 +11,6 @@ type HeaderProps = {
 const Positioner = styled.div`
   display: flex;
   flex-direction: column;
-  position: fixed;
   top: 0px;
   width: 100%;
   ${shadow(1)}
