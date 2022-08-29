@@ -1,9 +1,9 @@
-import { headerVisibilityAtom } from "../../../recoil/atom/headerVisibilityAtom";
-import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import SigninModal from "../UI/organisms/SignInModal";
+import { headerVisibilityAtom } from '../../../recoil/atom/headerVisibilityAtom';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import SignInModal from '../UI/organisms/SignInModal';
 
-function Login() {
+function SignIn() {
   const [headerVisibility, setHeaderVisibility] = useRecoilState(headerVisibilityAtom);
   useEffect(() => {
     setHeaderVisibility(1);
@@ -14,16 +14,20 @@ function Login() {
     };
   }, []);
 
-  return <>
-    <SigninModal onLogin={(email, pw, rememberUser) => {
-      alert([email, pw, rememberUser]);
-      return {
-        success: false,
-        pwError: 'pw error',
-        etcError: 'etc error'
-      };
-    }}/>
-  </>
+  return (
+    <>
+      <SignInModal
+        onLogin={(email, pw, rememberUser) => {
+          alert([email, pw, rememberUser]);
+          return {
+            success: false,
+            pwError: 'pw error',
+            etcError: 'etc error',
+          };
+        }}
+      />
+    </>
+  );
 }
 
-export default Login;
+export default SignIn;

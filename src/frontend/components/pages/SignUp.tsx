@@ -1,9 +1,9 @@
-import { headerVisibilityAtom } from "../../../recoil/atom/headerVisibilityAtom";
-import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import SignupModal from "../UI/organisms/SignUpModal";
+import { headerVisibilityAtom } from '../../../recoil/atom/headerVisibilityAtom';
+import React, { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import SignUpModal from '../UI/organisms/SignUpModal';
 
-function Register() {
+function SingUp() {
   const [headerVisibility, setHeaderVisibility] = useRecoilState(headerVisibilityAtom);
   useEffect(() => {
     setHeaderVisibility(1);
@@ -14,15 +14,19 @@ function Register() {
     };
   }, []);
 
-  return <>
-    <SignupModal onRegister={(email, pw) => {
-      alert([email, pw]);
-      return {
-        success: false,
-        pwError: 'pw error',
-        etcError: 'etc error'
-      };
-    }}/>
-  </>
+  return (
+    <>
+      <SignUpModal
+        onRegister={(email, pw) => {
+          alert([email, pw]);
+          return {
+            success: false,
+            pwError: 'pw error',
+            etcError: 'etc error',
+          };
+        }}
+      />
+    </>
+  );
 }
-export default Register;
+export default SingUp;
