@@ -1,3 +1,4 @@
+import { theme } from "./theme";
 import { css } from "styled-components";
 
 type sizes = {
@@ -37,3 +38,11 @@ export const shadow = (weight: number) => {
 
   return shadows[weight];
 };
+
+export const mainGradient = css`
+  background-image: linear-gradient(
+    90deg,
+    ${theme.color.firstColor},
+    ${theme.color.secondColor}
+  );
+`;
