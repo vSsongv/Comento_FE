@@ -27,14 +27,14 @@ sequelize.sync({force : false})
 })
 
 //passportConfig();
-app.set('port', process.env.PORT || 8001);
+app.set('port', process.env.PORT || 80);
 
 app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
-    origin:'3.37.84.147',
+    origin:'https://3.37.84.147',
     credentials:true,
 }));
 
