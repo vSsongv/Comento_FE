@@ -1,7 +1,8 @@
-import { theme } from "./../../../styles/theme";
-import React from "react";
-import styled from "styled-components";
-import { shadow } from "../../../styles/styleUtil";
+import { theme } from './../../../styles/theme';
+import React from 'react';
+import styled from 'styled-components';
+import { shadow } from '../../../styles/styleUtil';
+import { Link } from 'react-router-dom';
 
 type HeaderProps = {
   children?: React.ReactNode;
@@ -10,7 +11,6 @@ type HeaderProps = {
 const Positioner = styled.div`
   display: flex;
   flex-direction: column;
-  position: fixed;
   top: 0px;
   width: 100%;
   ${shadow(1)}
@@ -33,10 +33,12 @@ const HeaderContents = styled.div`
   padding-left: 4rem;
 `;
 
-const Logo = styled.div`
+const Logo = styled(Link)`
   font-size: 1.4rem;
   font-weight: bold;
   color: ${theme.color.primaryColor};
+  text-decoration: none;
+  cursor: pointer;
 `;
 
 const Spacer = styled.div`
@@ -48,7 +50,7 @@ function Header({ children }: HeaderProps) {
     <Positioner>
       <WhiteBackground>
         <HeaderContents>
-          <Logo>Commento</Logo>
+          <Logo to='/'>Commento</Logo>
           <Spacer />
           {children}
         </HeaderContents>
