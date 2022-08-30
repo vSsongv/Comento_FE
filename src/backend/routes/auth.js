@@ -61,7 +61,31 @@ router.post('/login', isNotLoggedIn, (req, res, next) => {
                 console.error(loginError);
                 return next(loginError);
             }
-            return res.redirect('/');
+            else{       
+                    const key = process.env.SECRET_KEY;
+                    const nickname = user.nickname;
+                    const image = user.image;
+                    let token = "";
+                    // jwt.sign(payload, secretOrPrivateKey, [options, callback])
+                    token = jwt.sign(
+                    {
+                        type: "JWT",
+                        nickname: nickname,
+                        image: image,
+                    },
+                    key,
+                    {
+                      expiresIn: "15m", // 15분후 만료
+                      issuer: "yujeongho",
+                    }
+                  );
+                  // response
+                  return res.status(200).json({
+                    code: 200,
+                    message: "token is created",
+                    token: token,
+                  });
+            }
         });
     })(req,res,next);
 })
