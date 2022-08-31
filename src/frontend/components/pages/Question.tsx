@@ -1,9 +1,11 @@
+import { Languages } from "./../utils/Languages";
 import React, { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import { mainGradient } from "../../styles/styleUtil";
 import ShadowBox from "../UI/atoms/ShadowBox";
-import defaultUserProfile from "../../assets/images/defaultProfile.png";
-import submitButton from "../../assets/images/submitButton.svg";
+import defaultUserProfile from "../../assets/images/defaultProfile.svg";
+import submitButton from "../../assets/images/submit.svg";
 import gallery from "../../assets/images/gallery.png";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
@@ -87,17 +89,39 @@ const ImageButton = styled.button`
 `;
 
 function Ask() {
-  const [images, setImages] = useState([]);
-  const maxNumber = 5;
+  const [postImage, setpostImage] = useState([]);
+  const maxNumber = 6;
+  const [values, setValue] = useState({
+    postLang: "",
+    postTitle: "",
+    postContent: "",
+    postImage,
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-  const onChange = (
+  const handleImgChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
   ) => {
     // data for submit
     console.log(imageList, addUpdateIndex);
-    setImages(imageList as never[]);
+    setpostImage(imageList as never[]);
   };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setValue({ ...values, [name]: value });
+    console.log(values);
+  };
+
+  // const handleSubmit = async () => {
+  //   try {
+  //    axios.post()
+  //   } catch() {
+
+  //   }
+  // }
 
   return (
     <div>
@@ -110,23 +134,24 @@ function Ask() {
               <Label>제목</Label>
               <InputBox>
                 <input
+                  value={values.postTitle}
+                  name="postTitle"
+                  onChange={handleChange}
                   placeholder="제목을 입력하세요."
                   style={{ width: "500px", height: "30px", border: 0 }}
                 ></input>
               </InputBox>
             </form>
-            <MySelect>
-              <option>Languages</option>
-              <option>C</option>
-              <option>C++</option>
-              <option>C#</option>
-              <option>Python</option>
-              <option>Java</option>
-              <option>Java Script</option>
-              <option>Ruby</option>
-              <option>Go</option>
-              <option>PHP</option>
-            </MySelect>
+
+            <form style={{ height: "55px" }}>
+              <MySelect>
+                {Languages.map((lang: string, index: number) => (
+                  <option key={index} value={lang}>
+                    {lang}
+                  </option>
+                ))}
+              </MySelect>
+            </form>
             <button
               style={{
                 backgroundColor: "white",
@@ -134,6 +159,7 @@ function Ask() {
                 height: "26px",
                 cursor: "pointer",
               }}
+              // onClick={handleSubmit}
             >
               <img src={submitButton} />
             </button>
@@ -165,8 +191,8 @@ function Ask() {
           <ImageBox>
             <ImageUploading
               multiple
-              value={images}
-              onChange={onChange}
+              value={postImage}
+              onChange={handleImgChange}
               maxNumber={maxNumber}
             >
               {({ imageList, onImageUpload, onImageRemove, dragProps }) => (
@@ -184,22 +210,32 @@ function Ask() {
                     <p style={{ color: "#858585" }}>Click or Drop here</p>
                   </ImageButton>
                   {imageList.map((image, index) => (
-                    <div key={index} className="image-item">
-                      <div>
-                        <img
-                          src={image.dataURL}
-                          alt=""
-                          width="100"
-                          height="100"
-                          style={{ margin: "1rem" }}
-                        />
-                        <button
-                          className="image-item__btn-Wrapper"
-                          onClick={() => onImageRemove(index)}
-                        >
-                          사진 삭제
-                        </button>
-                      </div>
+                    <div
+                      key={index}
+                      className="image-item"
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                        position: "relative",
+                        margin: "1rem",
+                      }}
+                    >
+                      <img
+                        src={image.dataURL}
+                        alt=""
+                        width="100"
+                        height="100"
+                        style={{
+                          position: "absolute",
+                          top: "0",
+                          left: "0",
+                        }}
+                      />
+                      <div
+                        className="close"
+                        style={{ cursor: "pointer" }}
+                        onClick={() => onImageRemove(index)}
+                      />
                     </div>
                   ))}
                 </div>
