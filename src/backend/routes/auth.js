@@ -3,7 +3,6 @@ const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { isLoggedIn, isNotLoggedIn } = require('./middleware');
-
 const router = express.Router();
 
 router.get('/', (req, res) => {
@@ -36,6 +35,8 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
             nickname: req.body.nickname,
             email : req.body.email,
             password: hashedpw,
+            image: req.body.image,
+            cellphone: req.body.cellphone,
         });
         
         res.status(201).send('create user sucessfully');
@@ -46,24 +47,69 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
 });
 
 
-router.post('/login', isNotLoggedIn, (req, res, next) => {
-    passport.authenticate('local',{session: false}, (authError, user, info) => {
-        if (authError){
-            console.error(authError);
-            return next(authError);
-        }
-        if(!user){
-            return res.redirect(`/?loginError=${info.message}`);
-        }
-        return req.login(user, (loginError) => {
-            if(loginError){
-                console.error(loginError);
-                return next(loginError);
+router.post('/login', isNotLoggedIn, async (req, res, next) => {
+        try{
+            const hashpw = await bcrypt.hash(req.body.password, 12);
+            const userInfo = await User.findOne({
+                where :{
+                    email : req.body.email
+                }
+            });
+            console.log(hashpw);
+            console.log(userInfo.password);
+            console.log(hashpw == userInfo.password);
+            if(!(userInfo && userInfo.password == hashpw)){
+                res.status(403).json("Not Authorized");
             }
-            return res.redirect('/');
+            else{       
+                    try{
+                        const key = process.env.SECRET_KEY;
+                        const nickname = user.nickname;
+                        const image = user.image;
+                        const email = user.email;
+                        const accessToken = jwt.sign(
+                        {
+                            type: "JWT",
+                            email : email,
+                            nickname: nickname,
+                            image: image,
+                        },
+                        process.env.ACCESS_SECRET,
+                        {
+                        expiresIn: "15m", // 15분후 만료
+                        issuer: "yujeongho",
+                        }
+                    );
+                    // response
+                    const refreshToken = jwt.sign({
+                        email : email,
+                        nickname : nickname,
+                        image: image,
+                    }, process.env.REFRESH_SECRET, {
+                        expiresIn: "24h", // 24시간후 만료
+                        issuer: "yujeongho",
+                    });
+
+                    res.cookie("accessToken", accessToken, {
+                        secure : false,
+                        httpOnly : true,
+                    });
+
+                    res.cookie("refreshToken", refreshToken, {
+                        secure: false,
+                        httpOnly : true,
+                    });
+
+                    res.status(200).json("login success");
+                    } catch(error){
+                        console.error(error);
+                        res.status(500).json(error);
+                    }
+                }
+            }catch(error){
+                console.error(error);
+            }
         });
-    })(req,res,next);
-})
 
 router.get('/logout', isLoggedIn, (req, res) => {
     req.logout();
