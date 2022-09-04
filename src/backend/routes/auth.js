@@ -2,6 +2,7 @@ const express = require('express');
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
+const jwt = require("jsonwebtoken");
 const { isLoggedIn, isNotLoggedIn } = require('./middleware');
 const router = express.Router();
 
@@ -47,26 +48,32 @@ router.post('/signup', isNotLoggedIn, async (req, res, next) => {
 });
 
 
-router.post('/login', isNotLoggedIn, async (req, res, next) => {
+router.post('/signin', isNotLoggedIn, async (req, res, next) => {
         try{
-            const hashpw = await bcrypt.hash(req.body.password, 12);
+            /*if() {
+
+            }*/ //jwt 토근이 인증되어있다면
+            const userpassword = req.body.password;
             const userInfo = await User.findOne({
                 where :{
                     email : req.body.email
                 }
-            });
-            console.log(hashpw);
-            console.log(userInfo.password);
-            console.log(hashpw == userInfo.password);
-            if(!(userInfo && userInfo.password == hashpw)){
-                res.status(403).json("Not Authorized");
+            }); // 해당 이메일 사용자 찾음 있으면 사용자 정보 없으면 null
+            console.log(userInfo);
+            if(!userInfo){
+                return res.status(400).json({msg: "로그인 실패"});
             }
-            else{       
+            else{
+                console.log("find user");
+                const isEqualPw = await bcrypt.compare(userpassword, userInfo.password);
+                console.log(isEqualPw);
+
+                if(isEqualPw) {
                     try{
                         const key = process.env.SECRET_KEY;
-                        const nickname = user.nickname;
-                        const image = user.image;
-                        const email = user.email;
+                        const nickname = userInfo.nickname;
+                        const image = userInfo.image;
+                        const email = userInfo.email;
                         const accessToken = jwt.sign(
                         {
                             type: "JWT",
@@ -99,13 +106,17 @@ router.post('/login', isNotLoggedIn, async (req, res, next) => {
                         secure: false,
                         httpOnly : true,
                     });
-
                     res.status(200).json("login success");
                     } catch(error){
                         console.error(error);
                         res.status(500).json(error);
                     }
+
+                } // 로그인 성공
+                else{
+                    return res.status(404).json({msg : "로그인 실패"});
                 }
+            }
             }catch(error){
                 console.error(error);
             }
