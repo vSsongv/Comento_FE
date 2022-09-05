@@ -1,9 +1,13 @@
 const dotenv = require('dotenv');
 dotenv.config();
+const { Op } = require('sequelize');
+const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 const express = require("express");
 const nodemailer = require("nodemailer");
 const router = express.Router();
 
+const { auth, Auth } = require('../models');
 const { user, User } = require('../models');
 
 router.post("/password", async (req, res) => {
@@ -19,23 +23,89 @@ router.post("/password", async (req, res) => {
             let transporter = nodemailer.createTransport({
                 service: "Gmail",
                 host: "smtp.gmail.com",
-                secure: false,
+                secure: true,
+                port: 465,
                 auth: {
                     user: process.env.EMAIL,
                     pass: process.env.EMAIL_PASSWORD
                 }
             });
-            const newPassword = Math.random().toString(36).slice(2);
+            const token = crypto.randomBytes(6).toString('hex');
             let info = await transporter.sendMail({
                 from: process.env.EMAIL,
                 to: userEmail,
-                subject: "코멘토 신규 비밀번호 안내문자입니다",
-                text: "신규 비밀번호: " + newPassword
+                subject: "코멘토 비밀번호 초기화 이메일입니다.",
+                text: "비밀번호 초기화를 위해서는 아래의 URL을 클릭하여 주세요." + `http://localhost/reset/${token}`,
             });
             console.log("mail 발송완료");
+            await Auth.findOne({
+                where: {
+                    email: userEmail
+                }
+            }).then(() => {
+                Auth.update({
+                    token: token,
+                    created: Date.now()
+                },{
+                    where: {
+                        email: userEmail
+                    }
+                })
+            }).catch(() => {
+                const data = {
+                    token,
+                    email: userEmail,
+                    ttl: 300
+                };
+                Auth.create(data);
+            })
             return res.status(200).json({msg: "메일이 발송되었습니다"});
         }else{
             return res.status(400).json({msg: "No Id in database"});
+        }
+    }catch(err){
+        console.error(err);
+    }
+});
+
+router.post("/reset-password", async(req, res) => {
+    const ttl = 300000;
+    const date = new Date();
+    console.log(date);
+    console.log(date, ttl);
+    try{
+        let isAuth = await Auth.findOne({
+            where: {
+                token: req.body.token,
+                email: req.body.email,
+                created:{
+                    [Op.gt] : date - ttl
+                }
+            }
+        });
+        console.log(isAuth);
+        if(isAuth){
+            let isUser = await User.findOne({
+                where: {
+                    email : req.body.email
+                },
+            });
+            if(isUser){
+                const hashedpw = await bcrypt.hash(req.body.newpassword, 12)
+                User.update({
+                    password: hashedpw
+                },{
+                    where: {
+                        email: req.body.email
+                    }
+                });
+                console.log("업데이트 완료");
+                return res.status(200).json({msg: "비밀번호 업데이트 완료"});
+            }else{
+                return res.status(400).json({msg: "유저가 없어요"});
+            }
+        }else{
+            return res.status(401).json({msg : "토큰 만료"});
         }
     }catch(err){
         console.error(err);
