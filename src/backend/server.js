@@ -6,7 +6,6 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-const passportConfig = require('./passport');
 const passport = require('passport');
 
 const { sequelize } = require('./models/index');
@@ -15,6 +14,7 @@ const pageRouter = require('./routes/auth');
 const userRouter = require('./routes/user');
 const checkRouter = require('./routes/check')
 const uploadRouter = require('./routes/upload');
+const findRouter = require('./routes/findpassword');
 const app = express();
 
 
@@ -27,14 +27,14 @@ sequelize.sync({force : false})
 })
 
 //passportConfig();
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 8001);
 
 app.use(morgan('dev'));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors({
-    origin:'https://3.37.84.147',
+    origin:'http://localhost:8001',
     credentials:true,
 }));
 
@@ -57,6 +57,7 @@ app.use('/user', pageRouter);
 app.use('/user/signup', checkRouter);
 app.use('/', userRouter);
 app.use('/user/upload', uploadRouter);
+app.use('/find', findRouter);
 app.use((req, res, next) => {
     console.log('404 에러');
     res.status(404).send('Not Found');
