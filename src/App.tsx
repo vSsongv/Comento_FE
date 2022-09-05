@@ -9,6 +9,7 @@ import SignIn from './frontend/components/pages/SignIn';
 import SignUp from './frontend/components/pages/SignUp';
 import HeaderContainer from './frontend/components/UI/organisms/HeaderContainer';
 import Question from './frontend/components/pages/Question';
+import FooterContainer from './frontend/components/UI/organisms/FooterContainer';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Route path='/signin' element={<SignIn />}></Route>
               <Route path='/signup' element={<SignUp />}></Route>
             </Routes>
+            <FooterContainer />
           </BrowserRouter>
         </ThemeProvider>
       </RecoilRoot>
