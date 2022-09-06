@@ -15,6 +15,7 @@ const userRouter = require('./routes/user');
 const checkRouter = require('./routes/check')
 const uploadRouter = require('./routes/upload');
 const findRouter = require('./routes/findpassword');
+const snsRouter = require('./routes/sns');
 const app = express();
 
 
@@ -53,11 +54,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/', userRouter);
 app.use('/user', pageRouter);
 app.use('/user/signup', checkRouter);
-app.use('/', userRouter);
 app.use('/user/upload', uploadRouter);
 app.use('/find', findRouter);
+app.use('/sns', snsRouter);
+
 app.use((req, res, next) => {
     console.log('404 에러');
     res.status(404).send('Not Found');
