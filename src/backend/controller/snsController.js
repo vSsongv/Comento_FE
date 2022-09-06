@@ -73,18 +73,18 @@ const sns = {
         });
     },
     verify : async (req, res) => {
-      const phoneNumber = req.body.phoneNumber;
+      const phoneNumber = req.body.cellphone;
       const verifyCode = req.body.verifyCode;
 
       const CacheData = Cache.get(phoneNumber);
 
       if (!CacheData) {
-        return res.send(errResponse(baseResponse.FAILURE_SMS_AUTHENTICATION));
+        return res.send({msg: "폰넘버이상"});
       } else if (CacheData !== verifyCode) {
-          return res.send(errResponse(baseResponse.FAILURE_SMS_AUTHENTICATION));
+          return res.send({msg: "인증번호불일치"});
       } else {
         Cache.del(phoneNumber);
-        return res.send(response(baseResponse.SMS_VERIFY_SUCCESS));     
+        return res.send({msg: "일치"});     
       }
     }
 
