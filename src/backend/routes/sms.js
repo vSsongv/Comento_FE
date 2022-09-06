@@ -1,4 +1,4 @@
-const sms = require('../controller/snsController');
+const sms = require('../controller/smsController');
 const express = require('express');
 const router = express.Router();
 
