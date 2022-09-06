@@ -15,7 +15,7 @@ const userRouter = require('./routes/user');
 const checkRouter = require('./routes/check')
 const uploadRouter = require('./routes/upload');
 const findRouter = require('./routes/findpassword');
-const snsRouter = require('./routes/sns');
+const smsRouter = require('./routes/sms');
 const app = express();
 
 
@@ -59,7 +59,7 @@ app.use('/user', pageRouter);
 app.use('/user/signup', checkRouter);
 app.use('/user/upload', uploadRouter);
 app.use('/find', findRouter);
-app.use('/sns', snsRouter);
+app.use('/sms', smsRouter);
 
 app.use((req, res, next) => {
     console.log('404 에러');

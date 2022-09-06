@@ -28,7 +28,7 @@ hmac.update(accessKey);
 const hash = hmac.finalize();
 const signature = hash.toString(CryptoJS.enc.Base64);
 
-const sns = {
+const sms = {
     send : async (req, res) => {
         const cellphone = req.body.cellphone;
       
@@ -90,4 +90,4 @@ const sns = {
 
 };
 
-module.exports = sns;
+module.exports = sms;
