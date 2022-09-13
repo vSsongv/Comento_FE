@@ -19,7 +19,7 @@
 
 - Developer<br>
   Leader: 송진영 <br>
-  Member: 유정호, 김동연, 서지연, 강보영, 정우재, 장재균<br><br>
+  Member: 유정호, 김동연, 서지연, 강보영, 장재균<br><br>
 - Design<br>
   Member: ~김민아~, 신예빈 <br>
 - Management <br>
