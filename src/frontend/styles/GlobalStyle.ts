@@ -1,6 +1,11 @@
 import { createGlobalStyle } from "styled-components";
+import BlackHanSans from "../assets/fonts/BlackHanSans.woff";
 
 export default createGlobalStyle`
+@font-face {
+  font-family: "BHS";
+  src: local("BHS"), url(${BlackHanSans}) format('woff');
+}
 *{
   @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
