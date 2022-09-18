@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const User = require("./user");
-const Auth = require("./auth");
 const Mentoring = require("./mentoring");
 
 const env = process.env.NODE_ENV || "development";
@@ -17,10 +16,9 @@ const sequelize = new Sequelize(
 db.sequelize = sequelize;
 
 db.User = User;
-db.Auth = Auth;
 db.Mentoring = Mentoring;
+
 User.init(sequelize);
-Auth.init(sequelize);
 Mentoring.init(sequelize);
 
 User.associate(db);

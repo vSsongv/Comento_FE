@@ -13,16 +13,17 @@ import FooterContainer from './frontend/components/UI/organisms/FooterContainer'
 
 function App() {
   return (
-    <div className='App'>
+    <div className="App">
       <RecoilRoot>
         <ThemeProvider theme={theme}>
           <GlobalStyle />
           <BrowserRouter>
             <HeaderContainer />
             <Routes>
-              <Route path='/' element={<Home />}></Route>
-              <Route path='/signin' element={<SignIn />}></Route>
-              <Route path='/signup' element={<SignUp />}></Route>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/signin" element={<SignIn />}></Route>
+              <Route path="/signup" element={<SignUp />}></Route>
+              <Route path="/question" element={<Question />}></Route>
             </Routes>
             <FooterContainer />
           </BrowserRouter>
