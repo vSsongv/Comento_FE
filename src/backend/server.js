@@ -1,21 +1,23 @@
 const dotenv = require("dotenv");
 dotenv.config();
-const express = require("express");
-const session = require("express-session");
-const morgan = require("morgan");
-const cookieParser = require("cookie-parser");
-const cors = require("cors");
-const httpd = require("http");
 
-const passport = require("passport");
+const express = require('express');
+const session = require('express-session');
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
-const { sequelize } = require("./models/index");
+const passport = require('passport');
 
-const pageRouter = require("./routes/auth");
-const userRouter = require("./routes/user");
-const checkRouter = require("./routes/check");
-const uploadRouter = require("./routes/upload");
-const findRouter = require("./routes/findpassword");
+const { sequelize } = require('./models/index');
+
+const pageRouter = require('./routes/auth');
+const userRouter = require('./routes/user');
+const checkRouter = require('./routes/check')
+const uploadRouter = require('./routes/upload');
+const findRouter = require('./routes/findpassword');
+const smsRouter = require('./routes/sms');
+
 const app = express();
 
 //passportConfig();
@@ -50,11 +52,15 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use("/user", pageRouter);
-app.use("/user/signup", checkRouter);
-app.use("/", userRouter);
-app.use("/user/upload", uploadRouter);
-app.use("/find", findRouter);
+
+app.use('/', userRouter);
+app.use('/user', pageRouter);
+app.use('/user/signup', checkRouter);
+app.use('/user/upload', uploadRouter);
+app.use('/find', findRouter);
+app.use('/sms', smsRouter);
+
+
 app.use((req, res, next) => {
   console.log("404 에러");
   res.status(404).send("Not Found");
