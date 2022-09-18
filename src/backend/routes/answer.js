@@ -72,57 +72,5 @@ router.get("/", async (req, res, next) => {
     next(err);
   }
 });
-/*
-router.get("/", function (req, res) {
-  var qry = url.parse(req.url, true).query;
-  var sqlConn = mysql.createConnection(conf.development); // DB 커넥션 생성
-  sqlConn.connect();
-  console.log(qry);
-  var lang = qry.lang ? qry.lang : "";
-  var cond = lang <= 0 ? "" : " WHERE language=" + lang;
-  var sql =
-    "SELECT COUNT(*) AS cnt FROM mentoring" +
-    cond +
-    "; SELECT mentoringId,nickname,title,date,language FROM mentoring inner join users on menteeId = userId" +
-    cond +
-    " ORDER BY mentoringId DESC;";
-  console.log(sql);
-
-  if (qry.id !== undefined) {
-    sql +=
-      "SELECT nickname,title,date,language,content,content_image FROM mentoring inner join users on menteeId = userId WHERE mentoringId=" +
-      qry.id;
-  }
-
-  sqlConn.query(sql, function (err, results, fields) {
-    if (err) {
-      console.log(err);
-    }
-    console.log(results);
-    var article;
-    if (qry.id !== undefined) {
-      article = results[2][0];
-    } else {
-      article = {
-        nickname: "",
-        title: "",
-        date: "",
-        language: "",
-        content: "",
-        content_image: "",
-      };
-    }
-    console.log(results);
-    res.render("answer.ejs", {
-      lang: lang,
-      postCount: results[0][0].cnt,
-      postList: results[1],
-      article: article,
-    });
-  });
-
-  sqlConn.end();
-});
-*/
 
 module.exports = router;
