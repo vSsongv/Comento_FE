@@ -1,13 +1,14 @@
-import React from "react";
-import Button from "../UI/atoms/Button";
+import React from 'react';
+import FAQbox from './Home/FAQbox';
+import MainBlack from './Home/MainBlack';
+import MainFirst from './Home/MainFirst';
 
 function Home() {
   return (
     <div>
-      홈페이지 입니다
-      <Button color="white" gradient={true} border={false} long={true}>
-        로그인
-      </Button>
+      <MainFirst />
+      <MainBlack />
+      <FAQbox />
     </div>
   );
 }
