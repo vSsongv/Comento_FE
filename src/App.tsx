@@ -24,7 +24,7 @@ function App() {
               <Route path='/signin' element={<SignIn />}></Route>
               <Route path='/signup' element={<SignUp />}></Route>
             </Routes>
-            <FooterContainer />
+            
           </BrowserRouter>
         </ThemeProvider>
       </RecoilRoot>
