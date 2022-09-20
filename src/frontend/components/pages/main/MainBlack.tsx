@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import ContainerPerson from '../../../assets/images/ContainerPerson.png';
+import defaultProfile from '../../../assets/images/defaultProfile.png';
 
 const BlackLayout = styled.div`
     display: flex; 
@@ -49,7 +49,7 @@ const PersonContainer = styled.div`
 `;
 
 const Personimg = styled.div`
-    background-image: url(${ContainerPerson});
+    background-image: url(${defaultProfile});
     border: none;
     width: 180px;
     height: 180px;
