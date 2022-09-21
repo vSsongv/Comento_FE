@@ -1,3 +1,4 @@
+const { INTEGER } = require('sequelize');
 const Sequelize = require('sequelize');
 module.exports = class User extends Sequelize.Model{
     static init(sequelize){
@@ -28,6 +29,14 @@ module.exports = class User extends Sequelize.Model{
             cellphone: {
                 type: Sequelize.STRING(15),
                 allowNull : false,
+            },
+            mentos: {
+                type: INTEGER,
+                allowNull: true
+            },
+            refreshToken: {
+                type: Sequelize.STRING(100),
+                allowNull: true
             }
         }, {
             sequelize,
