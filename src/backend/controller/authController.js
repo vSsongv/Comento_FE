@@ -100,7 +100,13 @@ const member = {
                         });
 
                         const updateUser  = await User.update({refreshToken : refreshToken}, {where: {userid : userInfo.userid}});
-
+                        setTimeout(async () => {
+                            try{
+                                await User.update({refreshToken : null}, {where: {userid : userInfo.userid}});
+                            }catch(err){
+                                console.error(err);
+                            }
+                        }, 60*60*1000);
                         res.cookie("accessToken", accessToken, {
                             secure : false,
                             httpOnly : true,
@@ -127,15 +133,11 @@ const member = {
         },
     logout: async (req, res) => {
         const token = req.cookies.accessToken;
-        console.log(token);
         const decodedToken = await jwt.verify(token,  process.env.ACCESS_SECRET);
-
-        console.log(decodedToken);
         const deleteRefreshToken = await User.update({refreshToken: null}, {where: {email: decodedToken.email}});
         res.cookie('accessToken', null, {
             maxAge:0,
         });
-        console.log('token파괴');
         return res.status(200).json({msg : "로그아웃되었습니다."});
     },
     resetPassword : async (req, res) => {

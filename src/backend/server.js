@@ -32,14 +32,6 @@ app.use(cors({
     credentials:true,
 }));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: "http://localhost:8001",
-    credentials: true,
-  })
-);
-
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
 app.use(
@@ -66,10 +58,6 @@ app.use('/find', findRouter);
 app.use('/sms', smsRouter);
 
 
-app.use((req, res, next) => {
-  console.log("404 에러");
-  res.status(404).send("Not Found");
-});
 app.use("/answer", require("./routes/answer"));
 
 app.use((err, req, res, next) => {
