@@ -12,7 +12,11 @@ db.sequelize = sequelize;
 
 db.User = User;
 db.Auth = Auth;
+
 User.init(sequelize);
 Auth.init(sequelize);
+
+User.associate(db);
+Auth.associate(db);
 
 module.exports = db;

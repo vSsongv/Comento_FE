@@ -16,7 +16,7 @@ const find = {
                     email : userEmail,
                 }
             }); 
-    
+            console.log(isUser);
             if(isUser){
                 let transporter = nodemailer.createTransport({
                     service: "Gmail",
@@ -55,14 +55,18 @@ const find = {
                     const data = {
                         token,
                         email: userEmail,
-                        ttl: 300
+                        ttl: 300,
+                        userid: isUser.userid
                     };
                     Auth.create(data);
                     setTimeout(async () => {
-                        console.log("setimeout part");
-                        await Auth.destroy({
-                        where:  { email: data.email }
-                        });
+                        try{
+                            await Auth.destroy({
+                            where:  { email: data.email }
+                            });
+                        }catch(err){
+                            console.error(err);
+                        }
                     }, 300*1000);
                 }
                 return res.status(200).json({msg: "메일이 발송되었습니다"});

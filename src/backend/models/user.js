@@ -1,5 +1,4 @@
 const Sequelize = require('sequelize');
-
 module.exports = class User extends Sequelize.Model{
     static init(sequelize){
         return super.init({
@@ -11,6 +10,7 @@ module.exports = class User extends Sequelize.Model{
             },
             email: {
                 type: Sequelize.STRING(50),
+                unique : true,
                 allowNull: false
             },
             image: {
@@ -41,5 +41,9 @@ module.exports = class User extends Sequelize.Model{
         });
     }
 
-    static associate(db) {}
+    static associate(db) {
+        db.User.hasMany(db.Auth, {
+            foreignKey: "userid", sourceKey: "userid"
+        });
+    }
 };
