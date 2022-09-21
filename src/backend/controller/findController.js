@@ -36,11 +36,13 @@ const find = {
                     text: "비밀번호 초기화를 위해서는 아래의 URL을 클릭하여 주세요." + `http://localhost/reset/${token}`,
                 });
                 console.log("mail 발송완료");
-                await Auth.findOne({
+                const authUser = await Auth.findOne({
                     where: {
                         email: userEmail
                     }
-                }).then(() => {
+                });
+                if(authUser){
+                    console.log("then");
                     Auth.update({
                         token: token,
                         created: Date.now()
@@ -49,14 +51,20 @@ const find = {
                             email: userEmail
                         }
                     })
-                }).catch(() => {
+                } else{
                     const data = {
                         token,
                         email: userEmail,
                         ttl: 300
                     };
                     Auth.create(data);
-                })
+                    setTimeout(async () => {
+                        console.log("setimeout part");
+                        await Auth.destroy({
+                        where:  { email: data.email }
+                        });
+                    }, 300*1000);
+                }
                 return res.status(200).json({msg: "메일이 발송되었습니다"});
             }else{
                 return res.status(400).json({msg: "No Id in database"});

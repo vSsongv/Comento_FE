@@ -39,9 +39,24 @@ const member = {
                 next(err);
             }
     },
+    autosignin: (req, res, next) => {
+        console.log(req.cookies.accessToken);
+        if(req.cookies && req.cookies.accessToken){
+            jwt.verify(req.cookies.accessToken, process.env.ACCESS_SECRET, (err, decoded) => {
+                if(err){
+                    console.error(err);
+                    return res.status(401).send('에러 발생');
+                }
+                console.log('자동로그인');
+                return res.send(decoded);
+            })
+        }else{
+            return res.send("자동로그인 불가능");
+        }
+    },
     signin : async (req, res, next) => {
         try{
-            /*if() {}*/ //jwt 토근이 인증되어있다면
+            
             const userpassword = req.body.password;
             const userInfo = await User.findOne({
                 where :{
@@ -77,13 +92,10 @@ const member = {
                         issuer: "yujeongho",
                         }
                     );
-                        // response
                         const refreshToken = jwt.sign({
-                            email : email,
-                            nickname : nickname,
-                            image: image,
+                            email : email
                         }, process.env.REFRESH_SECRET, {
-                            expiresIn: "24h", // 24시간후 만료
+                            expiresIn: "1h", // 24시간후 만료
                             issuer: "yujeongho",
                         });
 
@@ -115,7 +127,6 @@ const member = {
         req.logout();
         req.session.destory();
         res.clearCookie();
-        req.redirect('/');
     },
     resetPassword : async (req, res) => {
         const ttl = 300000;
