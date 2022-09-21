@@ -7,6 +7,9 @@
 images
 /src/backend/node_modules
 /src/frontend/node_modules
+loginkey.pem
+.package-lock.json
+
 # testing
 /coverage
 
