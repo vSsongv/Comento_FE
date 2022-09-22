@@ -1,7 +1,5 @@
-const { keyboard } = require("@testing-library/user-event/dist/keyboard");
 const Sequelize = require("sequelize");
 const express = require("express");
-const httpd = require("http");
 const app = express();
 app.set("view engine", "ejs");
 

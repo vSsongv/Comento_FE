@@ -1,13 +1,14 @@
 const Sequelize = require('sequelize');
 
+
 module.exports = class Auth extends Sequelize.Model{
     static init(sequelize){
         return super.init({
             email: {
                 type: Sequelize.STRING(50),
+                unique : true,
                 allowNull: false,
-                primaryKey: true,
-
+                primaryKey: true
             },
             token: {
                 type: Sequelize.STRING(12),
@@ -30,5 +31,9 @@ module.exports = class Auth extends Sequelize.Model{
         });
     }
 
-
+    static associate(db) {
+        db.Auth.belongsTo(db.User, {
+            foreignKey: "userid", targetKey: "userid"
+        });
+    }
 };

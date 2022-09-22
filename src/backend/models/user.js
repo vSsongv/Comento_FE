@@ -1,5 +1,5 @@
+const { INTEGER } = require('sequelize');
 const Sequelize = require('sequelize');
-
 module.exports = class User extends Sequelize.Model{
     static init(sequelize){
         return super.init({
@@ -11,6 +11,7 @@ module.exports = class User extends Sequelize.Model{
             },
             email: {
                 type: Sequelize.STRING(50),
+                unique : true,
                 allowNull: false
             },
             image: {
@@ -28,6 +29,14 @@ module.exports = class User extends Sequelize.Model{
             cellphone: {
                 type: Sequelize.STRING(15),
                 allowNull : false,
+            },
+            mentos: {
+                type: INTEGER,
+                allowNull: true
+            },
+            refreshToken: {
+                type: Sequelize.STRING(100),
+                allowNull: true
             }
         }, {
             sequelize,
@@ -41,5 +50,9 @@ module.exports = class User extends Sequelize.Model{
         });
     }
 
-    static associate(db) {}
+    static associate(db) {
+        db.User.hasMany(db.Auth, {
+            foreignKey: "userid", sourceKey: "userid"
+        });
+    }
 };

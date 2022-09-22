@@ -16,7 +16,7 @@ const find = {
                     email : userEmail,
                 }
             }); 
-    
+            console.log(isUser);
             if(isUser){
                 let transporter = nodemailer.createTransport({
                     service: "Gmail",
@@ -36,11 +36,13 @@ const find = {
                     text: "비밀번호 초기화를 위해서는 아래의 URL을 클릭하여 주세요." + `http://localhost/reset/${token}`,
                 });
                 console.log("mail 발송완료");
-                await Auth.findOne({
+                const authUser = await Auth.findOne({
                     where: {
                         email: userEmail
                     }
-                }).then(() => {
+                });
+                if(authUser){
+                    console.log("then");
                     Auth.update({
                         token: token,
                         created: Date.now()
@@ -49,14 +51,24 @@ const find = {
                             email: userEmail
                         }
                     })
-                }).catch(() => {
+                } else{
                     const data = {
                         token,
                         email: userEmail,
-                        ttl: 300
+                        ttl: 300,
+                        userid: isUser.userid
                     };
                     Auth.create(data);
-                })
+                    setTimeout(async () => {
+                        try{
+                            await Auth.destroy({
+                            where:  { email: data.email }
+                            });
+                        }catch(err){
+                            console.error(err);
+                        }
+                    }, 300*1000);
+                }
                 return res.status(200).json({msg: "메일이 발송되었습니다"});
             }else{
                 return res.status(400).json({msg: "No Id in database"});
