@@ -19,7 +19,7 @@
 
 - Developer<br>
   Leader: 송진영 <br>
-  Member: 유정호, 김동연, 서지연, 강보영, 장재균<br><br>
+  Member: 유정호, 김동연, 서지연, 강보영, ~장재균~<br><br>
 - Design<br>
   Member: ~김민아~, 신예빈 <br>
 - Management <br>
@@ -45,8 +45,8 @@
 
 ## 사용한 프레임워크(FrameWork)
 
-- FE : <b> React.js</b> <p> <img src="https://velog.velcdn.com/images/jtwjs/post/3ebdc992-342a-4895-8394-5cb14fee44c8/reactJS.png" width=100 height=80> </p>
-- BE : <b> Node.js </b> <p> <img src="https://t1.daumcdn.net/cfile/tistory/9929924F5A8FD98509" width=130 height=100> </p>
+- FE :  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/>
+- BE : <img src="https://img.shields.io/badge/node.js-339933?style=flat-square&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/mySQL-4479A1?style=flat-square&logo=mySQL&logoColor=white"/>
 
 #### UI/UX 및 Wireframe 링크
 
