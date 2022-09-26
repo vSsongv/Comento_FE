@@ -14,6 +14,8 @@ module.exports = {
                 email : user.email,
                 nickname: user.nickname,
                 image: user.image,
+                mentos: user.mentos,
+                role : user.role
             }, process.env.ACCESS_SECRET,{
             expiresIn: "15m", // 15분후 만료
             issuer: "friday",
