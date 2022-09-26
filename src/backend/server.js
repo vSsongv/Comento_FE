@@ -20,6 +20,17 @@ const smsRouter = require('./routes/sms');
 
 const app = express();
 
+const whiteDomain = ["http://localhost:8080", "http://localhost:3000", "http://comento.co.kr"];
+const corOptions = {
+  origin: function (origin, callback) {
+    if (whiteDomain.indexOf(origin) !== -1){
+      callback(null, true);
+    }else{
+      callback(new Error("Not allowed domain"));
+    }
+  }
+}
+app.use(cors(corOptions));
 //passportConfig();
 app.set('port', process.env.PORT || 8080);
 
@@ -27,10 +38,7 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cors({
-    origin:'http://localhost:8080',
-    credentials:true,
-}));
+
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
 

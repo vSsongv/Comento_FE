@@ -1,12 +1,13 @@
 const multer = require('multer');
 const fs = require('fs');
 const imageDir = __dirname + '/../images/';
+const CODE = require('../modules/statusCode');
 
 if(!fs.existsSync(imageDir)) { 
     fs.mkdirSync(imageDir);
 }
 
-var storage = multer.diskStorage({
+const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, imageDir);
     },
@@ -19,17 +20,19 @@ var storage = multer.diskStorage({
     },
 });
 
-var uploadFunc =  multer({storage : storage}).single('filename');
+const uploadFunc =  multer({storage : storage}).single('filename');
 
 const file = {
     upload : (req, res ,next) => {
         uploadFunc(req, res, (err) => {
             console.error(err);
             if(err){
-                return res.json({success: false, err});
+                return res.json({ statusCode: CODE.FAIL, msg: "fail uploading file", result: 0 });
             }
             return res.json({
-                success: true,
+                statusCode: CODE.SUCCESS,
+                msg:"upload success",
+                result: 1,
                 image: res.req.file.path,
                 fileName: res.req.file.filename,
             })

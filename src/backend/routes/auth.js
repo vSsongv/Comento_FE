@@ -1,19 +1,20 @@
 const express = require('express');
-const { isLoggedIn, isNotLoggedIn } = require('./middleware');
+const checkAuth = require('../middlewares/auth').checkToken;
 const router = express.Router();
 const authController = require('../controller/authController');
 
 
-router.post('/signup', isNotLoggedIn, authController.signup); 
+router.post('/signup',  authController.signup); 
 
 
-router.get('/signin', isNotLoggedIn, authController.autosignin);
+router.get('/signin',  authController.autosignin);
 
-router.post('/signin', isNotLoggedIn, authController.signin);
+router.post('/signin',  authController.signin);
 
 
-router.get('/logout', isLoggedIn, authController.logout);
+router.get('/logout', checkAuth, authController.logout);
 
 router.post('/reset-password', authController.resetPassword);
 
+router.get('/renewal-token', authController.renewalToken);
 module.exports = router;

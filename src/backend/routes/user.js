@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { user, User } = require('../models');
-const { isLoggedIn, isNotLoggedIn } = require('./middleware');
-
-router.get('/', isLoggedIn, async (req, res, next) => {
+const { isLoggedIn, isNotLoggedIn } = require('../modules/token');
+const checkAuth = require('../middlewares/auth').checkToken;
+router.get('/', checkAuth, async (req, res, next) => {
     try{
         if(req.user){
             const user = await User.findOne({

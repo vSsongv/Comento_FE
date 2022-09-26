@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const CODE = require('../modules/statusCode');
 
 const check = {
     id: async (req, res) => {
@@ -17,25 +18,25 @@ const check = {
             });
 
             if(checkEmail && validEmailCheck(userEmail)){
-                return res.send({status: 200, result: 1})
+                return res.json({ statusCode: CODE.SUCCESS, msg: "incorrect token", result: 1});
             }else{
                 if(checkEmail == false){
-                    return res.send({status: 409, result:0, msg:"이메일 중복입니다."})
+                    return res.json({ statusCode: CODE.DUPLICATE, msg: "email that already exists", result: 0});
                 }
                 else{
-                    return res.send({status: 412, result:0, msg:"이메일 형식이 아닙니다."})
+                    return res.json({ statusCode: CODE.INVALID_VALUE, msg: "invalid email form", result: 0});
                 }
             }         
         }catch(err){
             console.error(err);
-            return res.send({status: 400, result: err });
+            return res.json({ statusCode: CODE.FAIL, msg: "fail", result: 0});
         }
     },
     phone: async (req, res) => {
         try{
             //console.log('check req => ', req);
     
-            let userPhone = req.body.phone;
+            let userPhone = req.body.userPhoneNum;
             const validCallNumberCheck = (userPhone) =>{
                 userPhone = userPhone.replace(/-/g, '');
                 const pattern = /^(01[016789]{1}|02|0[3-9]{1}[0-9]{1})([0-9]{3,4})([0-9]{4})$/;
@@ -49,27 +50,27 @@ const check = {
             });
 
             if(checkPhone && validCallNumberCheck(userPhone)){
-                res.send({status: 200, result: 1})
+                return res.json({ statusCode: CODE.SUCCESS, msg: "SUCCESS", result: 1});
             }
             else{
                 if(checkPhone == false){
-                    return res.send({status: 409, result:0, msg:"핸드폰 중복입니다."})
+                    return res.json({ statusCode: CODE.DUPLICATE, msg: "phonenum that already exists", result: 0});
                 }
                 else{
-                    return res.send({status: 412, result:0, msg:"핸드폰 번호 형식이 아닙니다."})
+                    return res.json({ statusCode: CODE.INVALID_VALUE, msg: "incorrect phonenum form", result: 0});
                 }
             }
             
         } catch(err){
             console.error(err);
-            return res.send({status: 400, result: err });
+            return res.json({ statusCode: CODE.FAIL, msg: "fail", result: 0});
         }
     },
     nickname : async (req, res) => {
         try{
             //console.log('check req => ', req);
     
-            const userNick = req.body.nickname;
+            const userNick = req.body.userNickname;
             const validNicknameCheck = (userNick) => {
                 const pattern = /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,10}$/;
                 return pattern,test(userNick);
@@ -80,20 +81,20 @@ const check = {
                 }
             });
             if(checkNick && validNicknameCheck(userNick)){
-                return res.send({status: 200, result: 1})
+                return res.json({ statusCode: CODE.SUCCESS, msg: "SUCCESS", result: 1});
             }
             else{
                 if(checkNick == false){
-                    return res.send({status: 409, result:0, msg:"닉네임 중복입니다."})
+                    return res.json({ statusCode: CODE.DUPLICATE, msg: "nickname that already exists", result: 0});
                 }
                 else{
-                    return res.send({status: 412, result:0, msg:"닉네임은 한글, 영문, 숫자만 입력가능하고 2자 이상이어야 합니다."})
+                    return res.json({ statusCode: CODE.INVALID_VALUE, msg: "incorrect nickname form", result: 0});
                 }  
             }
             
         } catch(err){
             console.error(err);
-            return res.send({status: 400, result: err });
+            return res.json({ statusCode: CODE.FAIL, msg: "fail", result: 0});
         }
     }
 };
