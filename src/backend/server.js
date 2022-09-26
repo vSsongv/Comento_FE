@@ -6,7 +6,7 @@ const session = require('express-session');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-
+const db = require('./models');
 const passport = require('passport');
 
 const { sequelize } = require('./models/index');
@@ -29,8 +29,7 @@ const corOptions = {
       callback(new Error("Not allowed domain"));
     }
   }
-}
-app.use(cors(corOptions));
+};
 //passportConfig();
 app.set('port', process.env.PORT || 8080);
 
@@ -38,6 +37,10 @@ app.use(morgan("dev"));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+db.sequelize.sync().then(() => {
+        console.log('db connect success');
+    }).catch(console.error);
 
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
@@ -64,8 +67,6 @@ app.use('/user/signup', checkRouter);
 app.use('/user/upload', uploadRouter);
 app.use('/find', findRouter);
 app.use('/sms', smsRouter);
-
-
 app.use("/answer", require("./routes/answer"));
 
 app.use((err, req, res, next) => {
