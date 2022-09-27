@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-// import ContainerPerson from '../../../assets/images/ContainerPerson.png';
-import ContainerPerson from '../../../assets/images/gallery.png';
+import ContainerPerson from '../../../assets/images/ContainerPerson.png';
 
 const BlackLayout = styled.div`
   display: flex;

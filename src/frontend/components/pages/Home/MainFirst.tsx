@@ -1,7 +1,6 @@
-// import titleImage from '../../../assets/images/mainFirstTitle.png';
-// import arrowImage from '../../../assets/images/mainFirstButtonArrow.png';
-import titleImage from '../../../assets/images/gallery.png';
-import arrowImage from '../../../assets/images/gallery.png';
+import titleImage from '../../../assets/images/mainFirstTitle.png';
+import arrowImage from '../../../assets/images/mainFirstButtonArrow.png';
+
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../UI/atoms/Button';
