@@ -1,30 +1,30 @@
 import axios from 'axios';
+import styled, { css } from 'styled-components';
 import React, { useState } from 'react';
-import Button from './components/UI/atoms/Button';
+
+const Button = styled.button`
+  width: 50px;
+  height: 30px;
+`;
 
 const Test = () => {
-  const baseURL = 'http://comento.co.kr';
+  const baseURL = 'http://localhost:8080';
   const [InputValue, setInputValue] = useState<string>('');
 
   const testQuery = async () => {
     try {
-      const { data } = await axios.get(`${baseURL}/user/signup/nickCheck`, {
-        params: {
-          userNickname: InputValue,
-        },
-      });
-      console.log(data);
-    } catch (error) {
-      console.error(error);
+      // loading 상태를 true 로 바꿉니다.
+      const { data } = await axios.get(`http://localhost:8080/user/signup/nickcheck?userNickname=${InputValue}`);
+      console.log(data.result);
+    } catch (e) {
+      console.log(e);
     }
   };
 
   return (
     <div>
       <input type='text' onChange={(e) => setInputValue(e.target.value)}></input>
-      <Button color='white' gradient={true} border={false} onClick={testQuery}>
-        test
-      </Button>
+      <Button onClick={testQuery}>test</Button>
     </div>
   );
 };
