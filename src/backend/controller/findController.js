@@ -70,7 +70,7 @@ const find = {
                         }
                     }, 300*1000);
                 }
-                return res.json({ statusCode: CODE.SUCCESS, msg: "send email successfully" });
+                return res.json({ statusCode: CODE.SUCCESS, token : token, msg: "send email successfully" });
             }else{
                 return res.json({ statusCode: CODE.FAIL, msg: "no data in database" });
             }

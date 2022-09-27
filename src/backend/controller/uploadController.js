@@ -1,6 +1,6 @@
 const multer = require('multer');
 const fs = require('fs');
-const imageDir = __dirname + '/../images/';
+const imageDir = __dirname + '/../tempimage/';
 const CODE = require('../modules/statusCode');
 
 if(!fs.existsSync(imageDir)) { 
