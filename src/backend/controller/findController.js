@@ -6,11 +6,12 @@ const bcrypt = require('bcrypt');
 const nodemailer = require("nodemailer");
 const { auth, Auth } = require('../models');
 const { user, User } = require('../models');
+const CODE = require('../modules/statusCode');
 
 const find = {
     password : async (req, res) => {
         try{
-            const userEmail = req.body.email
+            const userEmail = req.body.userEmail
             const isUser = await User.findOne({
                 where :{
                     email : userEmail,
@@ -69,12 +70,13 @@ const find = {
                         }
                     }, 300*1000);
                 }
-                return res.status(200).json({msg: "메일이 발송되었습니다"});
+                return res.json({ statusCode: CODE.SUCCESS, msg: "send email successfully" });
             }else{
-                return res.status(400).json({msg: "No Id in database"});
+                return res.json({ statusCode: CODE.FAIL, msg: "no data in database" });
             }
         }catch(err){
             console.error(err);
+            return res.json({ statusCode: CODE.FAIL, msg: "fail" });
         }
     }
 };

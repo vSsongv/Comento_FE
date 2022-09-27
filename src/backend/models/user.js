@@ -32,11 +32,17 @@ module.exports = class User extends Sequelize.Model{
             },
             mentos: {
                 type: INTEGER,
-                allowNull: true
+                allowNull: true,
+                defaultValue : 0
             },
             refreshToken: {
                 type: Sequelize.STRING(100),
                 allowNull: true
+            },
+            role: {
+                type: Sequelize.BOOLEAN,
+                allowNull: true,
+                defaultValue: false
             }
         }, {
             sequelize,

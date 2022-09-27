@@ -3,7 +3,7 @@ const router = express.Router();
 const url = require("url");
 const qs = require("querystring");
 const { Mentoring, User } = require("../models");
-const { isLoggedIn, isNotLoggedIn } = require("./middleware");
+const { isLoggedIn, isNotLoggedIn } = require("../modules/token");
 const { useRecoilSnapshot } = require("recoil");
 
 router.get("/", async (req, res, next) => {
