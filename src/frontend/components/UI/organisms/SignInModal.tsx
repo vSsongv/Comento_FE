@@ -37,6 +37,12 @@ interface SignInModalProps {
   onLogin: (email: string, pw: string, rememberUser: boolean) => SignInResultData;
 }
 
+const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const getEmailError = (s: string) => {
+  if (!s) return '이메일을 입력하세요.';
+  else return emailRegex.test(s) ? '' : '이메일의 형식이 올바르지 않습니다.' 
+}
+
 function SignInModal({ onLogin }: SignInModalProps) {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
@@ -48,12 +54,22 @@ function SignInModal({ onLogin }: SignInModalProps) {
     <RootContainer>
       <LoginModal width={'784px'} height={'495px'}>
         <Space />
-        <Login.default title='E-mail' value='이메일을 입력해주세요.' onChange={(s) => setEmail(s)} errorMessage={emailError} />
+        <Login.default 
+          title='E-mail'
+          value='이메일을 입력해주세요.'
+          onChange={(s) => { 
+            setEmail(s);
+            setEmailError(getEmailError(s));
+          }}
+          errorMessage={emailError} />
         <Login.password title='Password' value='비밀번호를 입력해주세요.' onChange={(s) => setPw(s)} errorMessage={pwError} />
 
         <Space />
         <div
           onClick={() => {
+            if (emailError || !email)
+              return;
+
             const response = onLogin(email, pw, rememberUser);
             if (response.success) return;
             if ('emailError' in response) setEmailError(String(response.emailError));

@@ -6,7 +6,7 @@ const session = require('express-session');
 const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-
+const db = require('./models');
 const passport = require('passport');
 
 const { sequelize } = require('./models/index');
@@ -20,20 +20,28 @@ const smsRouter = require('./routes/sms');
 
 const app = express();
 
+const whiteDomain = ["http://localhost:8080", "http://localhost:3000", "http://comento.co.kr"];
+const corOptions = {
+  origin: function (origin, callback) {
+    if (whiteDomain.indexOf(origin) !== -1){
+      callback(null, true);
+    }else{
+      callback(new Error("Not allowed domain"));
+    }
+  }
+};
 //passportConfig();
-app.set("port", process.env.PORT || 8001);
-app.set("view engine", "ejs");
+app.set('port', process.env.PORT || 8080);
 
 app.use(morgan("dev"));
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: "http://localhost:8001",
-    credentials: true,
-  })
-);
+app.use(express.urlencoded({extended: true}));
+
+db.sequelize.sync().then(() => {
+        console.log('db connect success');
+    }).catch(console.error);
+
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
 
@@ -59,12 +67,6 @@ app.use('/user/signup', checkRouter);
 app.use('/user/upload', uploadRouter);
 app.use('/find', findRouter);
 app.use('/sms', smsRouter);
-
-
-app.use((req, res, next) => {
-  console.log("404 에러");
-  res.status(404).send("Not Found");
-});
 app.use("/answer", require("./routes/answer"));
 
 app.use((err, req, res, next) => {

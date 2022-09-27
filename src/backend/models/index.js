@@ -19,11 +19,15 @@ db.sequelize = sequelize;
 db.User = User;
 db.Auth = Auth;
 db.Mentoring = Mentoring;
+
 User.init(sequelize);
 Auth.init(sequelize);
 Mentoring.init(sequelize);
 
 User.associate(db);
+Auth.associate(db);
 Mentoring.associate(db);
 
 module.exports = db;
+
+
