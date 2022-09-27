@@ -3,24 +3,28 @@ import React, { useState } from 'react';
 import Button from './components/UI/atoms/Button';
 
 const Test = () => {
-  const baseURL = 'http://3.37.84.147:8001';
+  const baseURL = 'http://comento.co.kr';
   const [InputValue, setInputValue] = useState<string>('');
 
-  // const testQuery = async (input: string) => {
-  //   try {
-  //     const { data } = await axios.get<{ status: number }>(`${baseURL}/user/signup/nickcheck`, {
-  //       nickname: input,
-  //     });
-  //     console.log(data);
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
+  const testQuery = async () => {
+    try {
+      const { data } = await axios.get(`${baseURL}/user/signup/nickCheck`, {
+        params: {
+          userNickname: InputValue,
+        },
+      });
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div>
       <input type='text' onChange={(e) => setInputValue(e.target.value)}></input>
-      {/* <Button onClick={testQuery(InputValue)}>test</Button> */}
+      <Button color='white' gradient={true} border={false} onClick={testQuery}>
+        test
+      </Button>
     </div>
   );
 };
