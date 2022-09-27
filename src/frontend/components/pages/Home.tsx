@@ -1,16 +1,16 @@
 import React from "react";
 import Button from "../UI/atoms/Button";
-import FAQbox from "./main/FAQbox";
-import MainAdvantage from "./main/MainAdvantage";
-import MainBlack from "./main/MainBlack";
-import MainMentos from "./main/MainMentos";
-import MainPush from "./main/MainPush";
-import Qna from "./main/Qna";
+import FAQbox from "./Home/FAQbox";
+import MainAdvantage from "./Home/MainAdvantage";
+import MainBlack from "./Home/MainBlack";
+import MainMentos from "./Home/MainMentos";
+import MainPush from "./Home/MainPush";
+import Qna from "./Home/Qna";
 
 function Home() {
   return (
     <div>
-      <Qna />
+      <MainMentos />
     </div>
   );
 }
