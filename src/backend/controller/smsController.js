@@ -4,6 +4,7 @@ dotenv.config();
 const axios = require('axios');
 const Cache = require('memory-cache');
 const CryptoJS = require('crypto-js');
+const CODE = require('../modules/statusCode');
 
 const date = Date.now().toString();
 const uri = process.env.SMS_ID;
@@ -30,7 +31,7 @@ const signature = hash.toString(CryptoJS.enc.Base64);
 
 const sms = {
     send : async (req, res) => {
-        const cellphone = req.body.cellphone;
+        const cellphone = req.body.userPhoneNum;
       
         Cache.del(cellphone);
       
@@ -63,28 +64,28 @@ const sms = {
           }, 
           })
         .then(function (res) {
-          res.send({status: 200, msg: "메세지를 발송했습니다."});
+          res.json({ statusCode: CODE.SUCCESS, msg: "send message" });
         })
         .catch((err) => {
           if(err.res == undefined){
-            res.send({status: 200, msg: "메세지를 발송했습니다."});
+            res.json({ statusCode: CODE.SUCCESS, msg: "send message" });
           }
-          else res.send({status:400, msg: "메세지 발송 오류"});
+          else res.json({ statusCode: CODE.FAIL, msg: "fail sending message" });
         });
     },
     verify : async (req, res) => {
-      const phoneNumber = req.body.cellphone;
+      const phoneNumber = req.body.userPhoneNum;
       const verifyCode = req.body.verifyCode;
 
       const CacheData = Cache.get(phoneNumber);
 
       if (!CacheData) {
-        return res.send({msg: "폰넘버이상"});
+        return res.json({ statusCode: CODE.INVALID_VALUE, msg: "incorrect phonenum" , result : 0});
       } else if (CacheData !== verifyCode) {
-          return res.send({msg: "인증번호불일치"});
+        return res.json({ statusCode: CODE.INVALID_VALUE, msg: "incorrect token" ,result:0} );
       } else {
         Cache.del(phoneNumber);
-        return res.send({msg: "일치"});     
+        return res.json({ statusCode: CODE.SUCCESS, msg: "correct token" ,result: 1}); 
       }
     }
 
