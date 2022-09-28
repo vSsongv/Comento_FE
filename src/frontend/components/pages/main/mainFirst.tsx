@@ -1,5 +1,5 @@
-import titleImage from "../../../assets/images/mainFirstTitle.png"
-import arrowImage from "../../../assets/images/mainFirstButtonArrow.png"
+import titleImage from "../../../assets/images/MainFirstTitle.png"
+import arrowImage from "../../../assets/images/MainFirstButtonArrow.png"
 import React from "react";
 import styled from "styled-components";
 import Button from "../../UI/atoms/Button";
@@ -50,12 +50,11 @@ const Space = styled.div`
     height: 30px;
 `
 
-function mainFirst() {
+function MainFirst() {
     return (
         <>
         <Title>
             <TitleImage />
-
             <Space />
             <AskButton long>
                 <StartAskLabel>지금, 질문 시작해보세요!</StartAskLabel>
@@ -68,6 +67,6 @@ function mainFirst() {
         </>
     )
 }
-export default mainFirst;
+export default MainFirst;
 
 
