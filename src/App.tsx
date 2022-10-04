@@ -9,6 +9,9 @@ import SignIn from './frontend/components/pages/SignIn';
 import SignUp from './frontend/components/pages/SignUp';
 import HeaderContainer from './frontend/components/UI/organisms/HeaderContainer';
 import Question from './frontend/components/pages/Question';
+import FooterContainer from './frontend/components/UI/organisms/FooterContainer';
+import Answer from './frontend/components/pages/Answer';
+import Test from './frontend/Test';
 
 function App() {
   return (
@@ -19,10 +22,13 @@ function App() {
           <BrowserRouter>
             <HeaderContainer />
             <Routes>
-              <Route path='/' element={<Home />}></Route>
+              <Route path='/' element={<Test />}></Route>
               <Route path='/signin' element={<SignIn />}></Route>
               <Route path='/signup' element={<SignUp />}></Route>
+              <Route path='/question' element={<Question />}></Route>
+              <Route path='/answer' element={<Answer />}></Route>
             </Routes>
+            
           </BrowserRouter>
         </ThemeProvider>
       </RecoilRoot>
