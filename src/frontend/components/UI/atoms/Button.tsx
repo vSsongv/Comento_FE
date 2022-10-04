@@ -10,7 +10,6 @@ type ButtonProps = {
   long: boolean;
   gradient: boolean;
   border: boolean;
-  onClick: () => void;
 };
 
 Button.defaultProps = {
