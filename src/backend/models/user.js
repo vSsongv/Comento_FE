@@ -36,7 +36,7 @@ module.exports = class User extends Sequelize.Model{
                 defaultValue : 0
             },
             refreshToken: {
-                type: Sequelize.STRING(100),
+                type: Sequelize.STRING(1000),
                 allowNull: true
             },
             role: {
