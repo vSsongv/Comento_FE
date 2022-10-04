@@ -19,7 +19,8 @@
 
 - Developer<br>
   Leader: 송진영 <br>
-  Member: 유정호, 김동연, 서지연, 강보영, ~장재균~<br><br>
+  FE Member: 김동연, 송승환, 김채린, 고나연
+  BE Member: 유정호, 서지연, 최예진, 윤수지 ~장재균~<br><br>
 - Design<br>
   Member: ~김민아~, 신예빈 <br>
 - Management <br>
