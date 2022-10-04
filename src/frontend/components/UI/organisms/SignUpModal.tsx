@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 import styled from "styled-components";
 import Button from "../atoms/Button";
 import LoginModal from "../molescules/LoginModal";
-import userImageBg from "../../../assets/images/register_imageadd_bg.png";
-import userImageBtn from "../../../assets/images/register_imageadd_btn.png";
+import userImageBg from "../../../assets/images/SignupImageAddBackground.png";
+import userImageBtn from "../../../assets/images/SignupImageAddBtn.png";
 import { useState } from "react";
 import * as Login from "../molescules/LoginInputs";
 
