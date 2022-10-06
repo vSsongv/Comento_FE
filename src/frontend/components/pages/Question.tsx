@@ -1,5 +1,5 @@
 import { Languages } from "./../utils/Languages";
-import React, { useState } from "react";
+import React, { EventHandler, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { mainGradient } from "../../styles/styleUtil";
@@ -8,6 +8,7 @@ import defaultUserProfile from "../../assets/images/defaultProfile.svg";
 import submitButton from "../../assets/images/submit.svg";
 import gallery from "../../assets/images/gallery.png";
 import ImageUploading, { ImageListType } from "react-images-uploading";
+import { string } from "prop-types";
 
 const BoxContainer = styled.div`
   width: 100%;
@@ -42,14 +43,21 @@ const TitleBox = styled.div`
   border-bottom: 1px solid #a8a8a8;
 `;
 
+const TitleForm = styled.form`
+  display: flex;
+  align-items: center;
+`;
+
+const TitleInput = styled.input`
+  width: 500px;
+  height: 30px;
+  border: none;
+`;
+
 const ContentBox = styled.div`
   height: 49%;
   padding: 2rem 3rem;
   border-bottom: 1px solid #a8a8a8;
-`;
-const ImageBox = styled.div`
-  height: 36%;
-  padding-right: 1rem;
 `;
 
 const UserImg = styled.img``;
@@ -76,29 +84,86 @@ const MySelect = styled.select`
   cursor: pointer;
 `;
 
+const LangForm = styled.form`
+  height: 55px;
+`;
+
+const SubmitButton = styled.button`
+  height: 26px;
+  background: white;
+  border: none;
+  cursor: pointer;
+`;
+
+const ImageBox = styled.div`
+  height: 36%;
+  padding-right: 1rem;
+`;
+
 const ImageButton = styled.button`
-  display: block;
   width: 200px;
   height: 150px;
-  border: 0;
+  display: block;
+  background: white;
+  border: none;
+  border-right: solid 0.7px #a8a8a8;
   padding: 0;
   cursor: pointer;
   z-index: 0;
-  border-right: solid 0.7px #a8a8a8;
-  background-color: white;
 `;
 
-function Ask() {
+const ContentForm = styled.form`
+  width: 100%;
+  height: 100%;
+`;
+
+const ContentInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  border: none;
+  line-height: 20.8px;
+  resize: none;
+`;
+
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const Image = styled.div`
+  width: 130px;
+  height: 117px;
+  margin: 16px;
+  position: relative;
+`;
+
+const ImagePrev = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const Ask = (): JSX.Element => {
+  interface postInfo {
+    lang: string;
+    title: string;
+    content: string;
+    image?: unknown;
+  }
+
   const [postImage, setpostImage] = useState([]);
   const maxNumber = 6;
-  const [values, setValue] = useState({
-    postLang: "",
-    postTitle: "",
-    postContent: "",
-    postImage,
+  const [values, setValue] = useState<postInfo>({
+    lang: "",
+    title: "",
+    content: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
   const handleImgChange = (
     imageList: ImageListType,
@@ -115,35 +180,30 @@ function Ask() {
     console.log(values);
   };
 
-  // const handleSubmit = async () => {
-  //   try {
-  //    axios.post()
-  //   } catch() {
-
-  //   }
-  // }
+  const handleSubmit = () => {
+    console.log("handlesubmit");
+  };
 
   return (
-    <div>
+    <>
       <BoxContainer>
         <AskBox>
           <GradientTopLine />
           <TitleBox>
             <UserImg src={defaultUserProfile} />
-            <form style={{ display: "flex", alignItems: "center" }}>
+            <TitleForm>
               <Label>제목</Label>
               <InputBox>
-                <input
-                  value={values.postTitle}
+                <TitleInput
+                  value={values.title}
                   name="postTitle"
                   onChange={handleChange}
                   placeholder="제목을 입력하세요."
-                  style={{ width: "500px", height: "30px", border: 0 }}
-                ></input>
+                />
               </InputBox>
-            </form>
+            </TitleForm>
 
-            <form style={{ height: "55px" }}>
+            <LangForm>
               <MySelect>
                 {Languages.map((lang: string, index: number) => (
                   <option key={index} value={lang}>
@@ -151,42 +211,22 @@ function Ask() {
                   </option>
                 ))}
               </MySelect>
-            </form>
-            <button
-              style={{
-                backgroundColor: "white",
-                border: 0,
-                height: "26px",
-                cursor: "pointer",
-              }}
-              // onClick={handleSubmit}
-            >
+            </LangForm>
+            <SubmitButton onClick={handleSubmit}>
               <img src={submitButton} />
-            </button>
+            </SubmitButton>
           </TitleBox>
           <ContentBox>
-            <form
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-            >
+            <ContentForm>
               <Label>내용</Label>
               <InputBox>
-                <textarea
+                <ContentInput
                   placeholder="내용을 입력해주세요."
                   rows={10}
                   cols={110}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    border: 0,
-                    lineHeight: "1.3rem",
-                    resize: "none",
-                  }}
-                ></textarea>
+                ></ContentInput>
               </InputBox>
-            </form>
+            </ContentForm>
           </ContentBox>
           <ImageBox>
             <ImageUploading
@@ -196,56 +236,29 @@ function Ask() {
               maxNumber={maxNumber}
             >
               {({ imageList, onImageUpload, onImageRemove, dragProps }) => (
-                <div
-                  className="upload__image-wrapper"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
+                <ImageContainer className="upload__image-wrapper">
                   <ImageButton onClick={onImageUpload} {...dragProps}>
                     <img src={gallery} />
                     <p style={{ color: "#858585" }}>Click or Drop here</p>
                   </ImageButton>
                   {imageList.map((image, index) => (
-                    <div
-                      key={index}
-                      className="image-item"
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        position: "relative",
-                        margin: "1rem",
-                      }}
-                    >
-                      <img
-                        src={image.dataURL}
-                        alt=""
-                        width="100"
-                        height="100"
-                        style={{
-                          position: "absolute",
-                          top: "0",
-                          left: "0",
-                        }}
-                      />
+                    <Image key={index} className="image-item">
+                      <ImagePrev src={image.dataURL} alt="" />
                       <div
                         className="close"
                         style={{ cursor: "pointer" }}
                         onClick={() => onImageRemove(index)}
                       />
-                    </div>
+                    </Image>
                   ))}
-                </div>
+                </ImageContainer>
               )}
             </ImageUploading>
           </ImageBox>
         </AskBox>
       </BoxContainer>
-    </div>
+    </>
   );
-}
+};
 
 export default Ask;
