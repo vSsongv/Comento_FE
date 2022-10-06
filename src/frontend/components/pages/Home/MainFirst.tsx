@@ -1,5 +1,5 @@
-import titleImage from '../../../assets/images/mainFirstTitle.png';
-import arrowImage from '../../../assets/images/mainFirstButtonArrow.png';
+import titleImage from '../../../assets/images/MainFirstTitle.png';
+import arrowImage from '../../../assets/images/MainFirstButtonArrow.png';
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../../UI/atoms/Button';
@@ -34,7 +34,7 @@ const AskLabel = styled.p`
 const AskContainer = styled.div`
   padding-top: 8px;
   display: flex;
-  flex-directon: row;
+  flex-direction: row;
   align-items: center;
 `;
 const AskArrowImg = styled.div`
