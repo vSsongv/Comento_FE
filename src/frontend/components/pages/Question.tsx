@@ -1,50 +1,83 @@
 import { Languages } from "./../utils/Languages";
-import React, { EventHandler, useState } from "react";
+import React, {
+  EventHandler,
+  FocusEventHandler,
+  MouseEventHandler,
+  useState,
+} from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { mainGradient } from "../../styles/styleUtil";
 import ShadowBox from "../UI/atoms/ShadowBox";
-import defaultUserProfile from "../../assets/images/defaultProfile.svg";
 import submitButton from "../../assets/images/submit.svg";
 import gallery from "../../assets/images/gallery.png";
+import SelectArrow from "../../assets/images/SelectArrow.png";
 import ImageUploading, { ImageListType } from "react-images-uploading";
-import { string } from "prop-types";
 
-const BoxContainer = styled.div`
+const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 55px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const AskBox = styled(ShadowBox)`
-  max-width: 1000px;
-  height: 500px;
-  position: relative;
+  width: 1002px;
+  height: 501px;
   display: flex;
   flex-direction: column;
-  margin: auto;
-  margin-top: 105px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const GradientTopLine = styled.div`
   width: 100%;
-  height: 2rem;
+  height: 30px;
   float: left;
   ${mainGradient};
 `;
 
-const TitleBox = styled.div`
+const AskBoxBody = styled.div`
   width: 100%;
-  clear: both;
-  height: 15%;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 1rem 2rem;
-  border-bottom: 1px solid #a8a8a8;
+  height: 470px;
+  box-sizing: border-box;
+  padding: 0 25px;
 `;
 
-const TitleForm = styled.form`
+const VerticalDivider = styled.div`
+  width: 0.7px;
+  height: calc(100% - 26px);
+  background: #a8a8a8;
+  margin: 13px 0;
+`;
+
+const BreadthDivider = styled.div`
+  width: 100%;
+  height: 0.7px;
+  background: #a8a8a8;
+`;
+
+const TitleBox = styled.div`
+  width: 100%;
+  height: 74px;
   display: flex;
+  align-items: center;
+`;
+
+const Title = styled.div`
+  width: 680px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+`;
+
+const Label = styled.div`
+  width: 72px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
   align-items: center;
 `;
 
@@ -52,6 +85,9 @@ const TitleInput = styled.input`
   width: 500px;
   height: 30px;
   border: none;
+  box-sizing: border-box;
+  padding: 0 0 0 10px;
+  color: #858585;
 `;
 
 const ContentBox = styled.div`
@@ -60,38 +96,83 @@ const ContentBox = styled.div`
   border-bottom: 1px solid #a8a8a8;
 `;
 
-const UserImg = styled.img``;
-
-const Label = styled.label`
-  float: left;
-  padding: auto;
-`;
-
-const InputBox = styled.span`
-  display: block;
-  overflow: hidden;
-  padding-left: 1rem;
-`;
-
-const MySelect = styled.select`
-  width: 12rem;
+const LangSelect = styled.div`
+  width: 214px;
   height: 100%;
-  border: 0;
-  border-left: solid 0.7px #a8a8a8;
-  border-right: solid 0.7px #a8a8a8;
-  padding-left: 10px;
-  line-height: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 20px;
   cursor: pointer;
 `;
 
-const LangForm = styled.form`
+const LangOptionContainer = styled.div`
+  width: 214px;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 9px 0;
+  position: relative;
+`;
+
+const LangOption = ({
+  lang,
+  onClick,
+}: {
+  lang: string;
+  onClick: MouseEventHandler<HTMLDivElement>;
+}): JSX.Element => {
+  const [mouseEntered, setMouseEntered] = useState<boolean>(false);
+  const handleMouseEnter = (): void => {
+    setMouseEntered(true);
+  };
+  const handleMouseOut = (): void => {
+    setMouseEntered(false);
+  };
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "37px",
+        display: "flex",
+        alignItems: "center",
+        background: mouseEntered ? "#e2e2e2" : "#fff",
+        boxSizing: "border-box",
+        padding: "0 20px",
+        cursor: "pointer",
+        zIndex: 1,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseOut={handleMouseOut}
+      onClick={onClick}
+    >
+      {lang}
+    </div>
+  );
+};
+
+const LangTypo = styled.div`
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+`;
+
+const SelectButtonArrow = styled.img`
+  width: 15px;
+  height: 7px;
+`;
+
+const LangForm = styled.div`
   height: 55px;
 `;
 
 const SubmitButton = styled.button`
+  width: 50px;
   height: 26px;
-  background: white;
+  background: #fff;
   border: none;
+  margin: auto;
   cursor: pointer;
 `;
 
@@ -174,9 +255,10 @@ const Ask = (): JSX.Element => {
     setpostImage(imageList as never[]);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setValue({ ...values, [name]: value });
+    // refactor
     console.log(values);
   };
 
@@ -184,48 +266,108 @@ const Ask = (): JSX.Element => {
     console.log("handlesubmit");
   };
 
+  const [langClicked, setLangClicked] = useState<boolean>(false);
+  const handleLangSelect = (): void => {
+    console.log("Select button clicked");
+    setLangClicked((prev) => !prev);
+  };
+
+  const [selected, setSelected] = useState<string>("C");
+  const selectOnClick = (typo: string): void => {
+    setSelected(typo);
+    setLangClicked(false);
+  };
+
   return (
-    <>
-      <BoxContainer>
-        <AskBox>
-          <GradientTopLine />
+    <Container>
+      <AskBox>
+        <GradientTopLine />
+        <AskBoxBody>
           <TitleBox>
-            <UserImg src={defaultUserProfile} />
-            <TitleForm>
+            <Title>
               <Label>제목</Label>
-              <InputBox>
-                <TitleInput
-                  value={values.title}
-                  name="postTitle"
-                  onChange={handleChange}
-                  placeholder="제목을 입력하세요."
-                />
-              </InputBox>
-            </TitleForm>
+              <TitleInput
+                onChange={handleTitleInput}
+                placeholder="제목을 입력하세요."
+              />
+            </Title>
+
+            <VerticalDivider></VerticalDivider>
 
             <LangForm>
-              <MySelect>
-                {Languages.map((lang: string, index: number) => (
-                  <option key={index} value={lang}>
-                    {lang}
-                  </option>
-                ))}
-              </MySelect>
+              <LangSelect onClick={handleLangSelect}>
+                <LangTypo>{selected}</LangTypo>
+                <SelectButtonArrow src={SelectArrow} />
+              </LangSelect>
+              {langClicked ? (
+                <LangOptionContainer>
+                  <LangOption
+                    lang={"C"}
+                    onClick={() => {
+                      selectOnClick("C");
+                    }}
+                  />
+                  <LangOption
+                    lang={"C++"}
+                    onClick={() => {
+                      selectOnClick("C++");
+                    }}
+                  />
+                  <LangOption
+                    lang={"Java"}
+                    onClick={() => {
+                      selectOnClick("Java");
+                    }}
+                  />
+                  <LangOption
+                    lang={"Python"}
+                    onClick={() => {
+                      selectOnClick("Python");
+                    }}
+                  />
+                  <LangOption
+                    lang={"Kotlin"}
+                    onClick={() => {
+                      selectOnClick("Kotlin");
+                    }}
+                  />
+                  <LangOption
+                    lang={"Web"}
+                    onClick={() => {
+                      selectOnClick("Web");
+                    }}
+                  />
+                  <LangOption
+                    lang={"C#"}
+                    onClick={() => {
+                      selectOnClick("C#");
+                    }}
+                  />
+                  <LangOption
+                    lang={"Assembly"}
+                    onClick={() => {
+                      selectOnClick("Assembly");
+                    }}
+                  />
+                </LangOptionContainer>
+              ) : null}
             </LangForm>
+
+            <VerticalDivider></VerticalDivider>
+
             <SubmitButton onClick={handleSubmit}>
               <img src={submitButton} />
             </SubmitButton>
           </TitleBox>
+          <BreadthDivider></BreadthDivider>
           <ContentBox>
             <ContentForm>
               <Label>내용</Label>
-              <InputBox>
-                <ContentInput
-                  placeholder="내용을 입력해주세요."
-                  rows={10}
-                  cols={110}
-                ></ContentInput>
-              </InputBox>
+              <ContentInput
+                placeholder="내용을 입력해주세요."
+                rows={10}
+                cols={110}
+              ></ContentInput>
             </ContentForm>
           </ContentBox>
           <ImageBox>
@@ -255,9 +397,9 @@ const Ask = (): JSX.Element => {
               )}
             </ImageUploading>
           </ImageBox>
-        </AskBox>
-      </BoxContainer>
-    </>
+        </AskBoxBody>
+      </AskBox>
+    </Container>
   );
 };
 
