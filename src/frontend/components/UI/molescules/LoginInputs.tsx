@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import styled from "styled-components";
-import showPassword from "../../../assets/images/showPassword.png";
+import showPassword from "../../../assets/images/ShowPassword.png";
 
 const TextBoxLabel = styled.p`
   font-weight: bold;

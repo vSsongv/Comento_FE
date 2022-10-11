@@ -193,7 +193,7 @@ const member = {
         if(accessResult.result * refreshResult.result == 1){
             return res.json({ statusCode: CODE.SUCCESS, msg: "valid token"});
         }else if(accessResult.result == 1){
-            const userEmail = accessResult.email;
+            const userEmail = accessResult.validToken.email;
             const userInfo = await User.findOne({
                 where:{
                     email: userEmail,
@@ -219,12 +219,14 @@ const member = {
                 return res.json({ statusCode: CODE.FAIL, msg: "no user in db"});
             }
         }else if(refreshResult.result == 1){
-            const userInfo = await findOne({
+            const userInfo = await User.findOne({
                 where:{
-                    email: refreshResult.email
+                    email: refreshResult.validToken.email
                 }
             });
-            if(refreshResult == userRefreshToken.refreshToken){
+            console.log(refreshToken);
+            console.log(userInfo.refreshToken);
+            if(refreshToken == userInfo.refreshToken){
                 try{
                     const accessToken = (await token.sign(userInfo)).accessToken;
                     res.cookie("accessToken", accessToken, {

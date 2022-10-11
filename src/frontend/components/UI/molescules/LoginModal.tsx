@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../../../assets/images/comentoLoginLogo.png"
+import logo from "../../../assets/images/ComentoLoginLogo.png"
 import ShadowBox from "../atoms/ShadowBox";
 
 const Box = styled(ShadowBox)`

@@ -1,7 +1,7 @@
-import React from "react";
-import styled, { css } from "styled-components";
-import { lighten, darken } from "polished";
-import { mainGradient } from "../../../styles/styleUtil";
+import React from 'react';
+import styled, { css } from 'styled-components';
+import { lighten, darken } from 'polished';
+import { mainGradient } from '../../../styles/styleUtil';
 
 type ButtonProps = {
   children: React.ReactNode;
@@ -13,8 +13,8 @@ type ButtonProps = {
 };
 
 Button.defaultProps = {
-  color: "white",
-  backgroundColor: "blue",
+  color: 'white',
+  backgroundColor: 'blue',
   long: false,
   gradient: true,
   border: false,

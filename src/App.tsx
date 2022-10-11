@@ -27,7 +27,6 @@ function App() {
               <Route path='/question' element={<Question />}></Route>
               <Route path='/answer' element={<Answer />}></Route>
             </Routes>
-            
           </BrowserRouter>
         </ThemeProvider>
       </RecoilRoot>

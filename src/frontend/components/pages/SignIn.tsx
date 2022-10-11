@@ -1,6 +1,6 @@
-import { headerVisibilityAtom } from '../../../recoil/atom/headerVisibilityAtom';
 import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { headerVisibilityAtom } from '../../recoil/atom/headerVisibilityAtom';
 import SignInModal from '../UI/organisms/SignInModal';
 
 function SignIn() {
