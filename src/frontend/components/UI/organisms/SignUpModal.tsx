@@ -8,10 +8,11 @@ import { useState } from "react";
 import * as Login from "../molescules/LoginInputs";
 
 const RootContainer = styled.div`
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  max-width: 784px;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  margin-top: 105px;
 `
 const AgreeText = styled.p`
   font-family: NanumGothic;
@@ -98,7 +99,7 @@ function SignUpModal({onRegister}: SignUpModalProps) {
 
   return (
   <RootContainer>
-  <LoginModal width='784px' height='1027px'>
+  <LoginModal width='100%' height='1027px'>
     <Space />
     <ImageAdd>
       <ImageAddInput 

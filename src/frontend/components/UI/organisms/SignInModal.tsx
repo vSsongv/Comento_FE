@@ -6,13 +6,14 @@ import LoginModal from '../molescules/LoginModal';
 import { useState } from 'react';
 
 const RootContainer = styled.div`
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  max-width: 784px;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  margin-top: 105px;
 `;
 const RememberMeContainer = styled.div`
-  width: 784px;
+  width: 100%;
   padding-left: 26px;
 `;
 const RememberMeLabel = styled.span`
@@ -52,7 +53,7 @@ function SignInModal({ onLogin }: SignInModalProps) {
 
   return (
     <RootContainer>
-      <LoginModal width={'784px'} height={'495px'}>
+      <LoginModal width={'100%'} height={'495px'}>
         <Space />
         <Login.default 
           title='E-mail'
