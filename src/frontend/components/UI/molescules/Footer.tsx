@@ -6,7 +6,6 @@ const Positioner = styled.div`
     height: auto;
     min-height: 100%;
     position: relative;
-    padding-bottom: 0px;
 `;
 
 const BlackBackground = styled.div`
