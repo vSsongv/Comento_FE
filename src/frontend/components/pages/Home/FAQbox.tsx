@@ -10,7 +10,7 @@ const FaqLayout = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 3rem;
+    margin-bottom: 10rem;
     margin-top: 10rem;
 `;
 

@@ -2,16 +2,10 @@ import React from "react";
 import { theme } from "./../../../styles/theme";
 import styled from "styled-components";
 
-type FooterProps = {
-    children?: React.ReactNode;
-};
-
 const Positioner = styled.div`
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    bottom: 0px;
-    width: 100%;
+    height: auto;
+    min-height: 100%;
+    position: relative;
 `;
 
 const BlackBackground = styled.div`
@@ -23,7 +17,7 @@ const BlackBackground = styled.div`
 
 const FooterContents = styled.div`
     width: 100%;
-    height: 200px;
+    height: 164px;
     display: flex;
     flex-direction: row;
     padding-top: 2rem;
@@ -37,22 +31,14 @@ const Logo = styled.div`
     color: ${theme.color.primaryColor};
 `;
 
-const Spacer = styled.div`
-    flex-grow: 1;
-`;
-
-function Footer({children}: FooterProps) {
+export default function Footer() {
     return(
         <Positioner>
         <BlackBackground>
             <FooterContents>
                 <Logo>Commento</Logo>
-                <Spacer/>
-                {children}
             </FooterContents>
         </BlackBackground>
         </Positioner>
     );
 }
-
-export default Footer;
