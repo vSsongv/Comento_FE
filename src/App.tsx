@@ -9,7 +9,6 @@ import SignIn from './frontend/components/pages/SignIn';
 import SignUp from './frontend/components/pages/SignUp';
 import HeaderContainer from './frontend/components/UI/organisms/HeaderContainer';
 import Question from './frontend/components/pages/Question';
-import FooterContainer from './frontend/components/UI/organisms/FooterContainer';
 import Answer from './frontend/components/pages/Answer';
 
 function App() {
