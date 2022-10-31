@@ -1,10 +1,5 @@
 import { Languages } from "./../utils/Languages";
-import React, {
-  EventHandler,
-  FocusEventHandler,
-  MouseEventHandler,
-  useState,
-} from "react";
+import React, { MouseEventHandler, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { mainGradient } from "../../styles/styleUtil";
@@ -75,7 +70,7 @@ const Title = styled.div`
 
 const Label = styled.div`
   width: 72px;
-  height: 100%;
+  height: 74px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -88,12 +83,6 @@ const TitleInput = styled.input`
   box-sizing: border-box;
   padding: 0 0 0 10px;
   color: #858585;
-`;
-
-const ContentBox = styled.div`
-  height: 49%;
-  padding: 2rem 3rem;
-  border-bottom: 1px solid #a8a8a8;
 `;
 
 const LangSelect = styled.div`
@@ -176,6 +165,23 @@ const SubmitButton = styled.button`
   cursor: pointer;
 `;
 
+const ContentBox = styled.div`
+  width: 100%;
+  height: 222px;
+  display: flex;
+`;
+
+const ContentInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  border: none;
+  box-sizing: border-box;
+  padding: 28px 10px;
+  line-height: 20.8px;
+  resize: none;
+  color: #858585;
+`;
+
 const ImageBox = styled.div`
   height: 36%;
   padding-right: 1rem;
@@ -191,19 +197,6 @@ const ImageButton = styled.button`
   padding: 0;
   cursor: pointer;
   z-index: 0;
-`;
-
-const ContentForm = styled.form`
-  width: 100%;
-  height: 100%;
-`;
-
-const ContentInput = styled.textarea`
-  width: 100%;
-  height: 100%;
-  border: none;
-  line-height: 20.8px;
-  resize: none;
 `;
 
 const ImageContainer = styled.div`
@@ -230,40 +223,40 @@ const ImagePrev = styled.img`
 
 const Ask = (): JSX.Element => {
   interface postInfo {
-    lang: string;
+    language: string;
     title: string;
     content: string;
-    image?: unknown;
+    images?: (string | undefined)[];
   }
 
-  const [postImage, setpostImage] = useState([]);
+  const [previewList, setPreviewList] = useState([]);
+  const [postImage, setpostImage] = useState<(string | undefined)[]>([]);
   const maxNumber = 6;
-  const [values, setValue] = useState<postInfo>({
-    lang: "",
+  const [questionRequestDTO, setQeustionDTO] = useState<postInfo>({
+    language: "C",
     title: "",
     content: "",
+    images: [],
   });
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
+  // const [error, setError] = useState<boolean>(false);
 
   const handleImgChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
-  ) => {
+  ): void => {
     // data for submit
+    const urlString: (string | undefined)[] = imageList.map(
+      (element) => element.dataURL?.split(":")[1]
+    );
     console.log(imageList, addUpdateIndex);
-    setpostImage(imageList as never[]);
+    setpostImage(urlString);
+    setPreviewList(imageList as any);
+    setQeustionDTO((prev) => ({ ...prev, images: urlString }));
   };
 
   const handleTitleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setValue({ ...values, [name]: value });
-    // refactor
-    console.log(values);
-  };
-
-  const handleSubmit = () => {
-    console.log("handlesubmit");
+    setQeustionDTO((prev) => ({ ...prev, title: e.target.value }));
   };
 
   const [langClicked, setLangClicked] = useState<boolean>(false);
@@ -272,10 +265,33 @@ const Ask = (): JSX.Element => {
     setLangClicked((prev) => !prev);
   };
 
-  const [selected, setSelected] = useState<string>("C");
   const selectOnClick = (typo: string): void => {
-    setSelected(typo);
+    setQeustionDTO((prev) => ({ ...prev, language: typo }));
     setLangClicked(false);
+  };
+
+  const handleContentInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setQeustionDTO((prev) => ({ ...prev, content: e.target.value }));
+  };
+
+  const handleSubmit = () => {
+    console.log("handlesubmit");
+    console.log("post image: ", postImage);
+    console.log("post info: ", questionRequestDTO);
+    // axios
+    //   .post(
+    //     "http://localhost:8080/question/post",
+    //     { body: questionRequestDTO },
+    //     {
+    //       headers: {
+    //         jwt: localStorage.getItem("jwt") as any,
+    //       },
+    //     }
+    //   )
+    //   .then((res) => {
+    //     console.log("res: ", res);
+    //   })
+    //   .catch((e) => console.log("err: ", e));
   };
 
   return (
@@ -296,7 +312,7 @@ const Ask = (): JSX.Element => {
 
             <LangForm>
               <LangSelect onClick={handleLangSelect}>
-                <LangTypo>{selected}</LangTypo>
+                <LangTypo>{questionRequestDTO.language}</LangTypo>
                 <SelectButtonArrow src={SelectArrow} />
               </LangSelect>
               {langClicked ? (
@@ -361,25 +377,30 @@ const Ask = (): JSX.Element => {
           </TitleBox>
           <BreadthDivider></BreadthDivider>
           <ContentBox>
-            <ContentForm>
-              <Label>내용</Label>
-              <ContentInput
-                placeholder="내용을 입력해주세요."
-                rows={10}
-                cols={110}
-              ></ContentInput>
-            </ContentForm>
+            <Label>내용</Label>
+            <ContentInput
+              placeholder="내용을 입력해주세요."
+              onChange={handleContentInput}
+              rows={10}
+              cols={100}
+            ></ContentInput>
           </ContentBox>
+
+          <BreadthDivider></BreadthDivider>
+
           <ImageBox>
             <ImageUploading
               multiple
-              value={postImage}
+              value={previewList}
               onChange={handleImgChange}
               maxNumber={maxNumber}
             >
               {({ imageList, onImageUpload, onImageRemove, dragProps }) => (
-                <ImageContainer className="upload__image-wrapper">
-                  <ImageButton onClick={onImageUpload} {...dragProps}>
+                <ImageContainer
+                  className="upload__image-wrapper"
+                  {...dragProps}
+                >
+                  <ImageButton onClick={onImageUpload}>
                     <img src={gallery} />
                     <p style={{ color: "#858585" }}>Click or Drop here</p>
                   </ImageButton>
