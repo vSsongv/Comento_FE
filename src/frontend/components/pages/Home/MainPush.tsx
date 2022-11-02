@@ -66,14 +66,16 @@ const PushImg = styled.div`
 const PushFontLayout = styled.div`
   display: flex;
   flex-direction: row;
-  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const PushFont = styled.p`
   font-weight: bold;
   font-size: 20px;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 5px;
+  margin-left: 1.3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -82,17 +84,17 @@ const PushFont = styled.p`
 `;
 
 const NumberLogo = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   background-color: #000000;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   text-align: center;
-  padding-top: 11px;
+  padding: 7px 5px 5px 5px;
   color: white;
 `;
 
-function MainPush() {
+export default function MainPush() {
   return (
     <MainPushLayout>
       <PushContainerLayout>
@@ -105,8 +107,6 @@ function MainPush() {
               지금 하는 코딩,&#44;
               <br />
               이런 고민 있지 않나요&#63;
-              <br />
-              <br />
               <PushFontLayout>
                 <NumberLogo>1</NumberLogo>
                 <PushFont>구글링하다 도저히 못 찾겠어서 포기한 사람&#33;</PushFont>
@@ -123,7 +123,6 @@ function MainPush() {
                 <NumberLogo>4</NumberLogo>
                 <PushFont>계속 반복되던 에러에 지친 사람&#33;</PushFont>
               </PushFontLayout>
-              <br />
               같은 고민을 했다면
             </span>
             <span className='Title'>코멘토를 강력 추천합니다&#33;</span>
@@ -133,5 +132,3 @@ function MainPush() {
     </MainPushLayout>
   );
 }
-
-export default MainPush;

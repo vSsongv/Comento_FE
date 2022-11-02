@@ -14,11 +14,10 @@ const BlackLayout = styled.div`
 const BlackTitle = styled.p`
   font-family: BHS;
   font-weight: 100;
-  font-size: 60px;
+  font-size: 50px;
   color: #ffffff;
   text-align: center;
-  margin-top: 150px;
-  margin-bottom: 30px;
+  margin-top: 100px;
   .gradient {
     background: linear-gradient(to bottom, #033bff, #00e0ff);
     -webkit-background-clip: text;
@@ -35,11 +34,12 @@ const ContainerLayout = styled.div`
 `;
 
 const PersonContainer = styled.div`
-  width: 400px;
-  height: 400px;
+  width: 350px;
+  height: 350px;
   display: flex;
   margin-top: 70px;
-  margin-left: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
   margin-bottom: 100px;
   padding-top: 4rem;
   align-items: center;
@@ -51,15 +51,15 @@ const PersonContainer = styled.div`
 const Personimg = styled.div`
   background-image: url(${defaultProfile});
   border: none;
-  width: 180px;
-  height: 180px;
+  width: 150px;
+  height: 150px;
   background-size: contain;
 `;
 
 const PersonFont = styled.p`
   font-family: BHS;
   font-weight: 100;
-  font-size: 35px;
+  font-size: 30px;
   text-align: center;
   padding-top: 50px;
 `;
