@@ -294,6 +294,17 @@ const Ask = (): JSX.Element => {
     //   .catch((e) => console.log("err: ", e));
   };
 
+  const languages: string[] = [
+    "C",
+    "C++",
+    "Java",
+    "Python",
+    "Kotlin",
+    "Web",
+    "C#",
+    "Assembly",
+  ];
+
   return (
     <Container>
       <AskBox>
@@ -317,54 +328,15 @@ const Ask = (): JSX.Element => {
               </LangSelect>
               {langClicked ? (
                 <LangOptionContainer>
-                  <LangOption
-                    lang={"C"}
-                    onClick={() => {
-                      selectOnClick("C");
-                    }}
-                  />
-                  <LangOption
-                    lang={"C++"}
-                    onClick={() => {
-                      selectOnClick("C++");
-                    }}
-                  />
-                  <LangOption
-                    lang={"Java"}
-                    onClick={() => {
-                      selectOnClick("Java");
-                    }}
-                  />
-                  <LangOption
-                    lang={"Python"}
-                    onClick={() => {
-                      selectOnClick("Python");
-                    }}
-                  />
-                  <LangOption
-                    lang={"Kotlin"}
-                    onClick={() => {
-                      selectOnClick("Kotlin");
-                    }}
-                  />
-                  <LangOption
-                    lang={"Web"}
-                    onClick={() => {
-                      selectOnClick("Web");
-                    }}
-                  />
-                  <LangOption
-                    lang={"C#"}
-                    onClick={() => {
-                      selectOnClick("C#");
-                    }}
-                  />
-                  <LangOption
-                    lang={"Assembly"}
-                    onClick={() => {
-                      selectOnClick("Assembly");
-                    }}
-                  />
+                  {languages.map((typo) => (
+                    <LangOption
+                      key={typo}
+                      lang={typo}
+                      onClick={() => {
+                        selectOnClick(typo);
+                      }}
+                    />
+                  ))}
                 </LangOptionContainer>
               ) : null}
             </LangForm>
