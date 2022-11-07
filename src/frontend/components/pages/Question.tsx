@@ -82,7 +82,6 @@ const TitleInput = styled.input`
   border: none;
   box-sizing: border-box;
   padding: 0 0 0 10px;
-  color: #858585;
 `;
 
 const LangSelect = styled.div`
@@ -179,7 +178,6 @@ const ContentInput = styled.textarea`
   padding: 28px 10px;
   line-height: 20.8px;
   resize: none;
-  color: #858585;
 `;
 
 const ImageBox = styled.div`
