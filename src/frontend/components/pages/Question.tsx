@@ -17,6 +17,7 @@ const Container = styled.div`
   align-items: center;
   background: rgba(0, 0, 0, 0.04);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
 `;
 
 const AskBox = styled(ShadowBox)`
@@ -233,7 +234,8 @@ const BackgroundWrapper = styled.div`
 `;
 
 const Background = styled.div`
-  width: 1121.5px;
+  min-width: 1121.5px;
+  max-width: 1121.5px;
   height: 610.27px;
 
   background: linear-gradient(
@@ -270,7 +272,9 @@ const Ask = (): JSX.Element => {
   ): void => {
     // data for submit
     const urlString: (string | undefined)[] = imageList.map(
-      (element) => element.dataURL?.split(":")[1]
+      (element) => ""
+      // element.dataURL?.split(":")[1]
+      //수정 필요
     );
     console.log(imageList, addUpdateIndex);
     setpostImage(urlString);
@@ -297,10 +301,15 @@ const Ask = (): JSX.Element => {
     setQeustionDTO((prev) => ({ ...prev, content: e.target.value }));
   };
 
-  const handleSubmit = () => {
-    console.log("handlesubmit");
-    console.log("post image: ", postImage);
+  const handleSubmit = (): void => {
     console.log("post info: ", questionRequestDTO);
+    if (!questionRequestDTO.title) {
+      alert("제목을 입력해주세요");
+      return;
+    } else if (!questionRequestDTO.content) {
+      alert("내용을 입력해주세요");
+      return;
+    }
     // axios
     //   .post(
     //     "http://localhost:8080/question/post",
@@ -343,6 +352,7 @@ const Ask = (): JSX.Element => {
                 <TitleInput
                   onChange={handleTitleInput}
                   placeholder="제목을 입력하세요."
+                  required
                 />
               </Title>
 
@@ -382,6 +392,7 @@ const Ask = (): JSX.Element => {
                 onChange={handleContentInput}
                 rows={10}
                 cols={100}
+                required
               ></ContentInput>
             </ContentBox>
 
