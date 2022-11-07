@@ -221,6 +221,31 @@ const ImagePrev = styled.img`
   left: 0;
 `;
 
+const BackgroundWrapper = styled.div`
+  width: 100%;
+  height: calc(100vh - 55px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 545px 0 0 270px;
+  position: absolute;
+  z-index: -1;
+  overflow: hidden;
+`;
+
+const Background = styled.div`
+  width: 1121.5px;
+  height: 610.27px;
+
+  background: linear-gradient(
+    180deg,
+    #d9d9d9 0.48%,
+    rgba(217, 217, 217, 0) 100%
+  );
+  transform: rotate(-26.5deg);
+`;
+
 const Ask = (): JSX.Element => {
   interface postInfo {
     language: string;
@@ -306,93 +331,98 @@ const Ask = (): JSX.Element => {
   ];
 
   return (
-    <Container>
-      <AskBox>
-        <GradientTopLine />
-        <AskBoxBody>
-          <TitleBox>
-            <Title>
-              <Label>제목</Label>
-              <TitleInput
-                onChange={handleTitleInput}
-                placeholder="제목을 입력하세요."
-              />
-            </Title>
+    <>
+      <BackgroundWrapper>
+        <Background />
+      </BackgroundWrapper>
+      <Container>
+        <AskBox>
+          <GradientTopLine />
+          <AskBoxBody>
+            <TitleBox>
+              <Title>
+                <Label>제목</Label>
+                <TitleInput
+                  onChange={handleTitleInput}
+                  placeholder="제목을 입력하세요."
+                />
+              </Title>
 
-            <VerticalDivider></VerticalDivider>
+              <VerticalDivider></VerticalDivider>
 
-            <LangForm>
-              <LangSelect onClick={handleLangSelect}>
-                <LangTypo>{questionRequestDTO.language}</LangTypo>
-                <SelectButtonArrow src={SelectArrow} />
-              </LangSelect>
-              {langClicked ? (
-                <LangOptionContainer>
-                  {languages.map((typo) => (
-                    <LangOption
-                      key={typo}
-                      lang={typo}
-                      onClick={() => {
-                        selectOnClick(typo);
-                      }}
-                    />
-                  ))}
-                </LangOptionContainer>
-              ) : null}
-            </LangForm>
-
-            <VerticalDivider></VerticalDivider>
-
-            <SubmitButton onClick={handleSubmit}>
-              <img src={submitButton} />
-            </SubmitButton>
-          </TitleBox>
-          <BreadthDivider></BreadthDivider>
-          <ContentBox>
-            <Label>내용</Label>
-            <ContentInput
-              placeholder="내용을 입력해주세요."
-              onChange={handleContentInput}
-              rows={10}
-              cols={100}
-            ></ContentInput>
-          </ContentBox>
-
-          <BreadthDivider></BreadthDivider>
-
-          <ImageBox>
-            <ImageUploading
-              multiple
-              value={previewList}
-              onChange={handleImgChange}
-              maxNumber={maxNumber}
-            >
-              {({ imageList, onImageUpload, onImageRemove, dragProps }) => (
-                <ImageContainer
-                  className="upload__image-wrapper"
-                  {...dragProps}
-                >
-                  <ImageButton onClick={onImageUpload}>
-                    <img src={gallery} />
-                    <p style={{ color: "#858585" }}>Click or Drop here</p>
-                  </ImageButton>
-                  {imageList.map((image, index) => (
-                    <Image key={index} className="image-item">
-                      <ImagePrev src={image.dataURL} alt="" />
-                      <div
-                        className="close"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => onImageRemove(index)}
+              <LangForm>
+                <LangSelect onClick={handleLangSelect}>
+                  <LangTypo>{questionRequestDTO.language}</LangTypo>
+                  <SelectButtonArrow src={SelectArrow} />
+                </LangSelect>
+                {langClicked ? (
+                  <LangOptionContainer>
+                    {languages.map((typo) => (
+                      <LangOption
+                        key={typo}
+                        lang={typo}
+                        onClick={() => {
+                          selectOnClick(typo);
+                        }}
                       />
-                    </Image>
-                  ))}
-                </ImageContainer>
-              )}
-            </ImageUploading>
-          </ImageBox>
-        </AskBoxBody>
-      </AskBox>
-    </Container>
+                    ))}
+                  </LangOptionContainer>
+                ) : null}
+              </LangForm>
+
+              <VerticalDivider></VerticalDivider>
+
+              <SubmitButton onClick={handleSubmit}>
+                <img src={submitButton} />
+              </SubmitButton>
+            </TitleBox>
+            <BreadthDivider></BreadthDivider>
+            <ContentBox>
+              <Label>내용</Label>
+              <ContentInput
+                placeholder="내용을 입력해주세요."
+                onChange={handleContentInput}
+                rows={10}
+                cols={100}
+              ></ContentInput>
+            </ContentBox>
+
+            <BreadthDivider></BreadthDivider>
+
+            <ImageBox>
+              <ImageUploading
+                multiple
+                value={previewList}
+                onChange={handleImgChange}
+                maxNumber={maxNumber}
+              >
+                {({ imageList, onImageUpload, onImageRemove, dragProps }) => (
+                  <ImageContainer
+                    className="upload__image-wrapper"
+                    {...dragProps}
+                  >
+                    <ImageButton onClick={onImageUpload}>
+                      <img src={gallery} />
+                      <p style={{ color: "#858585" }}>Click or Drop here</p>
+                    </ImageButton>
+                    {imageList.map((image, index) => (
+                      <Image key={index} className="image-item">
+                        <ImagePrev src={image.dataURL} alt="" />
+                        <div
+                          className="close"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => onImageRemove(index)}
+                        />
+                      </Image>
+                    ))}
+                  </ImageContainer>
+                )}
+              </ImageUploading>
+            </ImageBox>
+          </AskBoxBody>
+        </AskBox>
+      </Container>
+    </>
   );
 };
 
