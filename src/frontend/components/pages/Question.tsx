@@ -83,6 +83,7 @@ const TitleInput = styled.input`
   border: none;
   box-sizing: border-box;
   padding: 0 0 0 10px;
+  caret-color: #5666e5;
 `;
 
 const LangSelect = styled.div`
@@ -174,11 +175,14 @@ const ContentBox = styled.div`
 const ContentInput = styled.textarea`
   width: 100%;
   height: 100%;
+  background: transparent;
   border: none;
   box-sizing: border-box;
+  margin: -10px 30px 0 10px;
   padding: 28px 10px;
-  line-height: 20.8px;
+  line-height: 40px;
   resize: none;
+  caret-color: #5666e5;
 `;
 
 const ImageBox = styled.div`
@@ -310,20 +314,16 @@ const Ask = (): JSX.Element => {
       alert("내용을 입력해주세요");
       return;
     }
-    // axios
-    //   .post(
-    //     "http://localhost:8080/question/post",
-    //     { body: questionRequestDTO },
-    //     {
-    //       headers: {
-    //         jwt: localStorage.getItem("jwt") as any,
-    //       },
-    //     }
-    //   )
-    //   .then((res) => {
-    //     console.log("res: ", res);
-    //   })
-    //   .catch((e) => console.log("err: ", e));
+    axios
+      .post("http://localhost:8080/question/post", questionRequestDTO, {
+        headers: {
+          jwt: localStorage.getItem("jwt") as any,
+        },
+      })
+      .then((res) => {
+        console.log("res: ", res);
+      })
+      .catch((e) => console.log("err: ", e));
   };
 
   const languages: string[] = [
