@@ -361,7 +361,12 @@ const Ask = (): JSX.Element => {
               <LangForm>
                 <LangSelect onClick={handleLangSelect}>
                   <LangTypo>{questionRequestDTO.language}</LangTypo>
-                  <SelectButtonArrow src={SelectArrow} />
+                  <SelectButtonArrow
+                    src={SelectArrow}
+                    style={{
+                      transform: langClicked ? "rotate(180deg)" : "none",
+                    }}
+                  />
                 </LangSelect>
                 {langClicked ? (
                   <LangOptionContainer>
