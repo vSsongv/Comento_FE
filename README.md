@@ -19,12 +19,10 @@
 
 - Developer<br>
   Leader: 송진영 <br>
-  FE Member: 김동연, 송승환, 김채린, 고나연<br>
-  BE Member: 유정호, 서지연, 최예진, 윤수지 ~장재균~<br><br>
+  FE Member: 김동연, 김채린, 고나연, ~송승환~<br>
+  BE Member: 유정호, 윤수지, ~장재균~, ~서지연~, ~최예진~,<br><br>
 - Design<br>
-  Member: ~김민아~, 신예빈 <br>
-- Management <br>
-  Member: 도원희, 노연이 <br><br>
+  Member: 신예빈, ~김민아~ <br>
 
 ## :computer: 코멘토가 필요한 이유
 
