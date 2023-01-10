@@ -1,251 +1,443 @@
 import { Languages } from "./../utils/Languages";
-import React, { useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { mainGradient } from "../../styles/styleUtil";
 import ShadowBox from "../UI/atoms/ShadowBox";
-import defaultUserProfile from "../../assets/images/defaultProfile.svg";
 import submitButton from "../../assets/images/submit.svg";
 import gallery from "../../assets/images/gallery.png";
+import SelectArrow from "../../assets/images/SelectArrow.png";
 import ImageUploading, { ImageListType } from "react-images-uploading";
 
-const BoxContainer = styled.div`
+const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 55px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
 `;
 
 const AskBox = styled(ShadowBox)`
-  max-width: 1000px;
-  height: 500px;
-  position: relative;
+  width: 1002px;
+  height: 501px;
   display: flex;
   flex-direction: column;
-  margin: auto;
-  margin-top: 105px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const GradientTopLine = styled.div`
   width: 100%;
-  height: 2rem;
+  height: 30px;
   float: left;
   ${mainGradient};
 `;
 
+const AskBoxBody = styled.div`
+  width: 100%;
+  height: 470px;
+  box-sizing: border-box;
+  padding: 0 25px;
+`;
+
+const VerticalDivider = styled.div`
+  width: 0.7px;
+  height: calc(100% - 26px);
+  background: #a8a8a8;
+  margin: 13px 0;
+`;
+
+const BreadthDivider = styled.div`
+  width: 100%;
+  height: 0.7px;
+  background: #a8a8a8;
+`;
+
 const TitleBox = styled.div`
   width: 100%;
-  clear: both;
-  height: 15%;
+  height: 74px;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  padding: 1rem 2rem;
-  border-bottom: 1px solid #a8a8a8;
+`;
+
+const Title = styled.div`
+  width: 680px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+`;
+
+const Label = styled.div`
+  width: 72px;
+  height: 74px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const TitleInput = styled.input`
+  width: 500px;
+  height: 30px;
+  border: none;
+  box-sizing: border-box;
+  padding: 0 0 0 10px;
+  caret-color: #5666e5;
+`;
+
+const LangSelect = styled.div`
+  width: 214px;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 20px;
+  cursor: pointer;
+`;
+
+const LangOptionContainer = styled.div`
+  width: 214px;
+  background: #fff;
+  box-sizing: border-box;
+  padding: 9px 0;
+  position: relative;
+`;
+
+const LangOption = ({
+  lang,
+  onClick,
+}: {
+  lang: string;
+  onClick: MouseEventHandler<HTMLDivElement>;
+}): JSX.Element => {
+  const [mouseEntered, setMouseEntered] = useState<boolean>(false);
+  const handleMouseEnter = (): void => {
+    setMouseEntered(true);
+  };
+  const handleMouseOut = (): void => {
+    setMouseEntered(false);
+  };
+
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "37px",
+        display: "flex",
+        alignItems: "center",
+        background: mouseEntered ? "#e2e2e2" : "#fff",
+        boxSizing: "border-box",
+        padding: "0 20px",
+        cursor: "pointer",
+        zIndex: 1,
+      }}
+      onMouseEnter={handleMouseEnter}
+      onMouseOut={handleMouseOut}
+      onClick={onClick}
+    >
+      {lang}
+    </div>
+  );
+};
+
+const LangTypo = styled.div`
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+`;
+
+const SelectButtonArrow = styled.img`
+  width: 15px;
+  height: 7px;
+`;
+
+const LangForm = styled.div`
+  height: 55px;
+`;
+
+const SubmitButton = styled.button`
+  width: 50px;
+  height: 26px;
+  background: #fff;
+  border: none;
+  margin: auto;
+  cursor: pointer;
 `;
 
 const ContentBox = styled.div`
-  height: 49%;
-  padding: 2rem 3rem;
-  border-bottom: 1px solid #a8a8a8;
+  width: 100%;
+  height: 222px;
+  display: flex;
 `;
+
+const ContentInput = styled.textarea`
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  box-sizing: border-box;
+  margin: -10px 30px 0 10px;
+  padding: 28px 10px;
+  line-height: 40px;
+  resize: none;
+  caret-color: #5666e5;
+`;
+
 const ImageBox = styled.div`
   height: 36%;
   padding-right: 1rem;
 `;
 
-const UserImg = styled.img``;
-
-const Label = styled.label`
-  float: left;
-  padding: auto;
-`;
-
-const InputBox = styled.span`
-  display: block;
-  overflow: hidden;
-  padding-left: 1rem;
-`;
-
-const MySelect = styled.select`
-  width: 12rem;
-  height: 100%;
-  border: 0;
-  border-left: solid 0.7px #a8a8a8;
-  border-right: solid 0.7px #a8a8a8;
-  padding-left: 10px;
-  line-height: 1rem;
-  cursor: pointer;
-`;
-
 const ImageButton = styled.button`
-  display: block;
   width: 200px;
   height: 150px;
-  border: 0;
+  display: block;
+  background: white;
+  border: none;
+  border-right: solid 0.7px #a8a8a8;
   padding: 0;
   cursor: pointer;
   z-index: 0;
-  border-right: solid 0.7px #a8a8a8;
-  background-color: white;
 `;
 
-function Ask() {
-  const [postImage, setpostImage] = useState([]);
+const ImageContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+`;
+
+const Image = styled.div`
+  width: 130px;
+  height: 117px;
+  margin: 16px;
+  position: relative;
+`;
+
+const ImagePrev = styled.img`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+`;
+
+const BackgroundWrapper = styled.div`
+  width: 100%;
+  height: calc(100vh - 55px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 545px 0 0 270px;
+  position: absolute;
+  z-index: -1;
+  overflow: hidden;
+`;
+
+const Background = styled.div`
+  min-width: 1121.5px;
+  max-width: 1121.5px;
+  height: 610.27px;
+
+  background: linear-gradient(
+    180deg,
+    #d9d9d9 0.48%,
+    rgba(217, 217, 217, 0) 100%
+  );
+  transform: rotate(-26.5deg);
+`;
+
+const Ask = (): JSX.Element => {
+  interface postInfo {
+    language: string;
+    title: string;
+    content: string;
+    images?: (string | undefined)[];
+  }
+
+  const [previewList, setPreviewList] = useState([]);
+  const [postImage, setpostImage] = useState<(string | undefined)[]>([]);
   const maxNumber = 6;
-  const [values, setValue] = useState({
-    postLang: "",
-    postTitle: "",
-    postContent: "",
-    postImage,
+  const [questionRequestDTO, setQeustionDTO] = useState<postInfo>({
+    language: "C",
+    title: "",
+    content: "",
+    images: [],
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState<boolean>(false);
+  // const [error, setError] = useState<boolean>(false);
 
   const handleImgChange = (
     imageList: ImageListType,
     addUpdateIndex: number[] | undefined
-  ) => {
+  ): void => {
     // data for submit
+    const urlString: (string | undefined)[] = imageList.map(
+      (element) => ""
+      // element.dataURL?.split(":")[1]
+      //수정 필요
+    );
     console.log(imageList, addUpdateIndex);
-    setpostImage(imageList as never[]);
+    setpostImage(urlString);
+    setPreviewList(imageList as any);
+    setQeustionDTO((prev) => ({ ...prev, images: urlString }));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setValue({ ...values, [name]: value });
-    console.log(values);
+  const handleTitleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQeustionDTO((prev) => ({ ...prev, title: e.target.value }));
   };
 
-  // const handleSubmit = async () => {
-  //   try {
-  //    axios.post()
-  //   } catch() {
+  const [langClicked, setLangClicked] = useState<boolean>(false);
+  const handleLangSelect = (): void => {
+    console.log("Select button clicked");
+    setLangClicked((prev) => !prev);
+  };
 
-  //   }
-  // }
+  const selectOnClick = (typo: string): void => {
+    setQeustionDTO((prev) => ({ ...prev, language: typo }));
+    setLangClicked(false);
+  };
+
+  const handleContentInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setQeustionDTO((prev) => ({ ...prev, content: e.target.value }));
+  };
+
+  const handleSubmit = (): void => {
+    console.log("post info: ", questionRequestDTO);
+    if (!questionRequestDTO.title) {
+      alert("제목을 입력해주세요");
+      return;
+    } else if (!questionRequestDTO.content) {
+      alert("내용을 입력해주세요");
+      return;
+    }
+    axios
+      .post("http://localhost:8080/question/post", questionRequestDTO, {
+        headers: {
+          jwt: localStorage.getItem("jwt") as any,
+        },
+      })
+      .then((res) => {
+        console.log("res: ", res);
+      })
+      .catch((e) => console.log("err: ", e));
+  };
+
+  const languages: string[] = [
+    "C",
+    "C++",
+    "Java",
+    "Python",
+    "Kotlin",
+    "Web",
+    "C#",
+    "Assembly",
+  ];
 
   return (
-    <div>
-      <BoxContainer>
+    <>
+      <BackgroundWrapper>
+        <Background />
+      </BackgroundWrapper>
+      <Container>
         <AskBox>
           <GradientTopLine />
-          <TitleBox>
-            <UserImg src={defaultUserProfile} />
-            <form style={{ display: "flex", alignItems: "center" }}>
-              <Label>제목</Label>
-              <InputBox>
-                <input
-                  value={values.postTitle}
-                  name="postTitle"
-                  onChange={handleChange}
+          <AskBoxBody>
+            <TitleBox>
+              <Title>
+                <Label>제목</Label>
+                <TitleInput
+                  onChange={handleTitleInput}
                   placeholder="제목을 입력하세요."
-                  style={{ width: "500px", height: "30px", border: 0 }}
-                ></input>
-              </InputBox>
-            </form>
+                  required
+                />
+              </Title>
 
-            <form style={{ height: "55px" }}>
-              <MySelect>
-                {Languages.map((lang: string, index: number) => (
-                  <option key={index} value={lang}>
-                    {lang}
-                  </option>
-                ))}
-              </MySelect>
-            </form>
-            <button
-              style={{
-                backgroundColor: "white",
-                border: 0,
-                height: "26px",
-                cursor: "pointer",
-              }}
-              // onClick={handleSubmit}
-            >
-              <img src={submitButton} />
-            </button>
-          </TitleBox>
-          <ContentBox>
-            <form
-              style={{
-                width: "100%",
-                height: "100%",
-              }}
-            >
-              <Label>내용</Label>
-              <InputBox>
-                <textarea
-                  placeholder="내용을 입력해주세요."
-                  rows={10}
-                  cols={110}
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    border: 0,
-                    lineHeight: "1.3rem",
-                    resize: "none",
-                  }}
-                ></textarea>
-              </InputBox>
-            </form>
-          </ContentBox>
-          <ImageBox>
-            <ImageUploading
-              multiple
-              value={postImage}
-              onChange={handleImgChange}
-              maxNumber={maxNumber}
-            >
-              {({ imageList, onImageUpload, onImageRemove, dragProps }) => (
-                <div
-                  className="upload__image-wrapper"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <ImageButton onClick={onImageUpload} {...dragProps}>
-                    <img src={gallery} />
-                    <p style={{ color: "#858585" }}>Click or Drop here</p>
-                  </ImageButton>
-                  {imageList.map((image, index) => (
-                    <div
-                      key={index}
-                      className="image-item"
-                      style={{
-                        width: "100px",
-                        height: "100px",
-                        position: "relative",
-                        margin: "1rem",
-                      }}
-                    >
-                      <img
-                        src={image.dataURL}
-                        alt=""
-                        width="100"
-                        height="100"
-                        style={{
-                          position: "absolute",
-                          top: "0",
-                          left: "0",
+              <VerticalDivider></VerticalDivider>
+
+              <LangForm>
+                <LangSelect onClick={handleLangSelect}>
+                  <LangTypo>{questionRequestDTO.language}</LangTypo>
+                  <SelectButtonArrow
+                    src={SelectArrow}
+                    style={{
+                      transform: langClicked ? "rotate(180deg)" : "none",
+                    }}
+                  />
+                </LangSelect>
+                {langClicked ? (
+                  <LangOptionContainer>
+                    {languages.map((typo) => (
+                      <LangOption
+                        key={typo}
+                        lang={typo}
+                        onClick={() => {
+                          selectOnClick(typo);
                         }}
                       />
-                      <div
-                        className="close"
-                        style={{ cursor: "pointer" }}
-                        onClick={() => onImageRemove(index)}
-                      />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </ImageUploading>
-          </ImageBox>
+                    ))}
+                  </LangOptionContainer>
+                ) : null}
+              </LangForm>
+
+              <VerticalDivider></VerticalDivider>
+
+              <SubmitButton onClick={handleSubmit}>
+                <img src={submitButton} />
+              </SubmitButton>
+            </TitleBox>
+            <BreadthDivider></BreadthDivider>
+            <ContentBox>
+              <Label>내용</Label>
+              <ContentInput
+                placeholder="내용을 입력해주세요."
+                onChange={handleContentInput}
+                rows={10}
+                cols={100}
+                required
+              ></ContentInput>
+            </ContentBox>
+
+            <BreadthDivider></BreadthDivider>
+
+            <ImageBox>
+              <ImageUploading
+                multiple
+                value={previewList}
+                onChange={handleImgChange}
+                maxNumber={maxNumber}
+              >
+                {({ imageList, onImageUpload, onImageRemove, dragProps }) => (
+                  <ImageContainer
+                    className="upload__image-wrapper"
+                    {...dragProps}
+                  >
+                    <ImageButton onClick={onImageUpload}>
+                      <img src={gallery} />
+                      <p style={{ color: "#858585" }}>Click or Drop here</p>
+                    </ImageButton>
+                    {imageList.map((image, index) => (
+                      <Image key={index} className="image-item">
+                        <ImagePrev src={image.dataURL} alt="" />
+                        <div
+                          className="close"
+                          style={{ cursor: "pointer" }}
+                          onClick={() => onImageRemove(index)}
+                        />
+                      </Image>
+                    ))}
+                  </ImageContainer>
+                )}
+              </ImageUploading>
+            </ImageBox>
+          </AskBoxBody>
         </AskBox>
-      </BoxContainer>
-    </div>
+      </Container>
+    </>
   );
-}
+};
 
 export default Ask;
