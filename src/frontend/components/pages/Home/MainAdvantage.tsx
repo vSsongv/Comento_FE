@@ -9,7 +9,7 @@ const MainAdLayout = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 10rem;
+    margin-top: 70rem;
     margin-bottom: 3rem;
 `;
 
@@ -47,7 +47,8 @@ const AdContainer = styled.div`
     height: 300px;
     display: flex;
     margin-Top: 70px;
-    margin-left: 100px;
+    margin-left: 50px;
+    margin-right: 50px;
     margin-bottom: 100px;
     padding-top: 4rem;
     align-items: center;
@@ -81,18 +82,18 @@ const ContainerImg = styled.div`
 `;
 
 const ContainerFont = styled.p`
+    display: flex;
+    text-align: center;
     .title{
         font-family: Nanumgothic;
         font-weight: bold;
         font-size: 40px;
-        text-align: center;
         padding-top: 50px;
     }
     .sub{
         font-family: Nanumgothic;
         font-weight: 100;
         font-size: 25px;
-        text-align: center;
         padding-top: 25px;
     }
 `;

@@ -4,6 +4,7 @@ import Sample1 from '../../../assets/images/Sample1.png';
 
 const QnaLayout = styled.div`
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: center;
     margin-top: 10rem;
@@ -43,8 +44,8 @@ const QnaTitle = styled.div`
 `;
 
 const ExampleImg = styled.div`
-    margin-top: 25rem;
     position: absolute;
+    margin-top: 25rem;
     right: 25rem;
     width: 740px;
     height: 410px;
@@ -52,10 +53,11 @@ const ExampleImg = styled.div`
     box-shadow: 3px 3px 3px 3px #E9E9E9;
 `;
 
-const FadeTitle = styled.p`
+const FadeTitle = styled.div`
     position: absolute;
     left: 25rem;
     margin-top: 45rem;
+    margin-bottom: 45rem;
     font-family: BHS;
     font-weight: 100;
     font-size: 150px;

@@ -91,18 +91,16 @@ function FAQ({title, children}: FaqProps) {
     );
 }
 
-function FAQbox() {
+export default function FAQbox() {
     return(
         <FaqLayout>
             <FaqTitle>자주 묻는 질문</FaqTitle>
             <FAQ title = " 질문 시 응답은 얼마나 빨리 오나요?">
                 멘트 정해주세요
             </FAQ>
-            <FAQ title = "개발에 대해 하나도 모르는데 이용할 수 있나요?">
+            <FAQ title = " 개발에 대해 하나도 모르는데 이용할 수 있나요?">
                 가능합니다. 멘트 정해주세요
             </FAQ>
         </FaqLayout>
     );
 }
-
-export default FAQbox;
