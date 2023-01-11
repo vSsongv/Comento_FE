@@ -8,15 +8,19 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const db = require('./models');
 const passport = require('passport');
-
 const { sequelize } = require('./models/index');
 
-const pageRouter = require('./routes/auth');
-const userRouter = require('./routes/user');
+const userRouter = require('./User/userRoute');
+const menteeRouter = require('./Mentee/menteeRoute');
+
+
+const errorhandler = require("./config/errorHandler");
+/*
+const tempRouter = require('./routes/temp');
 const checkRouter = require('./routes/check')
 const uploadRouter = require('./routes/upload');
 const findRouter = require('./routes/findpassword');
-const smsRouter = require('./routes/sms');
+const smsRouter = require('./routes/sms');*/
 
 const app = express();
 
@@ -30,7 +34,8 @@ const corOptions = {
     }
   }
 };
-//passportConfig();
+app.use(cors());
+
 app.set('port', process.env.PORT || 8080);
 
 app.use(morgan("dev"));
@@ -61,18 +66,18 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 
-app.use('/', userRouter);
-app.use('/user', pageRouter);
+//app.use('/', tempRouter);
+app.use('/user', userRouter);
+app.use('/mentee', menteeRouter);
+/*
 app.use('/user/signup', checkRouter);
 app.use('/user/upload', uploadRouter);
 app.use('/find', findRouter);
 app.use('/sms', smsRouter);
-app.use("/answer", require("./routes/answer"));
+app.use("/answer", require("./routes/answer"));*/
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.status || 500).send(err.message);
-});
+
+app.use(errorhandler);
 
 app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");

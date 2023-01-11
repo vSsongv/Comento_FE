@@ -8,6 +8,7 @@ module.exports = {
     "password" : process.env.DB_PASSWORD,
     "database" : "commentodb",
     "host" : "commentodb.ccaq2rklxlda.ap-northeast-2.rds.amazonaws.com",
-    "dialect" : "mysql"
+    "dialect" : "mysql",
+    "timezone" : "+09:00"
   },
 }

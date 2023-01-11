@@ -9,13 +9,13 @@ module.exports = class Mentoring extends Sequelize.Model {
       {
         mentoringId: {
           type: Sequelize.INTEGER,
-          allowNull: false,
           autoIncrement: true,
           primaryKey: true,
         },
         date: {
           type: Sequelize.DATE,
-          allowNull: false,
+          allowNull: true,
+          defaultValue: new Date()
         },
         language: {
           type: Sequelize.INTEGER,
@@ -23,7 +23,7 @@ module.exports = class Mentoring extends Sequelize.Model {
         },
         mentoId: {
           type: Sequelize.INTEGER,
-          allowNull: false,
+          allowNull: true,
         },
         menteeId: {
           type: Sequelize.INTEGER,
@@ -39,7 +39,7 @@ module.exports = class Mentoring extends Sequelize.Model {
         },
         content_image: {
           type: Sequelize.STRING(500),
-          allowNull: false,
+          allowNull: true,
         },
       },
       {
@@ -56,15 +56,15 @@ module.exports = class Mentoring extends Sequelize.Model {
   }
 
   static associate(db) {
-    db.Mentoring.belongsTo(db.User, {
-      foreignKey: "mentoId",
-      targetKey: "userid",
-      through: "aaa",
-    });
-    db.Mentoring.belongsTo(db.User, {
-      foreignKey: "menteeId",
-      targetKey: "userid",
-      through: "bbb",
-    });
+    // db.Mentoring.belongsTo(db.User, {
+    //   foreignKey: "mentoId",
+    //   targetKey: "userid",
+    //   through: "aaa",
+    // });
+    // db.Mentoring.belongsTo(db.User, {
+    //   foreignKey: "menteeId",
+    //   targetKey: "userid",
+    //   through: "bbb",
+    // });
   }
 };
