@@ -57,6 +57,25 @@ const mentee = {
         await menteeService.modifyQuestion(questionid, title, content, language);
 
         return res.send(basicResponse(detailResponse.MODIFY_SUCCESS))
+    }),
+    deleteQuestion : asyncHandler(async function(req,res, next){
+        const userIdx = req.user.validToken.userid;
+        if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
+
+        if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
+
+
+        const {questionid} = req.params;
+        if(!questionid) return next(new errorResponse(basicResponse(detailResponse.EMPTY_QUESTIONID)));
+
+        const isQuestion = await menteeService.getSpecificQuestion(userIdx, questionid);
+        if(!isQuestion) return next(new errorResponse(basicResponse(detailResponse.NONE_QUESTION)));
+        if(isQuestion.mentoId) return next(new errorResponse(basicResponse(detailResponse.CUREENT_MENTORINGMODE), 400));
+        
+        await menteeService.deleteQuestion(questionid);
+
+        return res.send(basicResponse(detailResponse.DELETE_QUESTION));
+
     })
 };
 

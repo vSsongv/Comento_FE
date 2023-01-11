@@ -92,4 +92,13 @@ exports.modifyQuestion = async function(mentoringId, title, content, language){
         console.error(error);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
+};
+
+exports.deleteQuestion = async function(mentoringId){
+    try{
+        await Mentoring.destroy({where: {mentoringId}});
+    }catch(error){
+        console.error(error);
+        throw new errorResponse(detailResponse.DB_ERROR, 500);
+    }
 }

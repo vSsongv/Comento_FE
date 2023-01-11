@@ -10,6 +10,7 @@ module.exports = {
     POST_QUESTION: {isSuccess: true, code: 1107, message: "질문을 게시하였습니다."},
     GET_QUESTION: {isSuccess: true, code: 1108, message: "사용자가 게시한 질문입니다."},
     MODIFY_SUCCESS: {isSuccess: true, code: 1109, message: "질문을 수정하였습니다"},
+    DELETE_QUESTION: {isSuccess: true, code: 1110, message: "질문을 삭제하였습니다"},
     //FAIL
     DUP_EMAIL : {isSuccess: false, code: 2001, message: "이미 가입된 이메일입니다."},
     DUP_NICKNAME: {isSuccess: false, code: 2002, message: "이미 가입된 닉네임입니다."},
@@ -39,6 +40,7 @@ module.exports = {
     EXIST_QUESTION: {isSuccess:false, code:2025, message:"이미 게시한 질문입니다."},
     NO_MODIFY: {isSuccess:false, code:2026, message:"질문을 변경할 수 없습니다. 질문 요소 중 누락된 요소가 존재합니다."},
     CUREENT_MENTORINGMODE: {isSuccess:false, code:2027, message:"이미 멘토리중이므로 질문을 변경할 수 없습니다."},
+    EMPTY_QUESTIONID: {isSuccess:false, code:2028, message:"질문 번호가 누락되었습니다"},
     //데이터베이스오류
     DB_ERROR : {isSuccess: false, code: 5050, message: "데이터베이스 에러"}
 
