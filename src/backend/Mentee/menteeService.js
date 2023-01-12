@@ -1,26 +1,51 @@
-const Mentoring = require('../models/mentoring');
+const {Mentoring, Room, Chat} = require('../models')
+
 const errorResponse = require('../config/errorResponse');
 const detailResponse = require('../config/responseDetail');
 exports.postQuestion = async function(userid,language, title, content){
     try{
         console.log(content);
         await Mentoring.create({
-            menteeId: userid,
+            menteeid: userid,
             language,
             title,
             content
-        })
+        });
     }catch(error){
         console.error(error);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
 
-exports.getQuestion = async function(menteeId){
+exports.createRoom = async function(menteeid){
+    try{
+        await Room.create({
+            menteeid
+        });
+    }catch(error){
+        console.error(error);
+        throw new errorResponse(detailResponse.DB_ERROR, 500);
+    }
+};
+
+exports.createChat = async function(userid, content){
+    try{
+        await Chat.create({
+            userid,
+            content
+        });
+    }catch(error){
+        console.error(error);
+        throw new errorResponse(detailResponse.DB_ERROR, 500);
+    }
+}
+exports.getUnderwayQuestion = async function(menteeid){
     try{
         const question = await Mentoring.findAll({
+            attributes:['title', 'content', 'date', 'language'],
             where:{
-                menteeId
+                menteeid,
+                status:'N'
             }
         })
         return question;
@@ -29,12 +54,26 @@ exports.getQuestion = async function(menteeId){
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
-
-exports.checkTitle = async function(menteeId, title){
+exports.getFinishedQuestion = async function(menteeid){
+    try{
+        const question = await Mentoring.findAll({
+            attributes:['title', 'content', 'date', 'language'],
+            where:{
+                menteeid,
+                status:'Y'
+            }
+        })
+        return question;
+    }catch(error){
+        console.error(error);
+        throw new errorResponse(detailResponse.DB_ERROR, 500); 
+    }
+}
+exports.checkTitle = async function(menteeid, title){
     try{
         const result = await Mentoring.findOne({
             where:{
-                menteeId,
+                menteeid,
                 title
             }
         })
@@ -45,11 +84,11 @@ exports.checkTitle = async function(menteeId, title){
     }
 };
 
-exports.checkContent = async function(menteeId, content){
+exports.checkContent = async function(menteeid, content){
     try{
         const result = await Mentoring.findOne({
             where:{
-                menteeId,
+                menteeid,
                 content
             }
         })
@@ -60,12 +99,12 @@ exports.checkContent = async function(menteeId, content){
     }
 };
 
-exports.getSpecificQuestion = async function(menteeId, mentoringId){
+exports.getSpecificQuestion = async function(menteeid, mentoringid){
     try{
         const result = await Mentoring.findOne({
             where:{
-                menteeId,
-                mentoringId
+                menteeid,
+                mentoringid
             }
         })
         return result;
@@ -75,7 +114,7 @@ exports.getSpecificQuestion = async function(menteeId, mentoringId){
     }
 };
 
-exports.modifyQuestion = async function(mentoringId, title, content, language){
+exports.modifyQuestion = async function(mentoringid, title, content, language){
     try{
         await Mentoring.update(
             {
@@ -85,7 +124,7 @@ exports.modifyQuestion = async function(mentoringId, title, content, language){
         },
         {
             where:{
-                mentoringId
+                mentoringid
             }
         })
     }catch(error){
@@ -94,11 +133,56 @@ exports.modifyQuestion = async function(mentoringId, title, content, language){
     }
 };
 
-exports.deleteQuestion = async function(mentoringId){
+exports.modifyChat = async function(userid, roomid, content, title, language){
     try{
-        await Mentoring.destroy({where: {mentoringId}});
+        await Chat.update({
+            title,
+            content,
+            language
+        },
+        {
+            where:{
+                userid,
+                roomid
+            }
+        }
+        )
     }catch(error){
         console.error(error);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
-}
+};
+
+exports.deleteQuestion = async function(mentoringid){
+    try{
+        await Mentoring.destroy({where: {mentoringid}});
+    }catch(error){
+        console.error(error);
+        throw new errorResponse(detailResponse.DB_ERROR, 500);
+    }
+};
+
+exports.deleteChat = async function(userid, chatid){
+    try{
+        await Chat.destroy({where:{
+            userid,
+            chatid
+        }})
+    }catch(error){
+        console.error(error);
+        throw new errorResponse(detailResponse.DB_ERROR, 500);
+    }
+};
+
+exports.deleteRoom = async function(roomid){
+    try{
+        await Room.destroy({
+            where:{
+                roomid
+            }
+        })
+    }catch(error){
+        console.error(error);
+        throw new errorResponse(detailResponse.DB_ERROR, 500);
+    }
+};

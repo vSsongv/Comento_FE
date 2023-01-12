@@ -1,17 +1,20 @@
 const { Sequelize, DataTypes, INTEGER  } = require('sequelize');
 const models = require('../models');
 module.exports = function(sequelize){
-        const Room = sequelize.define('Room',{
+        const Chat = sequelize.define('Chat',{
             roomid: {
+                type: Sequelize.INTEGER
+            },
+            chatid: {
                 type: Sequelize.INTEGER,
                 autoIncrement: true,
                 primaryKey: true
             },
-            mentoid: {
-                type: Sequelize.INTEGER,
-                allowNull: true
+            content: {
+                type: Sequelize.TEXT,
+                allowNull: false
             },
-            menteeid: {
+            userid: {
                 type: Sequelize.INTEGER,
                 allowNull: false
             }
@@ -20,11 +23,11 @@ module.exports = function(sequelize){
             timestamps: true,
             underscored: false,
             paranoid: false,
-            modelName: 'Room',
-            tableName: 'room',
+            modelName: 'Chat',
+            tableName: 'chat',
             charset: 'utf8',
             collate: 'utf8_general_ci',
         })
-        return Room;
+        return Chat;
 }
 

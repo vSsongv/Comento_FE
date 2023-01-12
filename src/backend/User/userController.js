@@ -13,6 +13,7 @@ const regPassword = /^(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*-_+=\\(\\)\])(?=.*[0-9]).{8,
 const regPhoneNum = /^\d{3}\d{3,4}\d{4}$/;
 const regNickname = /^[a-zA-Z0-9가-힣]*$/;
 
+
 if(!fs.existsSync(imageDir)) { 
     fs.mkdirSync(imageDir);
 }
@@ -95,11 +96,11 @@ const member = {
 
         const userInfo = await userService.checkEmail(email); // 해당 이메일 사용자 찾음 있으면 사용자 정보 없으면 null
         
-        if(!userInfo) return (next(new errorResponse(detailResponse.NOT_EXIST_EMAIL), 400));
+        if(!userInfo) return next(new errorResponse(detailResponse.NOT_EXIST_EMAIL, 400));
         const isEqualPw = await bcrypt.compare(password, userInfo.password);
 
         if(isEqualPw) token = await userService.signin(userInfo, loginFlag);
-        else return (next(new errorResponse(detailResponse.PASSWORD_MISMATCH), 400));
+        else return next(new errorResponse(detailResponse.PASSWORD_MISMATCH, 400));
         return res.send(resultResponse(detailResponse.SIGNIN_SUCCESS, token));
     }),
     resetPassword : asyncHandler( async (req, res, next) => {
@@ -111,7 +112,8 @@ const member = {
             if(isUser){
                 const hashedpw = await bcrypt.hash(password, 12)
                 await userService.updateUser(email, hashedpw);
-                return res.send(basicResponse(detailResponse.UPDATE_SUCCESS))
+                await userService.deleteCertNum(email);
+                return res.send(basicResponse(detailResponse.MODIFY_USER_SUCCESS))
             }else return next(new errorResponse(detailResponse.NOT_EXIST_EMAIL, 400));    
         }else return next(new errorResponse(detailResponse.INCORRECT_TOKEN,400)); //인증번호가 일치하지 않는경우
     }), 

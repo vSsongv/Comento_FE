@@ -1,5 +1,5 @@
-const User = require('../models/user');
-const { auth, Auth } = require('../models');
+const {User, Auth} = require('../models/index');
+
 const errorResponse = require('../config/errorResponse');
 const detailResponse = require('../config/responseDetail');
 const jwt = require("../config/token");
@@ -18,6 +18,7 @@ exports.checkEmail = async function(email){
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
+
 
 exports.checkPhone = async function(cellphone){
     try{

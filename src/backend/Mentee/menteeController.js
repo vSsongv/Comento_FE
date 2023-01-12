@@ -26,6 +26,8 @@ const mentee = {
         if(dupTitle || dupContent) return next(new errorResponse(basicResponse(detailResponse.EXIST_QUESTION), 400));
 
         await menteeService.postQuestion(userIdx,language, title, content);
+        await menteeService.createRoom(userIdx);
+        await menteeService.createChat(userIdx, content);
         return res.send(basicResponse(detailResponse.POST_QUESTION));
     }),
     getQuestion : asyncHandler(async function(req, res, next){
@@ -34,7 +36,18 @@ const mentee = {
 
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400))
 
-        const question = await menteeService.getQuestion(userIdx);
+        const question = await menteeService.getUnderwayQuestion(userIdx);
+
+        if(!question) return next(new errorResponse(basicResponse(detailResponse.NONE_QUESTION), 400))
+        return res.send(resultResponse(detailResponse.GET_QUESTION, question));
+    }),
+    getFinishQuestion : asyncHandler(async function(req, res, next){
+        const userIdx = req.user.validToken.userid;
+        if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
+
+        if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400))
+
+        const question = await menteeService.getFinishedQuestion(userIdx);
 
         if(!question) return next(new errorResponse(basicResponse(detailResponse.NONE_QUESTION), 400))
         return res.send(resultResponse(detailResponse.GET_QUESTION, question));
@@ -55,7 +68,7 @@ const mentee = {
         if(!question) return next(new errorResponse(basicResponse(detailResponse.NONE_QUESTION)))
         if(question.mentoId) return next(new errorResponse(basicResponse(detailResponse.CUREENT_MENTORINGMODE), 400));
         await menteeService.modifyQuestion(questionid, title, content, language);
-
+        await menteeService.modifyChat(userIdx, questionid, content, title, language);
         return res.send(basicResponse(detailResponse.MODIFY_SUCCESS))
     }),
     deleteQuestion : asyncHandler(async function(req,res, next){
@@ -71,9 +84,10 @@ const mentee = {
         const isQuestion = await menteeService.getSpecificQuestion(userIdx, questionid);
         if(!isQuestion) return next(new errorResponse(basicResponse(detailResponse.NONE_QUESTION)));
         if(isQuestion.mentoId) return next(new errorResponse(basicResponse(detailResponse.CUREENT_MENTORINGMODE), 400));
-        
-        await menteeService.deleteQuestion(questionid);
 
+        await menteeService.deleteQuestion(questionid);
+        await menteeService.deleteChat(userIdx, questionid);
+        await menteeService.deleteRoom(questionid);
         return res.send(basicResponse(detailResponse.DELETE_QUESTION));
 
     })

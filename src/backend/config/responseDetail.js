@@ -11,6 +11,9 @@ module.exports = {
     GET_QUESTION: {isSuccess: true, code: 1108, message: "사용자가 게시한 질문입니다."},
     MODIFY_SUCCESS: {isSuccess: true, code: 1109, message: "질문을 수정하였습니다"},
     DELETE_QUESTION: {isSuccess: true, code: 1110, message: "질문을 삭제하였습니다"},
+    GET_CHAT: {isSuccess: true, code: 1111, message: "채팅 목록을 가져왔습니다."},
+    MODIFY_USER_SUCCESS : {isSuccess: true, code: 1112, message: "비밀번호를 초기화하였습니다."},
+
     //FAIL
     DUP_EMAIL : {isSuccess: false, code: 2001, message: "이미 가입된 이메일입니다."},
     DUP_NICKNAME: {isSuccess: false, code: 2002, message: "이미 가입된 닉네임입니다."},
@@ -41,6 +44,10 @@ module.exports = {
     NO_MODIFY: {isSuccess:false, code:2026, message:"질문을 변경할 수 없습니다. 질문 요소 중 누락된 요소가 존재합니다."},
     CUREENT_MENTORINGMODE: {isSuccess:false, code:2027, message:"이미 멘토리중이므로 질문을 변경할 수 없습니다."},
     EMPTY_QUESTIONID: {isSuccess:false, code:2028, message:"질문 번호가 누락되었습니다"},
+    NO_ROUTER: {isSuccess:false, code:2029, message:"요청하신 라우터는 존재하지 않습니다."},
+    NONE_CHAT : {isSuccess:false, code:2030, message: "해당 유저가 참여하고 있는 채팅은 존재하지 않습니다."},
+    EMPTY_MENTORINGID: {isSuccess:false, code:2031, message: "멘토링번호가 누락되었습니다."},
+    NONE_MENTORING : {isSuccess:false, code:2031, message: "해당 멘토링 데이터는 존재하지 않습니다."},
     //데이터베이스오류
     DB_ERROR : {isSuccess: false, code: 5050, message: "데이터베이스 에러"}
 
