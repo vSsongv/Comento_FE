@@ -8,11 +8,14 @@ module.exports = {
     AVAILABLE_NICKNAME : {isSuccess: true, code: 1105, message: "사용가능한 닉네임입니다."},
     SEND_EMAIL : {isSuccess: true, code: 1106, message: "이메일로 인증번호를 전송하였습니다." },
     POST_QUESTION: {isSuccess: true, code: 1107, message: "질문을 게시하였습니다."},
-    GET_QUESTION: {isSuccess: true, code: 1108, message: "사용자가 게시한 질문입니다."},
+    GET_QUESTION: {isSuccess: true, code: 1108, message: "질문 목록을 가져왔습니다."},
     MODIFY_SUCCESS: {isSuccess: true, code: 1109, message: "질문을 수정하였습니다"},
     DELETE_QUESTION: {isSuccess: true, code: 1110, message: "질문을 삭제하였습니다"},
     GET_CHAT: {isSuccess: true, code: 1111, message: "채팅 목록을 가져왔습니다."},
     MODIFY_USER_SUCCESS : {isSuccess: true, code: 1112, message: "비밀번호를 초기화하였습니다."},
+    CONNECT_MENTORING : {isSuccess: true, code: 1113, message: "멘토링을 체결하였습니다"},
+    UNDERWAY_MENTORING : {isSuccess: true, code: 1114, message: "진행중인 질문 리스트입니다"},
+
 
     //FAIL
     DUP_EMAIL : {isSuccess: false, code: 2001, message: "이미 가입된 이메일입니다."},
@@ -48,6 +51,9 @@ module.exports = {
     NONE_CHAT : {isSuccess:false, code:2030, message: "해당 유저가 참여하고 있는 채팅은 존재하지 않습니다."},
     EMPTY_MENTORINGID: {isSuccess:false, code:2031, message: "멘토링번호가 누락되었습니다."},
     NONE_MENTORING : {isSuccess:false, code:2031, message: "해당 멘토링 데이터는 존재하지 않습니다."},
+    NOT_MENTO : {isSuccess:false, code:2032, message:"멘토 권한이 없습니다."},
+    NO_QUESTION: {isSuccess:false, code:2033, message: "질문을 찾을 수 없습니다."},
+    ALREADY_MENTROING_QUESTION: {isSuccess:false, code:2034, message: "이미 체결된 멘토링입니다."},
     //데이터베이스오류
     DB_ERROR : {isSuccess: false, code: 5050, message: "데이터베이스 에러"}
 

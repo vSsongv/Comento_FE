@@ -10,18 +10,13 @@ const webSocket = require('./socket');
 
 const userRouter = require('./User/userRoute');
 const menteeRouter = require('./Mentee/menteeRoute');
+const mentoRouter = require('./Mento/mentoRoute');
 const errorhandler = require("./config/errorHandler");
 const errorResponse = require("./config/errorResponse");
 const { basicResponse } = require("./config/response");
 const responseDetail = require("./config/responseDetail");
 
-// 
-/*
-const tempRouter = require('./routes/temp');
-const checkRouter = require('./routes/check')
-const uploadRouter = require('./routes/upload');
-const findRouter = require('./routes/findpassword');
-const smsRouter = require('./routes/sms');*/
+
 
 const app = express();
 
@@ -57,6 +52,7 @@ webSocket(server, app);
 
 //app.use('/', tempRouter);
 //라우터는 이사이에 표시
+app.use('/mento', mentoRouter);
 app.use('/user', userRouter);
 app.use('/mentee', menteeRouter);
 // app.use('/user/signup', checkRouter);
