@@ -1,8 +1,7 @@
-const { INTEGER } = require('sequelize');
-const Sequelize = require('sequelize');
-module.exports = class User extends Sequelize.Model{
-    static init(sequelize){
-        return super.init({
+const { Sequelize, DataTypes, INTEGER  } = require('sequelize');
+const models = require('../models');
+module.exports = function(sequelize){
+        const User = sequelize.define('User',{
             userid: {
                 type: Sequelize.INTEGER,
                 allowNull: false,
@@ -48,17 +47,12 @@ module.exports = class User extends Sequelize.Model{
             sequelize,
             timestamps: true,
             underscored: false,
-            paranoid: true,
+            paranoid: false,
             modelName: 'User',
-            tableName: 'users',
+            tableName: 'user',
             charset: 'utf8',
             collate: 'utf8_general_ci',
-        });
-    }
+        })
+        return User;
+}
 
-    static associate(db) {
-        db.User.hasMany(db.Auth, {
-            foreignKey: "userid", sourceKey: "userid"
-        });
-    }
-};

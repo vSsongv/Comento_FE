@@ -1,24 +1,30 @@
 const dotenv = require("dotenv");
 dotenv.config();
-
 const express = require('express');
-const session = require('express-session');
 const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const db = require('./models');
-const passport = require('passport');
+const webSocket = require('./socket');
 
-const { sequelize } = require('./models/index');
+// 라우터 부분
 
-const pageRouter = require('./routes/auth');
-const userRouter = require('./routes/user');
+const userRouter = require('./User/userRoute');
+const menteeRouter = require('./Mentee/menteeRoute');
+const errorhandler = require("./config/errorHandler");
+const errorResponse = require("./config/errorResponse");
+const { basicResponse } = require("./config/response");
+const responseDetail = require("./config/responseDetail");
+
+// 
+/*
+const tempRouter = require('./routes/temp');
 const checkRouter = require('./routes/check')
 const uploadRouter = require('./routes/upload');
 const findRouter = require('./routes/findpassword');
-const smsRouter = require('./routes/sms');
+const smsRouter = require('./routes/sms');*/
 
 const app = express();
+
 
 const whiteDomain = ["http://localhost:8080", "http://localhost:3000", "http://comento.co.kr"];
 const corOptions = {
@@ -30,50 +36,43 @@ const corOptions = {
     }
   }
 };
-//passportConfig();
+app.use(cors());
+
 app.set('port', process.env.PORT || 8080);
-
 app.use(morgan("dev"));
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+
 db.sequelize.sync().then(() => {
         console.log('db connect success');
-    }).catch(console.error);
+}).catch(console.error);
 
-
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
-app.use(
-  session({
-    resave: false,
-    saveUninitalized: false,
-    secret: process.env.COOKIE_SECRET,
-    cookie: {
-      httpOnly: true,
-      secure: false,
-    },
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-
-app.use('/', userRouter);
-app.use('/user', pageRouter);
-app.use('/user/signup', checkRouter);
-app.use('/user/upload', uploadRouter);
-app.use('/find', findRouter);
-app.use('/sms', smsRouter);
-app.use("/answer", require("./routes/answer"));
-
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.status || 500).send(err.message);
+const server = app.listen(app.get("port"), () => {
+  console.log(app.get("port"), "번 포트에서 대기중");
 });
 
-app.listen(app.get("port"), () => {
-  console.log(app.get("port"), "번 포트에서 대기중");
+
+webSocket(server, app);
+
+//app.use('/', tempRouter);
+//라우터는 이사이에 표시
+app.use('/user', userRouter);
+app.use('/mentee', menteeRouter);
+// app.use('/user/signup', checkRouter);
+// app.use('/user/upload', uploadRouter);
+// app.use('/find', findRouter);
+// app.use('/sms', smsRouter);
+// app.use("/answer", require("./routes/answer"));
+
+
+//
+app.use(errorhandler);
+
+
+
+
+app.use((req, res, next) => {
+  const error = new errorResponse(basicResponse(responseDetail.NO_ROUTER), 404);
+  next(error);
 });

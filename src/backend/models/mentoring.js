@@ -1,70 +1,60 @@
-const Sequelize = require("sequelize");
-const express = require("express");
-const app = express();
-app.set("view engine", "ejs");
+const { Sequelize, DataTypes, INTEGER  } = require('sequelize');
+const models = require('../models');
 
-module.exports = class Mentoring extends Sequelize.Model {
-  static init(sequelize) {
-    return super.init(
-      {
-        mentoringId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          autoIncrement: true,
-          primaryKey: true,
-        },
-        date: {
-          type: Sequelize.DATE,
-          allowNull: false,
-        },
-        language: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        mentoId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        menteeId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        title: {
-          type: Sequelize.STRING(100),
-          allowNull: false,
-        },
-        content: {
-          type: Sequelize.STRING(1000),
-          allowNull: false,
-        },
-        content_image: {
-          type: Sequelize.STRING(500),
-          allowNull: false,
-        },
+module.exports = function(sequelize){
+    const mentoring = sequelize.define('Mentoring',{
+      mentoringid: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
       },
-      {
-        sequelize,
-        timestamps: true,
-        underscored: false,
-        paranoid: true,
-        modelName: "Mentoring",
-        tableName: "mentoring",
-        charset: "utf8",
-        collate: "utf8_general_ci",
+      date: {
+        type: Sequelize.DATE,
+        allowNull: true,
+        defaultValue: new Date()
+      },
+      language: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      mentoid: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      menteeid: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
+      title: {
+        type: Sequelize.STRING(100),
+        allowNull: false,
+      },
+      content: {
+        type: Sequelize.STRING(1000),
+        allowNull: false,
+      },
+      content_image: {
+        type: Sequelize.STRING(500),
+        allowNull: true,
+      },
+      status:{
+        type: Sequelize.CHAR(1),
+        allowNull: true,
+        defaultValue: 'N' // N이면 멘토링 시작 전, I이면 멘토링중, F이면 멘토링 끝
       }
-    );
-  }
+    },
+    {
+      sequelize,
+      timestamps: true,
+      underscored: false,
+      paranoid: false,
+      modelName: "Mentoring",
+      tableName: "mentoring",
+      charset: "utf8",
+      collate: "utf8_general_ci",
+    })
 
-  static associate(db) {
-    db.Mentoring.belongsTo(db.User, {
-      foreignKey: "mentoId",
-      targetKey: "userid",
-      through: "aaa",
-    });
-    db.Mentoring.belongsTo(db.User, {
-      foreignKey: "menteeId",
-      targetKey: "userid",
-      through: "bbb",
-    });
-  }
-};
+    return mentoring;
+}
+
+

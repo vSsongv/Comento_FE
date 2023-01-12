@@ -1,22 +1,18 @@
-const jwt = require('../modules/token');
-const CODE = require('../modules/statusCode');
+const errorResponse = require('../config/errorResponse');
+const responseDetail = require('../config/responseDetail');
+const jwt = require('../config/token');
 const TOKEN_EXPIRED = -3;
 const TOKEN_INVALID = -2;
 
 const authUtil = {
     checkToken: async (req, res, next) => {
-        var token = req.headers.token;
-        if (!token)
-            return res.json({ statusCode: CODE.FAIL, msg: "no token"});
+        const token = req.query.token || req.headers["x-access-token"];
+        if (!token) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
-        const user = await jwt.verify(token);
-        if (user === TOKEN_EXPIRED)
-            return res.json({ statusCode: CODE.UNAUTHORIZED, msg: "token expired"});
-        if (user === TOKEN_INVALID)
-            return res.json({ statusCode: CODE.INVALID_TOKEN, msg: "invalid token"});
-        if (user.idx === undefined)
-            return res.json({ statusCode: CODE.INVALID_TOKEN, msg: "invalid token"});
-        req.userid = user.userid;
+        const user = await jwt.verifyToken(token);
+        if (user.result === TOKEN_EXPIRED ||  user.result === TOKEN_INVALID || !(user.validToken) )
+        return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
+        req.user = user;
         next();
     }
 }
