@@ -1,7 +1,7 @@
 const { nextTick } = require("process");
 const { Chat, Room } = require("../models");
 const Mentoring = require('../models/mentoring');
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 const detailResponse = require('../config/responseDetail');
 const errorResponse = require('../config/errorResponse');
 const { logger } = require("../config/winston");
