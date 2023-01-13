@@ -30,7 +30,7 @@ module.exports = function(sequelize){
         allowNull: false,
       },
       content: {
-        type: Sequelize.STRING(1000),
+        type: Sequelize.TEXT,
         allowNull: false,
       },
       content_image: {

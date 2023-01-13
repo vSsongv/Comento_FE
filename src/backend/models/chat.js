@@ -14,8 +14,8 @@ module.exports = function(sequelize){
                 type: Sequelize.TEXT,
                 allowNull: false
             },
-            userid: {
-                type: Sequelize.INTEGER,
+            nickname: {
+                type: Sequelize.TEXT,
                 allowNull: false
             }
         }, {
