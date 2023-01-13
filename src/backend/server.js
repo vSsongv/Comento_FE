@@ -5,7 +5,8 @@ const morgan = require('morgan');
 const cors = require('cors');
 const db = require('./models');
 const webSocket = require('./socket');
-
+const secret = require('./config/secret');
+const env = process.env.NODE_ENV || 'development';
 
 // 라우터 부분
 
@@ -37,7 +38,7 @@ const whiteDomain = ["http://localhost:8080", "http://localhost:3000", "http://c
 app.use(cors());
 
 app.set('port', process.env.PORT || 8080);
-app.use(morgan("dev"));
+//app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -46,6 +47,13 @@ app.use(express.urlencoded({extended: true}));
 db.sequelize.sync().then(() => {
         console.log('db connect success');
 }).catch(console.error);
+
+let port;
+if (env== "development") {
+	port = 8080;
+} else {
+	port = secret.localPort;
+}
 
 const server = app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");
