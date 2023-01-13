@@ -4,6 +4,7 @@ const errorResponse = require('../config/errorResponse');
 const detailResponse = require('../config/responseDetail');
 const jwt = require("../config/token");
 const token = require('../config/token');
+const { logger } = require("../config/winston");
 const {Op} = require('sequelize');
 exports.checkEmail = async function(email){
     try{

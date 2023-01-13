@@ -6,10 +6,17 @@
 .pnp.js
 /src/backend/node_modules
 /src/frontend/node_modules
+/src/backend/
 loginkey.pem
 .package-lock.json
 package-lock.json
-
+/src/backend/node_modules
+/src/backend/.env
+/src/backend/views
+/src/backend/log
+/src/frontend/node_modules
+/src/backend/socket.js
+/src/backend/config/secret.js
 # testing
 /coverage
 

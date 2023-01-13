@@ -2,6 +2,7 @@ const errorResponse = require("../config/errorResponse");
 const responseDetail = require("../config/responseDetail");
 const {Mentoring, Room, Chat} = require('../models');
 const Op = require('sequelize').Op;
+const { logger } = require("../config/winston");
 exports.checkMentoring = async function(mentoringid){
     try{
         const result = await Mentoring.findOne({
@@ -11,7 +12,7 @@ exports.checkMentoring = async function(mentoringid){
         });
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(responseDetail.DB_ERROR);
     }
 };
@@ -29,7 +30,7 @@ exports.getSpecificQuestion = async function(language, userid){
         });
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(responseDetail.DB_ERROR);
     }
 };
@@ -46,7 +47,7 @@ exports.getAllQuestion = async function(userid){
         });
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(responseDetail.DB_ERROR);
     }
 }
@@ -67,7 +68,7 @@ exports.connectMentoring = async function(userid, mentoringid){
             }
         })
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(responseDetail.DB_ERROR);
     }
 };
@@ -82,7 +83,7 @@ exports.getMentoringList = async function(mentoid){
         })
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(responseDetail.DB_ERROR);
     }
 }
