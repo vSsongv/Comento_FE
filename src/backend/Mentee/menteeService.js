@@ -2,7 +2,7 @@ const {Mentoring, Room, Chat} = require('../models')
 
 const errorResponse = require('../config/errorResponse');
 const detailResponse = require('../config/responseDetail');
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 const { logger } = require("../config/winston");
 
 exports.postQuestion = async function(userid,language, title, content){

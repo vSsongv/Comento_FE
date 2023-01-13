@@ -1,7 +1,7 @@
 const errorResponse = require("../config/errorResponse");
 const responseDetail = require("../config/responseDetail");
 const {Mentoring, Room, Chat} = require('../models');
-const Op = require('Sequelize').Op;
+const Op = require('sequelize').Op;
 const { logger } = require("../config/winston");
 exports.checkMentoring = async function(mentoringid){
     try{
