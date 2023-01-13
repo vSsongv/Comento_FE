@@ -4,12 +4,15 @@
 /node_modules
 /.pnp
 .pnp.js
-images
 /src/backend/node_modules
 /src/frontend/node_modules
 loginkey.pem
 .package-lock.json
 package-lock.json
+/src/backend/.env
+/src/backend/views
+/src/backend/socket.js
+/src/backend/config/secret.js
 
 # testing
 /coverage
