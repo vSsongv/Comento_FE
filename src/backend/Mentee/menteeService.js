@@ -3,6 +3,7 @@ const {Mentoring, Room, Chat} = require('../models')
 const errorResponse = require('../config/errorResponse');
 const detailResponse = require('../config/responseDetail');
 const Op = require('Sequelize').Op;
+const { logger } = require("../config/winston");
 
 exports.postQuestion = async function(userid,language, title, content){
     try{
@@ -14,7 +15,7 @@ exports.postQuestion = async function(userid,language, title, content){
             content
         });
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -29,7 +30,7 @@ exports.createRoom = async function(menteeid){
         return result;
 
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -41,7 +42,7 @@ exports.createChat = async function(nickname, content){
             content
         });
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 }
@@ -56,7 +57,7 @@ exports.getUnderwayQuestion = async function(menteeid){
         })
         return question;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -71,7 +72,7 @@ exports.getFinishedQuestion = async function(menteeid){
         })
         return question;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500); 
     }
 }
@@ -85,7 +86,7 @@ exports.checkTitle = async function(menteeid, title){
         })
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -100,7 +101,7 @@ exports.checkContent = async function(menteeid, content){
         })
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -121,7 +122,7 @@ exports.getAllQuestion = async function(userid){
         })
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 }
@@ -137,7 +138,7 @@ exports.getSpecificQuestion = async function(menteeid, mentoringid){
         })
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -156,7 +157,7 @@ exports.modifyQuestion = async function(mentoringid, title, content, language){
             }
         })
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -176,7 +177,7 @@ exports.modifyChat = async function(userid, roomid, content, title, language){
         }
         )
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -185,7 +186,7 @@ exports.deleteQuestion = async function(mentoringid){
     try{
         await Mentoring.destroy({where: {mentoringid}});
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -197,7 +198,7 @@ exports.deleteChat = async function(userid, chatid){
             chatid
         }})
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -210,7 +211,7 @@ exports.deleteRoom = async function(roomid){
             }
         })
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };

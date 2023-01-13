@@ -4,7 +4,7 @@ const Mentoring = require('../models/mentoring');
 const Op = require('Sequelize').Op;
 const detailResponse = require('../config/responseDetail');
 const errorResponse = require('../config/errorResponse');
-
+const { logger } = require("../config/winston");
 exports.checkMentoring = async function(mentoringId){
     try{
         const result = await Mentoring.findOne({
@@ -14,7 +14,7 @@ exports.checkMentoring = async function(mentoringId){
         });
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -30,7 +30,7 @@ exports.getRoomNumber = async function(roomid){
         });
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -42,7 +42,7 @@ exports.postChat = async function(nickname, content, roomid){
             content
         });
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -63,7 +63,7 @@ exports.getRoom = async function(userid){
         })
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 }
@@ -76,7 +76,7 @@ exports.getChat = async function(mentoringId){
             }
         });
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 }

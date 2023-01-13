@@ -15,7 +15,7 @@ router.post('/chat/:roomid', checkToken, chatController.postChat); //ㅁ
 //         const rooms = await Room.find({});
 //         res.render('main', {rooms, title: '채팅방 목록'});
 //     }catch(error){
-//         console.error(error);
+//         logger.error(`${error.message}`);
 //         throw new errorResponse(detailResponse.DB_ERROR, 500);
 //     }
 // })
