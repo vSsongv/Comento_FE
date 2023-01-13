@@ -10,6 +10,8 @@ const mentee = {
     postQuestion : asyncHandler(async function(req, res, next){
         const {language, title, content} = req.body; //이미지 나중에 고려
         const userIdx = req.user.validToken.userid;
+        const nickname = req.user.validToken.nickname;
+
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400))
@@ -26,9 +28,12 @@ const mentee = {
         if(dupTitle || dupContent) return next(new errorResponse(basicResponse(detailResponse.EXIST_QUESTION), 400));
 
         await menteeService.postQuestion(userIdx,language, title, content);
-        await menteeService.createRoom(userIdx);
-        await menteeService.createChat(userIdx, content);
-        return res.send(basicResponse(detailResponse.POST_QUESTION));
+        let newRoom = await menteeService.createRoom(userIdx);
+        newRoom = newRoom.dataValues.roomid
+        // const io = req.app.get('io');
+        // io.of('/room').emit('newRoom', newRoom);
+        await menteeService.createChat(nickname, content);
+        return res.send(resultResponse(detailResponse.POST_QUESTION, newRoom)); //response받음과 동시에 `/room/${newRoom}` 으로 redirect시키기
     }),
     getQuestion : asyncHandler(async function(req, res, next){
         const userIdx = req.user.validToken.userid;

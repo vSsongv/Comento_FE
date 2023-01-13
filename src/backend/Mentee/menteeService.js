@@ -2,6 +2,8 @@ const {Mentoring, Room, Chat} = require('../models')
 
 const errorResponse = require('../config/errorResponse');
 const detailResponse = require('../config/responseDetail');
+const Op = require('Sequelize').Op;
+
 exports.postQuestion = async function(userid,language, title, content){
     try{
         console.log(content);
@@ -19,19 +21,23 @@ exports.postQuestion = async function(userid,language, title, content){
 
 exports.createRoom = async function(menteeid){
     try{
-        await Room.create({
+        const result = await Room.create({
+            raw: true,
+            attributes: ['roomid'],
             menteeid
         });
+        return result;
+
     }catch(error){
         console.error(error);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
 
-exports.createChat = async function(userid, content){
+exports.createChat = async function(nickname, content){
     try{
         await Chat.create({
-            userid,
+            nickname,
             content
         });
     }catch(error){
@@ -99,9 +105,31 @@ exports.checkContent = async function(menteeid, content){
     }
 };
 
+exports.getAllQuestion = async function(userid){
+    try{
+        const result = await Mentoring.findAll({
+            raw:true,
+            attributes: ['title', 'content', 'createdAt', 'updatedAt', 'language'],
+            where:{
+                [Op.or]: [{
+                    mentoid: userid,
+                },{
+                    menteeid : userid
+                }]
+            },
+            
+        })
+        return result;
+    }catch(error){
+        console.error(error);
+        throw new errorResponse(detailResponse.DB_ERROR, 500);
+    }
+}
 exports.getSpecificQuestion = async function(menteeid, mentoringid){
     try{
         const result = await Mentoring.findOne({
+            raw:true,
+            attributes:['title', 'content', 'createdAt', 'updatedAt', 'language'],
             where:{
                 menteeid,
                 mentoringid
