@@ -12,6 +12,7 @@ module.exports = {
                 type: "JWT",
                 userid: user.userid,
                 nickname: user.nickname,
+                role: user.role,
                 loginFlag
             }, process.env.ACCESS_SECRET,
             {

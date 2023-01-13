@@ -39,9 +39,9 @@ module.exports = function(sequelize){
                 allowNull: true
             },
             role: {
-                type: Sequelize.BOOLEAN,
+                type: Sequelize.CHAR(1),
                 allowNull: true,
-                defaultValue: false
+                defaultValue: 'Q'
             }
         }, {
             sequelize,

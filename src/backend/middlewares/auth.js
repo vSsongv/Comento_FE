@@ -14,7 +14,13 @@ const authUtil = {
         return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
         req.user = user;
         next();
+    },
+    checkMento : async (req, res, next) => {
+        const userInfo = req.user.validToken;
+        console.log(userInfo);
+        if(userInfo.role === 'Q') return next(new errorResponse(responseDetail.NOT_MENTO));
+        next();
     }
-}
+};
 
 module.exports = authUtil;
