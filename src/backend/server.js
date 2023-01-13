@@ -4,8 +4,8 @@ const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
 const db = require('./models');
-const webSocket = require('./socket');
-const secret = require('./config/secret');
+//const webSocket = require('./socket');
+//const secret = require('./config/secret');
 const env = process.env.NODE_ENV || 'development';
 
 // 라우터 부분
@@ -49,7 +49,7 @@ db.sequelize.sync().then(() => {
 }).catch(console.error);
 
 let port;
-if (env== "development") {
+if (env == "development") {
 	port = 8080;
 } else {
 	port = secret.localPort;
@@ -67,8 +67,6 @@ const server = app.listen(app.get("port"), () => {
 app.use('/mento', mentoRouter);
 app.use('/user', userRouter);
 app.use('/mentee', menteeRouter);
-
-
 app.use('/', chatRouter);
 // app.use('/user/signup', checkRouter);
 // app.use('/user/upload', uploadRouter);
