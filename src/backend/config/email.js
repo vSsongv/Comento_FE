@@ -25,7 +25,7 @@ exports.sendEmail = async function(email){
         });
         return token;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(basicResponse(responseDetail.DB_ERROR));
     }
 }
