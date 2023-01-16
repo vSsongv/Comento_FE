@@ -12,12 +12,13 @@ const authUtil = {
         const user = await jwt.verifyToken(token);
         if (user.result === TOKEN_EXPIRED ||  user.result === TOKEN_INVALID || !(user.validToken) )
         return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
-        req.user = user;
-        req.nickname = user.nickname;
+        req.user = user.validToken;
+        req.nickname = user.validToken.nickname;
         next();
     },
     checkMento : async (req, res, next) => {
         const userInfo = req.user.validToken;
+        console.log(userInfo);
         if(userInfo.role === 'Q') return next(new errorResponse(responseDetail.NOT_MENTO));
         next();
     }

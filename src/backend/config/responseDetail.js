@@ -16,12 +16,13 @@ module.exports = {
     CONNECT_MENTORING : {isSuccess: true, code: 1113, message: "멘토링을 체결하였습니다"},
     UNDERWAY_MENTORING : {isSuccess: true, code: 1114, message: "진행중인 질문 리스트입니다"},
     POST_MSG: {isSuccess:true, code:1115, message: "채팅을 저장하였습니다."},
+    UPLOAD_SUCCESS : {isSuccess:true, code:1116, message: "이미지 파일 업로드를 성공하였습니다."},
 
 
     //FAIL
     DUP_EMAIL : {isSuccess: false, code: 2001, message: "이미 가입된 이메일입니다."},
     DUP_NICKNAME: {isSuccess: false, code: 2002, message: "이미 가입된 닉네임입니다."},
-    DUP_PHONE: {isSuccess: false, code: 2018, message: "이미 가입된 번호입니다."},
+    DUP_PHONE: {isSuccess: false, code: 2037, message: "이미 가입된 번호입니다."},
     EMPTY_EMAIL : {isSuccess: false, code: 2003, message: "이메일이 누락되었습니다."},
     EMAIL_LENGTH_ERROR : {isSuccess: false, code: 2004, message: "이메일 길이 초과"},
     EMAIL_FORM : {isSuccess: false, code: 2005, message: "이메일 형식이 아닙니다."},
@@ -57,6 +58,8 @@ module.exports = {
     ALREADY_MENTROING_QUESTION: {isSuccess:false, code:2034, message: "이미 체결된 멘토링입니다."},
     EMPTY_MESSAGE : {isSuccess:false, code:2035, message:"메세지가 누락되었습니다."},
     EMPTY_ROOM : {isSuccess:false, code:2036, message:"존재하지 않는 채팅방이에요"},
+    FILE_FORM : {isSuccess:false, code:2039, message: "이미지 파일만 올려주세요."},
+    UPLOAD_FAIL : {isSuccess:false, code:2040, message:"업로드를 실패하였습니다."},
     //데이터베이스오류
     DB_ERROR : {isSuccess: false, code: 5050, message: "데이터베이스 에러"}
 
