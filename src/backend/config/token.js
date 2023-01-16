@@ -6,26 +6,19 @@ const INVALID_TOKEN = -2;
 
 
 module.exports = {
-    sign: async(user) => {
+    sign: async(user, loginFlag, expiresIn) => {
         const result = {
         accessToken : jwt.sign({
                 type: "JWT",
                 userid: user.userid,
-                email : user.email,
                 nickname: user.nickname,
-                image: user.image,
-                mentos: user.mentos,
-                role : user.role
-            }, process.env.ACCESS_SECRET,{
-            expiresIn: "15m", // 15분후 만료
-            issuer: "friday",
-            }),
-            refreshToken : jwt.sign({
-                userid: user.userid,
-                email : user.email
-            }, process.env.REFRESH_SECRET, {
-                expiresIn: "1h", // 24시간후 만료
+                role: user.role,
+                loginFlag
+            }, process.env.ACCESS_SECRET,
+            {
+                expiresIn, // 15분후 만료
                 issuer: "friday",
+                subject: "userInfo"
             })
     }
     return result;
