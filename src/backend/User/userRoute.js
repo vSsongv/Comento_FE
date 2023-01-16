@@ -9,7 +9,7 @@ router.get('/test', checkToken, function(req,res,err){
     res.send("hi");
 })
 
-router.post('/signup',  userController.signup); 
+router.post('/signup',  upload.array("images"), userController.signup); 
 router.post('/signin',  userController.signin);
 router.post('/reset-password', userController.resetPassword);
 router.get('/check/email', userController.checkId);

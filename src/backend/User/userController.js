@@ -20,8 +20,7 @@ if(!fs.existsSync(imageDir)) {
 
 const member = {
     signup: asyncHandler( async (req, res , next) => {
-        const {email, nickname, password, profile, phone} = req.body; 
-
+        const {email, nickname, password, profile, phone} = req.body;
         if (!email) return next(new errorResponse(detailResponse.EMPTY_EMAIL), 400);
 
         if (email.length > 30) return next(new errorResponse(detailResponse.EMAIL_LENGTH_ERROR), 400);
