@@ -12,7 +12,7 @@ if(!(fs.existsSync(mentoringDir))) fs.mkdirSync(mentoringDir);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        if(file.fieldname == "profile"){
+        if(file.fieldname == "profile" || 1){
             cb(null, profileDir);
         }else{
             cb(null, mentoringDir);
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
         let imageName;
         const typeArray = file.mimetype.split("/");
         const fileType = typeArray[1];
-        if(file.fieldname == "profile" || 1) imageName = Date.now() +"_profile."+fileType; // ||1은 임시로 두었음. 추후 멘토링에 이미지 업로드할때 아래조건문 수정하면서 개선할 예정
+        if(file.fieldname == "profile" || 1) imageName = Date.now()+ "_profile_" +file.originalname; // ||1은 임시로 두었음. 추후 멘토링에 이미지 업로드할때 아래조건문 수정하면서 개선할 예정
         /*else {
             imageName = req.nickname+ "_mentoring." +file.originalname+ fileType;
         }*/
