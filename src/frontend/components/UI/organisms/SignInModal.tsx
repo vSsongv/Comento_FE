@@ -4,6 +4,7 @@ import Button from '../atoms/Button';
 import * as Login from '../molescules/LoginInputs';
 import LoginModal from '../molescules/LoginModal';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const RootContainer = styled.div`
   max-width: 784px;
@@ -13,6 +14,10 @@ const RootContainer = styled.div`
   margin-top: 105px;
 `;
 
+const SignInInputs = styled.div`
+  margin-bottom: 20px;
+`;
+
 const Opstions = styled.div`
   width: 100%;
   display: flex;
@@ -20,8 +25,10 @@ const Opstions = styled.div`
   justify-content: space-between;
 `;
 
-const SignUpLink = styled.a`
+const SignUpLink = styled(Link)`
   font-family: NanumGothic;
+  text-decoration: none;
+  color: black;
   font-size: 14px;
   margin-left: 26px;
 `;
@@ -62,16 +69,18 @@ function SignInModal({ onLogin }: SignInModalProps) {
   return (
     <RootContainer>
       <LoginModal width={'100%'} height={'495px'}>
-        <Login.default
-          title='E-mail'
-          value='이메일을 입력해주세요.'
-          onChange={(s) => {
-            setEmail(s);
-            setEmailError(getEmailError(s));
-          }}
-          errorMessage={emailError}
-        />
-        <Login.password title='Password' value='비밀번호를 입력해주세요.' onChange={(s) => setPw(s)} errorMessage={pwError} />
+        <SignInInputs>
+          <Login.default
+            title='E-mail'
+            value='이메일을 입력해주세요.'
+            onChange={(s) => {
+              setEmail(s);
+              setEmailError(getEmailError(s));
+            }}
+            errorMessage={emailError}
+          />
+          <Login.password title='Password' value='비밀번호를 입력해주세요.' onChange={(s) => setPw(s)} errorMessage={pwError} />
+        </SignInInputs>
         <div
           onClick={() => {
             if (emailError || !email) return;
@@ -83,7 +92,7 @@ function SignInModal({ onLogin }: SignInModalProps) {
           <Button long>로그인</Button>
         </div>
         <Opstions>
-          <SignUpLink>회원가입</SignUpLink>
+          <SignUpLink to='/signUp'>회원가입</SignUpLink>
           <RememberMeContainer>
             <input
               type='checkbox'
