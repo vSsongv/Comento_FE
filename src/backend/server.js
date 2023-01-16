@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const db = require('./models');
 //const webSocket = require('./socket');
-//const webSocket = require('./socket');
 //const secret = require('./config/secret');
 const env = process.env.NODE_ENV || 'development';
 
@@ -51,7 +50,7 @@ db.sequelize.sync().then(() => {
 }).catch(console.error);
 
 let port;
-if (env== "development") {
+if (env == "development") {
 	port = 8080;
 } else {
 	port = secret.localPort;
