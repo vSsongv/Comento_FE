@@ -13,6 +13,7 @@ const env = process.env.NODE_ENV || 'development';
 const userRouter = require('./User/userRoute');
 const menteeRouter = require('./Mentee/menteeRoute');
 const mentoRouter = require('./Mento/mentoRoute');
+//const chatRouter = require('./Chat/chatRoute');
 
 const chatRouter = require('./Chat/chatRoute')
 const errorhandler = require("./config/errorHandler");
@@ -60,6 +61,8 @@ const server = app.listen(app.get("port"), () => {
 });
 
 
+//webSocket(server, app);
+
 //webSocket(server, app, sessionMiddleware);
 
 //app.use('/', tempRouter);
@@ -84,4 +87,5 @@ app.use(errorhandler);
 app.use((req, res, next) => {
   const error = new errorResponse(basicResponse(responseDetail.NO_ROUTER), 404);
   next(error);
+
 });

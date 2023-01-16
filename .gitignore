@@ -15,6 +15,8 @@ package-lock.json
 /src/backend/config/secret.js
 /src/backend/log
 
+/src/backend/tempimage
+
 # testing
 /coverage
 
