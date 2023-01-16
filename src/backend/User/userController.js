@@ -227,7 +227,7 @@ const member = {
         //                 });
         //                 return res.json({ statusCode: CODE.SUCCESS, msg: "issue accessToken"});
         //             }catch(error){
-        //                 console.error(error);
+        //                 logger.error(`${error.message}`);
         //                 return res.json({ statusCode: CODE.FAIL, msg:"can't issue accessToken"});
         //             }
         //         }else{

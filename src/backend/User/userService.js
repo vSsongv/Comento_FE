@@ -15,7 +15,7 @@ exports.checkEmail = async function(email){
         });
         return result; //해당 유저가 있으면 user email넘겨줌
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -30,7 +30,7 @@ exports.checkPhone = async function(cellphone){
         });
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -44,7 +44,7 @@ exports.checkNickname = async function(nickname){
         });
         return result; //해당 유저가 있으면 user nickname 넘겨줌
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -60,7 +60,7 @@ exports.createUser = async function(nickname, email, password, image, cellphone)
             cellphone
         });
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -73,7 +73,7 @@ exports.signin = async function(userInfo, loginFlag){
         let token = jwt.sign(userInfo, loginFlag, expiresIn);
         return token;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -92,7 +92,7 @@ exports.getCertNum = async function(email){
         });
         return result;
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -107,7 +107,7 @@ exports.updateUser = async function(email, password){
             }
         });
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -124,7 +124,7 @@ exports.updateCertNum = async function(email, token){
             }
         )
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -138,7 +138,7 @@ exports.createCertNum = async function(email, token, userid){
                 created: Date.now()
         })
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 };
@@ -151,7 +151,7 @@ exports.deleteCertNum = async function (email){
             }
         });
     }catch(error){
-        console.error(error);
+        logger.error(`${error.message}`);
         throw new errorResponse(detailResponse.DB_ERROR, 500);
     }
 }
