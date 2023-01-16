@@ -1,6 +1,6 @@
-import React, { useState, useRef } from "react";
-import styled from "styled-components";
-import showPassword from "../../../assets/images/ShowPassword.png";
+import React, { useState, useRef } from 'react';
+import styled from 'styled-components';
+import showPassword from '../../../assets/images/ShowPassword.png';
 
 const TextBoxLabel = styled.p`
   font-weight: bold;
@@ -49,14 +49,14 @@ const ShowPasswordBtn = styled.button`
   background-size: contain;
 `;
 const TextBoxInputStyle = {
-  backgroundColor: "transparent",
-  border: "0",
-  outlineWidth: "0",
-  color: "#858585",
-  fontFamily: "NanumGothic",
-  fontSize: "14px",
-  flexGrow: "1",
-  marginRight: "10px",
+  backgroundColor: 'transparent',
+  border: '0',
+  outlineWidth: '0',
+  color: '#858585',
+  fontFamily: 'NanumGothic',
+  fontSize: '14px',
+  flexGrow: '1',
+  marginRight: '10px',
 };
 
 interface _LoginInputProps {
@@ -86,7 +86,7 @@ export default function regular(props: RegularLoginInputProps) {
   return (
     <LoginInput
       title={props.title}
-      value={props.value ?? ""}
+      value={props.value ?? ''}
       password={false}
       doubleCheck={false}
       onChange={props.onChange ?? null}
@@ -99,7 +99,7 @@ export function password(props: RegularLoginInputProps) {
   return (
     <LoginInput
       title={props.title}
-      value={props.value ?? ""}
+      value={props.value ?? ''}
       password={true}
       doubleCheck={false}
       onChange={props.onChange ?? null}
@@ -112,7 +112,7 @@ export function doubleCheck(props: DoubleCheckLoginInputProps) {
   return (
     <LoginInput
       title={props.title}
-      value={props.value ?? ""}
+      value={props.value ?? ''}
       password={false}
       doubleCheck={true}
       onChange={props.onChange ?? null}
@@ -130,18 +130,14 @@ function LoginInput(props: _LoginInputProps) {
   const [pwEnabled, dcEnabled] = [props.password, props.doubleCheck];
 
   return (
-    <div onClick={() => ref.current?.focus()} style={{ cursor: "text", width: '493px' }}>
+    <div onClick={() => ref.current?.focus()} style={{ cursor: 'text', width: '493px' }}>
       <TextBoxLabel>{props.title}</TextBoxLabel>
       <TextBoxDiv>
         <input
-          type={showPassword ? "text" : "password"}
-          name={pwEnabled ? "password" : "loginInput"}
+          type={showPassword ? 'text' : 'password'}
+          name={pwEnabled ? 'password' : 'loginInput'}
           ref={ref}
-          style={Object.assign(
-            {},
-            TextBoxInputStyle,
-            clicked ? { color: "black" } : {}
-          )}
+          style={Object.assign({}, TextBoxInputStyle, clicked ? { color: 'black' } : {})}
           value={value}
           onChange={(e) => {
             props.onChange?.(e.target.value);
@@ -151,34 +147,25 @@ function LoginInput(props: _LoginInputProps) {
             if (!clicked) {
               pwEnabled && setShowPassword(false);
               setClicked(true);
-              setValue("");
+              setValue('');
             }
           }}
         />
-        {!pwEnabled ? (
-          <></>
-        ) : (
-          <ShowPasswordBtn onClick={() => setShowPassword(!showPassword)} />
-        )}
+        {!pwEnabled ? <></> : <ShowPasswordBtn onClick={() => setShowPassword(!showPassword)} />}
         {!dcEnabled ? (
           <></>
         ) : (
           <DoubleCheckBtn
             onClick={() => {
               clicked && props.onDoubleCheckClick?.(String(value));
-            }}
-          >
+            }}>
             중복 확인
           </DoubleCheckBtn>
         )}
       </TextBoxDiv>
 
-      <RedLine
-        style={{ backgroundColor: props.errorMessage ? "#FF0000" : "#EFEFEF" }}
-      />
-      <div style={{ height: "21px" }}>
-        {props.errorMessage && <RedText>* {props.errorMessage}</RedText>}
-      </div>
+      <RedLine style={{ backgroundColor: props.errorMessage ? '#FF0000' : '#EFEFEF' }} />
+      <div style={{ height: '21px' }}>{props.errorMessage && <RedText>* {props.errorMessage}</RedText>}</div>
     </div>
   );
 }

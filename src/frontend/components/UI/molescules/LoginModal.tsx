@@ -12,6 +12,7 @@ const Logo = styled.img`
   width: 226px;
   height: 57px;
   margin-top: 51px;
+  margin-bottom: 20px;
 `;
 
 type LoginModalProps = {
