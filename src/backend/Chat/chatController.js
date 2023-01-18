@@ -7,7 +7,7 @@ const menteeService = require("../Mentee/menteeService");
 const regNumber = /^[0-9]/;
 const chat = {
     getRoom : asyncHandler( async function(req, res, next){
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400))
 
@@ -23,9 +23,9 @@ const chat = {
         return res.send(resultResponse(detailResponse.GET_CHAT, questionContent));
     }),
     postChat: asyncHandler( async function(req, res, next){
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         const roomid = req.params.roomid;
-        const nickname = req.user.validToken.nickname;
+        const nickname = req.user.nickname;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400))
 
