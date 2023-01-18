@@ -156,7 +156,7 @@ const member = {
             const authUser = await userService.getCertNum(email);
             if(authUser) await userService.updateCertNum(email, token);      
             else{
-                await userService.createCertNum(email, token, isUser.userid);
+                await userService.createCertNum(email, token);
                 setTimeout( async() => {
                     await userService.deleteCertNum(email);
                 }, 300*1000); //300초 뒤 삭제

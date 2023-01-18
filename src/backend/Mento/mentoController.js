@@ -6,7 +6,7 @@ const errorResponse = require('../config/errorResponse');
 const regNumber = /^[0-9]/;
 const mento = {
     getQuestionList : asyncHandler(async function(req,res,next){
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
 
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
@@ -22,7 +22,7 @@ const mento = {
         return res.send(resultResponse(detailResponse.GET_QUESTION, question));
     }),
     connectMentoring : asyncHandler(async function(req, res, next){
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         const mentoringid = req.body.mentoringid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
@@ -34,7 +34,7 @@ const mento = {
         return res.send(basicResponse(detailResponse.CONNECT_MENTORING))
     }),
     getMentoringList : asyncHandler(async function(req, res, next){
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
 

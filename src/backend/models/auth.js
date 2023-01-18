@@ -10,7 +10,7 @@ module.exports = function (sequelize){
                 primaryKey: true
             },
             token: {
-                type: Sequelize.STRING(12),
+                type: Sequelize.STRING(20),
                 allowNull: false,
             },
             created: {

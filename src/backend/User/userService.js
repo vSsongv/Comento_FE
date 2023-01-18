@@ -129,13 +129,13 @@ exports.updateCertNum = async function(email, token){
     }
 };
 
-exports.createCertNum = async function(email, token, userid){
+exports.createCertNum = async function(email, token){
     try{
+        let created = Date.now();
         await Auth.create({
-                token,
-                email,
-                userid,
-                created: Date.now()
+                email : email,
+                token:token,
+                created: created
         })
     }catch(error){
         logger.error(`${error.message}`);
