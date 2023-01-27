@@ -29,19 +29,23 @@ const Chat = require('./chat')(sequelize);
 User.hasMany(Chat, {foreignKey: 'userid', sourceKey: 'userid'});
 Chat.belongsTo(User, {foreignKey: 'userid', sourceKey: 'userid'});
 
+
+
+
 // 멘토 : 채팅방 => 1:다
-User.hasMany(Room, {foreignKey: 'mentoid', sourceKey:'userid'});
-Room.belongsTo(User, {foreignKey: 'userid', sourceKey:'mentoid'})
+Mentoring.hasMany(Room, {foreignKey: 'mentoid', sourceKey:'mentoid'});
+Room.belongsTo(Mentoring, {foreignKey: 'mentoid', sourceKey:'mentoid'})
 
 // 멘티 : 채팅방 => 1:다
-User.hasMany(Room, {foreignKey: 'menteeid', sourceKey:'userid'});
-Room.belongsTo(User, {foreignKey: 'userid', sourceKey:'menteeid'})
+Mentoring.hasMany(Room, {foreignKey: 'menteeid', sourceKey:'menteeid'});
+Room.belongsTo(Mentoring, {foreignKey: 'menteeid', sourceKey:'menteeid'})
 
 Mentoring.hasOne(Room, {foreignKey: 'roomid', sourceKey: 'mentoringid'});
-Room.hasOne(Mentoring, {foreignKey: 'mentoringid', sourceKey: 'userid'});
+Room.hasOne(Mentoring, {foreignKey: 'mentoringid', sourceKey: 'roomid'});
 
 Room.hasMany(Chat, {foreignKey: 'roomid', sourceKey:'roomid'});
 Chat.belongsTo(Room, {foreignKey: 'roomid', sourceKey:'roomid'})
+
 // User: 인증번호 => 1:다
 User.hasOne(Auth, {foreignKey: 'email', sourceKey:'email'});
 Auth.belongsTo(User, {foreignKey: 'email', sourceKey:'email'});

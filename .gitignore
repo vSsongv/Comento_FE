@@ -16,6 +16,7 @@ package-lock.json
 /src/backend/log
 
 /src/backend/tempimage
+/src/profile
 
 # testing
 /coverage
