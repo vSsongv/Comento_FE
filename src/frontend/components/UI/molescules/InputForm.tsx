@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import styled from 'styled-components';
 import showPassword from '../../../assets/images/ShowPassword.png';
 
@@ -71,10 +72,27 @@ const ShowPwdBtn = styled.button`
 **/
 
 const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
+  const onSubmit: SubmitHandler<FormValue> = (data) => {
+    console.log(data);
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValue>();
+
   return (
-    <form>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Label>{label}</Label>
-      <input style={InputStyle} placeholder={placeholder} />
+      <input
+        style={InputStyle}
+        placeholder={placeholder}
+        {...register(purpose, {
+          required: `${purpose}값은 필수값입니다.`,
+        })}
+      />
+      {errors[purpose] && <small role='alert'>{errors[purpose]?.message}</small>}
       {option === '중복확인' ? <CheckNickBtn onClick={() => onSubmit}>중복확인</CheckNickBtn> : <ShowPwdBtn />}
     </form>
   );
