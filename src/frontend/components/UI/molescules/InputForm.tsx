@@ -1,7 +1,8 @@
 import React, { useRef } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import styled from 'styled-components';
 import showPassword from '../../../assets/images/ShowPassword.png';
+import { password } from './LoginInputs';
 
 interface InputFormProps {
   purpose: 'email' | 'password' | 'password_confirm' | 'nickname' | 'phone';
@@ -74,13 +75,33 @@ const ShowPwdBtn = styled.button`
 const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     console.log(data);
+    console.log('FDds', passwordRef);
   };
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormValue>();
+
+  const passwordRef = useRef<string | null>(null);
+  passwordRef.current = watch('password');
+
+  const rule: { [key: string]: FieldValues } = {
+    email: {
+      pattern: {
+        value: /\S+@\S+\.\S+/,
+        message: '이메일 형식에 맞지 않습니다.',
+      },
+    },
+    password: {
+      minLength: {
+        value: 8,
+        message: '영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
+      },
+    },
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -90,10 +111,7 @@ const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
         placeholder={placeholder}
         {...register(purpose, {
           required: `${purpose}값은 필수값입니다.`,
-          minLength: {
-            value: 8,
-            message: '영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
-          },
+          ...rule[purpose],
         })}
       />
       {errors[purpose] && <small role='alert'>{errors[purpose]?.message}</small>}
