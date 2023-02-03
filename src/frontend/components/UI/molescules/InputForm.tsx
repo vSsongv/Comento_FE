@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import showPassword from '../../../assets/images/ShowPassword.png';
 
 interface InputFormProps {
-  purpose: string;
+  purpose: 'email' | 'password' | 'password_confirm' | 'nickname' | 'phone';
   label: string;
   placeholder: string;
   rule: string;
@@ -90,6 +90,10 @@ const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
         placeholder={placeholder}
         {...register(purpose, {
           required: `${purpose}값은 필수값입니다.`,
+          minLength: {
+            value: 8,
+            message: '영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
+          },
         })}
       />
       {errors[purpose] && <small role='alert'>{errors[purpose]?.message}</small>}
