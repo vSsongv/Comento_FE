@@ -92,13 +92,25 @@ const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
     email: {
       pattern: {
         value: /\S+@\S+\.\S+/,
-        message: '이메일 형식에 맞지 않습니다.',
+        message: '* 이메일 형식에 맞지 않습니다.',
       },
     },
     password: {
-      minLength: {
-        value: 8,
-        message: '영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
+      pattern: {
+        value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+        message: '* 영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
+      },
+    },
+    nickname: {
+      pattern: {
+        value: /^[가-힣]+$^[a-zA-Z]*$/,
+        message: '* 10자 이내 영어,한글로 된 닉네임을 입력해주세요.',
+      },
+    },
+    phone: {
+      pattern: {
+        value: /^\d{3}\d{3,4}\d{4}$/,
+        message: '* 올바르지 않은 형식입니다.',
       },
     },
   };
@@ -112,10 +124,11 @@ const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
         {...register(purpose, {
           required: `${purpose}값은 필수값입니다.`,
           ...rule[purpose],
+          validate: purpose === 'password_confirm' ? (value) => value === passwordRef.current : undefined,
         })}
       />
       {errors[purpose] && <small role='alert'>{errors[purpose]?.message}</small>}
-      {option === '중복확인' ? <CheckNickBtn onClick={() => onSubmit}>중복확인</CheckNickBtn> : <ShowPwdBtn />}
+      {option === '중복확인' ? <CheckNickBtn onClick={() => onSubmit}>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn onClick={() => onSubmit}>중복확인</ShowPwdBtn> : ''}
     </form>
   );
 };
