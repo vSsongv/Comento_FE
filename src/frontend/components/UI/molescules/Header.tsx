@@ -1,4 +1,4 @@
-import { theme } from './../../../styles/theme';
+import colors from '../../../styles/colors';
 import React from 'react';
 import styled from 'styled-components';
 import { shadow } from '../../../styles/styleUtil';
@@ -36,7 +36,7 @@ const HeaderContents = styled.div`
 const Logo = styled(Link)`
   font-size: 1.4rem;
   font-weight: bold;
-  color: ${theme.color.primaryColor};
+  color: ${colors.primaryColor};
   text-decoration: none;
   cursor: pointer;
 `;

@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { RecoilRoot } from 'recoil';
 import GlobalStyle from './frontend/styles/GlobalStyle';
-import { theme } from './frontend/styles/theme';
+import colors from './frontend/styles/colors';
 import Home from './frontend/components/pages/Home';
 import SignIn from './frontend/components/pages/SignIn';
 import SignUp from './frontend/components/pages/SignUp';
@@ -16,7 +16,7 @@ function App() {
   return (
     <div className='App'>
       <RecoilRoot>
-        <ThemeProvider theme={theme}>
+        <ThemeProvider theme={colors}>
           <GlobalStyle />
           <BrowserRouter>
             <HeaderContainer />

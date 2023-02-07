@@ -1,5 +1,5 @@
 import React from 'react';
-import { theme } from './../../../styles/theme';
+import colors from '../../../styles/colors';
 import styled from 'styled-components';
 
 const FooterContents = styled.div`
@@ -18,7 +18,7 @@ const Logo = styled.div`
   padding-right: 4rem;
   font-size: 1.4rem;
   font-weight: blod;
-  color: ${theme.color.primaryColor};
+  color: ${colors.primaryColor};
 `;
 
 export default function Footer() {

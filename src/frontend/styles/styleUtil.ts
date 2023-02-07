@@ -1,5 +1,5 @@
-import { theme } from "./theme";
-import { css } from "styled-components";
+import colors from './colors';
+import { css } from 'styled-components';
 
 type sizes = {
   wide: string;
@@ -9,10 +9,10 @@ type sizes = {
 };
 
 export const sizes: sizes = {
-  wide: "1200px",
-  desktop: "992px",
-  tablet: "768px",
-  phone: "376px",
+  wide: '1200px',
+  desktop: '992px',
+  tablet: '768px',
+  phone: '376px',
 };
 
 export const shadow = (weight: number) => {
@@ -27,12 +27,10 @@ export const shadow = (weight: number) => {
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
     `,
     css`
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-        0 10px 10px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     `,
     css`
-      box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3),
-        0 15px 12px rgba(0, 0, 0, 0.22);
+      box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
     `,
   ];
 
@@ -40,9 +38,5 @@ export const shadow = (weight: number) => {
 };
 
 export const mainGradient = css`
-  background-image: linear-gradient(
-    90deg,
-    ${theme.color.firstColor},
-    ${theme.color.secondColor}
-  );
+  background-image: linear-gradient(90deg, ${colors.firstColor}, ${colors.secondColor});
 `;
