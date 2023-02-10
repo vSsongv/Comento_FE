@@ -46,3 +46,7 @@ export const mainGradient = css`
     ${theme.color.secondColor}
   );
 `;
+
+export const bottomBorder = css`
+  border-bottom: solid 0.7px rgba(168, 168, 168, 1);
+`;
