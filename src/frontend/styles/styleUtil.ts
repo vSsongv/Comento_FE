@@ -47,6 +47,21 @@ export const mainGradient = css`
   );
 `;
 
-export const bottomBorder = css`
-  border-bottom: solid 0.7px rgba(168, 168, 168, 1);
-`;
+export const border = (position: number) => {
+  const borders = [
+    css`
+      border-top: solid 0.7px rgba(168, 168, 168, 1);
+    `,
+    css`
+      border-right: solid 0.7px rgba(168, 168, 168, 1);
+    `,
+    css`
+      border-bottom: solid 0.7px rgba(168, 168, 168, 1);
+    `,
+    css`
+      border-left: solid 0.7px rgba(168, 168, 168, 1);
+    `,
+  ];
+
+  return borders[position];
+};
