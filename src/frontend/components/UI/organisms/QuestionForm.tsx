@@ -1,4 +1,4 @@
-import React, { useRef, SyntheticEvent, useEffect } from "react";
+import React, { useRef, SyntheticEvent, useEffect, useState } from "react";
 import styled from "styled-components";
 import ShadowBox from "../atoms/ShadowBox";
 import { border } from "../../../styles/styleUtil";
@@ -6,6 +6,9 @@ import QuestionTitle from "../molescules/Question/QuestionTitle";
 import QuestionContent from "../molescules/Question/QuestionContent";
 import QuestionFile from "../molescules/Question/QeustionFile";
 import SubmitIcon from "../../../assets/images/QuestionSubmit.svg";
+import DropDown from "../molescules/DropDown";
+import { Languages } from "../../utils/Languages";
+import axios from "axios";
 
 const QuestionBox = styled(ShadowBox)`
   display: flex;
@@ -14,6 +17,7 @@ const QuestionBox = styled(ShadowBox)`
   width: 70vw;
   height: 70vh;
   padding: 4vh 3vw;
+  padding-bottom: 0;
 `;
 
 const FormHead = styled.div`
@@ -53,7 +57,7 @@ const Bottom = styled.div`
   flex-direction: row;
   width: 100%;
   height: 35%;
-  padding: 0.5rem 0;
+  padding: 1rem 0;
 `;
 
 const Submit = styled.img`
@@ -63,6 +67,7 @@ const Submit = styled.img`
 `;
 
 function QuestionForm() {
+  const [language, setLanguage] = useState<string>(Languages[0]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
 
@@ -72,8 +77,22 @@ function QuestionForm() {
 
   const onSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
-    console.log(titleRef.current?.value);
-    console.log(contentRef.current?.value);
+    axios
+      .post("http://192.168.0.32:8080/mentee/question", {
+        userid: 4,
+        nickname: "김준하",
+        language: Languages.indexOf(language),
+        title: titleRef.current?.value,
+        content: contentRef.current?.value,
+      })
+      .then(() => {
+        alert("테스트성공!");
+      })
+      .catch((err) => {
+        if (err.response.status === 400) {
+          alert("이미 존재하는 게시물입니다.");
+        }
+      });
   };
 
   return (
@@ -81,6 +100,7 @@ function QuestionForm() {
       <FormHead />
       <Top>
         <QuestionTitle titleRef={titleRef} />
+        <DropDown language={language} setLanguage={setLanguage} />
         <Submit src={SubmitIcon} onClick={onSubmit} />
       </Top>
       <Middle>
