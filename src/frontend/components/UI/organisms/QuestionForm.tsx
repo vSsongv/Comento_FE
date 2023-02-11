@@ -67,30 +67,39 @@ const Submit = styled.img`
 `;
 
 function QuestionForm() {
-  const [language, setLanguage] = useState<string>(Languages[0]);
+  // const [language, setLanguage] = useState<string>(Languages[0]);
+  const languageRef = useRef<string>(Languages[0]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const formData: FormData = new FormData();
 
   useEffect(() => {
     titleRef.current?.focus();
   }, []);
 
-  const onSubmit = (e: SyntheticEvent) => {
-    e.preventDefault();
+  const onSubmit = () => {
+    console.log(formData.get("images"));
+
+    const dataSet = {
+      userid: 1,
+      nickname: "김준하",
+      language: Languages.indexOf(languageRef.current),
+      title: titleRef.current?.value,
+      content: contentRef.current?.value,
+    };
+    formData.append("data", JSON.stringify(dataSet));
+
+    console.log(formData.get("data"));
+
     axios
-      .post("http://192.168.0.32:8080/mentee/question", {
-        userid: 4,
-        nickname: "김준하",
-        language: Languages.indexOf(language),
-        title: titleRef.current?.value,
-        content: contentRef.current?.value,
-      })
-      .then(() => {
+      .post("http://192.168.0.32:8080/mentee/question", formData)
+      .then((res) => {
         alert("테스트성공!");
+        console.log(res);
       })
       .catch((err) => {
         if (err.response.status === 400) {
-          alert("이미 존재하는 게시물입니다.");
+          alert(err.response.data.message);
         }
       });
   };
@@ -100,14 +109,14 @@ function QuestionForm() {
       <FormHead />
       <Top>
         <QuestionTitle titleRef={titleRef} />
-        <DropDown language={language} setLanguage={setLanguage} />
+        <DropDown languageRef={languageRef} />
         <Submit src={SubmitIcon} onClick={onSubmit} />
       </Top>
       <Middle>
         <QuestionContent contentRef={contentRef} />
       </Middle>
       <Bottom>
-        <QuestionFile />
+        <QuestionFile formData={formData} />
       </Bottom>
     </QuestionBox>
   );

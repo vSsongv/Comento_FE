@@ -24,11 +24,11 @@ interface Props {
   titleRef: RefObject<HTMLInputElement>;
 }
 
-function QuestionTitle(props: Props) {
+function QuestionTitle({ titleRef }: Props) {
   return (
     <>
       <Title>제목</Title>
-      <TitleInput ref={props.titleRef} />
+      <TitleInput ref={titleRef} />
     </>
   );
 }
