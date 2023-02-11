@@ -1,4 +1,4 @@
-import React, { useRef, SyntheticEvent, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import styled from "styled-components";
 import ShadowBox from "../atoms/ShadowBox";
 import { border } from "../../../styles/styleUtil";
@@ -78,7 +78,7 @@ function QuestionForm() {
   }, []);
 
   const onSubmit = () => {
-    console.log(formData.get("images"));
+    console.log(formData.getAll("images"));
 
     const dataSet = {
       userid: 1,
@@ -92,7 +92,7 @@ function QuestionForm() {
     console.log(formData.get("data"));
 
     axios
-      .post("http://192.168.0.32:8080/mentee/question", formData)
+      .post("//3.37.84.147:8081/mentee/question", formData)
       .then((res) => {
         alert("테스트성공!");
         console.log(res);

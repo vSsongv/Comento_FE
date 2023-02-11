@@ -1,8 +1,9 @@
-import React, { useState, RefObject } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { border } from "../../../../styles/styleUtil";
 import Drag_files_to_upload from "../../../../assets/images/Drag_files_to_upload.png";
 import ImageUpload from "../../../../assets/images/imageUpload.png";
+import Image from "../../atoms/Image";
 
 const UploadBox = styled.div`
   width: 20%;
@@ -23,11 +24,6 @@ const UploadHidden = styled.input`
   display: none;
 `;
 
-const Image = styled.img`
-  width: 9rem;
-  margin: 0 1rem;
-`;
-
 interface Props {
   formData: FormData;
 }
@@ -35,7 +31,18 @@ interface Props {
 function QuestionFile({ formData }: Props) {
   const [imageList, setImageList] = useState<string[]>([]);
 
-  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const fileDelete = (deleteIndex: number): void => {
+    const newFileList = formData
+      .getAll("images")
+      .filter((item, index) => index !== deleteIndex);
+    formData.delete("images");
+    for (let i = 0; i < newFileList.length; i++) {
+      formData.append("images", newFileList[i]);
+    }
+    setImageList(imageList.filter((item, index) => index !== deleteIndex));
+  };
+
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const fileList = e.target.files;
     const nowImageList = [...imageList];
     if (fileList && fileList[0]) {
@@ -48,7 +55,7 @@ function QuestionFile({ formData }: Props) {
         const nowImageUrl: string = URL.createObjectURL(fileList[i]);
         nowImageList.push(nowImageUrl);
 
-        console.log(formData.get("images"));
+        console.log(formData.getAll("images"));
       }
       setImageList(nowImageList);
     }
@@ -72,9 +79,7 @@ function QuestionFile({ formData }: Props) {
           multiple
         />
       </UploadBox>
-      {imageList.map((url: string) => {
-        return <Image key={url} src={url} />;
-      })}
+      <Image imageList={imageList} fileDelete={fileDelete} />
     </>
   );
 }
