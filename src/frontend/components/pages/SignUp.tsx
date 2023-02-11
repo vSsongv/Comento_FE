@@ -1,11 +1,11 @@
 import React from 'react';
-import SignUp from '../templates/SignUp';
+import SignUpTemplate from '../templates/SignUp';
 
-function SingUp() {
+function SignUp() {
   return (
     <>
-      <SignUp />
+      <SignUpTemplate />
     </>
   );
 }
-export default SingUp;
+export default SignUp;

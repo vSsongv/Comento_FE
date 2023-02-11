@@ -28,9 +28,12 @@ const ImageAddBtnContainer = styled.div<ImageAddFormProps>`
   width: ${(props) => props.width || 204}px;
   height: ${(props) => props.height || 204}px;
   position: relative;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 30px;
 `;
 
-const [profile, setprofile] = useState<string>(SignupDefaultImage);
+// const [profile, setprofile] = useState<string>(SignupDefaultImage);
 
 const ImageArea = styled.div`
   height: 100%;
@@ -38,7 +41,8 @@ const ImageArea = styled.div`
   border: 0;
   border-radius: 100px;
   background-size: 100%;
-  background-image: url(${profile});
+  /* background-image: url('profile값써야됨'); */
+  background-image: url(${SignupDefaultImage});
   cursor: pointer;
 `;
 

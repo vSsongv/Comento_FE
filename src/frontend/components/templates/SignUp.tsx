@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from '../UI/atoms/Button';
 import ImageAddForm from '../UI/molescules/ImageAddForm';
-import InputForm from '../UI/molescules/InputForm';
 import SignLogo from '../../assets/images/SignLogo.png';
 import SignUpInputs from '../UI/organisms/SignUpInputs';
 
@@ -18,8 +17,6 @@ const SignUpContainer = styled.div`
   padding-right: 140px;
   text-align: center;
 `;
-
-const InputContainer = styled.div``;
 
 const SignUp = () => {
   return (
