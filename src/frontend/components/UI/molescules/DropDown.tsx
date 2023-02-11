@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { MutableRefObject, useState } from "react";
 import styled from "styled-components";
 import { border } from "../../../styles/styleUtil";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
@@ -28,11 +28,10 @@ const ChoiceButton = styled.div`
 `;
 
 interface Props {
-  language: string;
-  setLanguage: React.Dispatch<React.SetStateAction<string>>;
+  languageRef: MutableRefObject<string>;
 }
 
-function DropDown({ language, setLanguage }: Props) {
+function DropDown({ languageRef }: Props) {
   const [choosing, setChoosing] = useState<boolean>(false);
 
   const choosingToggle = () => {
@@ -42,11 +41,11 @@ function DropDown({ language, setLanguage }: Props) {
   return (
     <ChoiceBox onClick={choosingToggle}>
       <ChoiceButton>
-        {language}
+        {languageRef.current}
         {choosing ? <IoIosArrowUp /> : <IoIosArrowDown />}
       </ChoiceButton>
       {choosing ? (
-        <DropDownList width="100%" top="4rem" setLanguage={setLanguage} />
+        <DropDownList width="100%" top="4rem" languageRef={languageRef} />
       ) : null}
     </ChoiceBox>
   );

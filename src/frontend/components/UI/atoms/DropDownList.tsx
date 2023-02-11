@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MutableRefObject } from "react";
 import styled, { css } from "styled-components";
 import { Languages } from "../../utils/Languages";
 import { shadow } from "../../../styles/styleUtil";
@@ -33,12 +33,13 @@ const Li = styled.li`
 interface Props {
   width: string;
   top: string;
-  setLanguage: React.Dispatch<React.SetStateAction<string>>;
+  languageRef: MutableRefObject<string>;
+  // setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function DropDownList({ setLanguage, ...dropDownProps }: Props) {
+function DropDownList({ languageRef, ...dropDownProps }: Props) {
   const changeLanguage = (language: string) => {
-    setLanguage(language);
+    languageRef.current = language;
   };
 
   const LanguageList: JSX.Element[] = Languages.map((language) => {
