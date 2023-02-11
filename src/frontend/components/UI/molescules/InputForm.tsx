@@ -2,15 +2,12 @@ import React, { useRef } from 'react';
 import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
 import styled from 'styled-components';
 import showPassword from '../../../assets/images/ShowPassword.png';
-import { password } from './LoginInputs';
 
 interface InputFormProps {
   purpose: 'email' | 'password' | 'password_confirm' | 'nickname' | 'phone';
   label: string;
   placeholder: string;
-  rule: string;
   option?: string;
-  message: string;
 }
 
 interface FormValue {
@@ -21,10 +18,22 @@ interface FormValue {
   phone: number;
 }
 
+const InputFormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+`;
+
 const Label = styled.label`
   font-family: 'NanumGothic';
   font-weight: 600;
   color: #858585;
+  margin-bottom: 6px;
+  text-align: left;
 `;
 
 const InputStyle = {
@@ -45,6 +54,12 @@ const CheckNickBtn = styled.button`
   width: 57px;
   text-decoration: underline;
   cursor: pointer;
+  border: none;
+  background-color: transparent;
+  position: absolute;
+  padding-top: 5%;
+  margin-right: 5%;
+  right: 0;
 `;
 
 const ShowPwdBtn = styled.button`
@@ -54,6 +69,10 @@ const ShowPwdBtn = styled.button`
   height: 27px;
   cursor: pointer;
   background-size: contain;
+  position: absolute;
+  margin-top: 3.5%;
+  margin-right: 5%;
+  right: 0;
 `;
 
 /**
@@ -116,20 +135,26 @@ const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <InputFormContainer onSubmit={handleSubmit(onSubmit)}>
       <Label>{label}</Label>
-      <input
-        style={InputStyle}
-        placeholder={placeholder}
-        {...register(purpose, {
-          required: `${purpose}값은 필수값입니다.`,
-          ...rule[purpose],
-          validate: purpose === 'password_confirm' ? (value) => value === passwordRef.current : undefined,
-        })}
-      />
-      {errors[purpose] && <small role='alert'>{errors[purpose]?.message}</small>}
-      {option === '중복확인' ? <CheckNickBtn onClick={() => onSubmit}>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn onClick={() => onSubmit}>중복확인</ShowPwdBtn> : ''}
-    </form>
+      <Wrapper>
+        <input
+          style={InputStyle}
+          placeholder={placeholder}
+          {...register(purpose, {
+            required: `${purpose}값은 필수값입니다.`,
+            ...rule[purpose],
+            validate: purpose === 'password_confirm' ? (value) => value === passwordRef.current : undefined,
+          })}
+        />
+        {option === '중복확인' ? <CheckNickBtn onClick={() => onSubmit}>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn onClick={() => onSubmit}></ShowPwdBtn> : ''}
+      </Wrapper>
+      {errors[purpose] && (
+        <small style={{ color: 'red', textAlign: 'right', marginTop: '5px' }} role='alert'>
+          *{errors[purpose]?.message}
+        </small>
+      )}
+    </InputFormContainer>
   );
 };
 
