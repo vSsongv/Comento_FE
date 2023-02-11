@@ -54,8 +54,6 @@ function QuestionFile({ formData }: Props) {
         formData.append("images", fileList[i]);
         const nowImageUrl: string = URL.createObjectURL(fileList[i]);
         nowImageList.push(nowImageUrl);
-
-        console.log(formData.getAll("images"));
       }
       setImageList(nowImageList);
     }

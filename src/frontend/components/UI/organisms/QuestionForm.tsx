@@ -78,8 +78,6 @@ function QuestionForm() {
   }, []);
 
   const onSubmit = () => {
-    console.log(formData.getAll("images"));
-
     const dataSet = {
       userid: 1,
       nickname: "김준하",
@@ -88,8 +86,6 @@ function QuestionForm() {
       content: contentRef.current?.value,
     };
     formData.append("data", JSON.stringify(dataSet));
-
-    console.log(formData.get("data"));
 
     axios
       .post("//3.37.84.147:8081/mentee/question", formData)
