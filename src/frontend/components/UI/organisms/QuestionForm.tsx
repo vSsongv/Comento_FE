@@ -78,6 +78,19 @@ function QuestionForm() {
   }, []);
 
   const onSubmit = () => {
+    if (titleRef.current?.value === "") {
+      alert("제목을 입력해주세요.");
+      titleRef.current.focus();
+      return;
+    } else if (contentRef.current?.value === "") {
+      alert("내용을 입력해주세요.");
+      contentRef.current.focus();
+      return;
+    } else if (languageRef.current === Languages[0]) {
+      alert("질문 언어를 선택해주세요.");
+      return;
+    }
+
     const dataSet = {
       userid: 1,
       nickname: "김준하",
