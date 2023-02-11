@@ -7,7 +7,7 @@ type ButtonProps = {
   children: React.ReactNode;
   color: string;
   backgroundColor: string;
-  long: boolean;
+  width: number;
   gradient: boolean;
   border: boolean;
 };
@@ -24,7 +24,7 @@ const StyledButton = styled.button<ButtonProps>`
   ${(props) => {
     const COLOR = props.color;
     const BACKGROUND_COLOR = props.backgroundColor;
-    const LONG = props.long;
+    const WIDTH = props.width;
     const BORDER = props.border;
     const GRADIENT = props.gradient;
     return css`
@@ -34,7 +34,8 @@ const StyledButton = styled.button<ButtonProps>`
       border: none;
       border-radius: 25px;
       color: ${COLOR};
-      font-weight: 700;
+      font-weight: 00;
+      font-family: 'NanumGothic';
       cursor: pointer;
       text-align: center;
       ${BORDER &&
@@ -44,10 +45,7 @@ const StyledButton = styled.button<ButtonProps>`
       `}
       /* 크기 */
       padding: 1rem 2rem;
-      ${LONG &&
-      css`
-        padding: 1rem 5rem;
-      `}
+      width: ${WIDTH}px;
       height: auto;
       font-size: 1rem;
       /* 색상 */
