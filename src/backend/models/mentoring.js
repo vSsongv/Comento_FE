@@ -1,8 +1,10 @@
-const { Sequelize, DataTypes, INTEGER  } = require('sequelize');
-const models = require('../models');
+const { Sequelize, DataTypes, INTEGER } = require("sequelize");
+const models = require("../models");
 
-module.exports = function(sequelize){
-    const mentoring = sequelize.define('Mentoring',{
+module.exports = function (sequelize) {
+  const mentoring = sequelize.define(
+    "Mentoring",
+    {
       mentoringid: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -11,7 +13,7 @@ module.exports = function(sequelize){
       date: {
         type: Sequelize.DATE,
         allowNull: true,
-        defaultValue: new Date()
+        defaultValue: new Date(),
       },
       language: {
         type: Sequelize.INTEGER,
@@ -20,12 +22,11 @@ module.exports = function(sequelize){
       mentoid: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        unique:true
+        unique: true,
       },
       menteeid: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        unique:true
       },
       title: {
         type: Sequelize.STRING(100),
@@ -36,14 +37,14 @@ module.exports = function(sequelize){
         allowNull: false,
       },
       content_image: {
-        type: Sequelize.STRING(500),
+        type: Sequelize.JSON,
         allowNull: true,
       },
-      status:{
+      status: {
         type: Sequelize.CHAR(1),
         allowNull: true,
-        defaultValue: 'N' // N이면 멘토링 시작 전, I이면 멘토링중, F이면 멘토링 끝
-      }
+        defaultValue: "N", // N이면 멘토링 시작 전, I이면 멘토링중, F이면 멘토링 끝
+      },
     },
     {
       sequelize,
@@ -54,9 +55,8 @@ module.exports = function(sequelize){
       tableName: "mentoring",
       charset: "utf8",
       collate: "utf8_general_ci",
-    })
+    }
+  );
 
-    return mentoring;
-}
-
-
+  return mentoring;
+};
