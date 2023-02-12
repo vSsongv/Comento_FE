@@ -77,7 +77,7 @@ function QuestionForm() {
     titleRef.current?.focus();
   }, []);
 
-  const onSubmit = () => {
+  const onSubmit = (): void => {
     if (titleRef.current?.value === "") {
       alert("제목을 입력해주세요.");
       titleRef.current.focus();
@@ -100,6 +100,7 @@ function QuestionForm() {
     };
     formData.append("data", JSON.stringify(dataSet));
 
+    //TODO: axios 모듈화하기
     axios
       .post("//3.37.84.147:8081/mentee/question", formData)
       .then((res) => {
