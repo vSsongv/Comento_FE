@@ -1,13 +1,17 @@
-import React, { useRef } from 'react';
-import { useForm, SubmitHandler, FieldValues } from 'react-hook-form';
+import React, { RefObject, useRef, useState } from 'react';
+import { useForm, SubmitHandler, FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
 import styled from 'styled-components';
-import showPassword from '../../../assets/images/ShowPassword.png';
+import showPasswordImg from '../../../assets/images/ShowPassword.png';
+import hidePasswordImg from '../../../assets/images/hidePassword.png';
+import { password } from './LoginInputs';
 
 interface InputFormProps {
   purpose: 'email' | 'password' | 'password_confirm' | 'nickname' | 'phone';
   label: string;
   placeholder: string;
   option?: string;
+  reg: UseFormRegister<FormValue>;
+  error: FieldErrors<FormValue>;
 }
 
 interface FormValue {
@@ -18,11 +22,9 @@ interface FormValue {
   phone: number;
 }
 
-const InputFormContainer = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
-`;
+interface PwdState {
+  state: string;
+}
 
 const Wrapper = styled.div`
   position: relative;
@@ -62,9 +64,9 @@ const CheckNickBtn = styled.button`
   right: 0;
 `;
 
-const ShowPwdBtn = styled.button`
+const ShowPwdBtn = styled.button<PwdState>`
   border: 0;
-  background-image: url(${showPassword});
+  background-image: url(${(props) => (props.state === 'password' ? showPasswordImg : hidePasswordImg)});
   width: 21px;
   height: 27px;
   cursor: pointer;
@@ -91,18 +93,19 @@ const ShowPwdBtn = styled.button`
  * </View>
 **/
 
-const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
+const InputForm = ({ purpose, label, placeholder, option, reg, error }: InputFormProps) => {
+  const [type, setType] = useState(purpose === 'password' || purpose === 'password_confirm' ? 'password' : 'text');
+
+  const showPwd = () => {
+    type === 'password' ? setType('text') : setType('password');
+  };
+
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     console.log(data);
     console.log('FDds', passwordRef);
   };
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<FormValue>();
+  const { handleSubmit, watch } = useForm<FormValue>();
 
   const passwordRef = useRef<string | null>(null);
   passwordRef.current = watch('password');
@@ -111,50 +114,51 @@ const InputForm = ({ purpose, label, placeholder, option }: InputFormProps) => {
     email: {
       pattern: {
         value: /\S+@\S+\.\S+/,
-        message: '* 이메일 형식에 맞지 않습니다.',
+        message: '이메일 형식에 맞지 않습니다.',
       },
     },
     password: {
       pattern: {
         value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        message: '* 영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
+        message: '영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
       },
     },
     nickname: {
       pattern: {
         value: /^[가-힣]+$^[a-zA-Z]*$/,
-        message: '* 10자 이내 영어,한글로 된 닉네임을 입력해주세요.',
+        message: '10자 이내 영어,한글로 된 닉네임을 입력해주세요.',
       },
     },
     phone: {
       pattern: {
         value: /^\d{3}\d{3,4}\d{4}$/,
-        message: '* 올바르지 않은 형식입니다.',
+        message: '올바르지 않은 형식입니다.',
       },
     },
   };
 
   return (
-    <InputFormContainer onSubmit={handleSubmit(onSubmit)}>
+    <>
       <Label>{label}</Label>
       <Wrapper>
         <input
+          type={type}
           style={InputStyle}
           placeholder={placeholder}
-          {...register(purpose, {
+          {...reg(purpose, {
             required: `${purpose}값은 필수값입니다.`,
             ...rule[purpose],
-            validate: purpose === 'password_confirm' ? (value) => value === passwordRef.current : undefined,
+            validate: purpose === 'password_confirm' ? { value: (value) => value === passwordRef.current, message: '패스워드가 일치하지 않습니다.' } : undefined,
           })}
         />
-        {option === '중복확인' ? <CheckNickBtn onClick={() => onSubmit}>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn onClick={() => onSubmit}></ShowPwdBtn> : ''}
+        {option === '중복확인' ? <CheckNickBtn type='button'>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn type='button' state={type} onClick={showPwd}></ShowPwdBtn> : ''}
       </Wrapper>
-      {errors[purpose] && (
+      {error[purpose] && (
         <small style={{ color: 'red', textAlign: 'right', marginTop: '5px' }} role='alert'>
-          *{errors[purpose]?.message}
+          *{error[purpose]?.message}
         </small>
       )}
-    </InputFormContainer>
+    </>
   );
 };
 
