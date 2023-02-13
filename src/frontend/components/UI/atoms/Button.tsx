@@ -38,6 +38,8 @@ const StyledButton = styled.button<ButtonProps>`
       font-family: 'NanumGothic';
       cursor: pointer;
       text-align: center;
+      margin: auto;
+      margin-top: 20px;
       ${BORDER &&
       css`
         border: 1px solid;
