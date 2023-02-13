@@ -1,21 +1,22 @@
-import React, { RefObject, useRef, useState } from 'react';
-import { useForm, SubmitHandler, FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
+import React, { useState } from 'react';
+import { SubmitHandler, FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
 import styled from 'styled-components';
 import showPasswordImg from '../../../assets/images/ShowPassword.png';
 import hidePasswordImg from '../../../assets/images/hidePassword.png';
-import { password } from './LoginInputs';
 
 interface InputFormProps {
-  purpose: 'email' | 'password' | 'password_confirm' | 'nickname' | 'phone';
+  purpose: 'email' | 'password' | 'password_signin' | 'password_confirm' | 'nickname' | 'phone';
   label: string;
   placeholder: string;
   option?: string;
+  crtPassword?: string;
   reg: UseFormRegister<FormValue>;
   error: FieldErrors<FormValue>;
 }
 
 interface FormValue {
   email: string;
+  password_signin: string;
   password: string;
   password_confirm: string;
   nickname: string;
@@ -28,6 +29,7 @@ interface PwdState {
 
 const Wrapper = styled.div`
   position: relative;
+  margin-bottom: 15px;
 `;
 
 const Label = styled.label`
@@ -93,8 +95,9 @@ const ShowPwdBtn = styled.button<PwdState>`
  * </View>
 **/
 
-const InputForm = ({ purpose, label, placeholder, option, reg, error }: InputFormProps) => {
-  const [type, setType] = useState(purpose === 'password' || purpose === 'password_confirm' ? 'password' : 'text');
+const InputForm = ({ purpose, label, placeholder, option, reg, error, crtPassword }: InputFormProps) => {
+  const isPwd = purpose === 'password' || purpose === 'password_confirm' || purpose === 'password_signin';
+  const [type, setType] = useState(isPwd ? 'password' : 'text');
 
   const showPwd = () => {
     type === 'password' ? setType('text') : setType('password');
@@ -102,37 +105,35 @@ const InputForm = ({ purpose, label, placeholder, option, reg, error }: InputFor
 
   const onSubmit: SubmitHandler<FormValue> = (data) => {
     console.log(data);
-    console.log('FDds', passwordRef);
   };
 
-  const { handleSubmit, watch } = useForm<FormValue>();
-
-  const passwordRef = useRef<string | null>(null);
-  passwordRef.current = watch('password');
+  const checkPwd = (value: string | number) => {
+    return value === crtPassword || '* 비밀번호가 다릅니다.';
+  };
 
   const rule: { [key: string]: FieldValues } = {
     email: {
       pattern: {
         value: /\S+@\S+\.\S+/,
-        message: '이메일 형식에 맞지 않습니다.',
+        message: '* 이메일 형식에 맞지 않습니다.',
       },
     },
     password: {
       pattern: {
         value: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
-        message: '영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
+        message: '* 영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.',
       },
     },
     nickname: {
       pattern: {
-        value: /^[가-힣]+$^[a-zA-Z]*$/,
-        message: '10자 이내 영어,한글로 된 닉네임을 입력해주세요.',
+        value: /^[A-Za-z가-힣]{1,10}$/,
+        message: '* 10자 이내 영어,한글로 된 닉네임을 입력해주세요.',
       },
     },
     phone: {
       pattern: {
         value: /^\d{3}\d{3,4}\d{4}$/,
-        message: '올바르지 않은 형식입니다.',
+        message: '* 올바르지 않은 형식입니다.',
       },
     },
   };
@@ -146,16 +147,16 @@ const InputForm = ({ purpose, label, placeholder, option, reg, error }: InputFor
           style={InputStyle}
           placeholder={placeholder}
           {...reg(purpose, {
-            required: `${purpose}값은 필수값입니다.`,
+            required: `* ${purpose}값은 필수값입니다.`,
             ...rule[purpose],
-            validate: purpose === 'password_confirm' ? { value: (value) => value === passwordRef.current, message: '패스워드가 일치하지 않습니다.' } : undefined,
+            validate: purpose === 'password_confirm' ? (value) => checkPwd(value) : undefined,
           })}
         />
         {option === '중복확인' ? <CheckNickBtn type='button'>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn type='button' state={type} onClick={showPwd}></ShowPwdBtn> : ''}
       </Wrapper>
       {error[purpose] && (
         <small style={{ color: 'red', textAlign: 'right', marginTop: '5px' }} role='alert'>
-          *{error[purpose]?.message}
+          {error[purpose]?.message}
         </small>
       )}
     </>
