@@ -1,6 +1,6 @@
-import { atom } from 'recoil';
+import { atom } from "recoil";
 
 export const headerVisibilityAtom = atom({
-  key: 'headerVisibilityState',
+  key: "headerVisibilityState",
   default: 1,
 });

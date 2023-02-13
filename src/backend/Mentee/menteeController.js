@@ -9,8 +9,8 @@ const regNumber = /^[0-9]/;
 const mentee = {
     postQuestion : asyncHandler(async function(req, res, next){
         const {language, title, content} = req.body; //이미지 나중에 고려
-        const userIdx = req.user.validToken.userid;
-        const nickname = req.user.validToken.nickname;
+        const userIdx = req.user.userid;
+        const nickname = req.user.nickname;
 
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         
@@ -36,7 +36,7 @@ const mentee = {
         return res.send(resultResponse(detailResponse.POST_QUESTION, newRoom)); //response받음과 동시에 `/room/${newRoom}` 으로 redirect시키기
     }),
     getQuestion : asyncHandler(async function(req, res, next){
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
 
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400))
@@ -47,7 +47,7 @@ const mentee = {
         return res.send(resultResponse(detailResponse.GET_QUESTION, question));
     }),
     getFinishQuestion : asyncHandler(async function(req, res, next){
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
 
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400))
@@ -59,7 +59,7 @@ const mentee = {
     }),
     modifyQuestion : asyncHandler(async function(req, res, next){
 
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         const {questionid,title, content, language} = req.body;
         if(!questionid) return next(new errorResponse(basicResponse(detailResponse.EMPTY_QUESTIONID)));
 
@@ -77,7 +77,7 @@ const mentee = {
         return res.send(basicResponse(detailResponse.MODIFY_SUCCESS))
     }),
     deleteQuestion : asyncHandler(async function(req,res, next){
-        const userIdx = req.user.validToken.userid;
+        const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
 
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));

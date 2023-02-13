@@ -13,7 +13,6 @@ const authUtil = {
         if (user.result === TOKEN_EXPIRED ||  user.result === TOKEN_INVALID || !(user.validToken) )
         return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
         req.user = user.validToken;
-        req.nickname = user.validToken.nickname;
         next();
     },
     checkMento : async (req, res, next) => {

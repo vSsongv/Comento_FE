@@ -21,7 +21,7 @@ router.post('/chat/:roomid', checkToken, chatController.postChat); //ㅁ
 // })
 
 // router.post('/room', async(req, res, next) => {
-//     const menteeid = req.user.validToken.userid;
+//     const menteeid = req.user.userid;
 //     if(!menteeid) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
 
 //     const newRoom = await Room.create({menteeid});
