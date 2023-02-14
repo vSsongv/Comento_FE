@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import MainBtns from '../templates/Home/MainBtns';
-import MainFirst from '../templates/Home/MainFirst';
-import FAQbox from '../templates/Home/FAQbox';
-import MainAdvantage from '../templates/Home/MainAdvantage';
-import MainBlack from '../templates/Home/MainBlack';
-import MainMentos from '../templates/Home/MainMentos';
-import MainPush from '../templates/Home/MainPush';
-import Qna from '../templates/Home/Qna';
+import FAQbox from '../components/templates/Home/FAQbox';
+import MainAdvantage from '../components/templates/Home/MainAdvantage';
+import MainBlack from '../components/templates/Home/MainBlack';
+import MainBtns from '../components/templates/Home/MainBtns';
+import MainFirst from '../components/templates/Home/MainFirst';
+import MainMentos from '../components/templates/Home/MainMentos';
+import MainPush from '../components/templates/Home/MainPush';
+import Qna from '../components/templates/Home/Qna';
 
 const ScrollBtn = styled.div`
   position: fixed;
@@ -18,27 +18,32 @@ const ScrollBtn = styled.div`
 
 export default function Home() {
   const [showBtn, setShowBtn] = useState(false);
-  const scrollBtn = () => {  
-    window.scroll({ behavior: 'smooth' })
-  }
+  const scrollBtn = () => {
+    window.scroll({ behavior: 'smooth' });
+  };
   useEffect(() => {
     const ShowBtnClick = () => {
-      if(window.scrollY > 500){ setShowBtn(true) }
-      else{ setShowBtn(false) }
-    }
-    window.addEventListener("scroll", ShowBtnClick)
+      if (window.scrollY > 500) {
+        setShowBtn(true);
+      } else {
+        setShowBtn(false);
+      }
+    };
+    window.addEventListener('scroll', ShowBtnClick);
     return () => {
-      window.removeEventListener("scroll", ShowBtnClick)
-    }
-  }, [])
+      window.removeEventListener('scroll', ShowBtnClick);
+    };
+  }, []);
 
   return (
     <div>
-      {showBtn && 
+      {showBtn && (
         <div>
-          <ScrollBtn><MainBtns /></ScrollBtn>
+          <ScrollBtn>
+            <MainBtns />
+          </ScrollBtn>
         </div>
-      }
+      )}
       <MainFirst />
       <MainBlack />
       <Qna />
