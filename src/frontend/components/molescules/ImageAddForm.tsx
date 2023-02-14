@@ -1,7 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import SignupDefaultImage from '../../../assets/images/SignupDefaultImage.png';
-import AddBtnImage from '../../../assets/images/AddBtnImage.png';
+import SignupDefaultImage from '../../assets/images/SignupDefaultImage.png';
+import AddBtnImage from '../../assets/images/AddBtnImage.png';
 
 interface ImageAddFormProps {
   width?: number;

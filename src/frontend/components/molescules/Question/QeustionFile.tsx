@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { border } from "../../../../styles/styleUtil";
-import Drag_files_to_upload from "../../../../assets/images/Drag_files_to_upload.png";
-import ImageUpload from "../../../../assets/images/imageUpload.png";
-import Image from "../../atoms/Image";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { border } from '../../../styles/styleUtil';
+import Drag_files_to_upload from '../../../assets/images/Drag_files_to_upload.png';
+import ImageUpload from '../../../assets/images/imageUpload.png';
+import Image from '../../atoms/Image';
 
 const UploadBox = styled.div`
   width: 20%;
@@ -32,12 +32,10 @@ function QuestionFile({ formData }: Props) {
   const [imageList, setImageList] = useState<string[]>([]);
 
   const fileDelete = (deleteIndex: number): void => {
-    const newFileList = formData
-      .getAll("images")
-      .filter((item, index) => index !== deleteIndex);
-    formData.delete("images");
+    const newFileList = formData.getAll('images').filter((item, index) => index !== deleteIndex);
+    formData.delete('images');
     for (let i = 0; i < newFileList.length; i++) {
-      formData.append("images", newFileList[i]);
+      formData.append('images', newFileList[i]);
     }
     setImageList(imageList.filter((item, index) => index !== deleteIndex));
   };
@@ -47,11 +45,11 @@ function QuestionFile({ formData }: Props) {
     const nowImageList = [...imageList];
     if (fileList && fileList[0]) {
       if (imageList.length + fileList.length > 4) {
-        alert("등록할 수 있는 사진은 최대 4개입니다.");
+        alert('등록할 수 있는 사진은 최대 4개입니다.');
         return;
       }
       for (let i = 0; i < fileList.length; i++) {
-        formData.append("images", fileList[i]);
+        formData.append('images', fileList[i]);
         const nowImageUrl: string = URL.createObjectURL(fileList[i]);
         nowImageList.push(nowImageUrl);
       }
@@ -62,20 +60,13 @@ function QuestionFile({ formData }: Props) {
   return (
     <>
       <UploadBox>
-        <label htmlFor="file">
+        <label htmlFor='file'>
           <CustomInput>
             <img src={ImageUpload} />
             <img src={Drag_files_to_upload} />
           </CustomInput>
         </label>
-        <UploadHidden
-          type="file"
-          name="file"
-          id="file"
-          accept=".jpg, .jpeg, .png, .img"
-          onChange={handleFile}
-          multiple
-        />
+        <UploadHidden type='file' name='file' id='file' accept='.jpg, .jpeg, .png, .img' onChange={handleFile} multiple />
       </UploadBox>
       <Image imageList={imageList} fileDelete={fileDelete} />
     </>

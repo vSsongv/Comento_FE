@@ -6,7 +6,6 @@ import MainBlack from './Home/MainBlack';
 import MainMentos from './Home/MainMentos';
 import MainPush from './Home/MainPush';
 import Qna from './Home/Qna';
-import ImageAddForm from '../UI/molescules/ImageAddForm';
 
 function Home() {
   return (

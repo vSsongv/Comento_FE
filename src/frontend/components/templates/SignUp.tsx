@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import Button from '../UI/atoms/Button';
-import ImageAddForm from '../UI/molescules/ImageAddForm';
+import Button from '../atoms/Button';
+import ImageAddForm from '../molescules/ImageAddForm';
 import SignLogo from '../../assets/images/SignLogo.png';
-import InputForm from '../UI/molescules/InputForm';
+import InputForm from '../molescules/InputForm';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 interface FormValue {

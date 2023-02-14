@@ -4,13 +4,13 @@ import { ThemeProvider } from 'styled-components';
 import { RecoilRoot } from 'recoil';
 import GlobalStyle from './frontend/styles/GlobalStyle';
 import colors from './frontend/styles/colors';
-import Home from './frontend/components/pages/Home';
-import SignIn from './frontend/components/pages/SignIn';
-import SignUp from './frontend/components/pages/SignUp';
-import HeaderContainer from './frontend/components/UI/organisms/HeaderContainer';
-import Question from './frontend/components/pages/Question';
-import Answer from './frontend/components/pages/Answer';
-import Footer from './frontend/components/UI/molescules/Footer';
+import Home from './frontend/pages/Home';
+import SignIn from './frontend/pages/SignIn';
+import SignUp from './frontend/pages/SignUp';
+import HeaderContainer from './frontend/components/organisms/HeaderContainer';
+import Question from './frontend/pages/Question';
+import Answer from './frontend/pages/Answer';
+import Footer from './frontend/components/molescules/Footer';
 
 function App() {
   return (

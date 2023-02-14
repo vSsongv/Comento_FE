@@ -1,5 +1,5 @@
 import React from 'react';
-import SignUpTemplate from '../templates/SignUp';
+import SignUpTemplate from '../components/templates/SignUp';
 
 function SignUp() {
   return (

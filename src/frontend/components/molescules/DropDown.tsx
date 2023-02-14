@@ -1,8 +1,8 @@
-import React, { MutableRefObject, useState } from "react";
-import styled from "styled-components";
-import { border } from "../../../styles/styleUtil";
-import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import DropDownList from "../atoms/DropDownList";
+import React, { MutableRefObject, useState } from 'react';
+import styled from 'styled-components';
+import { border } from '../../styles/styleUtil';
+import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
+import DropDownList from '../atoms/DropDownList';
 
 const ChoiceBox = styled.div`
   position: relative;
@@ -44,9 +44,7 @@ function DropDown({ languageRef }: Props) {
         {languageRef.current}
         {choosing ? <IoIosArrowUp /> : <IoIosArrowDown />}
       </ChoiceButton>
-      {choosing ? (
-        <DropDownList width="100%" top="4rem" languageRef={languageRef} />
-      ) : null}
+      {choosing ? <DropDownList width='100%' top='4rem' languageRef={languageRef} /> : null}
     </ChoiceBox>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import defaultProfile from '../../../assets/images/defaultProfile.svg';
+import defaultProfile from '../../assets/images/defaultProfile.svg';
 
 const BlackLayout = styled.div`
   display: flex;

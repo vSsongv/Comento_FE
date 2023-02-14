@@ -1,10 +1,10 @@
 import React from 'react';
-import Button from '../UI/atoms/Button';
+import Button from '../atoms/Button';
 import SignLogo from '../../assets/images/SignLogo.png';
 import toSignUp from '../../assets/images/signup.png';
 import styled from 'styled-components';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import InputForm from '../UI/molescules/InputForm';
+import InputForm from '../molescules/InputForm';
 import { Link } from 'react-router-dom';
 
 interface FormValue {

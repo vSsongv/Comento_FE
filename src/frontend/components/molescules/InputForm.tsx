@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { SubmitHandler, FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
 import styled from 'styled-components';
-import showPasswordImg from '../../../assets/images/ShowPassword.png';
-import hidePasswordImg from '../../../assets/images/hidePassword.png';
+import hidePasswordImg from '../../assets/images/hidePassword.png';
+import showPasswordImg from '../../assets/images/ShowPassword.png';
 
 interface InputFormProps {
   purpose: 'email' | 'password' | 'password_signin' | 'password_confirm' | 'nickname' | 'phone';

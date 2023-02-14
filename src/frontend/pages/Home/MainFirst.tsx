@@ -1,8 +1,8 @@
-import titleImage from '../../../assets/images/MainFirstTitle.png';
-import arrowImage from '../../../assets/images/MainFirstButtonArrow.png';
 import React from 'react';
+import titleImage from '../../assets/images/MainFirstTitle.png';
+import arrowImage from '../../assets/images/MainFirstButtonArrow.png';
 import styled from 'styled-components';
-import Button from '../../UI/atoms/Button';
+import Button from '../../components/atoms/Button';
 
 const Title = styled.div`
   font-family: NanumGothic;
@@ -57,13 +57,11 @@ function mainFirst() {
         <TitleImage />
 
         <Space />
-        <AskButton long>
-          <StartAskLabel>지금, 질문 시작해보세요!</StartAskLabel>
-          <AskContainer>
-            <AskLabel>질문하기</AskLabel>
-            <AskArrowImg />
-          </AskContainer>
-        </AskButton>
+        <StartAskLabel>지금, 질문 시작해보세요!</StartAskLabel>
+        <AskContainer>
+          <AskLabel>질문하기</AskLabel>
+          <AskArrowImg />
+        </AskContainer>
       </Title>
     </>
   );

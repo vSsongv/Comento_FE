@@ -1,7 +1,7 @@
-import colors from '../../../styles/colors';
+import colors from '../../styles/colors';
 import React from 'react';
 import styled from 'styled-components';
-import { shadow } from '../../../styles/styleUtil';
+import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
 
 type HeaderProps = {

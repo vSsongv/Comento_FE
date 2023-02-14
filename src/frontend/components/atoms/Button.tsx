@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 import { lighten, darken } from 'polished';
-import { mainGradient } from '../../../styles/styleUtil';
+import { mainGradient } from '../../styles/styleUtil';
 
 type ButtonProps = {
   children: React.ReactNode;

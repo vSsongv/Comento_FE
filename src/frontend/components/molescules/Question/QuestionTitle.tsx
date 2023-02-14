@@ -1,6 +1,6 @@
-import React, { RefObject } from "react";
-import styled from "styled-components";
-import { border } from "../../../../styles/styleUtil";
+import React, { RefObject } from 'react';
+import styled from 'styled-components';
+import { border } from '../../../styles/styleUtil';
 
 const Title = styled.p`
   display: flex;

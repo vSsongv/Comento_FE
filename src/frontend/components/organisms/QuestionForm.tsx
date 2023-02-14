@@ -1,14 +1,14 @@
-import React, { useRef, useEffect } from "react";
-import styled from "styled-components";
-import ShadowBox from "../atoms/ShadowBox";
-import { border } from "../../../styles/styleUtil";
-import QuestionTitle from "../molescules/Question/QuestionTitle";
-import QuestionContent from "../molescules/Question/QuestionContent";
-import QuestionFile from "../molescules/Question/QeustionFile";
-import SubmitIcon from "../../../assets/images/QuestionSubmit.svg";
-import DropDown from "../molescules/DropDown";
-import { Languages } from "../../utils/Languages";
-import axios from "axios";
+import React, { useRef, useEffect } from 'react';
+import styled from 'styled-components';
+import ShadowBox from '../atoms/ShadowBox';
+import { border } from '../../styles/styleUtil';
+import QuestionTitle from '../molescules/Question/QuestionTitle';
+import QuestionContent from '../molescules/Question/QuestionContent';
+import QuestionFile from '../molescules/Question/QeustionFile';
+import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
+import DropDown from '../molescules/DropDown';
+import { Languages } from '../utils/Languages';
+import axios from 'axios';
 
 const QuestionBox = styled(ShadowBox)`
   display: flex;
@@ -24,12 +24,7 @@ const FormHead = styled.div`
   width: 70vw;
   height: 5vh;
   margin-top: -4vh;
-  background: linear-gradient(
-    87.94deg,
-    #3c02bb 17.59%,
-    #4c51e4 48.07%,
-    #01fbfc 121%
-  );
+  background: linear-gradient(87.94deg, #3c02bb 17.59%, #4c51e4 48.07%, #01fbfc 121%);
 `;
 
 const Top = styled.div`
@@ -78,33 +73,33 @@ function QuestionForm() {
   }, []);
 
   const onSubmit = (): void => {
-    if (titleRef.current?.value === "") {
-      alert("제목을 입력해주세요.");
+    if (titleRef.current?.value === '') {
+      alert('제목을 입력해주세요.');
       titleRef.current.focus();
       return;
-    } else if (contentRef.current?.value === "") {
-      alert("내용을 입력해주세요.");
+    } else if (contentRef.current?.value === '') {
+      alert('내용을 입력해주세요.');
       contentRef.current.focus();
       return;
     } else if (languageRef.current === Languages[0]) {
-      alert("질문 언어를 선택해주세요.");
+      alert('질문 언어를 선택해주세요.');
       return;
     }
 
     const dataSet = {
       userid: 1,
-      nickname: "김준하",
+      nickname: '김준하',
       language: Languages.indexOf(languageRef.current),
       title: titleRef.current?.value,
       content: contentRef.current?.value,
     };
-    formData.append("data", JSON.stringify(dataSet));
+    formData.append('data', JSON.stringify(dataSet));
 
     //TODO: axios 모듈화하기
     axios
-      .post("//3.37.84.147:8081/mentee/question", formData)
+      .post('//3.37.84.147:8081/mentee/question', formData)
       .then((res) => {
-        alert("테스트성공!");
+        alert('테스트성공!');
         console.log(res);
       })
       .catch((err) => {
