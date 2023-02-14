@@ -11,6 +11,7 @@ import HeaderContainer from './frontend/components/organisms/HeaderContainer';
 import Question from './frontend/pages/Question';
 import Answer from './frontend/pages/Answer';
 import Footer from './frontend/components/molescules/Footer';
+import { ScrollToTop } from './frontend/components/utils/ScrollToTop';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <ThemeProvider theme={colors}>
           <GlobalStyle />
           <BrowserRouter>
+            <ScrollToTop />
             <HeaderContainer />
             <Routes>
               <Route path='/' element={<Home />}></Route>
