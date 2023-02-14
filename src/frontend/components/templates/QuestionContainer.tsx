@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import QuestionForm from "../UI/organisms/QuestionForm";
+import React from 'react';
+import styled from 'styled-components';
+import QuestionForm from '../organisms/QuestionForm';
 
 const Container = styled.div`
   display: flex;
@@ -13,7 +13,7 @@ const Container = styled.div`
 function QuestionContainer() {
   return (
     <Container>
-      <QuestionForm></QuestionForm>
+      <QuestionForm />
     </Container>
   );
 }
