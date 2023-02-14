@@ -1,9 +1,8 @@
-const Sequelize = require('sequelize');
+const { Sequelize, DataTypes, INTEGER  } = require('sequelize');
+const models = require('../models');
 
-
-module.exports = class Auth extends Sequelize.Model{
-    static init(sequelize){
-        return super.init({
+module.exports = function (sequelize){
+        const auth = sequelize.define('Auth', {
             email: {
                 type: Sequelize.STRING(50),
                 unique : true,
@@ -11,7 +10,7 @@ module.exports = class Auth extends Sequelize.Model{
                 primaryKey: true
             },
             token: {
-                type: Sequelize.STRING(12),
+                type: Sequelize.STRING(20),
                 allowNull: false,
             },
             created: {
@@ -28,12 +27,7 @@ module.exports = class Auth extends Sequelize.Model{
             tableName: 'auth',
             charset: 'utf8',
             collate: 'utf8_general_ci',
-        });
-    }
+        })
+        return auth;
+}
 
-    static associate(db) {
-        db.Auth.belongsTo(db.User, {
-            foreignKey: "userid", targetKey: "userid"
-        });
-    }
-};
