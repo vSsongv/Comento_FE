@@ -13,7 +13,7 @@ const Container = styled.div`
 function QuestionContainer() {
   return (
     <Container>
-      <QuestionForm></QuestionForm>
+      <QuestionForm />
     </Container>
   );
 }

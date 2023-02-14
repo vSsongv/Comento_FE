@@ -27,9 +27,13 @@ interface PwdState {
   state: string;
 }
 
+const Container = styled.div`
+  margin-bottom: 15px;
+  position: relative;
+`;
+
 const Wrapper = styled.div`
   position: relative;
-  margin-bottom: 15px;
 `;
 
 const Label = styled.label`
@@ -37,7 +41,7 @@ const Label = styled.label`
   font-weight: 600;
   color: #858585;
   margin-bottom: 6px;
-  text-align: left;
+  text-align: left !important;
 `;
 
 const InputStyle = {
@@ -50,6 +54,12 @@ const InputStyle = {
   borderRadius: '20px',
   width: '493px',
   color: 'black',
+};
+
+const ErrorStyle = {
+  color: 'red',
+  position: 'absolute',
+  right: '0',
 };
 
 const CheckNickBtn = styled.button`
@@ -103,10 +113,6 @@ const InputForm = ({ purpose, label, placeholder, option, reg, error, crtPasswor
     type === 'password' ? setType('text') : setType('password');
   };
 
-  const onSubmit: SubmitHandler<FormValue> = (data) => {
-    console.log(data);
-  };
-
   const checkPwd = (value: string | number) => {
     return value === crtPassword || '* 비밀번호가 다릅니다.';
   };
@@ -139,7 +145,7 @@ const InputForm = ({ purpose, label, placeholder, option, reg, error, crtPasswor
   };
 
   return (
-    <>
+    <Container>
       <Label>{label}</Label>
       <Wrapper>
         <input
@@ -155,11 +161,11 @@ const InputForm = ({ purpose, label, placeholder, option, reg, error, crtPasswor
         {option === '중복확인' ? <CheckNickBtn type='button'>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn type='button' state={type} onClick={showPwd}></ShowPwdBtn> : ''}
       </Wrapper>
       {error[purpose] && (
-        <small style={{ color: 'red', textAlign: 'right', marginTop: '5px' }} role='alert'>
+        <small style={{ color: 'red', position: 'absolute', right: '0', marginRight: '5px' }} role='alert'>
           {error[purpose]?.message}
         </small>
       )}
-    </>
+    </Container>
   );
 };
 
