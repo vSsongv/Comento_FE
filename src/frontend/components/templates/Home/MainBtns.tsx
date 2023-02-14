@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import Button from '../../UI/atoms/Button';
+import Button from '../../atoms/Button';
 import arrowImage from '../../../assets/images/MainFirstButtonArrow.png';
 
 const RowBtn = styled.div`
@@ -18,7 +18,6 @@ const MainBtnLink = styled(Link)`
 
 const MainBtnStyle = styled(Button)`
   padding-top: 10px;
-  width: 350px;
   height: 77px;
   display: flex;
   flex-direction: column;
@@ -52,11 +51,11 @@ const ArrowImg = styled.div`
   height: 17px;
 `;
 
-export default function MainBtns(){
-  return(
+export default function MainBtns() {
+  return (
     <RowBtn>
       <MainBtnLink to='/Question'>
-        <MainBtnStyle>
+        <MainBtnStyle width={350}>
           <StartLabel>지금, 질문 시작해보세요!</StartLabel>
           <BtnContainer>
             <BtnLabel>질문하기</BtnLabel>
@@ -65,7 +64,7 @@ export default function MainBtns(){
         </MainBtnStyle>
       </MainBtnLink>
       <MainBtnLink to='/answer'>
-        <MainBtnStyle>
+        <MainBtnStyle width={350}>
           <StartLabel>지금, 답변 시작해보세요!</StartLabel>
           <BtnContainer>
             <BtnLabel>답변하기</BtnLabel>
@@ -74,5 +73,5 @@ export default function MainBtns(){
         </MainBtnStyle>
       </MainBtnLink>
     </RowBtn>
-  )
+  );
 }

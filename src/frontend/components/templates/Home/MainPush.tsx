@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Sample2 from '../../assets/images/Sample2.png';
+import Sample2 from '../../../assets/images/Sample2.png';
 
 const MainPushLayout = styled.div`
   display: flex;
