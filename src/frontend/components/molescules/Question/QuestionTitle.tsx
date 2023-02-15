@@ -28,7 +28,7 @@ function QuestionTitle({ titleRef }: Props) {
   return (
     <>
       <Title>제목</Title>
-      <TitleInput ref={titleRef} />
+      <TitleInput ref={titleRef} placeholder="제목을 입력해주세요." />
     </>
   );
 }

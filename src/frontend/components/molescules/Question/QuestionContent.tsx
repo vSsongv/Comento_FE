@@ -32,7 +32,7 @@ function QuestionContent(props: Props) {
   return (
     <>
       <Content>내용</Content>
-      <ContentInput ref={props.contentRef} />
+      <ContentInput ref={props.contentRef} placeholder="질문할 내용을 입력해주세요." />
     </>
   );
 }
