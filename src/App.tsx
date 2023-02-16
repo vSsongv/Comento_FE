@@ -7,7 +7,7 @@ import colors from './frontend/styles/colors';
 import Home from './frontend/pages/Home';
 import SignIn from './frontend/pages/SignIn';
 import SignUp from './frontend/pages/SignUp';
-import HeaderContainer from './frontend/components/organisms/HeaderContainer';
+import Header from './frontend/components/templates/Header';
 import Question from './frontend/pages/Question';
 import Answer from './frontend/pages/Answer';
 import Footer from './frontend/components/molescules/Footer';
@@ -21,7 +21,7 @@ function App() {
           <GlobalStyle />
           <BrowserRouter>
             <ScrollToTop />
-            <HeaderContainer />
+            <Header />
             <Routes>
               <Route path='/' element={<Home />}></Route>
               <Route path='/signIn' element={<SignIn />}></Route>
