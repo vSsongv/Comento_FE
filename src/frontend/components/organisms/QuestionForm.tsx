@@ -114,7 +114,7 @@ const QuestionForm = () => {
       <FormHead />
       <Top>
         <QuestionTitle titleRef={titleRef} />
-        <DropDown languageRef={languageRef} border="1 3" />
+        <DropDown languageRef={languageRef} border='1 3' />
         <Submit src={SubmitIcon} onClick={onSubmit} />
       </Top>
       <Middle>

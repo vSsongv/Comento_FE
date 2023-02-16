@@ -44,7 +44,7 @@ interface Props {
 
 const DropDown = ({ languageRef, border }: Props) => {
   const [choosing, setChoosing] = useState<boolean>(false);
-  const searchInputRef = useRef<any>(null);
+  const searchInputRef = useRef<HTMLDivElement>(null);
   const borders = border.split(' ');
 
   /* 외부 영역을 클릭했을 때 검색창이 닫히도록 */
@@ -70,7 +70,7 @@ const DropDown = ({ languageRef, border }: Props) => {
         {languageRef.current}
         {choosing ? <IoIosArrowUp /> : <IoIosArrowDown />}
       </ChoiceButton>
-      {choosing ? <DropDownList width="100%" top="4rem" languageRef={languageRef} /> : null}
+      {choosing ? <DropDownList width='100%' top='4rem' languageRef={languageRef} /> : null}
     </ChoiceBox>
   );
 };

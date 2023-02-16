@@ -60,17 +60,17 @@ const QuestionFile = ({ formData }: Props) => {
   return (
     <>
       <UploadBox>
-        <label htmlFor="file">
+        <label htmlFor='file'>
           <CustomInput>
             <img src={ImageUpload} />
             <img src={Drag_files_to_upload} />
           </CustomInput>
         </label>
         <UploadHidden
-          type="file"
-          name="file"
-          id="file"
-          accept=".jpg, .jpeg, .png, .img"
+          type='file'
+          name='file'
+          id='file'
+          accept='.jpg, .jpeg, .png, .img'
           onChange={handleFile}
           multiple
         />
