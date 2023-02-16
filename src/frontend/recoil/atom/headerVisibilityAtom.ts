@@ -6,7 +6,7 @@ export const headerVisibilityAtom = atom({
   default: 1,
 });
 
-interface UserInfo {
+export interface UserInfo {
   name: string;
   profileImage: string;
   mentos: number;
