@@ -1,4 +1,4 @@
-import React, { MutableRefObject, useState } from 'react';
+import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import DropDownList from '../atoms/DropDownList';
@@ -44,14 +44,28 @@ interface Props {
 
 const DropDown = ({ languageRef, border }: Props) => {
   const [choosing, setChoosing] = useState<boolean>(false);
+  const searchInputRef = useRef<any>(null);
   const borders = border.split(' ');
+
+  /* 외부 영역을 클릭했을 때 검색창이 닫히도록 */
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent): void => {
+      if (searchInputRef.current && !searchInputRef.current.contains(e.target as Node)) {
+        setChoosing(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchInputRef]);
 
   const choosingToggle = () => {
     setChoosing(!choosing);
   };
 
   return (
-    <ChoiceBox onClick={choosingToggle} borders={borders}>
+    <ChoiceBox onClick={choosingToggle} borders={borders} ref={searchInputRef}>
       <ChoiceButton>
         {languageRef.current}
         {choosing ? <IoIosArrowUp /> : <IoIosArrowDown />}
