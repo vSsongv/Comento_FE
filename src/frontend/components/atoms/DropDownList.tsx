@@ -38,7 +38,7 @@ interface Props {
   // setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function DropDownList({ languageRef, ...dropDownProps }: Props) {
+const DropDownList = ({ languageRef, ...dropDownProps }: Props) => {
   const changeLanguage = (language: string) => {
     languageRef.current = language;
   };
@@ -52,6 +52,6 @@ function DropDownList({ languageRef, ...dropDownProps }: Props) {
   });
 
   return <Ul {...dropDownProps}>{LanguageList}</Ul>;
-}
+};
 
 export default DropDownList;

@@ -42,7 +42,7 @@ interface Props {
   border: string;
 }
 
-function DropDown({ languageRef, border }: Props) {
+const DropDown = ({ languageRef, border }: Props) => {
   const [choosing, setChoosing] = useState<boolean>(false);
   const borders = border.split(' ');
 
@@ -59,6 +59,6 @@ function DropDown({ languageRef, border }: Props) {
       {choosing ? <DropDownList width="100%" top="4rem" languageRef={languageRef} /> : null}
     </ChoiceBox>
   );
-}
+};
 
 export default DropDown;

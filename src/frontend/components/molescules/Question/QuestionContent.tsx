@@ -28,13 +28,13 @@ interface Props {
   contentRef: RefObject<HTMLTextAreaElement>;
 }
 
-function QuestionContent(props: Props) {
+const QuestionContent = (props: Props) => {
   return (
     <>
       <Content>내용</Content>
       <ContentInput ref={props.contentRef} placeholder="질문할 내용을 입력해주세요." />
     </>
   );
-}
+};
 
 export default QuestionContent;

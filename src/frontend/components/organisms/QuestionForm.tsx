@@ -61,7 +61,7 @@ const Submit = styled.img`
   cursor: pointer;
 `;
 
-function QuestionForm() {
+const QuestionForm = () => {
   // const [language, setLanguage] = useState<string>(Languages[0]);
   const languageRef = useRef<string>(Languages[0]);
   const titleRef = useRef<HTMLInputElement>(null);
@@ -125,6 +125,6 @@ function QuestionForm() {
       </Bottom>
     </QuestionBox>
   );
-}
+};
 
 export default QuestionForm;

@@ -10,12 +10,12 @@ const Container = styled.div`
   height: 90vh;
 `;
 
-function QuestionContainer() {
+const QuestionContainer = () => {
   return (
     <Container>
       <QuestionForm />
     </Container>
   );
-}
+};
 
 export default QuestionContainer;
