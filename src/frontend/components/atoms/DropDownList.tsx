@@ -23,7 +23,8 @@ const Ul = styled.ul<DropDownProps>`
 const Li = styled.li`
   position: relative;
   background-color: white;
-  padding: 0.5rem 0;
+  padding: 0.5rem 11%;
+  text-align: left;
   &:hover {
     background-color: #e2e2e2;
   }
