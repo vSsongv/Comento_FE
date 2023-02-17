@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { headerVisibilityAtom, UserInfoType, userInfo } from '../../recoil/atom/headerVisibilityAtom';
+import HeaderMenu from './HeaderMenu';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
 import mentos from '../../assets/images/mentos.png';
@@ -49,11 +50,17 @@ const Profile = styled.button`
 const ProfileImage = styled.img`
   width: 2.5rem;
   height: 2.5rem;
+  border-radius: 100%;
 `;
 
 const Header = () => {
+  const [menu, setMenu] = useState(false);
   const headerVisibility = useRecoilValue<number>(headerVisibilityAtom);
   const user = useRecoilValue<UserInfoType>(userInfo);
+
+  const menuToggle = () => {
+    setMenu(!menu);
+  };
 
   return (
     <>
@@ -67,12 +74,13 @@ const Header = () => {
             <ProfileImage src={defaultProfile} alt='프로필 이미지' />
           </SignInLink>
         ) : (
-          <Profile>
+          <Profile onClick={menuToggle}>
             <img src={mentos} alt='멘토스 이미지' width='30rem' />내 멘토스 {user.mentos}개
             <ProfileImage src={user.profileImage} alt='프로필 이미지' />
           </Profile>
         )}
       </HeaderBox>
+      {menu ? <HeaderMenu /> : null}
     </>
   );
 };
