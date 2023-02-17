@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
+import { useRecoilValue } from 'recoil';
+import { headerVisibilityAtom, UserInfoType, userInfo } from '../../recoil/atom/headerVisibilityAtom';
 
 const SignInLink = styled(Link)`
   display: flex;
@@ -18,13 +20,16 @@ const SignInImage = styled.img`
   height: 2.5rem;
 `;
 
-function HeaderLogin() {
+const HeaderLogin = () => {
+  const headerVisibility = useRecoilValue<number>(headerVisibilityAtom);
+  const user = useRecoilValue<UserInfoType>(userInfo);
+
   return (
     <SignInLink to='/signIn'>
       로그인 해주세요.
       <SignInImage src={defaultProfile} alt='프로필 사진' />
     </SignInLink>
   );
-}
+};
 
 export default HeaderLogin;

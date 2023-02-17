@@ -2,10 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { headerVisibilityAtom } from '../../recoil/atom/headerVisibilityAtom';
 import Logo from '../../assets/images/Logo.png';
-import HeaderLogin from '../organisms/HeaderLogin';
+import HeaderProfile from '../organisms/HeaderProfile';
 
 const HeaderBox = styled.div`
   display: flex;
@@ -25,14 +23,12 @@ const LogoLink = styled(Link)`
 `;
 
 const Header = () => {
-  const headerVisibility = useRecoilValue<number>(headerVisibilityAtom);
-
   return (
     <HeaderBox>
       <LogoLink to='/'>
         <img src={Logo} alt='Home Logo' />
       </LogoLink>
-      {headerVisibility === 1 ? <HeaderLogin /> : <h1>good</h1>}
+      <HeaderProfile />
     </HeaderBox>
   );
 };
