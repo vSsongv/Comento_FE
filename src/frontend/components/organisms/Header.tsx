@@ -3,11 +3,13 @@ import styled, { css } from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { headerVisibilityAtom } from '../../recoil/atom/headerVisibilityAtom';
+import { headerVisibilityAtom, UserInfoType, userInfo } from '../../recoil/atom/headerVisibilityAtom';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
+import mentos from '../../assets/images/mentos.png';
 
 const HeaderBox = styled.div`
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -29,7 +31,7 @@ const profileCss = css`
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
-  width: 11rem;
+  width: 14vw;
   color: black;
 `;
 
@@ -38,13 +40,20 @@ const SignInLink = styled(Link)`
   text-decoration: none;
 `;
 
-const SignInImage = styled.img`
+const Profile = styled.button`
+  all: unset;
+  ${profileCss}
+  cursor: pointer;
+`;
+
+const ProfileImage = styled.img`
   width: 2.5rem;
   height: 2.5rem;
 `;
 
 const Header = () => {
   const headerVisibility = useRecoilValue<number>(headerVisibilityAtom);
+  const user = useRecoilValue<UserInfoType>(userInfo);
 
   return (
     <>
@@ -55,10 +64,13 @@ const Header = () => {
         {headerVisibility === 1 ? (
           <SignInLink to='/signIn'>
             로그인 해주세요.
-            <SignInImage src={defaultProfile} alt='프로필 사진' />
+            <ProfileImage src={defaultProfile} alt='프로필 이미지' />
           </SignInLink>
         ) : (
-          <></>
+          <Profile>
+            <img src={mentos} alt='멘토스 이미지' width='30rem' />내 멘토스 {user.mentos}개
+            <ProfileImage src={user.profileImage} alt='프로필 이미지' />
+          </Profile>
         )}
       </HeaderBox>
     </>
