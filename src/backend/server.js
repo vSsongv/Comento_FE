@@ -9,7 +9,7 @@ const db = require("./models");
 const env = process.env.NODE_ENV || "development";
 
 // 라우터 부분
-
+//TODO: next, errorHandler 부분 나중에 일괄 수정해야함.
 const userRouter = require("./User/userRoute");
 const menteeRouter = require("./Mentee/menteeRoute");
 const mentoRouter = require("./Mento/mentoRoute");

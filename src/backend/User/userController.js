@@ -96,8 +96,7 @@ const member = {
         }
     },*/
   signin: asyncHandler(async (req, res, next) => {
-    const { email, password } = req.body;
-    let loginFlag = req.body.loginFlag;
+    const { email, password, isKeep } = req.body;
     let result;
     let token;
     if (!email) return next(new errorResponse(detailResponse.EMPTY_EMAIL, 400));
@@ -110,7 +109,7 @@ const member = {
       return next(new errorResponse(detailResponse.NOT_EXIST_EMAIL, 400));
     const isEqualPw = await bcrypt.compare(password, userInfo.password);
 
-    if (isEqualPw) token = await userService.signin(userInfo, loginFlag);
+    if (isEqualPw) token = await userService.signin(userInfo, isKeep);
     else return next(new errorResponse(detailResponse.PASSWORD_MISMATCH, 400));
     return res.send(resultResponse(detailResponse.SIGNIN_SUCCESS, token));
   }),
@@ -185,7 +184,9 @@ const member = {
       return res.send(basicResponse(detailResponse.SEND_EMAIL));
     }
   }),
-
+  updateUserInfo: asyncHandler(async (req, res) => {
+    const { email, nickname, password, profile, phone } = req.body;
+  }),
   //     renewalToken : async (req, res, err) => {
 
   //     // refreshToken만유효 => refreshToken에서 이메일 꺼내와서 해당 유저찾고 refreshToken 값비교 일치하면 재발급
