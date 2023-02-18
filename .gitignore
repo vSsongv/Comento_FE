@@ -5,6 +5,8 @@
 /.pnp
 .pnp.js
 /src/backend/node_modules
+/src/mentoring
+/src/temp
 /src/frontend/node_modules
 loginkey.pem
 .package-lock.json
