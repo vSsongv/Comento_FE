@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import HeaderProfile from '../molescules/HeaderProfile';
 import HeaderMenuList from '../molescules/HeaderMenuList';
+import useClickState from '../../hooks/useClickState';
+import { useRecoilState } from 'recoil';
+import { headerMenu } from '../../recoil/atom/headerVisibilityAtom';
 
 const MenuContainer = styled.div`
   display: flex;
@@ -18,11 +21,22 @@ const MenuContainer = styled.div`
   background-color: white;
   border-radius: 20px;
   ${shadow(1)}
+  z-index: 9999;
 `;
 
 const HeaderMenu = () => {
+  const [, setHeaderState] = useRecoilState<boolean>(headerMenu);
+  const [searchInputRef, handleClickOutside] = useClickState(setHeaderState);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchInputRef]);
+
   return (
-    <MenuContainer>
+    <MenuContainer ref={searchInputRef}>
       <HeaderProfile />
       <HeaderMenuList />
     </MenuContainer>

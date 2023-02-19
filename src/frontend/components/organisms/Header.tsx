@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled, { css } from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import { headerVisibilityAtom, UserInfoType, userInfo } from '../../recoil/atom/headerVisibilityAtom';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { headerVisibilityAtom, UserInfoType, userInfo, headerMenu } from '../../recoil/atom/headerVisibilityAtom';
 import HeaderMenu from './HeaderMenu';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
@@ -54,12 +54,12 @@ const ProfileImage = styled.img`
 `;
 
 const Header = () => {
-  const [menu, setMenu] = useState(false);
+  const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
   const headerVisibility = useRecoilValue<number>(headerVisibilityAtom);
   const user = useRecoilValue<UserInfoType>(userInfo);
 
   const menuToggle = () => {
-    setMenu(!menu);
+    setHeaderState(!headerState);
   };
 
   return (
@@ -80,7 +80,7 @@ const Header = () => {
           </Profile>
         )}
       </HeaderBox>
-      {menu ? <HeaderMenu /> : null}
+      {headerState ? <HeaderMenu /> : null}
     </>
   );
 };

@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MdKeyboardArrowRight } from 'react-icons/md';
+import { useRecoilState } from 'recoil';
+import { headerMenu } from '../../recoil/atom/headerVisibilityAtom';
 
 const ListContainer = styled.li`
   display: flex;
@@ -26,6 +28,7 @@ interface Props {
 }
 
 const MenuListAtom = ({ imageSrc, menu }: Props) => {
+  const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
   const navigate = useNavigate();
 
   const moveTo = () => {
@@ -38,6 +41,7 @@ const MenuListAtom = ({ imageSrc, menu }: Props) => {
     } else {
       navigate('/answer');
     }
+    setHeaderState(!headerState);
   };
 
   return (

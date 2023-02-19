@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { headerMenu } from '../../recoil/atom/headerVisibilityAtom';
 import { border } from '../../styles/styleUtil';
 import SimpleProfile from '../atoms/SimpleProfile';
 
@@ -28,10 +30,14 @@ const ProfileEdit = styled(Link)`
 `;
 
 const HeaderProfile = () => {
+  const [headerState, setHeaderState] = useRecoilState(headerMenu);
+
   return (
     <ProfileContainer>
       <SimpleProfile height='10rem' />
-      <ProfileEdit to='/question'>프로필 수정</ProfileEdit>
+      <ProfileEdit to='/question' onClick={() => setHeaderState(!headerState)}>
+        프로필 수정
+      </ProfileEdit>
     </ProfileContainer>
   );
 };
