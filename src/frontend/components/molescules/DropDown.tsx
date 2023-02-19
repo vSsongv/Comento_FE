@@ -1,8 +1,9 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from 'react';
+import React, { MutableRefObject, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';
 import DropDownList from '../atoms/DropDownList';
 import { border } from '../../styles/styleUtil';
+import useClickState from '../../hooks/useClickState';
 
 interface ChoiceBoxProps {
   borders: string[];
@@ -44,16 +45,10 @@ interface Props {
 
 const DropDown = ({ languageRef, border }: Props) => {
   const [choosing, setChoosing] = useState<boolean>(false);
-  const searchInputRef = useRef<HTMLDivElement>(null);
+  const [searchInputRef, handleClickOutside] = useClickState(setChoosing);
   const borders = border.split(' ');
 
-  /* 외부 영역을 클릭했을 때 검색창이 닫히도록 */
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent): void => {
-      if (searchInputRef.current && !searchInputRef.current.contains(e.target as Node)) {
-        setChoosing(false);
-      }
-    };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
