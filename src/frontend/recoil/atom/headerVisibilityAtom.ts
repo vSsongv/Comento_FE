@@ -20,3 +20,8 @@ export const userInfo = atom<UserInfoType>({
     mentos: 0,
   },
 });
+
+export const headerMenu = atom<boolean>({
+  key: 'headerMenuState',
+  default: false,
+});
