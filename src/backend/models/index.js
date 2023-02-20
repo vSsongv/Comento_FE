@@ -22,6 +22,7 @@ const User = require('./user')(sequelize);
 const Auth = require('./auth')(sequelize);
 const Room = require('./room')(sequelize);
 const Chat = require('./chat')(sequelize);
+const Survey = require('./survey')(sequelize);
 
 
 // User : 채팅  => 1:다 
@@ -46,6 +47,8 @@ Chat.belongsTo(Room, {foreignKey: 'roomid', sourceKey:'roomid'})
 User.hasOne(Auth, {foreignKey: 'email', sourceKey:'email'});
 Auth.belongsTo(User, {foreignKey: 'email', sourceKey:'email'});
 
+// User : 설문 => 1:1
+User.hasOne(Survey, {foreignKey: 'userid', sourceKey: 'userid'});
 
 db.sequelize = sequelize;
 db.Auth = Auth;
@@ -53,6 +56,7 @@ db.User = User;
 db.Chat = Chat;
 db.Mentoring= Mentoring;
 db.Room = Room;
+db.Survey = Survey;
 
 //ChatUser.init(sequelize);
 //Messenger.init(sequelize);
