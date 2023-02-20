@@ -17,7 +17,7 @@ module.exports = {
     UNDERWAY_MENTORING : {isSuccess: true, code: 1114, message: "진행중인 질문 리스트입니다"},
     POST_MSG: {isSuccess:true, code:1115, message: "채팅을 저장하였습니다."},
     UPLOAD_SUCCESS : {isSuccess:true, code:1116, message: "이미지 파일 업로드를 성공하였습니다."},
-
+    POST_SURVEY : {isSuccess:true, code:1117, message: "설문을 저장하였습니다."},
 
     //FAIL
     DUP_EMAIL : {isSuccess: false, code: 2001, message: "이미 가입된 이메일입니다."},
@@ -60,6 +60,9 @@ module.exports = {
     EMPTY_ROOM : {isSuccess:false, code:2036, message:"존재하지 않는 채팅방이에요"},
     FILE_FORM : {isSuccess:false, code:2039, message: "이미지 파일만 올려주세요."},
     UPLOAD_FAIL : {isSuccess:false, code:2040, message:"업로드를 실패하였습니다."},
+    EMPTY_CHECKING : {isSuccess:false, code:2041, message:"모든 항목에 체크해주세요."},
+    EMPTY_ANSWER : {isSuccess:false, code:2042, message:"평가를 작성해주세요."},
+    ALREADY_SURVEY : {isSuccess:false, code:2043, message:"이미 설문에 응답하였습니다."},
     //데이터베이스오류
     DB_ERROR : {isSuccess: false, code: 5050, message: "데이터베이스 에러"}
 

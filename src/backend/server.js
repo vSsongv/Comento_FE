@@ -13,9 +13,10 @@ const env = process.env.NODE_ENV || 'development';
 const userRouter = require('./User/userRoute');
 const menteeRouter = require('./Mentee/menteeRoute');
 const mentoRouter = require('./Mento/mentoRoute');
-//const chatRouter = require('./Chat/chatRoute');
+const chatRouter = require('./Chat/chatRoute');
+const surveyRouter = require('./Survey/surveyRoute');
 
-const chatRouter = require('./Chat/chatRoute')
+
 const errorhandler = require("./config/errorHandler");
 const errorResponse = require("./config/errorResponse");
 const { basicResponse } = require("./config/response");
@@ -70,6 +71,7 @@ const server = app.listen(app.get("port"), () => {
 app.use('/mento', mentoRouter);
 app.use('/user', userRouter);
 app.use('/mentee', menteeRouter);
+app.use('/survey', surveyRouter);
 app.use('/', chatRouter);
 // app.use('/user/signup', checkRouter);
 // app.use('/user/upload', uploadRouter);
