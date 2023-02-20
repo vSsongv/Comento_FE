@@ -3,9 +3,9 @@ const models = require('../models');
 
 module.exports = function(sequelize){
     const survey = sequelize.define('Survey',{
-      surveyidx: {
+      userid: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
+        allowNull: false,
         primaryKey: true,
       },
       question1: {
