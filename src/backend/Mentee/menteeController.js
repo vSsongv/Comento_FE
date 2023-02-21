@@ -14,6 +14,7 @@ const mentee = {
     const { language, title, userid, nickname, content } = JSON.parse(
       req.body.data
     );
+
     const userIdx = userid;
     if (!userIdx)
       return next(
