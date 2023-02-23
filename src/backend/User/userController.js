@@ -7,6 +7,7 @@ const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const asyncHandler = require("../config/asyncHandler");
 const errorResponse = require("../config/errorResponse");
+const jwt = require('../config/token');
 const regEmail = require("regex-email");
 const { sendEmail } = require("../config/email");
 const regPassword =
@@ -102,7 +103,7 @@ const member = {
   signin: asyncHandler(async (req, res, next) => {
     const { email, password, isKeep } = req.body;
     let result;
-    let token;
+    let accessToken;
     if (!email) return next(new errorResponse(detailResponse.EMPTY_EMAIL, 400));
     if (!password)
       return next(new errorResponse(detailResponse.EMPTY_PASSWORD, 400));
@@ -113,8 +114,15 @@ const member = {
       return next(new errorResponse(detailResponse.NOT_EXIST_EMAIL, 400));
     const isEqualPw = await bcrypt.compare(password, userInfo.password);
 
-    if (isEqualPw) token = await userService.signin(userInfo, isKeep);
+    if (isEqualPw) {
+      const refreshToken = await jwt.refresh();
+      console.log("refreshToken :", refreshToken);
+      accessToken = await userService.signin(userInfo, isKeep);
+      await userService.saveToken(email, refreshToken);
+    }
     else return next(new errorResponse(detailResponse.PASSWORD_MISMATCH, 400));
+
+    const token = {accessToken, useridx : userInfo.userid};
     return res.send(resultResponse(detailResponse.SIGNIN_SUCCESS, token));
   }),
   resetPassword: asyncHandler(async (req, res, next) => {

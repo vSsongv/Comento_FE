@@ -163,3 +163,18 @@ exports.deleteCertNum = async function (email) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
+
+exports.saveToken = async function (email, token) {
+  try {
+    await User.update({
+      refreshToken: token
+    },{
+      where:{
+          email
+      }
+  });
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
