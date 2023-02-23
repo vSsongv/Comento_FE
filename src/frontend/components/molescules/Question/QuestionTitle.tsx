@@ -28,7 +28,7 @@ const QuestionTitle = ({ titleRef }: Props) => {
   return (
     <>
       <Title>제목</Title>
-      <TitleInput ref={titleRef} placeholder='제목을 입력해주세요.' />
+      <TitleInput ref={titleRef} placeholder='ex) c언어 포인터 관련 질문' />
     </>
   );
 };
