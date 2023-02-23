@@ -60,6 +60,7 @@ module.exports = {
     EMPTY_ROOM : {isSuccess:false, code:2036, message:"존재하지 않는 채팅방이에요"},
     FILE_FORM : {isSuccess:false, code:2039, message: "이미지 파일만 올려주세요."},
     UPLOAD_FAIL : {isSuccess:false, code:2040, message:"업로드를 실패하였습니다."},
+    TOKEN_EXPIRED : {isSuccess:false, code:2041, message:"accessToken이 만료되었습니다."},
     //데이터베이스오류
     DB_ERROR : {isSuccess: false, code: 5050, message: "데이터베이스 에러"}
 

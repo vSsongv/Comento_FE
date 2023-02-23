@@ -17,7 +17,7 @@ module.exports = {
         },
         process.env.ACCESS_SECRET,
         {
-          expiresIn, // 15분후 만료
+          expiresIn : "1m", // 15분후 만료
           issuer: "friday",
           subject: "userInfo",
         }
