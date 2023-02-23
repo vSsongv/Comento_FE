@@ -17,6 +17,7 @@ module.exports = {
     UNDERWAY_MENTORING : {isSuccess: true, code: 1114, message: "진행중인 질문 리스트입니다"},
     POST_MSG: {isSuccess:true, code:1115, message: "채팅을 저장하였습니다."},
     UPLOAD_SUCCESS : {isSuccess:true, code:1116, message: "이미지 파일 업로드를 성공하였습니다."},
+    REFRESH_SUCCESS : {isSuccess:true, code:1117, message: "토큰 재발급에 성공하였습니다."},
 
 
     //FAIL
@@ -61,6 +62,7 @@ module.exports = {
     FILE_FORM : {isSuccess:false, code:2039, message: "이미지 파일만 올려주세요."},
     UPLOAD_FAIL : {isSuccess:false, code:2040, message:"업로드를 실패하였습니다."},
     TOKEN_EXPIRED : {isSuccess:false, code:2041, message:"accessToken이 만료되었습니다."},
+    RE_LOGIN : {isSuccess:false, code:2042, message:"토큰이 만료되었습니다. 다시 로그인 해주세요."},
     //데이터베이스오류
     DB_ERROR : {isSuccess: false, code: 5050, message: "데이터베이스 에러"}
 
