@@ -9,6 +9,7 @@ import MenuListAtom from '../atoms/MenuListAtom';
 const MenuContainer = styled.ul`
   list-style: none;
   width: 100%;
+  margin-bottom: 4%;
 `;
 
 const HeaderMenuList = () => {

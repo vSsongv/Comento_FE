@@ -7,7 +7,7 @@ import HeaderMenuList from '../molescules/HeaderMenuList';
 const MenuContainer = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   position: absolute;
   right: 4rem;

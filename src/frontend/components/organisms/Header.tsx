@@ -33,7 +33,7 @@ const profileCss = css`
   justify-content: space-between;
   flex-direction: row;
   align-items: center;
-  width: 14vw;
+  width: 13rem;
   color: black;
 `;
 
