@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled, { css } from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,7 @@ import HeaderMenu from './HeaderMenu';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
 import mentos from '../../assets/images/mentos.png';
+import useClickState from '../../hooks/useClickState';
 
 const HeaderBox = styled.div`
   position: relative;
@@ -43,6 +44,7 @@ const SignInLink = styled(Link)`
 
 const Profile = styled.button`
   all: unset;
+  height: 5rem;
   ${profileCss}
   cursor: pointer;
 `;
@@ -55,8 +57,16 @@ const ProfileImage = styled.img`
 
 const Header = () => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
+  const [searchInputRef, handleClickOutside] = useClickState(setHeaderState);
   const headerVisibility = useRecoilValue<number>(headerVisibilityAtom);
   const user = useRecoilValue<UserInfoType>(userInfo);
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [searchInputRef]);
 
   const menuToggle = () => {
     setHeaderState(!headerState);
@@ -74,13 +84,15 @@ const Header = () => {
             <ProfileImage src={defaultProfile} alt='프로필 이미지' />
           </SignInLink>
         ) : (
-          <Profile onClick={menuToggle}>
-            <img src={mentos} alt='멘토스 이미지' width='30rem' />내 멘토스 {user.mentos}개
-            <ProfileImage src={user.profileImage} alt='프로필 이미지' />
-          </Profile>
+          <div ref={searchInputRef}>
+            <Profile onClick={menuToggle}>
+              <img src={mentos} alt='멘토스 이미지' width='30rem' />내 멘토스 {user.mentos}개
+              <ProfileImage src={user.profileImage} alt='프로필 이미지' />
+            </Profile>
+            {headerState ? <HeaderMenu /> : null}
+          </div>
         )}
       </HeaderBox>
-      {headerState ? <HeaderMenu /> : null}
     </>
   );
 };
