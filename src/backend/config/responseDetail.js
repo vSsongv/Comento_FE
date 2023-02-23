@@ -63,6 +63,7 @@ module.exports = {
     UPLOAD_FAIL : {isSuccess:false, code:2040, message:"업로드를 실패하였습니다."},
     TOKEN_EXPIRED : {isSuccess:false, code:2041, message:"accessToken이 만료되었습니다."},
     RE_LOGIN : {isSuccess:false, code:2042, message:"토큰이 만료되었습니다. 다시 로그인 해주세요."},
+    NOT_EXIST_TOKEN : {isSuccess:false, code:2043, message:"토큰이 존재하지 않습니다."},
     //데이터베이스오류
     DB_ERROR : {isSuccess: false, code: 5050, message: "데이터베이스 에러"}
 

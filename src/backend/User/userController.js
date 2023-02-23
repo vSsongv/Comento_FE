@@ -115,9 +115,10 @@ const member = {
     const isEqualPw = await bcrypt.compare(password, userInfo.password);
 
     if (isEqualPw) {
-      const refreshToken = await jwt.refresh();
-      console.log("refreshToken :", refreshToken);
       accessToken = await userService.signin(userInfo, isKeep);
+      const refreshToken = await jwt.refresh();
+      if(!refreshToken) return next(new errorResponse(detailResponse.NOT_EXIST_TOKEN, 400));
+      console.log("refreshToken :", refreshToken);
       await userService.saveToken(email, refreshToken);
     }
     else return next(new errorResponse(detailResponse.PASSWORD_MISMATCH, 400));

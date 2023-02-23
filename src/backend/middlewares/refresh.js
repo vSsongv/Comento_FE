@@ -1,4 +1,5 @@
 const { basicResponse, resultResponse } = require("../config/response");
+const detailResponse = require("../config/responseDetail");
 const errorResponse = require('../config/errorResponse');
 const responseDetail = require('../config/responseDetail');
 const { User } = require("../models/index");
@@ -27,7 +28,7 @@ const refresh = async (req, res, next) => {
     let refreshToken;
     try{
         refreshToken = await User.findOne({
-            attributes: ["refreshToken"],
+            attributes: ['refreshToken'],
             where: {
             userid : useridx,
             },
@@ -39,12 +40,12 @@ const refresh = async (req, res, next) => {
 
     if(!refreshToken) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
-    const refreshResult = await jwt.verifyToken(refreshToken);
+    const refreshResult = await jwt.verifyToken(refreshToken.refreshToken);
     if(refreshResult.result === TOKEN_INVALID) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
-    if(refreshResult.result === TOKEN_EXPIRED || !(refreshResult.validToken))
+    if(refreshResult.result === TOKEN_EXPIRED)
         return next(new errorResponse(responseDetail.RE_LOGIN));
 
-    const newAccessToken = await jwt.sign(userInfo, 0, "15m");
+    const newAccessToken = await jwt.sign(userInfo, 0, "1m");
     return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, {accessToken : newAccessToken}));
 }
 
