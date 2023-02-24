@@ -110,6 +110,20 @@ const InputForm = ({ purpose, reg, error, label, placeholder, option, crtPasswor
     return value === crtPassword || '* 비밀번호가 다릅니다.';
   };
 
+  const checkDuple = (purpose: string) => {
+    switch (purpose) {
+      case 'email':
+        console.log('fsd');
+        break;
+      case 'nickname':
+        console.log('d');
+        break;
+      case 'phone':
+        console.log('f');
+        break;
+    }
+  };
+
   const rule: { [key: string]: FieldValues } = {
     email: {
       pattern: {
@@ -151,7 +165,15 @@ const InputForm = ({ purpose, reg, error, label, placeholder, option, crtPasswor
             validate: purpose === 'password_confirm' ? (value) => checkPwd(value) : undefined,
           })}
         />
-        {option === '중복확인' ? <CheckNickBtn type='button'>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn type='button' state={type} onClick={showPwd}></ShowPwdBtn> : ''}
+        {option === '중복확인' ? (
+          <CheckNickBtn type='button' onClick={() => checkDuple(purpose)}>
+            중복확인
+          </CheckNickBtn>
+        ) : option === '비밀번호확인' ? (
+          <ShowPwdBtn type='button' state={type} onClick={showPwd}></ShowPwdBtn>
+        ) : (
+          ''
+        )}
       </Wrapper>
       {error[purpose] && (
         <small style={{ color: 'red', position: 'absolute', right: '0', marginRight: '5px' }} role='alert'>
