@@ -23,7 +23,8 @@ const Ul = styled.ul<DropDownProps>`
 const Li = styled.li`
   position: relative;
   background-color: white;
-  padding: 0.5rem 0;
+  padding: 0.5rem 11%;
+  text-align: left;
   &:hover {
     background-color: #e2e2e2;
   }
@@ -37,7 +38,7 @@ interface Props {
   // setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function DropDownList({ languageRef, ...dropDownProps }: Props) {
+const DropDownList = ({ languageRef, ...dropDownProps }: Props) => {
   const changeLanguage = (language: string) => {
     languageRef.current = language;
   };
@@ -51,6 +52,6 @@ function DropDownList({ languageRef, ...dropDownProps }: Props) {
   });
 
   return <Ul {...dropDownProps}>{LanguageList}</Ul>;
-}
+};
 
 export default DropDownList;

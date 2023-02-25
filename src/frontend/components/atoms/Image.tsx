@@ -1,6 +1,6 @@
-import React from "react";
-import styled from "styled-components";
-import { MdClose } from "react-icons/md";
+import React from 'react';
+import styled from 'styled-components';
+import { MdClose } from 'react-icons/md';
 
 const ImageBox = styled.div`
   /* position: relative; */
@@ -30,7 +30,7 @@ interface Props {
   fileDelete(deleteIndex: number): void;
 }
 
-function Image({ imageList, fileDelete }: Props) {
+const Image = ({ imageList, fileDelete }: Props) => {
   return (
     <>
       {imageList.map((url: string, index: number) => {
@@ -38,13 +38,13 @@ function Image({ imageList, fileDelete }: Props) {
           <ImageBox key={url}>
             <Images src={url} />
             <XIcon onClick={() => fileDelete(index)}>
-              <MdClose style={{ padding: "0.1rem", fontSize: "1.2rem" }} />
+              <MdClose style={{ padding: '0.1rem', fontSize: '1.2rem' }} />
             </XIcon>
           </ImageBox>
         );
       })}
     </>
   );
-}
+};
 
 export default Image;
