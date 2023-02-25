@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MdKeyboardArrowRight } from 'react-icons/md';
-import { useRecoilState } from 'recoil';
-import { headerMenu } from '../../recoil/atom';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { signInState, headerMenu } from '../../recoil/atom';
 
 const ListContainer = styled.li`
   display: flex;
@@ -29,6 +29,7 @@ interface Props {
 
 const HeaderNav = ({ imageSrc, menu }: Props) => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
+  const setSignInState = useSetRecoilState(signInState);
   const navigate = useNavigate();
 
   const moveTo = () => {
@@ -43,7 +44,8 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
         navigate('/answer');
         break;
       case '로그아웃': //TODO: 로그아웃 구현
-        alert('TODO');
+        setSignInState(false);
+        navigate('/');
         break;
       default:
         alert('잘못된 접근입니다.');
