@@ -11,7 +11,9 @@ import mentos from '../../assets/images/mentos.png';
 import useClickState from '../../hooks/useClickState';
 
 const HeaderBox = styled.div`
-  position: relative;
+  position: sticky;
+  top: 0;
+  /* transform: translateY(); */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
