@@ -1,13 +1,26 @@
 import { SignApi } from './api';
+import jwt_decode from 'jwt-decode';
+import { SetterOrUpdater } from 'recoil';
+import { UserInfoType } from '../recoil/atom';
+import defaultProfile from '../assets/images/defaultProfile.svg';
+import axios from 'axios';
 
-export type FormValue = {
+export interface SignInProps {
   email: string;
-  password: string;
   password_signin: string;
+}
+
+export interface SignInService extends SignInProps {
+  isKeep: boolean;
+  setUserInfo: SetterOrUpdater<UserInfoType>;
+}
+
+export interface FormValue extends SignInProps {
+  password: string;
   password_confirm: string;
   nickname: string;
   phone: number;
-};
+}
 
 export const SignUp = async (userData: FormData) => {
   try {
@@ -15,5 +28,30 @@ export const SignUp = async (userData: FormData) => {
     if (res.status === 200) return true;
   } catch (error) {
     console.log(error);
+  }
+};
+
+export const SignIn = async (userData: SignInService) => {
+  try {
+    const res = await SignApi.signIn(userData);
+    if (res.status === 200) {
+      console.log(res);
+      const token = res.data.result.accessToken;
+      axios.defaults.headers.common['jwt'] = token;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const decodedUser: any = jwt_decode(token);
+      const userInfo = {
+        name: decodedUser.nickname,
+        profileImage: decodedUser.profileImage ? decodedUser.profileImage : defaultProfile,
+        mentos: decodedUser.mentos,
+        role: decodedUser.type,
+      };
+      userData.setUserInfo(userInfo);
+      return true;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    console.log(error);
+    alert(error.response.data?.message);
   }
 };
