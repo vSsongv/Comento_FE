@@ -11,6 +11,7 @@ const authUtil = {
         if(!accessToken) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
         // accessToken이 유효한지 먼저 검사
+        // 존재하지 않는 경우 -> NOT_LOGGEDIN
         // 유효한 경우 -> 다음 미들웨어로 진행
         // 유효하지 않은 경우 -> client에 response 보내기
 
@@ -19,28 +20,15 @@ const authUtil = {
         if(accessResult.result === TOKEN_INVALID)
             return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
-        if(accessResult.result === TOKEN_EXPIRED || !(accessResult.validToken))
+        if(accessResult.result === TOKEN_EXPIRED)
             return next(new errorResponse(responseDetail.TOKEN_EXPIRED));
         else {
             req.user = accessResult.validToken;
             next();
         } 
-
-
-
-        /*
-        const token = req.query.token || req.headers["x-access-token"];
-        if (!token) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
-
-        const user = await jwt.verifyToken(token);
-        if (user.result === TOKEN_EXPIRED ||  user.result === TOKEN_INVALID || !(user.validToken) )
-        return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
-        req.user = user.validToken;
-        next();
-        */
     },
     checkMento : async (req, res, next) => {
-        const userInfo = req.user.validToken;
+        const userInfo = req.user;
         console.log(userInfo);
         if(userInfo.role === 'Q') return next(new errorResponse(responseDetail.NOT_MENTO));
         next();

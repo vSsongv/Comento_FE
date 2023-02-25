@@ -178,3 +178,18 @@ exports.saveToken = async function (email, token) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
+
+exports.getToken = async function (useridx){
+  try{
+    const result = await User.findOne({
+        attributes: ['refreshToken'],
+        where: {
+        userid : useridx,
+        },
+    });
+    return result;
+}catch(error){
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+}
+}

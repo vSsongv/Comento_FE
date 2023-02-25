@@ -2,6 +2,7 @@ const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const errorResponse = require('../config/errorResponse');
 const responseDetail = require('../config/responseDetail');
+const userService = require('../User/userService');
 const { User } = require("../models/index");
 const { logger } = require("../config/winston");
 const dotenv = require("dotenv");
@@ -25,27 +26,18 @@ const refresh = async (req, res, next) => {
     // refresh Token이 유효하지 않다면? -> 재로그인
     // refresh Token이 유효한다면? -> accessToken 재발급
 
-    let refreshToken;
-    try{
-        refreshToken = await User.findOne({
-            attributes: ['refreshToken'],
-            where: {
-            userid : useridx,
-            },
-        });
-    }catch(error){
-        logger.error(`${error.message}`);
-        throw new errorResponse(detailResponse.DB_ERROR, 500);
-    }
+    const result = await userService.getToken(useridx);
+    const refreshToken = result.refreshToken;
 
     if(!refreshToken) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
-    const refreshResult = await jwt.verifyToken(refreshToken.refreshToken);
-    if(refreshResult.result === TOKEN_INVALID) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
+    const refreshResult = await jwt.verifyToken(refreshToken);
+    if(refreshResult.result === TOKEN_INVALID)
+        return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
     if(refreshResult.result === TOKEN_EXPIRED)
         return next(new errorResponse(responseDetail.RE_LOGIN));
 
-    const newAccessToken = await jwt.sign(userInfo, 0, "1m");
+    const newAccessToken = await userService.signin(userInfo, 0);
     return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, {accessToken : newAccessToken}));
 }
 
