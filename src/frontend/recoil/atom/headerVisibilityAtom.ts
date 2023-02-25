@@ -1,9 +1,9 @@
 import { atom } from 'recoil';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
 
-export const headerVisibilityAtom = atom({
-  key: 'headerVisibilityState',
-  default: 2,
+export const loginState = atom<boolean>({
+  key: 'loginState',
+  default: true,
 });
 
 export interface UserInfoType {

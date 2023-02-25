@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { headerVisibilityAtom, UserInfoType, userInfo, headerMenu } from '../../recoil/atom/headerVisibilityAtom';
+import { loginState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom/headerVisibilityAtom';
 import HeaderMenu from './HeaderMenu';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
@@ -58,7 +58,7 @@ const ProfileImage = styled.img`
 const Header = () => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
   const [searchInputRef, handleClickOutside] = useClickState(setHeaderState);
-  const headerVisibility = useRecoilValue<number>(headerVisibilityAtom);
+  const headerVisibility = useRecoilValue<boolean>(loginState);
   const user = useRecoilValue<UserInfoType>(userInfo);
 
   useEffect(() => {
@@ -78,12 +78,7 @@ const Header = () => {
         <LogoLink to='/'>
           <img src={Logo} alt='Home Logo' />
         </LogoLink>
-        {headerVisibility === 1 ? (
-          <SignInLink to='/signIn'>
-            로그인 해주세요.
-            <ProfileImage src={defaultProfile} alt='프로필 이미지' />
-          </SignInLink>
-        ) : (
+        {headerVisibility ? (
           <div ref={searchInputRef}>
             <Profile onClick={menuToggle}>
               <img src={mentos} alt='멘토스 이미지' width='30rem' />내 멘토스 {user.mentos}개
@@ -91,6 +86,11 @@ const Header = () => {
             </Profile>
             {headerState ? <HeaderMenu /> : null}
           </div>
+        ) : (
+          <SignInLink to='/signIn'>
+            로그인 해주세요.
+            <ProfileImage src={defaultProfile} alt='프로필 이미지' />
+          </SignInLink>
         )}
       </HeaderBox>
     </>

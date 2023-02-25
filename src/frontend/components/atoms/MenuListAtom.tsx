@@ -32,14 +32,22 @@ const MenuListAtom = ({ imageSrc, menu }: Props) => {
   const navigate = useNavigate();
 
   const moveTo = () => {
-    if (menu === '질문하기') {
-      navigate('/question');
-    } else if (menu === '결제하기') {
-      navigate('/signIn');
-    } else if (menu === '마이페이지') {
-      navigate('/signUp');
-    } else {
-      navigate('/answer');
+    switch (menu) {
+      case '질문하기':
+        navigate('/question');
+        break;
+      case '결제하기':
+        navigate('/signIn');
+        break;
+      case '마이페이지':
+        navigate('/answer');
+        break;
+      case '로그아웃': //TODO: 로그아웃 구현
+        alert('TODO');
+        break;
+      default:
+        alert('잘못된 접근입니다.');
+        break;
     }
     setHeaderState(!headerState);
   };
