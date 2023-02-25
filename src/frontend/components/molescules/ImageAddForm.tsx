@@ -3,10 +3,13 @@ import styled from 'styled-components';
 import SignupDefaultImage from '../../assets/images/SignupDefaultImage.png';
 import AddBtnImage from '../../assets/images/AddBtnImage.png';
 
-interface ImageAddFormProps {
+interface ImageSizeProps {
   width?: number;
   height?: number;
-  formData?: FormData; //TODO: 필수 데이터인데 ㅠ
+}
+
+interface ImageAddFormProps extends ImageSizeProps {
+  formData: FormData;
 }
 
 /**
@@ -24,7 +27,7 @@ const Input = styled.input`
   display: none;
 `;
 
-const ImageAddBtnContainer = styled.div<ImageAddFormProps>`
+const ImageAddBtnContainer = styled.div<ImageSizeProps>`
   width: ${(props) => props.width || 204}px;
   height: ${(props) => props.height || 204}px;
   position: relative;
@@ -42,7 +45,7 @@ const ImageArea = styled.img`
   cursor: pointer;
 `;
 
-const AddBtn = styled.img<ImageAddFormProps>`
+const AddBtn = styled.img<ImageSizeProps>`
   height: ${(props) => props.width || 204}* 5.7px;
   width: ${(props) => props.width || 204}* 5.7px;
   position: absolute;
