@@ -10,14 +10,16 @@ export interface UserInfoType {
   name: string;
   profileImage: string;
   mentos: number;
+  role: string;
 }
 
 export const userInfo = atom<UserInfoType>({
   key: 'UserInfo',
   default: {
-    name: 'Comento',
+    name: '',
     profileImage: defaultProfile,
     mentos: 0,
+    role: '',
   },
 });
 
