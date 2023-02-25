@@ -56,12 +56,6 @@ const InputStyle = {
   color: 'black',
 };
 
-const ErrorStyle = {
-  color: 'red',
-  position: 'absolute',
-  right: '0',
-};
-
 const CheckNickBtn = styled.button`
   font-family: NanumGothic;
   font-size: 14px;
@@ -92,20 +86,19 @@ const ShowPwdBtn = styled.button<PwdState>`
 /**
  * @author Ssong
  * @description Input Molescules
+ * @param {Props} purpose purpose for input
+ * @param {Props} reg register for react hook form
+ * @param {Props} error error for react hook forrm
  * @param {Props} label label for input area
  * @param {Props} placeHolder example text for input area
- * @param {Props} option optional btn
+ * @param {Props} option optional btn(optional)
+ * @param {Props} crtPassword for password_confirm checked(optional)
  *
  * @example
+ * <InputForm reg={register} error={errors} label='E-mail' purpose='email' placeholder='이메일을 입력해주세요.' />
+ **/
 
- * <View style={{width: someWidth, height: someHeight}}>
- *   <Button onPress={handleClick}>
- *     <Text>메뉴 추가하기</Text>
- *   </Button>
- * </View>
-**/
-
-const InputForm = ({ purpose, label, placeholder, option, reg, error, crtPassword }: InputFormProps) => {
+const InputForm = ({ purpose, reg, error, label, placeholder, option, crtPassword }: InputFormProps) => {
   const isPwd = purpose === 'password' || purpose === 'password_confirm' || purpose === 'password_signin';
   const [type, setType] = useState(isPwd ? 'password' : 'text');
 
@@ -115,6 +108,20 @@ const InputForm = ({ purpose, label, placeholder, option, reg, error, crtPasswor
 
   const checkPwd = (value: string | number) => {
     return value === crtPassword || '* 비밀번호가 다릅니다.';
+  };
+
+  const checkDuple = (purpose: string) => {
+    switch (purpose) {
+      case 'email':
+        console.log('fsd');
+        break;
+      case 'nickname':
+        console.log('d');
+        break;
+      case 'phone':
+        console.log('f');
+        break;
+    }
   };
 
   const rule: { [key: string]: FieldValues } = {
@@ -153,12 +160,20 @@ const InputForm = ({ purpose, label, placeholder, option, reg, error, crtPasswor
           style={InputStyle}
           placeholder={placeholder}
           {...reg(purpose, {
-            required: `* ${purpose}값은 필수값입니다.`,
+            required: isPwd ? `* password값은 필수값입니다.` : `* ${purpose}값은 필수값입니다.`,
             ...rule[purpose],
             validate: purpose === 'password_confirm' ? (value) => checkPwd(value) : undefined,
           })}
         />
-        {option === '중복확인' ? <CheckNickBtn type='button'>중복확인</CheckNickBtn> : option === '비밀번호확인' ? <ShowPwdBtn type='button' state={type} onClick={showPwd}></ShowPwdBtn> : ''}
+        {option === '중복확인' ? (
+          <CheckNickBtn type='button' onClick={() => checkDuple(purpose)}>
+            중복확인
+          </CheckNickBtn>
+        ) : option === '비밀번호확인' ? (
+          <ShowPwdBtn type='button' state={type} onClick={showPwd}></ShowPwdBtn>
+        ) : (
+          ''
+        )}
       </Wrapper>
       {error[purpose] && (
         <small style={{ color: 'red', position: 'absolute', right: '0', marginRight: '5px' }} role='alert'>

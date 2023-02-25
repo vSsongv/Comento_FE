@@ -6,7 +6,7 @@ import AddBtnImage from '../../assets/images/AddBtnImage.png';
 interface ImageAddFormProps {
   width?: number;
   height?: number;
-  imgUrl?: string;
+  formData?: FormData; //TODO: 필수 데이터인데 ㅠ
 }
 
 /**
@@ -17,9 +17,8 @@ interface ImageAddFormProps {
  * @param {Props} imageUrl imageUrl for background
  *
  * @example
-
  * <ImageAddForm width={10}></ImageAddForm>
-**/
+ **/
 
 const Input = styled.input`
   display: none;
@@ -34,13 +33,12 @@ const ImageAddBtnContainer = styled.div<ImageAddFormProps>`
   margin-bottom: 30px;
 `;
 
-const ImageArea = styled.div<ImageAddFormProps>`
+const ImageArea = styled.img`
   height: 100%;
   width: 100%;
   border: 0;
   border-radius: 100px;
   background-size: 100%;
-  background-image: url(${(props) => props.imgUrl});
   cursor: pointer;
 `;
 
@@ -53,7 +51,7 @@ const AddBtn = styled.img<ImageAddFormProps>`
   cursor: pointer;
 `;
 
-const ImageAddForm = ({ width, height }: ImageAddFormProps) => {
+const ImageAddForm = ({ width, height, formData }: ImageAddFormProps) => {
   const [profile, setprofile] = useState<string>(SignupDefaultImage);
 
   const setProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,6 +59,7 @@ const ImageAddForm = ({ width, height }: ImageAddFormProps) => {
     if (file) {
       const profileUrl = URL.createObjectURL(file[0]);
       setprofile(profileUrl);
+      formData?.append('images', file[0]);
     }
   };
 
@@ -69,7 +68,7 @@ const ImageAddForm = ({ width, height }: ImageAddFormProps) => {
       <Input onChange={setProfile} type='file' name='file' id='file' accept='image/*'></Input>
       <ImageAddBtnContainer width={width} height={height}>
         <label htmlFor='file'>
-          <ImageArea imgUrl={profile} />
+          <ImageArea src={profile} />
           <AddBtn src={AddBtnImage} />
         </label>
       </ImageAddBtnContainer>

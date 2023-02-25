@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import SignInForm from '../../components/organisms/SignInForm';
 import SignLogo from '../../assets/images/SignLogo.png';
 import toSignUp from '../../assets/images/signup.png';
@@ -41,10 +41,20 @@ const SignUpImg = styled.img`
 `;
 
 const SignIn = () => {
+  const [keepSignIn, setKeepSignIn] = useState<boolean>(false);
+
+  const KeepUser = () => {
+    setKeepSignIn(!keepSignIn);
+  };
+
   return (
     <SignInContainer>
       <img style={{ display: 'block', margin: 'auto' }} src={SignLogo} />
       <SignInForm />
+      <label style={{ position: 'absolute', bottom: '150px' }}>
+        <input style={{ cursor: 'pointer', marginRight: '5px' }} checked={keepSignIn} onChange={KeepUser} type='checkbox' name='color' value='saveUserInfo' />
+        로그인 상태 유지
+      </label>
       <SignUpImg src={toSignUp} />
       <SignUpLink to='/signup'>회원가입 하기</SignUpLink>
     </SignInContainer>

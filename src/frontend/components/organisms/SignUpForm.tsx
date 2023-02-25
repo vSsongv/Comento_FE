@@ -3,15 +3,9 @@ import Button from '../atoms/Button';
 import InputForm from '../molescules/InputForm';
 import styled from 'styled-components';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
-interface FormValue {
-  email: string;
-  password: string;
-  password_signin: string;
-  password_confirm: string;
-  nickname: string;
-  phone: number;
-}
+import { FormValue, SignUp } from '../../api/authService';
+import ImageAddForm from '../molescules/ImageAddForm';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpFormContainer = styled.form`
   margin-bottom: 35px;
@@ -20,10 +14,18 @@ const SignUpFormContainer = styled.form`
 `;
 
 const SignUpForm = () => {
-  const onSubmit: SubmitHandler<FormValue> = (data) => {
-    console.log('dsfdsfdf');
-    console.log(data.password);
-    console.log(data.password_confirm);
+  const formData: FormData = new FormData();
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<FormValue> = async (data) => {
+    const userData = {
+      email: data.email,
+      password: data.password,
+      nickname: data.nickname,
+      phone: data.phone,
+    };
+    formData.append('data', JSON.stringify(userData));
+    if ((await SignUp(formData)) === true) navigate('/signIn');
   };
 
   const {
@@ -38,6 +40,7 @@ const SignUpForm = () => {
 
   return (
     <SignUpFormContainer onSubmit={handleSubmit(onSubmit)}>
+      <ImageAddForm formData={formData} />
       <InputForm reg={register} error={errors} label='E-mail' purpose='email' placeholder='comento@mentos.com 형식으로 입력해주세요.' option='중복확인' />
       <InputForm reg={register} error={errors} label='Password' purpose='password' placeholder='영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.' option='비밀번호확인' />
       <InputForm
