@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useRecoilValue } from 'recoil';
-import { UserInfoType, userInfo } from '../../recoil/atom/headerVisibilityAtom';
+import { UserInfoType, userInfo } from '../../recoil/atom';
 import mentos from '../../assets/images/mentos.png';
 
 interface SimpleProfileProps {

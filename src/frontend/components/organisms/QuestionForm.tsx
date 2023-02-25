@@ -7,7 +7,7 @@ import QuestionContent from '../molescules/Question/QuestionContent';
 import QuestionFile from '../molescules/Question/QeustionFile';
 import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
-import { Languages } from '../utils/Languages';
+import { Languages } from '../../utils/Languages';
 import axios from 'axios';
 
 const QuestionBox = styled(ShadowBox)`

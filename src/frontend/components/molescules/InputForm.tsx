@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SubmitHandler, FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
+import { FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
 import styled from 'styled-components';
 import hidePasswordImg from '../../assets/images/hidePassword.png';
 import showPasswordImg from '../../assets/images/ShowPassword.png';

@@ -1,6 +1,6 @@
 import React, { MutableRefObject } from 'react';
 import styled, { css } from 'styled-components';
-import { Languages } from '../utils/Languages';
+import { Languages } from '../../utils/Languages';
 import { shadow } from '../../styles/styleUtil';
 
 interface DropDownProps {

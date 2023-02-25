@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { signInState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom/headerVisibilityAtom';
+import { signInState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom';
 import HeaderMenu from './HeaderMenu';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';

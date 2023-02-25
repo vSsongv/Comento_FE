@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
-import { headerMenu } from '../../recoil/atom/headerVisibilityAtom';
+import { headerMenu } from '../../recoil/atom';
 
 const ListContainer = styled.li`
   display: flex;

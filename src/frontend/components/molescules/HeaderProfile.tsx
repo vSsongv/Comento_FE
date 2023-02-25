@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { headerMenu } from '../../recoil/atom/headerVisibilityAtom';
+import { headerMenu } from '../../recoil/atom';
 import { border } from '../../styles/styleUtil';
 import SimpleProfile from '../atoms/SimpleProfile';
 

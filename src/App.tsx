@@ -11,7 +11,7 @@ import Header from './frontend/components/organisms/Header';
 import Question from './frontend/pages/Question';
 import Answer from './frontend/pages/Answer';
 import Footer from './frontend/components/molescules/Footer';
-import { ScrollToTop } from './frontend/components/utils/ScrollToTop';
+import { ScrollToTop } from './frontend/utils/ScrollToTop';
 
 function App() {
   return (

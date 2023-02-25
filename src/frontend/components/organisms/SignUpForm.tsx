@@ -2,9 +2,9 @@ import React, { useRef } from 'react';
 import Button from '../atoms/Button';
 import InputForm from '../molescules/InputForm';
 import styled from 'styled-components';
+import ImageAddForm from '../molescules/ImageAddForm';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormValue, SignUp } from '../../api/authService';
-import ImageAddForm from '../molescules/ImageAddForm';
 import { useNavigate } from 'react-router-dom';
 
 const SignUpFormContainer = styled.form`
