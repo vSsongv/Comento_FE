@@ -24,13 +24,13 @@ interface Props {
   titleRef: RefObject<HTMLInputElement>;
 }
 
-function QuestionTitle({ titleRef }: Props) {
+const QuestionTitle = ({ titleRef }: Props) => {
   return (
     <>
       <Title>제목</Title>
-      <TitleInput ref={titleRef} />
+      <TitleInput ref={titleRef} placeholder='ex) c언어 포인터 관련 질문' />
     </>
   );
-}
+};
 
 export default QuestionTitle;
