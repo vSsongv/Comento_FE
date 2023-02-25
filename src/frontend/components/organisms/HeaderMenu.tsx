@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import HeaderProfile from '../molescules/HeaderProfile';
-import HeaderMenuList from '../molescules/HeaderMenuList';
+import HeaderNavs from '../molescules/HeaderNavs';
 
 const MenuContainer = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const HeaderMenu = () => {
   return (
     <MenuContainer>
       <HeaderProfile />
-      <HeaderMenuList />
+      <HeaderNavs />
     </MenuContainer>
   );
 };

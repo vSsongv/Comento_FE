@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
 import { Link } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { loginState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom/headerVisibilityAtom';
+import { signInState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom/headerVisibilityAtom';
 import HeaderMenu from './HeaderMenu';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
@@ -60,7 +60,7 @@ const ProfileImage = styled.img`
 const Header = () => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
   const [searchInputRef, handleClickOutside] = useClickState(setHeaderState);
-  const headerVisibility = useRecoilValue<boolean>(loginState);
+  const isSignIn = useRecoilValue<boolean>(signInState);
   const user = useRecoilValue<UserInfoType>(userInfo);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const Header = () => {
         <LogoLink to='/'>
           <img src={Logo} alt='Home Logo' />
         </LogoLink>
-        {headerVisibility ? (
+        {isSignIn ? (
           <div ref={searchInputRef}>
             <Profile onClick={menuToggle}>
               <img src={mentos} alt='멘토스 이미지' width='30rem' />내 멘토스 {user.mentos}개

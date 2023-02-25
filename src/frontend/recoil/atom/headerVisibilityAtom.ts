@@ -1,8 +1,8 @@
 import { atom } from 'recoil';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
 
-export const loginState = atom<boolean>({
-  key: 'loginState',
+export const signInState = atom<boolean>({
+  key: 'signInState',
   default: true,
 });
 

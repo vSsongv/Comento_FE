@@ -27,7 +27,7 @@ interface Props {
   menu: string;
 }
 
-const MenuListAtom = ({ imageSrc, menu }: Props) => {
+const HeaderNav = ({ imageSrc, menu }: Props) => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
   const navigate = useNavigate();
 
@@ -61,4 +61,4 @@ const MenuListAtom = ({ imageSrc, menu }: Props) => {
   );
 };
 
-export default MenuListAtom;
+export default HeaderNav;

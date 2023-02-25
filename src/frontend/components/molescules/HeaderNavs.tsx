@@ -4,7 +4,7 @@ import Logout from '../../assets/images/Logout.png';
 import MyPage from '../../assets/images/MyPage.png';
 import Pay from '../../assets/images/Pay.png';
 import Question from '../../assets/images/Question.png';
-import MenuListAtom from '../atoms/MenuListAtom';
+import HeaderNav from '../atoms/HeaderNav';
 
 const MenuContainer = styled.ul`
   list-style: none;
@@ -12,15 +12,15 @@ const MenuContainer = styled.ul`
   margin-bottom: 4%;
 `;
 
-const HeaderMenuList = () => {
+const HeaderNavs = () => {
   return (
     <MenuContainer>
-      <MenuListAtom imageSrc={Question} menu='질문하기' />
-      <MenuListAtom imageSrc={Pay} menu='결제하기' />
-      <MenuListAtom imageSrc={MyPage} menu='마이페이지' />
-      <MenuListAtom imageSrc={Logout} menu='로그아웃' />
+      <HeaderNav imageSrc={Question} menu='질문하기' />
+      <HeaderNav imageSrc={Pay} menu='결제하기' />
+      <HeaderNav imageSrc={MyPage} menu='마이페이지' />
+      <HeaderNav imageSrc={Logout} menu='로그아웃' />
     </MenuContainer>
   );
 };
 
-export default HeaderMenuList;
+export default HeaderNavs;
