@@ -22,6 +22,7 @@ const HeaderBox = styled.div`
   width: 100%;
   padding: 0 4rem;
   background-color: white;
+  //TODO: z-index: 9999 필요
   ${shadow(1)}
 `;
 
