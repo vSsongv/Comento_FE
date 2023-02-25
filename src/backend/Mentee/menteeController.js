@@ -8,13 +8,12 @@ const regNumber = /^[0-9]/;
 const mentee = {
   postQuestion: asyncHandler(async function (req, res, next) {
     let imageDir = {};
-    for (let i = 0; i < req.files.length; i++) {
+    let length = !req.files ? 0 : req.files.length;
+    for (let i = 0; i < length; i++) {
       imageDir[i + 1] = req.files[i]["path"];
     }
-    const { language, title, userid, nickname, content } = JSON.parse(
-      req.body.data
-    );
-
+    const { language, title, content } = JSON.parse(req.body.data);
+    const { userid, nickname } = req.user;
     const userIdx = userid;
     if (!userIdx)
       return next(
@@ -46,7 +45,6 @@ const mentee = {
 
     const dupTitle = await menteeService.checkTitle(userIdx, title);
     const dupContent = await menteeService.checkContent(userIdx, content);
-
     if (dupTitle || dupContent)
       return next(
         new errorResponse(basicResponse(detailResponse.EXIST_QUESTION), 400)
@@ -109,6 +107,29 @@ const mentee = {
         new errorResponse(basicResponse(detailResponse.NONE_QUESTION), 400)
       );
     return res.send(resultResponse(detailResponse.GET_QUESTION, question));
+  }),
+  getSpecificQuestion: asyncHandler(async function (req, res, next) {
+    const questionid = req.params.questionid;
+    const userIdx = req.user.userid;
+    if (!questionid)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_QUESTIONID), 400)
+      );
+    if (!userIdx)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
+      );
+    const questionInfo = await menteeService.getSpecificQuestion(
+      userIdx,
+      questionid
+    );
+    if (!questionInfo)
+      return next(
+        new errorResponse(basicResponse(detailResponse.NOT_EXIST_QUESTION), 400)
+      );
+    return res.send(
+      resultResponse(detailResponse.GET_QUESTIONINFO, questionInfo)
+    );
   }),
   modifyQuestion: asyncHandler(async function (req, res, next) {
     const userIdx = req.user.userid;

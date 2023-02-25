@@ -85,6 +85,8 @@ exports.getFinishedQuestion = async function (menteeid) {
 exports.checkTitle = async function (menteeid, title) {
   try {
     const result = await Mentoring.findOne({
+      raw: true,
+      attributes: ["mentoringid"],
       where: {
         menteeid,
         title,
@@ -100,6 +102,8 @@ exports.checkTitle = async function (menteeid, title) {
 exports.checkContent = async function (menteeid, content) {
   try {
     const result = await Mentoring.findOne({
+      raw: true,
+      attributes: ["mentoringid"],
       where: {
         menteeid,
         content,
@@ -138,7 +142,14 @@ exports.getSpecificQuestion = async function (menteeid, mentoringid) {
   try {
     const result = await Mentoring.findOne({
       raw: true,
-      attributes: ["title", "content", "createdAt", "updatedAt", "language"],
+      attributes: [
+        "title",
+        "content",
+        "createdAt",
+        "updatedAt",
+        "language",
+        "content_image",
+      ],
       where: {
         menteeid,
         mentoringid,
