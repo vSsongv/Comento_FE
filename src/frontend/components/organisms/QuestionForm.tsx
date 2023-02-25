@@ -7,7 +7,7 @@ import QuestionContent from '../molescules/Question/QuestionContent';
 import QuestionFile from '../molescules/Question/QeustionFile';
 import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
-import { Languages } from '../utils/Languages';
+import { Languages } from '../../utils/Languages';
 import axios from 'axios';
 
 const QuestionBox = styled(ShadowBox)`
@@ -61,7 +61,7 @@ const Submit = styled.img`
   cursor: pointer;
 `;
 
-function QuestionForm() {
+const QuestionForm = () => {
   // const [language, setLanguage] = useState<string>(Languages[0]);
   const languageRef = useRef<string>(Languages[0]);
   const titleRef = useRef<HTMLInputElement>(null);
@@ -114,7 +114,7 @@ function QuestionForm() {
       <FormHead />
       <Top>
         <QuestionTitle titleRef={titleRef} />
-        <DropDown languageRef={languageRef} />
+        <DropDown languageRef={languageRef} border='1 3' />
         <Submit src={SubmitIcon} onClick={onSubmit} />
       </Top>
       <Middle>
@@ -125,6 +125,6 @@ function QuestionForm() {
       </Bottom>
     </QuestionBox>
   );
-}
+};
 
 export default QuestionForm;

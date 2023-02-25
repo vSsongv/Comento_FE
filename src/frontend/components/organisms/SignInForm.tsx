@@ -3,15 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import Button from '../atoms/Button';
 import InputForm from '../molescules/InputForm';
-
-interface FormValue {
-  email: string;
-  password: string;
-  password_signin: string;
-  password_confirm: string;
-  nickname: string;
-  phone: number;
-}
+import { FormValue } from '../../api/authService';
 
 const SignInFormContainer = styled.form`
   display: flex;
