@@ -1,4 +1,5 @@
-import { SignApi } from './api';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Mentee, SignApi } from './api';
 import jwt_decode from 'jwt-decode';
 import { SetterOrUpdater } from 'recoil';
 import { UserInfoType } from '../recoil/atom';
@@ -31,14 +32,13 @@ export const SignUp = async (userData: FormData) => {
   }
 };
 
-export const SignIn = async (userData: SignInService) => {
+export const SignIn = async (userData: SignInService): Promise<void | boolean> => {
   try {
     const res = await SignApi.signIn(userData);
     if (res.status === 200) {
       console.log(res);
       const token = res.data.result.accessToken;
       axios.defaults.headers.common['x-access-token'] = token;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const decodedUser: any = jwt_decode(token);
       const userInfo = {
         name: decodedUser.nickname,
@@ -49,9 +49,23 @@ export const SignIn = async (userData: SignInService) => {
       userData.setUserInfo(userInfo);
       return true;
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log(error);
     alert(error.response.data.message);
+  }
+};
+
+export const Question = async (questionContents: FormData): Promise<void | boolean> => {
+  try {
+    const res = await Mentee.question(questionContents);
+    if (res.status === 200) {
+      console.log(res);
+      return true;
+    }
+  } catch (error: any) {
+    if (error.response.status === 400) {
+      alert(error.response.data.message);
+    }
+    console.log(error);
   }
 };

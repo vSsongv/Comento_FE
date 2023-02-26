@@ -8,7 +8,7 @@ import QuestionFile from '../molescules/Question/QeustionFile';
 import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
 import { Languages } from '../../utils/Languages';
-import axios from 'axios';
+import { Question } from '../../api/authService';
 
 const QuestionBox = styled(ShadowBox)`
   display: flex;
@@ -72,7 +72,7 @@ const QuestionForm = () => {
     titleRef.current?.focus();
   }, []);
 
-  const onSubmit = (): void => {
+  const onSubmit = async (): Promise<void> => {
     if (titleRef.current?.value === '') {
       alert('제목을 입력해주세요.');
       titleRef.current.focus();
@@ -95,18 +95,9 @@ const QuestionForm = () => {
     };
     formData.append('data', JSON.stringify(dataSet));
 
-    //TODO: axios 모듈화하기
-    axios
-      .post('//3.37.84.147:8081/mentee/question', formData)
-      .then((res) => {
-        alert('테스트성공!');
-        console.log(res);
-      })
-      .catch((err) => {
-        if (err.response.status === 400) {
-          alert(err.response.data.message);
-        }
-      });
+    if (await Question(formData)) {
+      alert('질문이 등록되었습니다.');
+    }
   };
 
   return (

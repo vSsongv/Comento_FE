@@ -17,3 +17,7 @@ export const SignApi = {
   checkDupleNick: () => api.get('user/check/nickname'),
   checkDuplePhone: () => api.get('user/check/phone'),
 };
+
+export const Mentee = {
+  question: (questionContents: FormData) => api.post('mentee/question', questionContents),
+};
