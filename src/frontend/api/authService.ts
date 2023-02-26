@@ -37,7 +37,7 @@ export const SignIn = async (userData: SignInService) => {
     if (res.status === 200) {
       console.log(res);
       const token = res.data.result.accessToken;
-      axios.defaults.headers.common['jwt'] = token;
+      axios.defaults.headers.common['x-access-token'] = token;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const decodedUser: any = jwt_decode(token);
       const userInfo = {
@@ -52,6 +52,6 @@ export const SignIn = async (userData: SignInService) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log(error);
-    alert(error.response.data?.message);
+    alert(error.response.data.message);
   }
 };
