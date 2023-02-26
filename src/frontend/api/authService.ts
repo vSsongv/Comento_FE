@@ -5,6 +5,7 @@ import { SetterOrUpdater } from 'recoil';
 import { UserInfoType } from '../recoil/atom';
 import defaultProfile from '../assets/images/defaultProfile.svg';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 export interface SignInProps {
   email: string;
@@ -46,6 +47,15 @@ export const SignIn = async (userData: SignInService): Promise<void | boolean> =
         mentos: decodedUser.mentos,
         role: decodedUser.type,
       };
+      if (res.data.result.refreshToken) {
+        const [, setCookie] = useCookies(['refresh-token']);
+        setCookie('refresh-token', res.data.result.refreshToken, {
+          path: '/',
+          secure: true,
+          sameSite: 'none',
+        });
+      }
+
       userData.setUserInfo(userInfo);
       return true;
     }
