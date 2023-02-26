@@ -2,7 +2,7 @@ import axios from 'axios';
 import { SignInService } from './authService';
 
 export const api = axios.create({
-  baseURL: '//3.37.84.147:8080', //TODO: process.env.REACT_APP_API_URL,
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 export const SignApi = {
