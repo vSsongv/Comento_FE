@@ -11,7 +11,7 @@ const survey = {
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
 
-        const {question1, question2, question3, evalutionText} = JSON.parse(req.body.data);
+        const {question1, question2, question3, evalutionText} = req.body;
         if(!question1 || !question2 || !question3) return next(new errorResponse(basicResponse(detailResponse.EMPTY_CHECKING), 400));
         if(!evalutionText) return next(new errorResponse(basicResponse(detailResponse.EMPTY_ANSWER), 400));
 
