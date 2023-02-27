@@ -3,8 +3,6 @@ const detailResponse = require("../config/responseDetail");
 const errorResponse = require('../config/errorResponse');
 const responseDetail = require('../config/responseDetail');
 const userService = require('../User/userService');
-const { User } = require("../models/index");
-const { logger } = require("../config/winston");
 const dotenv = require("dotenv");
 dotenv.config();
 const JWT = require("jsonwebtoken");
@@ -37,7 +35,7 @@ const refresh = async (req, res, next) => {
     if(refreshResult.result === TOKEN_EXPIRED)
         return next(new errorResponse(responseDetail.RE_LOGIN));
 
-    const newAccessToken = await userService.signin(userInfo, 0);
+    const newAccessToken = await userService.signin(userInfo);
     return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, {accessToken : newAccessToken}));
 }
 

@@ -69,12 +69,9 @@ exports.createUser = async function (
   }
 };
 
-exports.signin = async function (userInfo, isKeep) {
+exports.signin = async function (userInfo) {
   try {
-    let expiresIn;
-    if (isKeep) expiresIn = "7d";
-    else expiresIn = "6h";
-    let token = jwt.sign(userInfo, isKeep, expiresIn);
+    let token = jwt.sign(userInfo);
     return token;
   } catch (error) {
     logger.error(`${error.message}`);
