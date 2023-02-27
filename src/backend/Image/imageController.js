@@ -1,6 +1,6 @@
 const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
-const { deleteFile } = require("../middlewares/image");
+const { deleteFile } = require("../config/s3");
 
 exports.upload = function (req, res) {
   const files = req.files;
@@ -23,6 +23,7 @@ exports.upload = function (req, res) {
 
 exports.delete = function (req, res) {
   const data = req.body;
+  console.log(data);
   const result = deleteFile(data);
   if (!result)
     return res.status(500).send(basicResponse(detailResponse.DB_ERROR));

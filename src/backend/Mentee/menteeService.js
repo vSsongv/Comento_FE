@@ -138,7 +138,7 @@ exports.getAllQuestion = async function (userid) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
-exports.getSpecificQuestion = async function (menteeid, mentoringid) {
+exports.getSpecificQuestion = async function (mentoringid) {
   try {
     const result = await Mentoring.findOne({
       raw: true,
@@ -151,8 +151,7 @@ exports.getSpecificQuestion = async function (menteeid, mentoringid) {
         "content_image",
       ],
       where: {
-        menteeid,
-        mentoringid,
+        mentoringid: mentoringid,
       },
     });
     return result;
@@ -166,7 +165,8 @@ exports.modifyQuestion = async function (
   mentoringid,
   title,
   content,
-  language
+  language,
+  image
 ) {
   try {
     await Mentoring.update(
@@ -174,6 +174,7 @@ exports.modifyQuestion = async function (
         title,
         content,
         language,
+        content_image: image,
       },
       {
         where: {
@@ -187,7 +188,13 @@ exports.modifyQuestion = async function (
   }
 };
 
-exports.modifyChat = async function (userid, roomid, content, title, language) {
+exports.modifyChat = async function (
+  nickname,
+  roomid,
+  content,
+  title,
+  language
+) {
   try {
     await Chat.update(
       {
@@ -197,7 +204,7 @@ exports.modifyChat = async function (userid, roomid, content, title, language) {
       },
       {
         where: {
-          userid,
+          nickname,
           roomid,
         },
       }
@@ -217,11 +224,10 @@ exports.deleteQuestion = async function (mentoringid) {
   }
 };
 
-exports.deleteChat = async function (userid, chatid) {
+exports.deleteChat = async function (chatid) {
   try {
     await Chat.destroy({
       where: {
-        userid,
         chatid,
       },
     });

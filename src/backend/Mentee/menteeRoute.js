@@ -17,7 +17,16 @@ router.get(
   checkToken,
   menteeController.getSpecificQuestion
 );
-router.patch("/question", checkToken, menteeController.modifyQuestion);
+
+//TODO: 멘토링 체결이 되기전인지를 확인하는 과정필요
+router.patch(
+  "/question",
+  checkToken,
+  upload.array(["images"]),
+  menteeController.modifyQuestion
+);
+
+//TODO: 멘토링 체결이 되기전인지를 확인하는 과정필요
 router.delete(
   "/question/:questionid",
   checkToken,
