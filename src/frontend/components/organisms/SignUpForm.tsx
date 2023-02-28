@@ -32,7 +32,7 @@ const SignUpForm = () => {
     if (availableEmail && availableNick && availablePhone) {
       if ((await signUp(formData)) === true) navigate('/signIn');
     } else {
-      alert('중복확인을 해주세요.');
+      alert('중복확인 체크를 모두 해주세요.');
     }
   };
 
