@@ -28,7 +28,7 @@ interface Props {
   formData: FormData;
 }
 
-function QuestionFile({ formData }: Props) {
+const QuestionFile = ({ formData }: Props) => {
   const [imageList, setImageList] = useState<string[]>([]);
 
   const fileDelete = (deleteIndex: number): void => {
@@ -66,11 +66,18 @@ function QuestionFile({ formData }: Props) {
             <img src={Drag_files_to_upload} />
           </CustomInput>
         </label>
-        <UploadHidden type='file' name='file' id='file' accept='.jpg, .jpeg, .png, .img' onChange={handleFile} multiple />
+        <UploadHidden
+          type='file'
+          name='file'
+          id='file'
+          accept='.jpg, .jpeg, .png, .img'
+          onChange={handleFile}
+          multiple
+        />
       </UploadBox>
       <Image imageList={imageList} fileDelete={fileDelete} />
     </>
   );
-}
+};
 
 export default QuestionFile;

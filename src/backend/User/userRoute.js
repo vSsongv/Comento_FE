@@ -1,20 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const userController = require('./userController');
-const { checkToken } = require('../middlewares/auth');
-const upload = require('../middlewares/upload');
+const userController = require("./userController");
+const { checkToken } = require("../middlewares/auth");
+const upload = require("../middlewares/upload");
 
 // router.post("/profile", checkToken, upload.array("images"), function(req,res,err) {console.log(req.nickname);res.send("hi")}); 업로드 테스트용
-router.get('/test', checkToken, function(req,res,err){
-    res.send("hi");
-})
+router.get("/test", checkToken, function (req, res, err) {
+  res.send("hi");
+});
 
-router.post('/signup',  upload.array("images"), userController.signup); 
-router.post('/signin',  userController.signin);
-router.post('/reset-password', userController.resetPassword);
-router.get('/check/email', userController.checkId);
-router.get('/check/phone', userController.checkPhone);
-router.get('/check/nickname', userController.checkNickname);
+router.post("/signup", upload.array("images", 1), userController.signup);
+router.post("/signin", userController.signin);
+router.post("/reset-password", userController.resetPassword);
+router.get("/check/email", userController.checkId);
+router.get("/check/phone", userController.checkPhone);
+router.get("/check/nickname", userController.checkNickname);
+router.patch("/update/userinfo", checkToken, userController.updateUserInfo);
 
 router.post("/find/password", userController.findPassword);
 //router.get('/logout', checkAuth, authController.logout);

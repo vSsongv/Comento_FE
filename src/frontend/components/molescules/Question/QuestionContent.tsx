@@ -28,13 +28,16 @@ interface Props {
   contentRef: RefObject<HTMLTextAreaElement>;
 }
 
-function QuestionContent(props: Props) {
+const QuestionContent = (props: Props) => {
   return (
     <>
       <Content>내용</Content>
-      <ContentInput ref={props.contentRef} />
+      <ContentInput
+        ref={props.contentRef}
+        placeholder='ex) 25번째 줄의 코드가 왜 실행이 되지 않는지 모르겠어요. 포인터 사용 방식이 잘못된 건가요?'
+      />
     </>
   );
-}
+};
 
 export default QuestionContent;
