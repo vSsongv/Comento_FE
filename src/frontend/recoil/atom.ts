@@ -10,6 +10,7 @@ export interface UserInfoType {
   name: string;
   profileImage: string;
   mentos: number;
+  role: string;
 }
 
 export const userInfo = atom<UserInfoType>({
@@ -18,6 +19,7 @@ export const userInfo = atom<UserInfoType>({
     name: 'Comento',
     profileImage: defaultProfile,
     mentos: 0,
+    role: '',
   },
 });
 
