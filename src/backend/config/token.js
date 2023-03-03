@@ -27,7 +27,7 @@ module.exports = {
         {},
         process.env.REFRESH_SECRET,
         {
-            expiresIn: "7d", // 7일 후 만료
+            expiresIn: "1d", // 1일 후 만료
             issuer: "friday",
         }
     );
