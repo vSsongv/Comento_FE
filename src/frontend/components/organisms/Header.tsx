@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { signInState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom';
 import HeaderMenu from './HeaderMenu';
@@ -70,9 +70,11 @@ const Header = () => {
   const [searchInputRef, handleClickOutside] = useClickState(setHeaderState);
   const isSignIn = useRecoilValue<boolean>(signInState);
   const user = useRecoilValue<UserInfoType>(userInfo);
+  const location = useLocation();
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
+    console.log(location.pathname);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -91,22 +93,25 @@ const Header = () => {
         {isSignIn ? (
           <div ref={searchInputRef}>
             <Profile>
-              {UserInfo.role === 'R' ? (
-                <QALink to='/answer' style={{ marginRight: '1rem' }}>
-                  <QALogo src={Edit} alt='Answer Logo' />
-                  답변하기
-                </QALink>
-              ) : (
-                <QALink to='/answer' style={{ marginRight: '1rem' }}>
-                  <QALogo src={Edit} alt='Answer Logo' />
-                  답변 권한 얻으러 가기
-                </QALink>
+              {location.pathname !== '/' && (
+                <>
+                  {UserInfo.role === 'R' ? (
+                    <QALink to='/answer' style={{ marginRight: '1rem' }}>
+                      <QALogo src={Edit} alt='Answer Logo' />
+                      답변하기
+                    </QALink>
+                  ) : (
+                    <QALink to='/answer' style={{ marginRight: '1rem' }}>
+                      <QALogo src={Edit} alt='Answer Logo' />
+                      답변 권한 얻으러 가기
+                    </QALink>
+                  )}
+                  <QALink to='/question'>
+                    <QALogo src={Question} alt='Question Logo' />
+                    질문하기
+                  </QALink>
+                </>
               )}
-
-              <QALink to='/question'>
-                <QALogo src={Question} alt='Question Logo' />
-                질문하기
-              </QALink>
               <ProfileImage src={user.profileImage} alt='프로필 이미지' onClick={menuToggle} />
             </Profile>
             {headerState ? <HeaderMenu /> : null}
