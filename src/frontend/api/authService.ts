@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Mentee, SignApi } from './api';
+import { api, Mentee, SignApi } from './api';
 import jwt_decode from 'jwt-decode';
 import { SetterOrUpdater } from 'recoil';
 import { UserInfoType } from '../recoil/atom';
 import defaultProfile from '../assets/images/defaultProfile.svg';
-import axios from 'axios';
 import { useCookies } from 'react-cookie';
 
 export interface SignInProps {
@@ -66,7 +65,7 @@ export const SignIn = async (userData: SignInService): Promise<void | boolean> =
     if (res.status === 200) {
       console.log(res);
       const token = res.data.result.accessToken;
-      axios.defaults.headers.common['x-access-token'] = token;
+      api.defaults.headers.common['x-access-token'] = token;
       const decodedUser: any = jwt_decode(token);
       const userInfo = {
         name: decodedUser.nickname,
