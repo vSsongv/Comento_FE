@@ -30,6 +30,9 @@ export const isDuple = async (purpose: string, target: FormValue) => {
         alert(res.data.message);
         return true;
       }
+      default: {
+        alert('잘못된 접근입니다.');
+      }
     }
   } catch (error: any) {
     alert(error.response.data.message);
