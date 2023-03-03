@@ -29,10 +29,15 @@ const SignUpForm = () => {
       phone: data.phone,
     };
     formData.append('data', JSON.stringify(userData));
-    if (availableEmail && availableNick && availablePhone) {
-      if ((await signUp(formData)) === true) navigate('/signIn');
-    } else {
-      alert('중복확인 체크를 모두 해주세요.');
+
+    if (!availableEmail) {
+      alert('이메일 중복확인 체크를 해주세요.');
+    } else if (!availableNick) {
+      alert('닉네임 중복확인 체크를 해주세요.');
+    } else if (!availablePhone) {
+      alert('번호 중복확인 체크를 해주세요.');
+    } else if ((await signUp(formData)) === true) {
+      navigate('/signIn');
     }
   };
 
