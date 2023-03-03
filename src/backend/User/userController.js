@@ -101,7 +101,7 @@ const member = {
         }
     },*/
   signin: asyncHandler(async (req, res, next) => {
-    const { email, password } = req.body;
+    const { email, password, isKeep } = req.body;
     let result;
     let accessToken;
     if (!email) return next(new errorResponse(detailResponse.EMPTY_EMAIL, 400));
@@ -115,7 +115,7 @@ const member = {
     const isEqualPw = await bcrypt.compare(password, userInfo.password);
 
     if (isEqualPw) {
-      accessToken = await userService.signin(userInfo);
+      accessToken = await userService.signin(userInfo, isKeep);
       const refreshToken = await jwt.refresh();
       if(!refreshToken) return next(new errorResponse(detailResponse.NOT_EXIST_TOKEN, 400));
       console.log("refreshToken :", refreshToken);

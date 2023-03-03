@@ -5,17 +5,18 @@ const TOKEN_EXPIRED = -3;
 const INVALID_TOKEN = -2;
 
 module.exports = {
-  sign: async (user) => {
+  sign: async (user, isKeep, expiresIn) => {
     return jwt.sign(
         {
           type: "JWT",
           userid: user.userid,
           nickname: user.nickname,
           role: user.role,
+          isKeep,
         },
         process.env.ACCESS_SECRET,
         {
-          expiresIn: "6h",
+          expiresIn,
           issuer: "friday",
           subject: "userInfo",
         }
@@ -26,7 +27,7 @@ module.exports = {
         {},
         process.env.REFRESH_SECRET,
         {
-            expiresIn: "1d", // 1일 후 만료
+            expiresIn: "7d", // 7일 후 만료
             issuer: "friday",
         }
     );

@@ -19,6 +19,8 @@ const refresh = async (req, res, next) => {
     const userInfo = await JWT.decode(accessToken, process.env.ACCESS_SECRET);
     if(useridx != userInfo.userid) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
+    console.log("디코딩한 유저 정보 :" ,userInfo);
+
     // DB에서 refresh Token 꺼내와서 refresh Token 유효한지 확인
     // refresh Token이 없다면? -> NOT_LOGGEDIN
     // refresh Token이 유효하지 않다면? -> 재로그인
