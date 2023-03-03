@@ -13,6 +13,7 @@ module.exports = {
           userid: user.userid,
           nickname: user.nickname,
           role: user.role,
+          mentos: user.mentos,
           isKeep,
           mentos: user.mentos,
         },

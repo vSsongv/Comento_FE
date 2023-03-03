@@ -18,7 +18,7 @@ const errorhandler = require("./config/errorHandler");
 const errorResponse = require("./config/errorResponse");
 const { basicResponse } = require("./config/response");
 const responseDetail = require("./config/responseDetail");
-
+//주석
 const app = express();
 
 app.use(cors());
@@ -58,3 +58,4 @@ app.use((req, res, next) => {
   const error = new errorResponse(basicResponse(responseDetail.NO_ROUTER), 404);
   next(error);
 });
+// 커밋추가

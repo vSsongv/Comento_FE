@@ -7,7 +7,7 @@ export const api = axios.create({
 export const SignApi = {
   signIn: () => api.post('user/signin'),
   signUp: (userData: FormData) => api.post('user/signup', userData),
-  checkDupleEmail: () => api.get('user/check/email'),
-  checkDupleNick: () => api.get('user/check/nickname'),
-  checkDuplePhone: () => api.get('user/check/phone'),
+  checkDupleEmail: (email: string) => api.get(`user/check/email?email=${email}`),
+  checkDupleNick: (nickname: string) => api.get(`user/check/nickname?nickname=${nickname}`),
+  checkDuplePhone: (phone: string) => api.get(`user/check/phone?phone=${phone}`),
 };
