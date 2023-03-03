@@ -95,15 +95,15 @@ const Header = () => {
             <Profile>
               {location.pathname !== '/' && (
                 <>
-                  {UserInfo.role === 'R' ? (
+                  {UserInfo.role === 'Q' ? (
                     <QALink to='/answer' style={{ marginRight: '1rem' }}>
                       <QALogo src={Edit} alt='Answer Logo' />
-                      답변하기
+                      답변 권한 얻으러 가기
                     </QALink>
                   ) : (
                     <QALink to='/answer' style={{ marginRight: '1rem' }}>
                       <QALogo src={Edit} alt='Answer Logo' />
-                      답변 권한 얻으러 가기
+                      답변하기
                     </QALink>
                   )}
                   <QALink to='/question'>
