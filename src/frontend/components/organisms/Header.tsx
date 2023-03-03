@@ -43,7 +43,6 @@ const Profile = styled.button`
   display: flex;
   align-items: center;
   height: 5rem;
-  cursor: pointer;
 `;
 
 const ProfileImage = styled.img`
@@ -51,6 +50,7 @@ const ProfileImage = styled.img`
   height: 2.5rem;
   margin-left: 1.5rem;
   border-radius: 100%;
+  cursor: pointer;
 `;
 
 const QALink = styled(Link)`
