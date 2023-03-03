@@ -6,7 +6,7 @@ const INVALID_TOKEN = -2;
 
 module.exports = {
   sign: async (user, isKeep, expiresIn) => {
-    const result = {
+    let result = {
       accessToken: jwt.sign(
         {
           type: "JWT",
@@ -15,15 +15,30 @@ module.exports = {
           role: user.role,
           mentos: user.mentos,
           isKeep,
+          mentos: user.mentos,
         },
         process.env.ACCESS_SECRET,
         {
-          expiresIn, // 15분후 만료
-          issuer: "friday",
+          expiresIn,
+          issuer: "Comento",
           subject: "userInfo",
         }
       ),
     };
+    if (isKeep) {
+      result["refreshToken"] = jwt.sign(
+        {
+          type: "JWT",
+          userid: user.userid,
+        },
+        process.env.ACCESS_SECRET,
+        {
+          expiresIn: "30d",
+          issuer: "Comento",
+          subject: "userInfo",
+        }
+      );
+    }
     return result;
   },
   verifyToken: async (token) => {

@@ -1,11 +1,8 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const morgan = require("morgan");
 const cors = require("cors");
 const db = require("./models");
-//const webSocket = require('./socket');
-//const secret = require('./config/secret');
 const env = process.env.NODE_ENV || "development";
 
 // 라우터 부분
@@ -13,6 +10,7 @@ const env = process.env.NODE_ENV || "development";
 const userRouter = require("./User/userRoute");
 const menteeRouter = require("./Mentee/menteeRoute");
 const mentoRouter = require("./Mento/mentoRoute");
+const imageRouter = require("./Image/imageRoute");
 //const chatRouter = require('./Chat/chatRoute');
 
 const chatRouter = require("./Chat/chatRoute");
@@ -23,24 +21,9 @@ const responseDetail = require("./config/responseDetail");
 //주석
 const app = express();
 
-const whiteDomain = [
-  "http://localhost:8080",
-  "http://localhost:3000",
-  "http://comento.co.kr",
-];
-// const corOptions = {
-//   origin: function (origin, callback) {
-//     if (whiteDomain.indexOf(origin) !== -1){
-//       callback(null, true);
-//     }else{
-//       callback(new Error("Not allowed domain"));
-//     }
-//   }
-// };
 app.use(cors());
 
 app.set("port", process.env.PORT || 8080);
-//app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -61,23 +44,14 @@ const server = app.listen(app.get("port"), () => {
   console.log(app.get("port"), "번 포트에서 대기중");
 });
 
-//webSocket(server, app);
-
-//webSocket(server, app, sessionMiddleware);
-
-//app.use('/', tempRouter);
 //라우터는 이사이에 표시
+app.use("/image", imageRouter);
 app.use("/mento", mentoRouter);
 app.use("/user", userRouter);
 app.use("/mentee", menteeRouter);
 app.use("/", chatRouter);
-// app.use('/user/signup', checkRouter);
-// app.use('/user/upload', uploadRouter);
-// app.use('/find', findRouter);
-// app.use('/sms', smsRouter);
-// app.use("/answer", require("./routes/answer"));
-
 //
+
 app.use(errorhandler);
 
 app.use((req, res, next) => {
