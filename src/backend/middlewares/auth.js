@@ -21,7 +21,6 @@ const authUtil = {
   },
   checkMento: async (req, res, next) => {
     const userInfo = req.user;
-    console.log(userInfo);
     if (userInfo.role === "Q")
       return next(new errorResponse(responseDetail.NOT_MENTO));
     next();
