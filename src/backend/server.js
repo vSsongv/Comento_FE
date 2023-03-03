@@ -20,7 +20,7 @@ const errorhandler = require("./config/errorHandler");
 const errorResponse = require("./config/errorResponse");
 const { basicResponse } = require("./config/response");
 const responseDetail = require("./config/responseDetail");
-//주석 추가
+//주석
 const app = express();
 
 const whiteDomain = [
