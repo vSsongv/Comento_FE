@@ -39,12 +39,22 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
-  } = useForm<FormValue>();
+  } = useForm<FormValue>({ mode: 'onChange' });
+
+  const crtVal = watch();
 
   return (
     <SignInFormContainer onSubmit={handleSubmit(onSubmit)}>
-      <InputForm reg={register} error={errors} label='E-mail' purpose='email' placeholder='이메일을 입력해주세요.' />
+      <InputForm
+        reg={register}
+        error={errors}
+        label='E-mail'
+        purpose='email'
+        placeholder='이메일을 입력해주세요.'
+        crtVal={crtVal}
+      />
       <InputForm
         reg={register}
         error={errors}
@@ -52,6 +62,7 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
         purpose='password_signin'
         placeholder='비밀번호를 입력해주세요.'
         option='비밀번호확인'
+        crtVal={crtVal}
       />
       <Button width={180}>로그인</Button>
     </SignInFormContainer>
