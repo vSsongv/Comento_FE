@@ -31,7 +31,7 @@ interface PwdState {
 }
 
 const Container = styled.div`
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   position: relative;
 `;
 
