@@ -21,7 +21,6 @@ const errorhandler = (err, req, res, next) => {
   };
 
   if (error.result) data["result"] = error.result;
-
   res.status(error.statusCode).json(data);
 };
 

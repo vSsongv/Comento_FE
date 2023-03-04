@@ -1,7 +1,6 @@
-const { access } = require('fs');
-const errorResponse = require('../config/errorResponse');
-const responseDetail = require('../config/responseDetail');
-const jwt = require('../config/token');
+const errorResponse = require("../config/errorResponse");
+const responseDetail = require("../config/responseDetail");
+const jwt = require("../config/token");
 const TOKEN_EXPIRED = -3;
 const TOKEN_INVALID = -2;
 
@@ -16,7 +15,6 @@ const authUtil = {
         // 유효하지 않은 경우 -> client에 response 보내기
 
         const accessResult = await jwt.verifyToken(accessToken);
-        console.log("access result : ", accessResult.validToken);
         if(accessResult.result === TOKEN_INVALID)
             return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
@@ -29,7 +27,6 @@ const authUtil = {
     },
     checkMento : async (req, res, next) => {
         const userInfo = req.user;
-        console.log(userInfo);
         if(userInfo.role === 'Q') return next(new errorResponse(responseDetail.NOT_MENTO));
         next();
     }

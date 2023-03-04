@@ -12,33 +12,28 @@ const TOKEN_INVALID = -2;
 
 const refresh = async (req, res, next) => {
     const accessToken = req.query.token || req.headers["x-access-token"];
-    const useridx = req.headers["useridx"];
-    if(!accessToken) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
-    if(!useridx) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
+    const refreshToken = req.headers["x-refresh-token"];
 
-    const userInfo = await JWT.decode(accessToken, process.env.ACCESS_SECRET);
-    if(useridx != userInfo.userid) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
+    if(!accessToken || !refreshToken) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
-    console.log("디코딩한 유저 정보 :" ,userInfo);
-
-    // DB에서 refresh Token 꺼내와서 refresh Token 유효한지 확인
-    // refresh Token이 없다면? -> NOT_LOGGEDIN
-    // refresh Token이 유효하지 않다면? -> 재로그인
-    // refresh Token이 유효한다면? -> accessToken 재발급
-
-    const result = await userService.getToken(useridx);
-    const refreshToken = result.refreshToken;
-
-    if(!refreshToken) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
-
-    const refreshResult = await jwt.verifyToken(refreshToken);
+    const refreshResult = await jwt.verifyToken(refreshToken, process.env.REFRESH_SECRET);
     if(refreshResult.result === TOKEN_INVALID)
         return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
-    if(refreshResult.result === TOKEN_EXPIRED)
-        return next(new errorResponse(responseDetail.RE_LOGIN));
 
-    const newAccessToken = await userService.signin(userInfo);
-    return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, {accessToken : newAccessToken}));
+    if(refreshResult.result === TOKEN_EXPIRED)
+        return next(new errorResponse(responseDetail.TOKEN_EXPIRED));
+
+
+    const userid = refreshResult.validToken.userid;
+    const temp = await userService.getToken(userid);
+    const DB_token = temp.refreshToken;
+    
+
+    if(!DB_token || DB_token!=refreshToken) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
+    const userInfo = await JWT.decode(accessToken, process.env.ACCESS_SECRET);
+    const token = await userService.signin(userInfo, userInfo.isKeep);
+    return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, token));
+    
 }
 
 module.exports = refresh;

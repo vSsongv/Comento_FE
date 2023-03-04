@@ -21,11 +21,13 @@ if (!fs.existsSync(imageDir)) {
 
 const member = {
   signup: asyncHandler(async (req, res, next) => {
-    const { email, nickname, password, phone } = JSON.parse(req.body.data);
+    const { email, nickname, password, phone } = req.body;
     let profile;
-    for (let i = 0; i < req.files.length; i++) {
+    let length = !req.files ? 0 : req.files.length;
+    for (let i = 0; i < length; i++) {
       profile = req.files[i]["path"];
     }
+    profile = profile || null;
     if (!email) return next(new errorResponse(detailResponse.EMPTY_EMAIL), 400);
 
     if (email.length > 30)
@@ -102,29 +104,22 @@ const member = {
     },*/
   signin: asyncHandler(async (req, res, next) => {
     const { email, password, isKeep } = req.body;
-    let result;
-    let accessToken;
     if (!email) return next(new errorResponse(detailResponse.EMPTY_EMAIL, 400));
     if (!password)
       return next(new errorResponse(detailResponse.EMPTY_PASSWORD, 400));
 
     const userInfo = await userService.checkEmail(email); // 해당 이메일 사용자 찾음 있으면 사용자 정보 없으면 null
-
     if (!userInfo)
       return next(new errorResponse(detailResponse.NOT_EXIST_EMAIL, 400));
     const isEqualPw = await bcrypt.compare(password, userInfo.password);
-
+    let token;
     if (isEqualPw) {
-      accessToken = await userService.signin(userInfo, isKeep);
-      const refreshToken = await jwt.refresh();
-      if(!refreshToken) return next(new errorResponse(detailResponse.NOT_EXIST_TOKEN, 400));
-      console.log("refreshToken :", refreshToken);
-      await userService.saveToken(email, refreshToken);
-    }
-    else return next(new errorResponse(detailResponse.PASSWORD_MISMATCH, 400));
-
-    const token = {accessToken, useridx : userInfo.userid};
-    return res.send(resultResponse(detailResponse.SIGNIN_SUCCESS, token));
+      token = await userService.signin(userInfo, isKeep);
+      if (isKeep)
+        await userService.saveRefreshToken(token.refreshToken, userInfo.userid);
+      return res.send(resultResponse(detailResponse.SIGNIN_SUCCESS, token));
+    } else
+      return next(new errorResponse(detailResponse.PASSWORD_MISMATCH, 400));
   }),
   resetPassword: asyncHandler(async (req, res, next) => {
     const { token, email, password } = req.body;
@@ -152,7 +147,7 @@ const member = {
     const checkEmail = await userService.checkEmail(email);
     if (!checkEmail)
       return res.send(basicResponse(detailResponse.AVAILABLE_EMAIL));
-    else return next(new errorResponse(detailResponse.DUP_NICKNAME, 400));
+    return next(new errorResponse(detailResponse.DUP_NICKNAME, 400));
   }),
   checkPhone: asyncHandler(async (req, res, next) => {
     let { phone } = req.query;
@@ -184,18 +179,16 @@ const member = {
     const isUser = await userService.checkEmail(email);
     if (!isUser)
       return next(new errorResponse(detailResponse.NOT_EXIST_EMAIL, 400));
+    const token = await sendEmail(email);
+    const authUser = await userService.getCertNum(email);
+    if (authUser) await userService.updateCertNum(email, token);
     else {
-      const token = await sendEmail(email);
-      const authUser = await userService.getCertNum(email);
-      if (authUser) await userService.updateCertNum(email, token);
-      else {
-        await userService.createCertNum(email, token);
-        setTimeout(async () => {
-          await userService.deleteCertNum(email);
-        }, 300 * 1000); //300초 뒤 삭제
-      }
-      return res.send(basicResponse(detailResponse.SEND_EMAIL));
+      await userService.createCertNum(email, token);
+      setTimeout(async () => {
+        await userService.deleteCertNum(email);
+      }, 300 * 1000); //300초 뒤 삭제
     }
+    return res.send(basicResponse(detailResponse.SEND_EMAIL));
   }),
   updateUserInfo: asyncHandler(async (req, res) => {
     const { email, nickname, password, profile, phone } = req.body;
