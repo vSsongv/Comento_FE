@@ -38,7 +38,7 @@ export const shadow = (weight: number) => {
 };
 
 export const mainGradient = css`
-  background-image: linear-gradient(90deg, ${colors.firstColor}, ${colors.secondColor});
+  background-image: linear-gradient(90deg, ${colors.firstColor}, ${colors.primaryColor}, ${colors.secondColor});
 `;
 
 export const border = (position: number) => {

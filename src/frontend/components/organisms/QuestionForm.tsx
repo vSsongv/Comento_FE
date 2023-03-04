@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import ShadowBox from '../atoms/ShadowBox';
-import { border } from '../../styles/styleUtil';
+import { border, mainGradient } from '../../styles/styleUtil';
 import QuestionTitle from '../molescules/Question/QuestionTitle';
 import QuestionContent from '../molescules/Question/QuestionContent';
 import QuestionFile from '../molescules/Question/QeustionFile';
@@ -24,7 +24,7 @@ const FormHead = styled.div`
   width: 70vw;
   height: 5vh;
   margin-top: -4vh;
-  background: linear-gradient(87.94deg, #3c02bb 17.59%, #4c51e4 48.07%, #01fbfc 121%);
+  ${mainGradient}
 `;
 
 const Top = styled.div`
