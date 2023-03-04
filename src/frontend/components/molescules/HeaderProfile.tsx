@@ -11,7 +11,7 @@ const ProfileContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   width: 40%;
-  height: 53%;
+  height: 60%;
 `;
 
 const ProfileEdit = styled(Link)`
@@ -34,7 +34,7 @@ const HeaderProfile = () => {
 
   return (
     <ProfileContainer>
-      <SimpleProfile height='80%' />
+      <SimpleProfile height='83%' />
       <ProfileEdit to='/question' onClick={() => setHeaderState(!headerState)}>
         프로필 수정
       </ProfileEdit>

@@ -5,7 +5,7 @@ const TOKEN_EXPIRED = -3;
 const INVALID_TOKEN = -2;
 
 module.exports = {
-  sign: async (user, isKeep, expiresIn) => {
+  sign: async (user, expiresIn) => {
     let result = {
       accessToken: jwt.sign(
         {
@@ -13,32 +13,30 @@ module.exports = {
           userid: user.userid,
           nickname: user.nickname,
           role: user.role,
+          expiresIn: "15s",
           mentos: user.mentos,
           isKeep,
-          mentos: user.mentos,
         },
         process.env.ACCESS_SECRET,
         {
           expiresIn,
           issuer: "Comento",
-          subject: "userInfo",
+          subject: "accessToken",
         }
       ),
-    };
-    if (isKeep) {
-      result["refreshToken"] = jwt.sign(
+      refreshToken: jwt.sign(
         {
           type: "JWT",
           userid: user.userid,
         },
-        process.env.ACCESS_SECRET,
+        process.env.REFRESH_SECRET,
         {
-          expiresIn: "30d",
+          expiresIn: expiresIn,
           issuer: "Comento",
           subject: "userInfo",
         }
-      );
-    }
+      ),
+    };
     return result;
   },
   verifyToken: async (token) => {

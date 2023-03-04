@@ -18,9 +18,7 @@ const ScrollBtn = styled.div`
 
 export default function Home() {
   const [showBtn, setShowBtn] = useState(false);
-  const scrollBtn = () => {
-    window.scroll({ behavior: 'smooth' });
-  };
+
   useEffect(() => {
     const ShowBtnClick = () => {
       if (window.scrollY > 500) {
