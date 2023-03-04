@@ -7,6 +7,7 @@ import { FormValue, SignIn } from '../../api/authService';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { signInState, userInfo, UserInfoType } from '../../recoil/atom';
+import { useCookies } from 'react-cookie';
 
 const SignInFormContainer = styled.form`
   display: flex;
@@ -22,6 +23,7 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
   const navigate = useNavigate();
   const setSignInState = useSetRecoilState(signInState);
   const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
+  const [, setCookie] = useCookies(['refresh-token']);
 
   const onSubmit: SubmitHandler<FormValue> = async (data) => {
     const userData = {
@@ -29,6 +31,7 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
       password_signin: data.password_signin,
       isKeep: keepSignIn,
       setUserInfo: setUserInfo,
+      setCookie: setCookie,
     };
     if (await SignIn(userData)) {
       setSignInState(true);

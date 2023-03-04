@@ -4,7 +4,6 @@ import jwt_decode from 'jwt-decode';
 import { SetterOrUpdater } from 'recoil';
 import { UserInfoType } from '../recoil/atom';
 import defaultProfile from '../assets/images/defaultProfile.svg';
-import { useCookies } from 'react-cookie';
 
 export interface SignInProps {
   email: string;
@@ -14,6 +13,7 @@ export interface SignInProps {
 export interface SignInService extends SignInProps {
   isKeep: boolean;
   setUserInfo: SetterOrUpdater<UserInfoType>;
+  setCookie: (name: 'refresh-token', value: string | object, options?: object) => void;
 }
 
 export interface FormValue extends SignInProps {
@@ -74,8 +74,7 @@ export const SignIn = async (userData: SignInService): Promise<void | boolean> =
         role: decodedUser.type,
       };
       if (res.data.result.refreshToken) {
-        const [, setCookie] = useCookies(['refresh-token']);
-        setCookie('refresh-token', res.data.result.refreshToken, {
+        userData.setCookie('refresh-token', res.data.result.refreshToken, {
           path: '/',
           secure: true,
           sameSite: 'none',
