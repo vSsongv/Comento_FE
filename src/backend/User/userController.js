@@ -7,6 +7,7 @@ const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const asyncHandler = require("../config/asyncHandler");
 const errorResponse = require("../config/errorResponse");
+const jwt = require('../config/token');
 const regEmail = require("regex-email");
 const { sendEmail } = require("../config/email");
 const regPassword =

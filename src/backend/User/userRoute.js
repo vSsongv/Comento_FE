@@ -6,7 +6,7 @@ const { upload } = require("../config/s3");
 
 // router.post("/profile", checkToken, upload.array("images"), function(req,res,err) {console.log(req.nickname);res.send("hi")}); 업로드 테스트용
 router.get("/test", checkToken, function (req, res, err) {
-  res.send("hi");
+  res.send(req.user);
 });
 
 router.get("/check/email", userController.checkId);
