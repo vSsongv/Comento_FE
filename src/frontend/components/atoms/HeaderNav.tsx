@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { signInState, headerMenu } from '../../recoil/atom';
+import { useCookies } from 'react-cookie';
 
 const ListContainer = styled.li`
   display: flex;
@@ -29,6 +30,7 @@ interface Props {
 
 const HeaderNav = ({ imageSrc, menu }: Props) => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
+  const [, , removeCookie] = useCookies(['refresh-token']);
   const setSignInState = useSetRecoilState(signInState);
   const navigate = useNavigate();
 
@@ -42,6 +44,7 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
         break;
       case '로그아웃':
         setSignInState(false);
+        removeCookie('refresh-token');
         navigate('/');
         break;
       default:
