@@ -88,8 +88,6 @@ const QuestionForm = () => {
     }
 
     const dataSet = {
-      userid: 1,
-      nickname: '김준하',
       language: Languages.indexOf(languageRef.current),
       title: titleRef.current?.value,
       content: contentRef.current?.value,
