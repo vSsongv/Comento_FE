@@ -8,6 +8,7 @@ import MainFirst from '../components/templates/Home/MainFirst';
 import MainMentos from '../components/templates/Home/MainMentos';
 import MainPush from '../components/templates/Home/MainPush';
 import Qna from '../components/templates/Home/Qna';
+import FlashBtn from '../components/atoms/FlashBtn';
 
 const ScrollBtn = styled.div`
   position: fixed;
@@ -51,6 +52,7 @@ export default function Home() {
       <MainPush />
       <MainMentos />
       <FAQbox />
+      <FlashBtn width={10}>테스트</FlashBtn>
     </div>
   );
 }

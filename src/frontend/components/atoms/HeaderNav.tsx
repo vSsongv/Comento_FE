@@ -34,16 +34,13 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
 
   const moveTo = () => {
     switch (menu) {
-      case '질문하기':
-        navigate('/question');
-        break;
       case '결제하기':
         navigate('/signIn');
         break;
       case '마이페이지':
         navigate('/answer');
         break;
-      case '로그아웃': //TODO: 로그아웃 구현
+      case '로그아웃':
         setSignInState(false);
         navigate('/');
         break;

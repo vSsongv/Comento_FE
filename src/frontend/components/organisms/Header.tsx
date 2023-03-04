@@ -1,19 +1,19 @@
 import React, { useEffect } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { shadow } from '../../styles/styleUtil';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { signInState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom';
 import HeaderMenu from './HeaderMenu';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
-import mentos from '../../assets/images/mentos.png';
 import useClickState from '../../hooks/useClickState';
+import Question from '../../assets/images/Question.png';
+import Edit from '../../assets/images/Edit.png';
 
 const HeaderBox = styled.div`
   position: sticky;
   top: 0;
-  /* transform: translateY(); */
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -22,7 +22,7 @@ const HeaderBox = styled.div`
   width: 100%;
   padding: 0 4rem;
   background-color: white;
-  //TODO: z-index: 9999 필요
+  z-index: 9999;
   ${shadow(1)}
 `;
 
@@ -31,41 +31,50 @@ const LogoLink = styled(Link)`
   cursor: pointer;
 `;
 
-const profileCss = css`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: center;
-  width: 13rem;
-  color: black;
-`;
-
 const SignInLink = styled(Link)`
-  ${profileCss}
+  display: flex;
+  align-items: center;
   text-decoration: none;
+  color: black;
 `;
 
 const Profile = styled.button`
   all: unset;
+  display: flex;
+  align-items: center;
   height: 5rem;
-  ${profileCss}
-  cursor: pointer;
 `;
 
 const ProfileImage = styled.img`
   width: 2.5rem;
   height: 2.5rem;
+  margin-left: 1.5rem;
   border-radius: 100%;
+  cursor: pointer;
+`;
+
+const QALink = styled(Link)`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+`;
+
+const QALogo = styled.img`
+  margin-right: 0.5rem;
 `;
 
 const Header = () => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
+  const UserInfo = useRecoilValue<UserInfoType>(userInfo);
   const [searchInputRef, handleClickOutside] = useClickState(setHeaderState);
   const isSignIn = useRecoilValue<boolean>(signInState);
   const user = useRecoilValue<UserInfoType>(userInfo);
+  const location = useLocation();
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
+    console.log(location.pathname);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
@@ -83,9 +92,27 @@ const Header = () => {
         </LogoLink>
         {isSignIn ? (
           <div ref={searchInputRef}>
-            <Profile onClick={menuToggle}>
-              <img src={mentos} alt='멘토스 이미지' width='30rem' />내 멘토스 {user.mentos}개
-              <ProfileImage src={user.profileImage} alt='프로필 이미지' />
+            <Profile>
+              {location.pathname !== '/' && (
+                <>
+                  {UserInfo.role === 'Q' ? (
+                    <QALink to='/answer' style={{ marginRight: '1rem' }}>
+                      <QALogo src={Edit} alt='Answer Logo' />
+                      답변 권한 얻으러 가기
+                    </QALink>
+                  ) : (
+                    <QALink to='/answer' style={{ marginRight: '1rem' }}>
+                      <QALogo src={Edit} alt='Answer Logo' />
+                      답변하기
+                    </QALink>
+                  )}
+                  <QALink to='/question'>
+                    <QALogo src={Question} alt='Question Logo' />
+                    질문하기
+                  </QALink>
+                </>
+              )}
+              <ProfileImage src={user.profileImage} alt='프로필 이미지' onClick={menuToggle} />
             </Profile>
             {headerState ? <HeaderMenu /> : null}
           </div>
