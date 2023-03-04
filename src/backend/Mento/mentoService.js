@@ -81,12 +81,12 @@ exports.connectMentoring = async function (userid, mentoringid) {
   }
 };
 
-exports.getMentoringList = async function (mentoid) {
+exports.getQuestionList = async function(status, mentoid){
   try {
     const result = await Mentoring.findAll({
       where: {
         mentoid,
-        status: "I",
+        status,
       },
     });
     return result;

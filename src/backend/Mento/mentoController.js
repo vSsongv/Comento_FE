@@ -5,23 +5,7 @@ const asyncHandler = require('../config/asyncHandler');
 const errorResponse = require('../config/errorResponse');
 const regNumber = /^[0-9]/;
 const mento = {
-    getQuestionList : asyncHandler(async function(req,res,next){
-        const userIdx = req.user.userid;
-        if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
-
-        if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
-
-        let question;
-        const {language} = req.params;
-        if(parseInt(language) === 0) {
-            question = await mentoService.getAllQuestion(userIdx);
-        }
-        else question = await mentoService.getSpecificQuestion(language, userIdx);
-        if(!question) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)))
-        
-        return res.send(resultResponse(detailResponse.GET_QUESTION, question));
-    }),
-    connectMentoring : asyncHandler(async function(req, res, next){
+    connectMentoring : asyncHandler(async function(req, res, next){ //이건 한번 다시 봐야됨 내가 짠건 아니지만..
         const userIdx = req.user.userid;
         const mentoringid = req.body.mentoringid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
@@ -33,17 +17,29 @@ const mento = {
 
         return res.send(basicResponse(detailResponse.CONNECT_MENTORING))
     }),
-    getMentoringList : asyncHandler(async function(req, res, next){
+    getQuestionList : asyncHandler(async function(req, res, next){
         const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
 
-        const list = await mentoService.getMentoringList(userIdx)
-        if(!list) return next(new errorResponse(basicResponse(detailResponse.NONE_MENTORING)));
+        const status = req.params.status;
+        if(status === "N"){ //진행전인 질문
+            const language = req.params.language;
+            if(parseInt(language) === 0 || !language) {
+                question = await mentoService.getAllQuestion(userIdx);
+            }
+            else question = await mentoService.getSpecificQuestion(language, userIdx);
+            if(!question) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)))
+        
+            return res.send(resultResponse(detailResponse.GET_QUESTION, question));
 
-        return res.send(resultResponse(detailResponse.UNDERWAY_MENTORING, list))
+        }else if(status === "I" || status === "F"){ //진행 중이거나 진행 종료인 질문
+            const list = await mentoService.getQuestionList(status, userIdx)
+            if(!list) return next(new errorResponse(basicResponse(detailResponse.NONE_MENTORING)));
 
-    })
+            return res.send(resultResponse(detailResponse.UNDERWAY_MENTORING, list))
+        }
+    }),
 };
 
 module.exports = mento;
