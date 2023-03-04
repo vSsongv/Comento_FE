@@ -9,6 +9,7 @@ const { Op } = require("sequelize");
 exports.checkEmail = async function (email) {
   try {
     const result = await User.findOne({
+      raw: true,
       where: {
         email,
       },
@@ -20,9 +21,28 @@ exports.checkEmail = async function (email) {
   }
 };
 
+exports.saveRefreshToken = async function (refreshToken, userid) {
+  try {
+    await User.update(
+      {
+        refreshToken,
+      },
+      {
+        where: {
+          userid,
+        },
+      }
+    );
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
 exports.checkPhone = async function (cellphone) {
   try {
     const result = await User.findOne({
+      raw: true,
+      attributes: ["userid"],
       where: {
         cellphone,
       },
@@ -36,7 +56,8 @@ exports.checkPhone = async function (cellphone) {
 exports.checkNickname = async function (nickname) {
   try {
     const result = await User.findOne({
-      attributes: ["nickname"],
+      raw: true,
+      attributes: ["userid"],
       where: {
         nickname,
       },
@@ -72,8 +93,8 @@ exports.createUser = async function (
 exports.signin = async function (userInfo, isKeep) {
   try {
     let expiresIn;
-    if (isKeep) expiresIn = "7d";
-    else expiresIn = "6h";
+    if (isKeep) expiresIn = "8h";
+    else expiresIn = "3h";
     let token = jwt.sign(userInfo, isKeep, expiresIn);
     return token;
   } catch (error) {

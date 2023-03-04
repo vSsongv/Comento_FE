@@ -85,6 +85,8 @@ exports.getFinishedQuestion = async function (menteeid) {
 exports.checkTitle = async function (menteeid, title) {
   try {
     const result = await Mentoring.findOne({
+      raw: true,
+      attributes: ["mentoringid"],
       where: {
         menteeid,
         title,
@@ -100,6 +102,8 @@ exports.checkTitle = async function (menteeid, title) {
 exports.checkContent = async function (menteeid, content) {
   try {
     const result = await Mentoring.findOne({
+      raw: true,
+      attributes: ["mentoringid"],
       where: {
         menteeid,
         content,
@@ -134,14 +138,20 @@ exports.getAllQuestion = async function (userid) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
-exports.getSpecificQuestion = async function (menteeid, mentoringid) {
+exports.getSpecificQuestion = async function (mentoringid) {
   try {
     const result = await Mentoring.findOne({
       raw: true,
-      attributes: ["title", "content", "createdAt", "updatedAt", "language"],
+      attributes: [
+        "title",
+        "content",
+        "createdAt",
+        "updatedAt",
+        "language",
+        "content_image",
+      ],
       where: {
-        menteeid,
-        mentoringid,
+        mentoringid: mentoringid,
       },
     });
     return result;
@@ -155,7 +165,8 @@ exports.modifyQuestion = async function (
   mentoringid,
   title,
   content,
-  language
+  language,
+  image
 ) {
   try {
     await Mentoring.update(
@@ -163,6 +174,7 @@ exports.modifyQuestion = async function (
         title,
         content,
         language,
+        content_image: image,
       },
       {
         where: {
@@ -176,7 +188,13 @@ exports.modifyQuestion = async function (
   }
 };
 
-exports.modifyChat = async function (userid, roomid, content, title, language) {
+exports.modifyChat = async function (
+  nickname,
+  roomid,
+  content,
+  title,
+  language
+) {
   try {
     await Chat.update(
       {
@@ -186,7 +204,7 @@ exports.modifyChat = async function (userid, roomid, content, title, language) {
       },
       {
         where: {
-          userid,
+          nickname,
           roomid,
         },
       }
@@ -206,11 +224,10 @@ exports.deleteQuestion = async function (mentoringid) {
   }
 };
 
-exports.deleteChat = async function (userid, chatid) {
+exports.deleteChat = async function (chatid) {
   try {
     await Chat.destroy({
       where: {
-        userid,
         chatid,
       },
     });

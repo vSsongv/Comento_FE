@@ -12,7 +12,7 @@ const MenuContainer = styled.div`
   position: absolute;
   right: 4rem;
   width: 20vw;
-  height: 50vh;
+  height: 43vh;
   margin-top: 0.5rem;
   padding: 1% 2%;
   background-color: white;
