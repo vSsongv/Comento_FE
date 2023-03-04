@@ -7,7 +7,6 @@ const { upload } = require("../config/s3");
 // TODO : 질문게시 API에서 checkToken 추가 그리고 사진업로드까지 테스트하기
 router.post(
   "/question",
-  checkToken,
   upload.array(["images"]),
   menteeController.postQuestion
 );
