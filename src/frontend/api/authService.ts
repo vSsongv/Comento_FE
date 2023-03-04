@@ -75,7 +75,8 @@ const TokenConfig = (token: any): UserInfoType => {
 export const SignIn = async (
   userData: SignInService,
   setCookie: (name: 'refresh-token', value: string | object, options?: object) => void,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
+  setSignInState: SetterOrUpdater<boolean>
 ): Promise<void | boolean> => {
   try {
     const res = await SignApi.signIn(userData);
@@ -96,7 +97,12 @@ export const SignIn = async (
           async (error: any) => {
             console.log(error);
             if (error.response.data.code === 2043 && userData.refreshToken) {
-              refresh(userData.refreshToken, userData, navigate);
+              if (await refresh(userData.refreshToken, userData, navigate)) {
+                setSignInState(true);
+                return true;
+              } else {
+                return false;
+              }
             } else {
               alert(error.response.data.message);
             }
