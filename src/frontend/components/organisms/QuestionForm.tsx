@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import ShadowBox from '../atoms/ShadowBox';
-import { border } from '../../styles/styleUtil';
+import { border, boxShadow } from '../../styles/styleUtil';
 import QuestionTitle from '../molescules/Question/QuestionTitle';
 import QuestionContent from '../molescules/Question/QuestionContent';
 import QuestionFile from '../molescules/Question/QeustionFile';
@@ -10,7 +9,7 @@ import DropDown from '../molescules/DropDown';
 import { Languages } from '../../utils/Languages';
 import axios from 'axios';
 
-const QuestionBox = styled(ShadowBox)`
+const QuestionBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -18,6 +17,8 @@ const QuestionBox = styled(ShadowBox)`
   height: 70vh;
   padding: 4vh 3vw;
   padding-bottom: 0;
+  background-color: white;
+  box-shadow: ${boxShadow};
 `;
 
 const FormHead = styled.div`
