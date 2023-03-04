@@ -29,15 +29,15 @@ const mento = {
                 question = await mentoService.getAllQuestion(userIdx);
             }
             else question = await mentoService.getSpecificQuestion(language, userIdx);
-            if(!question) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)))
+            if(!question[0]) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)))
         
             return res.send(resultResponse(detailResponse.GET_QUESTION, question));
 
         }else if(status === "I" || status === "F"){ //진행 중이거나 진행 종료인 질문
             const list = await mentoService.getQuestionList(status, userIdx)
-            if(!list) return next(new errorResponse(basicResponse(detailResponse.NONE_MENTORING)));
+            if(!list[0]) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
 
-            return res.send(resultResponse(detailResponse.UNDERWAY_MENTORING, list))
+            return res.send(resultResponse(detailResponse.GET_QUESTION, list))
         }
 
         return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
