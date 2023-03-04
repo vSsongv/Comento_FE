@@ -39,6 +39,8 @@ const mento = {
 
             return res.send(resultResponse(detailResponse.UNDERWAY_MENTORING, list))
         }
+
+        return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
     }),
 };
 
