@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
+import React, { useRef, useState } from 'react';
+import { FieldValues, UseFormRegister, FieldErrors, useForm } from 'react-hook-form';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { isDuple } from '../../api/authService';
 import hidePasswordImg from '../../assets/images/hidePassword.png';
 import showPasswordImg from '../../assets/images/ShowPassword.png';
 
@@ -9,7 +11,8 @@ interface InputFormProps {
   label: string;
   placeholder: string;
   option?: string;
-  crtPassword?: string;
+  crtVal: FormValue;
+  setAvailable?: React.Dispatch<React.SetStateAction<boolean>>;
   reg: UseFormRegister<FormValue>;
   error: FieldErrors<FormValue>;
 }
@@ -20,7 +23,7 @@ interface FormValue {
   password: string;
   password_confirm: string;
   nickname: string;
-  phone: number;
+  phone: string;
 }
 
 interface PwdState {
@@ -98,7 +101,7 @@ const ShowPwdBtn = styled.button<PwdState>`
  * <InputForm reg={register} error={errors} label='E-mail' purpose='email' placeholder='이메일을 입력해주세요.' />
  **/
 
-const InputForm = ({ purpose, reg, error, label, placeholder, option, crtPassword }: InputFormProps) => {
+const InputForm = ({ purpose, reg, error, label, placeholder, option, crtVal, setAvailable }: InputFormProps) => {
   const isPwd = purpose === 'password' || purpose === 'password_confirm' || purpose === 'password_signin';
   const [type, setType] = useState(isPwd ? 'password' : 'text');
 
@@ -107,21 +110,12 @@ const InputForm = ({ purpose, reg, error, label, placeholder, option, crtPasswor
   };
 
   const checkPwd = (value: string | number) => {
-    return value === crtPassword || '* 비밀번호가 다릅니다.';
+    return value === crtVal?.password || '* 비밀번호가 다릅니다.';
   };
 
-  const checkDuple = (purpose: string) => {
-    switch (purpose) {
-      case 'email':
-        console.log('fsd');
-        break;
-      case 'nickname':
-        console.log('d');
-        break;
-      case 'phone':
-        console.log('f');
-        break;
-    }
+  const checkDuple = async (purpose: 'email' | 'password' | 'password_signin' | 'password_confirm' | 'nickname' | 'phone', crtVal: FormValue) => {
+    if (error[purpose]) return;
+    if (setAvailable && (await isDuple(purpose, crtVal))) setAvailable(true);
   };
 
   const rule: { [key: string]: FieldValues } = {
@@ -166,7 +160,7 @@ const InputForm = ({ purpose, reg, error, label, placeholder, option, crtPasswor
           })}
         />
         {option === '중복확인' ? (
-          <CheckNickBtn type='button' onClick={() => checkDuple(purpose)}>
+          <CheckNickBtn type='button' onClick={() => checkDuple(purpose, crtVal)}>
             중복확인
           </CheckNickBtn>
         ) : option === '비밀번호확인' ? (
