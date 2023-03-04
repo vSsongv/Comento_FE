@@ -20,7 +20,8 @@ if (!fs.existsSync(imageDir)) {
 
 const member = {
   signup: asyncHandler(async (req, res, next) => {
-    const { email, nickname, password, phone } = req.body;
+    const { email, nickname, password, phone } = JSON.parse(req.body.data);
+    console.log(email, nickname, password, phone);
     let profile;
     let length = !req.files ? 0 : req.files.length;
     for (let i = 0; i < length; i++) {
