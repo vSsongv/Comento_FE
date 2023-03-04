@@ -185,13 +185,13 @@ exports.deleteCertNum = async function (email) {
   }
 };
 
-exports.saveToken = async function (email, token) {
+exports.updateMentoRole = async function (userIdx) {
   try {
     await User.update({
-      refreshToken: token
+      role: 'A'
     },{
       where:{
-          email
+          userid: userIdx
       }
   });
   } catch (error) {

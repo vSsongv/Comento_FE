@@ -19,6 +19,7 @@ router.post("/reset-password", userController.resetPassword);
 router.post("/find/password", userController.findPassword);
 
 router.patch("/update/userinfo", checkToken, userController.updateUserInfo);
+router.patch("/mentoauth", checkToken, userController.updateMentoRole);
 //router.get('/logout', checkAuth, authController.logout);
 //router.get('/renewal-token', authController.renewalToken);
 //router.get('/signin',  authController.autosignin);
