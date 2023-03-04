@@ -13,7 +13,6 @@ const SignInFormContainer = styled.form`
 
 const SignInForm = () => {
   const onSubmit: SubmitHandler<FormValue> = (data) => {
-    console.log('dsfdsfdf');
     console.log(data.password);
     console.log(data.password_confirm);
   };

@@ -1,7 +1,7 @@
 import React, { MutableRefObject } from 'react';
 import styled, { css } from 'styled-components';
 import { Languages } from '../../utils/Languages';
-import { shadow } from '../../styles/styleUtil';
+import { boxShadow } from '../../styles/styleUtil';
 
 interface DropDownProps {
   width: string;
@@ -28,7 +28,7 @@ const Li = styled.li`
   &:hover {
     background-color: #e2e2e2;
   }
-  ${shadow(1)}
+  box-shadow: ${boxShadow};
 `;
 
 interface Props {

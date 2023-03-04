@@ -1,5 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-import BlackHanSans from "../assets/fonts/BlackHanSans.woff";
+import { createGlobalStyle } from 'styled-components';
+import BlackHanSans from '../assets/fonts/BlackHanSans.woff';
 
 export default createGlobalStyle`
 @font-face {
@@ -8,16 +8,18 @@ export default createGlobalStyle`
 }
 *{
   @import url(//fonts.googleapis.com/earlyaccess/nanumgothic.css);
-
     margin: 0;
     padding: 0;
     outline:0;
     box-sizing:border-box;
     font-family: 'NanumGothic';
 }
+.App {
+  background-color: #f4f4f4;
+}
 .page {
   margin-top: 55px;
-  background-color: #858585;
+  background-color: #f4f4f4;
 }
 .close {
   position: absolute;
