@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import SignLogo from '../../assets/images/SignLogo.png';
 import SignUpForm from '../organisms/SignUpForm';
 import { Link } from 'react-router-dom';
+import { boxShadow } from '../../styles/styleUtil';
 
 const SignUpContainer = styled.div`
   width: 785px;
   height: 1050px;
   background: white;
-  box-shadow: 0 0 10px black;
+  box-shadow: ${boxShadow};
   margin: auto;
   position: relative;
   margin-top: 120px;

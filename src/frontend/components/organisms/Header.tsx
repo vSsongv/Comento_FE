@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { shadow } from '../../styles/styleUtil';
 import { Link, useLocation } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { signInState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom';
@@ -10,6 +9,7 @@ import defaultProfile from '../../assets/images/defaultProfile.svg';
 import useClickState from '../../hooks/useClickState';
 import Question from '../../assets/images/Question.png';
 import Edit from '../../assets/images/Edit.png';
+import { boxShadow } from '../../styles/styleUtil';
 
 const HeaderBox = styled.div`
   position: sticky;
@@ -23,7 +23,7 @@ const HeaderBox = styled.div`
   padding: 0 4rem;
   background-color: white;
   z-index: 9999;
-  ${shadow(1)}
+  box-shadow: ${boxShadow};
 `;
 
 const LogoLink = styled(Link)`

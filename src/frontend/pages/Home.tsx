@@ -8,7 +8,6 @@ import MainFirst from '../components/templates/Home/MainFirst';
 import MainMentos from '../components/templates/Home/MainMentos';
 import MainPush from '../components/templates/Home/MainPush';
 import Qna from '../components/templates/Home/Qna';
-import FlashBtn from '../components/atoms/FlashBtn';
 
 const ScrollBtn = styled.div`
   position: fixed;
@@ -19,9 +18,7 @@ const ScrollBtn = styled.div`
 
 export default function Home() {
   const [showBtn, setShowBtn] = useState(false);
-  const scrollBtn = () => {
-    window.scroll({ behavior: 'smooth' });
-  };
+
   useEffect(() => {
     const ShowBtnClick = () => {
       if (window.scrollY > 500) {
