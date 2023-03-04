@@ -21,7 +21,7 @@ if (!fs.existsSync(imageDir)) {
 
 const member = {
   signup: asyncHandler(async (req, res, next) => {
-    const { email, nickname, password, phone } = req.body;
+    const { email, nickname, password, phone } = JSON.parse(req.body.data);
     let profile;
     let length = !req.files ? 0 : req.files.length;
     for (let i = 0; i < length; i++) {
@@ -147,7 +147,7 @@ const member = {
     const checkEmail = await userService.checkEmail(email);
     if (!checkEmail)
       return res.send(basicResponse(detailResponse.AVAILABLE_EMAIL));
-    return next(new errorResponse(detailResponse.DUP_NICKNAME, 400));
+    return next(new errorResponse(detailResponse.DUP_EMAIL, 400));
   }),
   checkPhone: asyncHandler(async (req, res, next) => {
     let { phone } = req.query;
