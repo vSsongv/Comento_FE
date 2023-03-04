@@ -23,7 +23,7 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
   const navigate = useNavigate();
   const setSignInState = useSetRecoilState(signInState);
   const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
-  const [, setCookie] = useCookies(['refresh-token']);
+  const [cookies, setCookie] = useCookies(['refresh-token']);
 
   const onSubmit: SubmitHandler<FormValue> = async (data) => {
     const userData = {
@@ -31,9 +31,10 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
       password_signin: data.password_signin,
       isKeep: keepSignIn,
       setUserInfo: setUserInfo,
-      setCookie: setCookie,
+      refreshToken: cookies['refresh-token'] || null,
     };
-    if (await SignIn(userData)) {
+    const signIn = await SignIn(userData, setCookie, navigate);
+    if (signIn === true) {
       setSignInState(true);
       navigate(-1);
     }

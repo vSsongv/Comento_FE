@@ -5,6 +5,16 @@ export const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
+export const Token = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  refresh: (token: any) =>
+    api.get('refresh', {
+      headers: {
+        'x-access-token': token,
+      },
+    }),
+};
+
 export const SignApi = {
   signIn: (userData: SignInService) =>
     api.post('user/signin', {
