@@ -74,7 +74,6 @@ const Header = () => {
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
-    console.log(location.pathname);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
