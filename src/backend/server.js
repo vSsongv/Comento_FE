@@ -7,10 +7,12 @@ const env = process.env.NODE_ENV || "development";
 
 // 라우터 부분
 //TODO: next, errorHandler 부분 나중에 일괄 수정해야함.
+const refresh = require("./middlewares/refresh");
 const userRouter = require("./User/userRoute");
 const menteeRouter = require("./Mentee/menteeRoute");
 const mentoRouter = require("./Mento/mentoRoute");
 const imageRouter = require("./Image/imageRoute");
+const surveyRouter = require('./Survey/surveyRoute');
 //const chatRouter = require('./Chat/chatRoute');
 
 const chatRouter = require("./Chat/chatRoute");
@@ -45,10 +47,12 @@ const server = app.listen(app.get("port"), () => {
 });
 
 //라우터는 이사이에 표시
+app.get("/refresh", refresh);
 app.use("/image", imageRouter);
 app.use("/mento", mentoRouter);
 app.use("/user", userRouter);
 app.use("/mentee", menteeRouter);
+app.use("/survey", surveyRouter);
 app.use("/", chatRouter);
 //
 

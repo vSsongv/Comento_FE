@@ -96,6 +96,16 @@ module.exports = {
     code: 1119,
     message: "이미지를 삭제하였습니다.",
   },
+  REFRESH_SUCCESS: {
+    isSuccess: true,
+    code: 1120,
+    message: "토큰을 재발급했습니다.",
+  },
+  POST_SURVEY: {
+    isSuccess: true,
+    code: 1121,
+    message: "설문을 저장했습니다.",
+  },
   //FAIL
   DUP_EMAIL: {
     isSuccess: false,
@@ -304,6 +314,27 @@ module.exports = {
     code: 2042,
     message: "파일이 비었습니다.",
   },
+  TOKEN_EXPIRED: {
+    isSuccess: false,
+    code: 2043,
+    message: "토큰이 만료되었습니다.",
+  },
+  EMPTY_ANSWER: {
+    isSuccess: false,
+    code: 2044,
+    message: "평가를 작성해주세요.",
+  },
+  ALREADY_SURVEY: {
+    isSuccess: false,
+    code: 2045,
+    message: "이미 설문을 저장했습니다.",
+  },
+  EMPTY_CHECKING: {
+    isSuccess: false,
+    code: 2046,
+    message: "모든 문항에 체크해주세요.",
+  },
+  
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },
 };

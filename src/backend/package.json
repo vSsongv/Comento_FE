@@ -11,7 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@testing-library/user-event": "^14.4.3",
-    "aws-sdk": "^2.1072.0",
+    "aws-sdk": "^2.1328.0",
     "axios": "^0.27.2",
     "bcrypt": "^5.0.1",
     "cookie-parser": "^1.4.6",

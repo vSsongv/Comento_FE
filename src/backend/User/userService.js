@@ -93,8 +93,8 @@ exports.createUser = async function (
 exports.signin = async function (userInfo, isKeep) {
   try {
     let expiresIn;
-    if (isKeep) expiresIn = "8h";
-    else expiresIn = "3h";
+    if (isKeep) expiresIn = "12h";
+    else expiresIn = "6h";
     let token = jwt.sign(userInfo, isKeep, expiresIn);
     return token;
   } catch (error) {
@@ -184,3 +184,33 @@ exports.deleteCertNum = async function (email) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
+
+exports.saveToken = async function (email, token) {
+  try {
+    await User.update({
+      refreshToken: token
+    },{
+      where:{
+          email
+      }
+  });
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
+
+exports.getToken = async function (useridx){
+  try{
+    const result = await User.findOne({
+        attributes: ['refreshToken'],
+        where: {
+        userid : useridx,
+        },
+    });
+    return result;
+}catch(error){
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+}
+}

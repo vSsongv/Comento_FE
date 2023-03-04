@@ -15,7 +15,6 @@ module.exports = {
           role: user.role,
           mentos: user.mentos,
           isKeep,
-          mentos: user.mentos,
         },
         process.env.ACCESS_SECRET,
         {
@@ -31,7 +30,7 @@ module.exports = {
           type: "JWT",
           userid: user.userid,
         },
-        process.env.ACCESS_SECRET,
+        process.env.REFRESH_SECRET,
         {
           expiresIn: "30d",
           issuer: "Comento",
