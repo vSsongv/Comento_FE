@@ -52,7 +52,6 @@ export default function Home() {
       <MainPush />
       <MainMentos />
       <FAQbox />
-      <FlashBtn width={10}>테스트</FlashBtn>
     </div>
   );
 }

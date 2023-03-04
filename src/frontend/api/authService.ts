@@ -90,6 +90,14 @@ export const SignIn = async (userData: SignInService): Promise<void | boolean> =
   }
 };
 
+export const refresh = async (): Promise<void | boolean> => {
+  try {
+    return true;
+  } catch (error: any) {
+    console.log;
+  }
+};
+
 export const Question = async (questionContents: FormData): Promise<void | boolean> => {
   try {
     const res = await Mentee.question(questionContents);
