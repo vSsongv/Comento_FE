@@ -32,6 +32,7 @@ const refresh = async (req, res, next) => {
     if(!DB_token || DB_token!=refreshToken) return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
     const userInfo = await JWT.decode(accessToken, process.env.ACCESS_SECRET);
     const token = await userService.signin(userInfo, userInfo.isKeep);
+    await userService.saveRefreshToken(token.refreshToken, userid);
     return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, token));
     
 }

@@ -12,6 +12,7 @@ const userRouter = require("./User/userRoute");
 const menteeRouter = require("./Mentee/menteeRoute");
 const mentoRouter = require("./Mento/mentoRoute");
 const imageRouter = require("./Image/imageRoute");
+const surveyRouter = require('./Survey/surveyRoute');
 //const chatRouter = require('./Chat/chatRoute');
 
 const chatRouter = require("./Chat/chatRoute");
@@ -51,6 +52,7 @@ app.use("/image", imageRouter);
 app.use("/mento", mentoRouter);
 app.use("/user", userRouter);
 app.use("/mentee", menteeRouter);
+app.use("/survey", surveyRouter);
 app.use("/", chatRouter);
 //
 
