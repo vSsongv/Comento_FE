@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.282.0",
     "@testing-library/user-event": "^14.4.3",
     "aws-sdk": "^2.1328.0",
     "axios": "^0.27.2",
