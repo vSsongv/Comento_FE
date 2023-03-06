@@ -100,7 +100,29 @@ exports.signin = async function (userInfo, isKeep) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
-
+exports.issueAccessToken = async function (userInfo) {
+  try {
+    let token = jwt.signAccessToken(userInfo);
+    return token;
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
+exports.getUserInfo = async function (userid) {
+  try {
+    let result = await Auth.findOne({
+      raw: true,
+      where: {
+        userid,
+      },
+    });
+    return result;
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
 exports.getCertNum = async function (email) {
   const ttl = 300000;
   const date = new Date();
