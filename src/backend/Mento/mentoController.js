@@ -5,7 +5,7 @@ const asyncHandler = require('../config/asyncHandler');
 const errorResponse = require('../config/errorResponse');
 const regNumber = /^[0-9]/;
 const mento = {
-    connectMentoring : asyncHandler(async function(req, res, next){ //이건 한번 다시 봐야됨 내가 짠건 아니지만..
+    connectMentoring : asyncHandler(async function(req, res, next){
         const userIdx = req.user.userid;
         const mentoringid = req.body.mentoringid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
@@ -29,13 +29,13 @@ const mento = {
                 question = await mentoService.getAllQuestion(userIdx);
             }
             else question = await mentoService.getSpecificQuestion(language, userIdx);
-            if(!question[0]) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)))
+            if(question.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)))
         
             return res.send(resultResponse(detailResponse.GET_QUESTION, question));
 
         }else if(status === "I" || status === "F"){ //진행 중이거나 진행 종료인 질문
             const list = await mentoService.getQuestionList(status, userIdx)
-            if(!list[0]) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
+            if(list.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
 
             return res.send(resultResponse(detailResponse.GET_QUESTION, list))
         }
