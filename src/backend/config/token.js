@@ -15,7 +15,6 @@ module.exports = {
           role: user.role,
           expiresIn: "15s",
           mentos: user.mentos,
-          isKeep,
         },
         process.env.ACCESS_SECRET,
         {
@@ -34,6 +33,27 @@ module.exports = {
           expiresIn: expiresIn,
           issuer: "Comento",
           subject: "userInfo",
+        }
+      ),
+    };
+    return result;
+  },
+  signAccessToken: async (user) => {
+    let result = {
+      accessToken: jwt.sign(
+        {
+          type: "JWT",
+          userid: user.userid,
+          nickname: user.nickname,
+          role: user.role,
+          expiresIn: "20m",
+          mentos: user.mentos,
+        },
+        process.env.ACCESS_SECRET,
+        {
+          expiresIn,
+          issuer: "Comento",
+          subject: "accessToken",
         }
       ),
     };
