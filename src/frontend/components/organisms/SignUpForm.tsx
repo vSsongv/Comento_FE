@@ -31,8 +31,6 @@ const SignUpForm = () => {
     };
     formData.append('data', JSON.stringify(userData));
     formData.append('images', profileImage ?? '');
-    console.log(data.email);
-    console.log('adsdassa', formData.getAll('images'));
 
     if (!availableEmail) {
       alert('이메일 중복확인 체크를 해주세요.');
