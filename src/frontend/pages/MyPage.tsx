@@ -1,7 +1,8 @@
 import React from 'react';
+import MyPageTemplate from '../components/templates/MyPage';
 
 const MyPage = () => {
-  return <div></div>;
+  return <MyPageTemplate />;
 };
 
 export default MyPage;
