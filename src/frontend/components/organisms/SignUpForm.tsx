@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '../atoms/Button';
 import InputForm from '../molescules/InputForm';
 import styled from 'styled-components';
@@ -17,6 +17,7 @@ const SignUpForm = () => {
   const formData: FormData = new FormData();
   const navigate = useNavigate();
 
+  const [profileImage, setProfileImage] = useState<Blob>();
   const [availableEmail, setAvailableEmail] = useState<boolean>(false);
   const [availableNick, setAvailableNick] = useState<boolean>(false);
   const [availablePhone, setAvailablePhone] = useState<boolean>(false);
@@ -29,6 +30,9 @@ const SignUpForm = () => {
       phone: data.phone,
     };
     formData.append('data', JSON.stringify(userData));
+    formData.append('images', profileImage ?? '');
+    console.log(data.email);
+    console.log('adsdassa', formData.getAll('images'));
 
     if (!availableEmail) {
       alert('이메일 중복확인 체크를 해주세요.');
@@ -52,7 +56,7 @@ const SignUpForm = () => {
 
   return (
     <SignUpFormContainer onSubmit={handleSubmit(onSubmit)}>
-      <ImageAddForm formData={formData} />
+      <ImageAddForm setProfileImage={setProfileImage} />
       <InputForm
         reg={register}
         error={errors}
