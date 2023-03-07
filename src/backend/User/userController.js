@@ -14,6 +14,7 @@ const regPassword =
   /^(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*-_+=\\(\\)\])(?=.*[0-9]).{8,16}/;
 const regPhoneNum = /^\d{3}\d{3,4}\d{4}$/;
 const regNickname = /^[a-zA-Z가-힣]*$/;
+const regNumber = /^[0-9]/;
 
 if (!fs.existsSync(imageDir)) {
   fs.mkdirSync(imageDir);
@@ -193,6 +194,23 @@ const member = {
   updateUserInfo: asyncHandler(async (req, res) => {
     const { email, nickname, password, profile, phone } = req.body;
   }),
+  updateMentoRole : asyncHandler(async function(req,res,next){
+    const userIdx = req.user.userid;
+    if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
+    if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
+    
+    const userInfo = req.user;
+    if(userInfo.role === 'A') return next(new errorResponse(basicResponse(detailResponse.ALREADY_MENTO), 400));
+
+    userInfo.role='A'; //권한을 멘토로 변경
+
+    await userService.updateMentoRole(userIdx);
+    const token = await userService.signin(userInfo, userInfo.isKeep); //토큰 재발급
+    if(token.refreshToken) await userService.saveRefreshToken(token.refreshToken, userInfo.userid);
+
+    return res.send(resultResponse(detailResponse.MENTO_AUTH_SUCCESS, token));
+
+})
   //     renewalToken : async (req, res, err) => {
 
   //     // refreshToken만유효 => refreshToken에서 이메일 꺼내와서 해당 유저찾고 refreshToken 값비교 일치하면 재발급
