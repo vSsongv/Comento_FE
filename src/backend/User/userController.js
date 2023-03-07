@@ -194,7 +194,7 @@ const member = {
   updateUserInfo: asyncHandler(async (req, res) => {
     const { email, nickname, password, profile, phone } = req.body;
   }),
-  updateMentoRole : asyncHandler(async function(req,res,next){ // 멘토 권한 부여 API 손보기
+  updateMentoRole : asyncHandler(async function(req,res,next){
     const userIdx = req.user.userid;
     if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
     if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
