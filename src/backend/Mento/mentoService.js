@@ -22,6 +22,8 @@ exports.getSpecificQuestion = async function (language, userid) {
   try {
     console.log(userid);
     const result = await Mentoring.findAll({
+      raw: true,
+      attributes: ["menteeid","title", "date", "language"],
       where: {
         language,
         status: "N",
@@ -40,6 +42,8 @@ exports.getAllQuestion = async function (userid) {
   try {
     console.log(userid);
     const result = await Mentoring.findAll({
+      raw: true,
+      attributes: ["menteeid","title", "date", "language"],
       where: {
         status: "N",
         menteeid: {
@@ -84,6 +88,8 @@ exports.connectMentoring = async function (userid, mentoringid) {
 exports.getQuestionList = async function(status, mentoid){
   try {
     const result = await Mentoring.findAll({
+      raw: true,
+      attributes: ["menteeid","title", "date", "language"],
       where: {
         mentoid,
         status,

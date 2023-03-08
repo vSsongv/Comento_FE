@@ -1,3 +1,4 @@
+const url = require('url');
 const mentoService = require('./mentoService');
 const {basicResponse, resultResponse}  = require('../config/response');
 const detailResponse = require('../config/responseDetail');
@@ -18,23 +19,30 @@ const mento = {
         return res.send(basicResponse(detailResponse.CONNECT_MENTORING))
     }),
     getQuestionList : asyncHandler(async function(req, res, next){
+        const queryData = url.parse(req.url, true).query;
+        const status = queryData.status;
+
         const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
 
-        const status = req.params.status;
-        if(status === "N"){ //진행전인 질문
-            const language = req.params.language;
-            if(parseInt(language) === 0 || !language) {
-                question = await mentoService.getAllQuestion(userIdx);
-            }
-            else question = await mentoService.getSpecificQuestion(language, userIdx);
-            if(question.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)))
-        
-            return res.send(resultResponse(detailResponse.GET_QUESTION, question));
+        if(status === 'before'){
+            const language = queryData.language;
+            if(!language) return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
 
-        }else if(status === "I" || status === "F"){ //진행 중이거나 진행 종료인 질문
-            const list = await mentoService.getQuestionList(status, userIdx)
+            if(parseInt(language) === 0 || !language) {
+                list = await mentoService.getAllQuestion(userIdx);
+            }
+            else list = await mentoService.getSpecificQuestion(language, userIdx);
+            if(list.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
+
+            return res.send(resultResponse(detailResponse.GET_QUESTION, list));
+        }
+        else if(status === 'mentoring' || status === 'end'){
+            let disc;
+            (status === 'mentoring') ? disc='I' : disc='F';
+
+            const list = await mentoService.getQuestionList(disc, userIdx)
             if(list.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
 
             return res.send(resultResponse(detailResponse.GET_QUESTION, list))
@@ -43,17 +51,17 @@ const mento = {
         return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
     }),
     getQuestion : asyncHandler(async function(req, res, next){
+        const mentoringid = req.params.mentoringid;
+        if(!mentoringid) return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
+
         const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
 
-        const mentoringid = req.params.mentoringid;
-        if(!mentoringid) return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
+        const question = await mentoService.getQuestion(mentoringid);
+        if(!question) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
 
-        const list = await mentoService.getQuestion(mentoringid);
-        if(list.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
-
-        return res.send(resultResponse(detailResponse.GET_QUESTION, list))
+        return res.send(resultResponse(detailResponse.GET_QUESTION, question));
     }),
 };
 

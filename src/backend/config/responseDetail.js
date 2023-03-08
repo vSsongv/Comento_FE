@@ -347,7 +347,7 @@ module.exports = {
   BAD_STATUS_URI: {
     isSuccess: false,
     code: 2048,
-    message: "알맞은 status를 uri에 입력해주세요.",
+    message: "올바른 url을 입력해주세요.",
   },
   
   //데이터베이스오류

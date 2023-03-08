@@ -12,9 +12,9 @@ router.get('/test', checkToken, checkMento , (req,res) => {
 //멘토링 연결
 router.post('/connect', checkToken, checkMento, mentoController.connectMentoring);
 
-//진행전(language별로 가져옴, language가 undefined라면 전체 언어에 대한 질문 가져옴), 진행중, 완료 질문들 각각 가져옴
-router.get('/question/:status', checkToken, checkMento, mentoController.getQuestionList);
-router.get('/question/:status/:language', checkToken, checkMento, mentoController.getQuestionList);
+//진행전(language별로 가져옴), 진행중, 완료 질문들 각각 가져옴 -> (왼쪽 질문 목록 page)
+router.get('/question', checkToken, checkMento, mentoController.getQuestionList);
+//각 질문에 대한 세부사항 가져옴 -> (오른쪽 질문 상세 page)
+router.get('/question/:mentoringid', checkToken, checkMento, mentoController.getQuestion);
 
-router.get('/question/:status/:language/:mentoringid', checkToken, checkMento, mentoController.getQuestion);
 module.exports = router;
