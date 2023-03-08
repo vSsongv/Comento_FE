@@ -1,7 +1,7 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { RecoilRoot } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import GlobalStyle from './frontend/styles/GlobalStyle';
 import colors from './frontend/styles/colors';
 import Home from './frontend/pages/Home';
@@ -12,27 +12,50 @@ import Question from './frontend/pages/Question';
 import Answer from './frontend/pages/Answer';
 import Footer from './frontend/components/molescules/Footer';
 import { ScrollToTop } from './frontend/utils/ScrollToTop';
+import { useCookies } from 'react-cookie';
+import { authInterceptor, refresh } from './frontend/api/authService';
+import { signInState, userInfo, UserInfoType } from './frontend/recoil/atom';
 
 function App() {
+  const [cookies] = useCookies(['refresh-token']);
+  const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
+  const setSignInState = useSetRecoilState<boolean>(signInState);
+  // const navigate = useNavigate();
+
+  useEffect(() => {
+    async function Refresh() {
+      console.log('refresh 시작');
+      if (await refresh(cookies['refresh-token'], setUserInfo)) {
+        setSignInState(true);
+        authInterceptor(cookies['refresh-token'], setUserInfo, setSignInState);
+      }
+      console.log('refresh 끝');
+    }
+    if (cookies['refresh-token']) {
+      Refresh();
+      console.log('ㅋㅋㅎㅇ');
+    } else {
+      console.log('아무 일도 없었다...');
+    }
+  }, []);
+
   return (
     <div className='App'>
-      <RecoilRoot>
-        <ThemeProvider theme={colors}>
-          <GlobalStyle />
-          <BrowserRouter>
-            <ScrollToTop />
-            <Header />
-            <Routes>
-              <Route path='/' element={<Home />}></Route>
-              <Route path='/signIn' element={<SignIn />}></Route>
-              <Route path='/signUp' element={<SignUp />}></Route>
-              <Route path='/question' element={<Question />}></Route>
-              <Route path='/answer' element={<Answer />}></Route>
-            </Routes>
-            <Footer />
-          </BrowserRouter>
-        </ThemeProvider>
-      </RecoilRoot>
+      <ThemeProvider theme={colors}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <ScrollToTop />
+          <Header />
+          <Routes>
+            <Route path='/' element={<Home />}></Route>
+            <Route path='/signIn' element={<SignIn />}></Route>
+            <Route path='/signUp' element={<SignUp />}></Route>
+            <Route path='/question' element={<Question />}></Route>
+            <Route path='/answer' element={<Answer />}></Route>
+          </Routes>
+          <Footer />
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
 }
