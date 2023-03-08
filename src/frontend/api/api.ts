@@ -8,7 +8,7 @@ export const api = axios.create({
 export const Token = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   refresh: (token: any) =>
-    api.get('refresh', {
+    api.get('user/refresh', {
       headers: {
         'x-access-token': token,
       },
