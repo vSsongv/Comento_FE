@@ -28,7 +28,7 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
       margin-top: 20px;
       /* 크기 */
       padding: 1rem auto;
-      width: ${WIDTH}vw;
+      width: ${WIDTH}px;
       height: 5vh;
       font-size: 1.4rem;
       /* 색상 */
