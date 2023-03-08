@@ -95,3 +95,17 @@ exports.getQuestionList = async function(status, mentoid){
     throw new errorResponse(responseDetail.DB_ERROR);
   }
 };
+
+exports.getQuestion = async function(mentoringid){
+  try {
+    const result = await Mentoring.findOne({
+      where: {
+        mentoringid
+      },
+    });
+    return result;
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(responseDetail.DB_ERROR);
+  }
+};

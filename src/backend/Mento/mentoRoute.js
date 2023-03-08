@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mentoController = require('./mentoController');
 const { checkToken, checkMento } = require('../middlewares/auth');
+const mento = require('./mentoController');
 
 
 router.get('/test', checkToken, checkMento , (req,res) => {
@@ -15,5 +16,5 @@ router.post('/connect', checkToken, checkMento, mentoController.connectMentoring
 router.get('/question/:status', checkToken, checkMento, mentoController.getQuestionList);
 router.get('/question/:status/:language', checkToken, checkMento, mentoController.getQuestionList);
 
-
+router.get('/question/:status/:language/:mentoringid', checkToken, checkMento, mentoController.getQuestion);
 module.exports = router;

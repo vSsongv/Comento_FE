@@ -42,6 +42,19 @@ const mento = {
 
         return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
     }),
+    getQuestion : asyncHandler(async function(req, res, next){
+        const userIdx = req.user.userid;
+        if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
+        if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
+
+        const mentoringid = req.params.mentoringid;
+        if(!mentoringid) return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
+
+        const list = await mentoService.getQuestion(mentoringid);
+        if(list.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
+
+        return res.send(resultResponse(detailResponse.GET_QUESTION, list))
+    }),
 };
 
 module.exports = mento;
