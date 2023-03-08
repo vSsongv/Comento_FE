@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const mentoController = require('./mentoController');
 const { checkToken, checkMento } = require('../middlewares/auth');
-const mento = require('./mentoController');
 
 
 router.get('/test', checkToken, checkMento , (req,res) => {
