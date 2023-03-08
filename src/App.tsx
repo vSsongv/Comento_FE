@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { useSetRecoilState } from 'recoil';
 import GlobalStyle from './frontend/styles/GlobalStyle';
@@ -15,6 +15,7 @@ import { ScrollToTop } from './frontend/utils/ScrollToTop';
 import { useCookies } from 'react-cookie';
 import { authInterceptor, refresh } from './frontend/api/authService';
 import { signInState, userInfo, UserInfoType } from './frontend/recoil/atom';
+import CheckAuth from './frontend/utils/CheckAuth';
 
 function App() {
   const [cookies] = useCookies(['refresh-token']);
@@ -25,7 +26,7 @@ function App() {
   useEffect(() => {
     async function Refresh() {
       console.log('refresh 시작');
-      if (await refresh(cookies['refresh-token'], setUserInfo)) {
+      if (await refresh(cookies['refresh-token'], setUserInfo, setSignInState)) {
         setSignInState(true);
         authInterceptor(cookies['refresh-token'], setUserInfo, setSignInState);
       }
@@ -50,8 +51,10 @@ function App() {
             <Route path='/' element={<Home />}></Route>
             <Route path='/signIn' element={<SignIn />}></Route>
             <Route path='/signUp' element={<SignUp />}></Route>
-            <Route path='/question' element={<Question />}></Route>
-            <Route path='/answer' element={<Answer />}></Route>
+            <Route element={<CheckAuth />}>
+              <Route path='/question' element={<Question />}></Route>
+              <Route path='/answer' element={<Answer />}></Route>
+            </Route>
           </Routes>
           <Footer />
         </BrowserRouter>
