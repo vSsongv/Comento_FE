@@ -28,7 +28,6 @@ const mento = {
 
         if(status === 'before'){
             const language = queryData.language;
-            if(!language) return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
 
             if(parseInt(language) === 0 || !language) {
                 list = await mentoService.getAllQuestion(userIdx);
