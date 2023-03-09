@@ -4,13 +4,14 @@ import SignLogo from '../../assets/images/SignLogo.png';
 import toSignUp from '../../assets/images/signup.png';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { boxShadow } from '../../styles/styleUtil';
 
 const SignInContainer = styled.div`
   width: 785px;
   height: 465px;
   position: relative;
   background: white;
-  box-shadow: 5px 5px 10px #b8b8b8;
+  box-shadow: ${boxShadow};
   margin: auto;
   margin-top: 120px;
   padding-top: 50px;
@@ -51,7 +52,7 @@ const SignIn = () => {
     <SignInContainer>
       <img style={{ display: 'block', margin: 'auto' }} src={SignLogo} />
       <SignInForm />
-      <label style={{ position: 'absolute', bottom: '150px' }}>
+      <label style={{ position: 'absolute', bottom: '140px' }}>
         <input style={{ cursor: 'pointer', marginRight: '5px' }} checked={keepSignIn} onChange={KeepUser} type='checkbox' name='color' value='saveUserInfo' />
         로그인 상태 유지
       </label>
