@@ -33,7 +33,7 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
       setUserInfo: setUserInfo,
       refreshToken: cookies['refresh-token'] || null,
     };
-    const signIn = await SignIn(userData, setCookie, navigate, setSignInState);
+    const signIn = await SignIn(userData, cookies, setCookie, setSignInState);
     if (signIn === true) {
       setSignInState(true);
       navigate(-1);

@@ -13,7 +13,7 @@ import Answer from './frontend/pages/Answer';
 import Footer from './frontend/components/molescules/Footer';
 import { ScrollToTop } from './frontend/utils/ScrollToTop';
 import { useCookies } from 'react-cookie';
-import { authInterceptor, refresh } from './frontend/api/authService';
+import { refresh } from './frontend/api/authService';
 import { signInState, userInfo, UserInfoType } from './frontend/recoil/atom';
 import CheckAuth from './frontend/utils/CheckAuth';
 
@@ -21,22 +21,15 @@ function App() {
   const [cookies] = useCookies(['refresh-token']);
   const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
   const setSignInState = useSetRecoilState<boolean>(signInState);
-  // const navigate = useNavigate();
 
   useEffect(() => {
     async function Refresh() {
-      console.log('refresh 시작');
-      if (await refresh(cookies['refresh-token'], setUserInfo, setSignInState)) {
+      if (await refresh(cookies['refresh-token'], cookies, setUserInfo, setSignInState)) {
         setSignInState(true);
-        authInterceptor(cookies['refresh-token'], setUserInfo, setSignInState);
       }
-      console.log('refresh 끝');
     }
     if (cookies['refresh-token']) {
       Refresh();
-      console.log('ㅋㅋㅎㅇ');
-    } else {
-      console.log('아무 일도 없었다...');
     }
   }, []);
 

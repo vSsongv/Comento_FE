@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { api, Mentee, SignApi, Token } from './api';
+import { api, Auth, Mentee, SignApi } from './api';
 import jwt_decode from 'jwt-decode';
 import { SetterOrUpdater } from 'recoil';
 import { UserInfoType } from '../recoil/atom';
 import defaultProfile from '../assets/images/defaultProfile.svg';
-import { NavigateFunction } from 'react-router-dom';
 
 export interface SignInProps {
   email: string;
@@ -69,23 +68,64 @@ export const TokenConfig = (token: any): UserInfoType => {
     mentos: decodedUser.mentos,
     role: decodedUser.type,
   };
+  sessionStorage.setItem('token_exp', decodedUser.exp);
   return userInfo;
 };
 
-export const authInterceptor = (
+export const refresh = async (
   refreshToken: any,
+  cookies: { 'refresh-token'?: any },
   setUserInfo: SetterOrUpdater<UserInfoType>,
-  setSignInState: SetterOrUpdater<boolean>,
-  navigate?: NavigateFunction
+  setSignInState: SetterOrUpdater<boolean>
+): Promise<void | boolean> => {
+  try {
+    console.log('재발급 요청');
+    const res = await Auth.refresh(refreshToken);
+    console.log(res);
+    const token = res.data.result;
+    const userInfo = TokenConfig(token);
+    setUserInfo(userInfo);
+    authInterceptor(cookies, setUserInfo, setSignInState);
+    return token;
+  } catch (error: any) {
+    console.log(error);
+    if (error.response.data.code && error.response.data.code === 2043) {
+      return false;
+    }
+  }
+};
+
+export const authInterceptor = (
+  cookies: { 'refresh-token'?: any },
+  setUserInfo: SetterOrUpdater<UserInfoType>,
+  setSignInState: SetterOrUpdater<boolean>
+  // navigate?: NavigateFunction
 ) => {
-  api.interceptors.response.use(
-    (res) => {
-      console.log(res);
+  api.interceptors.request.use(
+    async (config) => {
+      console.log(config);
+      const timestamp = new Date().getTime() / 1000;
+      const refreshToken = cookies['refresh-token'];
+      const exp = sessionStorage.getItem('token_exp');
+      if (exp) {
+        if (parseInt(exp) - timestamp < 10) {
+          const token = await refresh(refreshToken, cookies, setUserInfo, setSignInState);
+          if (token) {
+            setSignInState(true);
+            config.headers = {
+              'x-access-token': token,
+            };
+          } else {
+            throw new Error('No Token');
+          }
+        }
+        return config;
+      }
     },
     async (error: any) => {
       console.log(error);
       if (error.response.data.code === 2043) {
-        if (await refresh(refreshToken, setUserInfo, navigate)) {
+        if (await refresh(cookies['refresh-token'], cookies, setUserInfo, setSignInState)) {
           setSignInState(true);
           return true;
         } else {
@@ -96,82 +136,33 @@ export const authInterceptor = (
       }
     }
   );
+  return true;
 };
 
 export const SignIn = async (
   userData: SignInService,
+  cookies: { 'refresh-token'?: any },
   setCookie: (name: 'refresh-token', value: string | object, options?: object) => void,
-  navigate: NavigateFunction,
   setSignInState: SetterOrUpdater<boolean>
 ): Promise<void | boolean> => {
   try {
-    const res = await SignApi.signIn(userData);
-    // if (res.status && res.status === 200) {
+    const res = await Auth.signIn(userData);
     const token = res.data.result.accessToken;
     const userInfo = TokenConfig(token);
     userData.setUserInfo(userInfo);
 
-    // const now = new Date();
-    // const exp = new Date();
-    // const decoded_refresh: any = jwt_decode(res.data.result.refreshToken);
-    // const INTERVAL = decoded_refresh.exp - decoded_refresh.iat;
-    // exp.setMilliseconds(now.getMilliseconds() + INTERVAL);
-    // console.log(exp);
+    const decoded_refresh: any = jwt_decode(res.data.result.refreshToken);
+    const exp = new Date(decoded_refresh.exp * 1000);
     setCookie('refresh-token', res.data.result.refreshToken, {
       path: '/',
       secure: true,
       sameSite: 'none',
-      // expires: decoded_refresh.exp,
+      expires: exp,
     });
-    authInterceptor(res.data.result.refreshToken, userData.setUserInfo, setSignInState, navigate);
-    // api.interceptors.response.use(
-    //   (res) => {
-    //     console.log(res);
-    //   },
-    //   async (error: any) => {
-    //     console.log(error);
-    //     if (error.response.data.code === 2043 && userData.refreshToken) {
-    //       if (await refresh(userData.refreshToken, userData.setUserInfo, navigate)) {
-    //         setSignInState(true);
-    //         return true;
-    //       } else {
-    //         return false;
-    //       }
-    //     } else {
-    //       alert(error.response.data.message);
-    //     }
-    //   }
-    // );
-    return true;
-    // }
-  } catch (error: any) {
-    console.log(error);
-  }
-};
-
-export const refresh = async (
-  refreshToken: any,
-  setUserInfo: SetterOrUpdater<UserInfoType>,
-  navigate?: NavigateFunction
-): Promise<void | boolean> => {
-  try {
-    console.log('재발급 요청');
-    const res = await Token.refresh(refreshToken);
-    console.log(res);
-
-    const token = res.data.result.accessToken;
-    const userInfo = TokenConfig(token);
-    setUserInfo(userInfo);
+    authInterceptor(cookies, userData.setUserInfo, setSignInState);
     return true;
   } catch (error: any) {
     console.log(error);
-    if (error.response.data.code && error.response.data.code === 2043) {
-      alert('로그인이 필요합니다.');
-      if (navigate) {
-        navigate('/signIn');
-      }
-      return false;
-    }
   }
 };
 
