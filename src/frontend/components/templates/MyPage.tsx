@@ -1,22 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import { boxShadow, mainGradient } from '../../styles/styleUtil';
-import MyPageForm from '../organisms/MyPageForm';
-import MyPageProfile from '../organisms/MyPageProfile';
+import MyAccount from '../organisms/MyAccount';
+import MyProfile from '../organisms/MyProfile';
 
 const MyPageContainer = styled.div`
   width: 895px;
-  height: 1085px;
+  height: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 55px;
+  padding: 90px 40px;
   box-shadow: ${boxShadow};
   background: white;
   position: relative;
   margin: auto;
   margin-top: 70px;
-  padding-top: 70px;
 `;
 
 const TopGradient = styled.div`
@@ -27,12 +26,21 @@ const TopGradient = styled.div`
   ${mainGradient};
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+`;
+
 const MyPage = () => {
   return (
     <MyPageContainer>
       <TopGradient />
-      <MyPageProfile />
-      <MyPageForm />
+      <Wrapper>
+        <MyProfile />
+        <MyAccount />
+      </Wrapper>
     </MyPageContainer>
   );
 };

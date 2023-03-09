@@ -3,19 +3,21 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import SignupDefaultImage from '../../assets/images/SignupDefaultImage.png';
 import { userInfo, UserInfoType } from '../../recoil/atom';
+import Button from '../atoms/Button';
 import FlashBtn from '../atoms/FlashBtn';
 import ImageAddForm from '../molescules/ImageAddForm';
 
 const Container = styled.div`
-  width: 100%;
+  position: relative;
   text-align: center;
+  width: 100%;
+  margin-right: 30px;
 `;
 
 const Title = styled.text`
   font-family: 'NanumGothic';
   font-size: 20px;
   font-weight: 600;
-  float: left;
 `;
 
 const Name = styled.text`
@@ -29,22 +31,35 @@ const Email = styled.text`
   font-size: 15px;
 `;
 
+const SetProfileBtn = styled.button`
+  position: absolute;
+  top: 180px;
+  left: 70px;
+  width: 105px;
+  height: 25px;
+  color: white;
+  background-color: #5666e5;
+  border: none;
+  cursor: pointer;
+`;
+
 const Wrapper = styled.div`
-  height: 100px;
+  height: 140px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 `;
 
-const MyPageProfile = () => {
+const MyProfile = () => {
   const user = useRecoilValue<UserInfoType>(userInfo);
   const [profileImage, setProfileImage] = useState<Blob>();
 
   return (
     <Container>
       <Title>프로필</Title>
-      <ImageAddForm width={120} height={120} setProfileImage={setProfileImage} />
+      <ImageAddForm width={130} height={130} setProfileImage={setProfileImage} />
+      <SetProfileBtn type='button'>현재 프로필 저장</SetProfileBtn>
       <Wrapper>
         <Name>{user.name}</Name>
         <Email>{user.email}</Email>
@@ -54,4 +69,4 @@ const MyPageProfile = () => {
   );
 };
 
-export default MyPageProfile;
+export default MyProfile;
