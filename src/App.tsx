@@ -16,6 +16,7 @@ import { useCookies } from 'react-cookie';
 import { refresh } from './frontend/api/authService';
 import { signInState, userInfo, UserInfoType } from './frontend/recoil/atom';
 import CheckAuth from './frontend/utils/CheckAuth';
+import MyPage from './frontend/pages/MyPage';
 
 function App() {
   const [cookies] = useCookies(['refresh-token']);
@@ -58,6 +59,7 @@ function App() {
               <Route element={<CheckAuth />}>
                 <Route path='/question' element={<Question />}></Route>
                 <Route path='/answer' element={<Answer />}></Route>
+                <Route path='/myPage' element={<MyPage />} />
               </Route>
             </Routes>
           )}

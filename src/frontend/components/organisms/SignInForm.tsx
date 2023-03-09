@@ -12,7 +12,7 @@ import { useCookies } from 'react-cookie';
 const SignInFormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 interface SignInFormProps {

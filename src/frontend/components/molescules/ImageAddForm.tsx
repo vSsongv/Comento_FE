@@ -9,7 +9,7 @@ interface ImageSizeProps {
 }
 
 interface ImageAddFormProps extends ImageSizeProps {
-  formData: FormData;
+  setProfileImage: React.Dispatch<React.SetStateAction<Blob | undefined>>;
 }
 
 /**
@@ -54,15 +54,15 @@ const AddBtn = styled.img<ImageSizeProps>`
   cursor: pointer;
 `;
 
-const ImageAddForm = ({ width, height, formData }: ImageAddFormProps) => {
+const ImageAddForm = ({ width, height, setProfileImage }: ImageAddFormProps) => {
   const [profile, setprofile] = useState<string>(SignupDefaultImage);
 
   const setProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files;
-    if (file) {
+    if (file && file[0]) {
       const profileUrl = URL.createObjectURL(file[0]);
       setprofile(profileUrl);
-      formData?.append('images', file[0]);
+      setProfileImage(file[0]);
     }
   };
 
