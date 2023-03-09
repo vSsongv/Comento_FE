@@ -31,7 +31,7 @@ const refresh = async (req, res, next) => {
   const temp = await userService.getToken(userid);
   const DB_token = temp.refreshToken;
   if (!DB_token || DB_token != refreshToken)
-    return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
+    return next(new errorResponse(responseDetail.TOKEN_NOT_MATCH));
   console.log(userid);
   const userInfo = await userService.getUserInfo(userid);
   console.log("🚀 ~ file: refresh.js:37 ~ refresh ~ userInfo:", userInfo);
