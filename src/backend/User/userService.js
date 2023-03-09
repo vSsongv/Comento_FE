@@ -111,7 +111,7 @@ exports.issueAccessToken = async function (userInfo) {
 };
 exports.getUserInfo = async function (userid) {
   try {
-    let result = await Auth.findOne({
+    let result = await User.findOne({
       raw: true,
       where: {
         userid,
