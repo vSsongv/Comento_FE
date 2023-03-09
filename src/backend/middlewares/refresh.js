@@ -33,8 +33,9 @@ const refresh = async (req, res, next) => {
     return next(new errorResponse(responseDetail.TOKEN_NOT_MATCH));
   const userInfo = await userService.getUserInfo(userid);
   const token = await userService.signin(userInfo, userInfo.isKeep);
-  await userService.saveRefreshToken(token.refreshToken, userid);
-  return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, token));
+  return res.send(
+    resultResponse(detailResponse.REFRESH_SUCCESS, token.accessToken)
+  );
 };
 
 module.exports = refresh;
