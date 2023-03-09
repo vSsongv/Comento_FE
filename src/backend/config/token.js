@@ -13,12 +13,11 @@ module.exports = {
           userid: user.userid,
           nickname: user.nickname,
           role: user.role,
-          expiresIn: "2s",
           mentos: user.mentos,
         },
         process.env.ACCESS_SECRET,
         {
-          expiresIn,
+          expiresIn: "2s",
           issuer: "Comento",
           subject: "accessToken",
         }
