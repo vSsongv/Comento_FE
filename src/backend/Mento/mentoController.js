@@ -1,4 +1,3 @@
-const url = require('url');
 const mentoService = require('./mentoService');
 const {basicResponse, resultResponse}  = require('../config/response');
 const detailResponse = require('../config/responseDetail');
@@ -19,15 +18,14 @@ const mento = {
         return res.send(basicResponse(detailResponse.CONNECT_MENTORING))
     }),
     getQuestionList : asyncHandler(async function(req, res, next){
-        const queryData = url.parse(req.url, true).query;
-        const status = queryData.status;
-
         const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
+        
+        const status = req.query.status;
 
         if(status === 'before'){
-            const language = queryData.language;
+            const language = req.query.language;
 
             if(parseInt(language) === 0 || !language) {
                 list = await mentoService.getAllQuestion(userIdx);
