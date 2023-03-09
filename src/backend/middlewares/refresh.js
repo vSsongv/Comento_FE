@@ -32,10 +32,8 @@ const refresh = async (req, res, next) => {
   if (!DB_token || DB_token != refreshToken)
     return next(new errorResponse(responseDetail.TOKEN_NOT_MATCH));
   const userInfo = await userService.getUserInfo(userid);
-  const token = await userService.signin(userInfo, userInfo.isKeep);
-  return res.send(
-    resultResponse(detailResponse.REFRESH_SUCCESS, token.accessToken)
-  );
+  const token = await userService.issueAccessToken(userInfo);
+  return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, token));
 };
 
 module.exports = refresh;
