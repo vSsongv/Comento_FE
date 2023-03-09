@@ -45,12 +45,11 @@ module.exports = {
           userid: user.userid,
           nickname: user.nickname,
           role: user.role,
-          expiresIn: "20m",
           mentos: user.mentos,
         },
         process.env.ACCESS_SECRET,
         {
-          expiresIn,
+          expiresIn: "20m",
           issuer: "Comento",
           subject: "accessToken",
         }
