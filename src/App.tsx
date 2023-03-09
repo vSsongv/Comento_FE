@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { useSetRecoilState } from 'recoil';
@@ -21,11 +21,19 @@ function App() {
   const [cookies] = useCookies(['refresh-token']);
   const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
   const setSignInState = useSetRecoilState<boolean>(signInState);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     async function Refresh() {
-      if (await refresh(cookies['refresh-token'], cookies, setUserInfo, setSignInState)) {
-        setSignInState(true);
+      setLoading(true);
+      try {
+        if (await refresh(cookies['refresh-token'], cookies, setUserInfo, setSignInState)) {
+          setSignInState(true);
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        setLoading(false);
       }
     }
     if (cookies['refresh-token']) {
@@ -40,15 +48,19 @@ function App() {
         <BrowserRouter>
           <ScrollToTop />
           <Header />
-          <Routes>
-            <Route path='/' element={<Home />}></Route>
-            <Route path='/signIn' element={<SignIn />}></Route>
-            <Route path='/signUp' element={<SignUp />}></Route>
-            <Route element={<CheckAuth />}>
-              <Route path='/question' element={<Question />}></Route>
-              <Route path='/answer' element={<Answer />}></Route>
-            </Route>
-          </Routes>
+          {loading ? (
+            <div>loading</div>
+          ) : (
+            <Routes>
+              <Route path='/' element={<Home />}></Route>
+              <Route path='/signIn' element={<SignIn />}></Route>
+              <Route path='/signUp' element={<SignUp />}></Route>
+              <Route element={<CheckAuth />}>
+                <Route path='/question' element={<Question />}></Route>
+                <Route path='/answer' element={<Answer />}></Route>
+              </Route>
+            </Routes>
+          )}
           <Footer />
         </BrowserRouter>
       </ThemeProvider>

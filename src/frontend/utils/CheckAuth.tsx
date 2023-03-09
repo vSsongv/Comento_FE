@@ -1,3 +1,5 @@
+import React from 'react';
+import { Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { signInState } from '../recoil/atom';
 
@@ -8,7 +10,7 @@ const CheckAuth = () => {
     window.location.href = '/signIn';
   }
 
-  return null;
+  return <Outlet />;
 };
 
 export default CheckAuth;
