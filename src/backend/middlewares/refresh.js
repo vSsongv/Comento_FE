@@ -12,7 +12,6 @@ const TOKEN_INVALID = -2;
 
 const refresh = async (req, res, next) => {
   const refreshToken = req.query.token || req.headers["x-access-token"];
-  console.log(refreshToken);
   if (!refreshToken)
     return next(new errorResponse(responseDetail.NOT_LOGGEDIN));
 
@@ -32,9 +31,7 @@ const refresh = async (req, res, next) => {
   const DB_token = temp.refreshToken;
   if (!DB_token || DB_token != refreshToken)
     return next(new errorResponse(responseDetail.TOKEN_NOT_MATCH));
-  console.log(userid);
   const userInfo = await userService.getUserInfo(userid);
-  console.log("🚀 ~ file: refresh.js:37 ~ refresh ~ userInfo:", userInfo);
   const token = await userService.signin(userInfo, userInfo.isKeep);
   await userService.saveRefreshToken(token.refreshToken, userid);
   return res.send(resultResponse(detailResponse.REFRESH_SUCCESS, token));
