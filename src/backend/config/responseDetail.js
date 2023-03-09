@@ -334,7 +334,11 @@ module.exports = {
     code: 2046,
     message: "모든 문항에 체크해주세요.",
   },
-  
+  TOKEN_NOT_MATCH: {
+    isSuccess: false,
+    code: 2047,
+    message: "토큰이 일치하지 않아요.",
+  },
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },
 };
