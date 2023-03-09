@@ -7,7 +7,7 @@ const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const asyncHandler = require("../config/asyncHandler");
 const errorResponse = require("../config/errorResponse");
-const jwt = require('../config/token');
+const jwt = require("../config/token");
 const regEmail = require("regex-email");
 const { sendEmail } = require("../config/email");
 const regPassword =
@@ -116,8 +116,7 @@ const member = {
     let token;
     if (isEqualPw) {
       token = await userService.signin(userInfo, isKeep);
-      if (isKeep)
-        await userService.saveRefreshToken(token.refreshToken, userInfo.userid);
+      await userService.saveRefreshToken(token.refreshToken, userInfo.userid);
       return res.send(resultResponse(detailResponse.SIGNIN_SUCCESS, token));
     } else
       return next(new errorResponse(detailResponse.PASSWORD_MISMATCH, 400));
