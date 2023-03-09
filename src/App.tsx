@@ -12,6 +12,7 @@ import Question from './frontend/pages/Question';
 import Answer from './frontend/pages/Answer';
 import Footer from './frontend/components/molescules/Footer';
 import { ScrollToTop } from './frontend/utils/ScrollToTop';
+import MyPage from './frontend/pages/MyPage';
 
 function App() {
   return (
@@ -23,11 +24,12 @@ function App() {
             <ScrollToTop />
             <Header />
             <Routes>
-              <Route path='/' element={<Home />}></Route>
-              <Route path='/signIn' element={<SignIn />}></Route>
-              <Route path='/signUp' element={<SignUp />}></Route>
+              <Route path='/' element={<Home />} />
+              <Route path='/signIn' element={<SignIn />} />
+              <Route path='/signUp' element={<SignUp />} />
               <Route path='/question' element={<Question />}></Route>
               <Route path='/answer' element={<Answer />}></Route>
+              <Route path='/myPage' element={<MyPage />} />
             </Routes>
             <Footer />
           </BrowserRouter>

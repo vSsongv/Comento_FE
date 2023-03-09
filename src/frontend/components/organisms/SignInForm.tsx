@@ -8,7 +8,7 @@ import { FormValue } from '../../api/authService';
 const SignInFormContainer = styled.form`
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  margin-top: 20px;
 `;
 
 const SignInForm = () => {
