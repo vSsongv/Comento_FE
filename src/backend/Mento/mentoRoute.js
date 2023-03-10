@@ -8,12 +8,12 @@ router.get('/test', checkToken, checkMento , (req,res) => {
     res.send("하하");
 });
 
-//특정언어 관련 질문 받아오기(아직 멘토링 연결 안된 것들만), language가 undefined라면은 모든 질문 다 가져옴.
-router.get('/question/:language', checkToken, checkMento, mentoController.getQuestionList);
-
 //멘토링 연결
 router.post('/connect', checkToken, checkMento, mentoController.connectMentoring);
 
-//멘토가 진행중인 질문들 가져오기
-router.get('/mentoring/question', checkToken, checkMento, mentoController.getMentoringList);
+//진행전(language별로 가져옴), 진행중, 완료 질문들 각각 가져옴 -> (왼쪽 질문 목록 page)
+router.get('/question', checkToken, checkMento, mentoController.getQuestionList);
+//각 질문에 대한 세부사항 가져옴 -> (오른쪽 질문 상세 page)
+router.get('/question/:mentoringid', checkToken, checkMento, mentoController.getQuestion);
+
 module.exports = router;
