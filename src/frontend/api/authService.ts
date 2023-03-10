@@ -166,7 +166,7 @@ export const SignIn = async (
   }
 };
 
-export const Question = async (questionContents: FormData): Promise<void | boolean> => {
+export const askQuestion = async (questionContents: FormData): Promise<void | boolean> => {
   try {
     const res = await Mentee.question(questionContents);
     console.log(res);

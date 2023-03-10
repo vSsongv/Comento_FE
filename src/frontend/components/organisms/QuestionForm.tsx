@@ -7,7 +7,7 @@ import QuestionFile from '../molescules/Question/QeustionFile';
 import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
 import { Languages } from '../../utils/Languages';
-import { Question } from '../../api/authService';
+import { askQuestion } from '../../api/authService';
 
 const QuestionBox = styled.div`
   display: flex;
@@ -94,7 +94,7 @@ const QuestionForm = () => {
     };
     formData.append('data', JSON.stringify(dataSet));
 
-    if (await Question(formData)) {
+    if (await askQuestion(formData)) {
       alert('질문이 등록되었습니다.');
     }
   };
