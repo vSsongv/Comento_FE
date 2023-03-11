@@ -69,8 +69,6 @@ export const getUserInfo = async (role: string): Promise<UserInfoType | boolean>
       email: res.data.result.email,
       role: role,
     };
-    console.log(process.env.REACT_APP_BASE_URL);
-    console.log(userInfo.profileImage);
     return userInfo;
   } catch (error) {
     console.log(error);
@@ -93,7 +91,6 @@ export const refresh = async (
   setSignInState: SetterOrUpdater<boolean>
 ): Promise<void | boolean> => {
   try {
-    console.log('재발급 요청');
     const res = await Auth.refresh(refreshToken);
     console.log(res);
     const token = res.data.result;
@@ -107,9 +104,7 @@ export const refresh = async (
     return token;
   } catch (error: any) {
     console.log(error);
-    if (error.response.data.code && error.response.data.code === 2043) {
-      return false;
-    }
+    return false;
   }
 };
 
@@ -120,7 +115,6 @@ export const authInterceptor = (
 ) => {
   api.interceptors.request.use(
     async (config) => {
-      console.log(config);
       const timestamp = new Date().getTime() / 1000;
       const refreshToken = cookies['refresh-token'];
       const exp = sessionStorage.getItem('token_exp');
@@ -171,7 +165,6 @@ export const SignIn = async (
       return false;
     }
     userData.setUserInfo(userInfo);
-
     const decoded_refresh: any = jwt_decode(res.data.result.refreshToken);
     const exp = new Date(decoded_refresh.exp * 1000);
     setCookie('refresh-token', res.data.result.refreshToken, {
