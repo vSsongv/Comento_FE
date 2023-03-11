@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { boxShadow, mainGradient } from '../../styles/styleUtil';
-import MyAccount from '../organisms/MyAccount';
+import { border, boxShadow, mainGradient } from '../../styles/styleUtil';
 import MyProfile from '../organisms/MyProfile';
+import NickForm from '../organisms/NickForm';
+import PwdForm from '../organisms/PwdForm';
 
 const MyPageContainer = styled.div`
   width: 895px;
@@ -33,13 +34,24 @@ const Wrapper = styled.div`
   justify-content: space-between;
 `;
 
+const AccountContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 60px 0px 0px 50px;
+  ${border(3)}
+  align-items: center;
+`;
+
 const MyPage = () => {
   return (
     <MyPageContainer>
       <TopGradient />
       <Wrapper>
         <MyProfile />
-        <MyAccount />
+        <AccountContainer>
+          <PwdForm />
+          <NickForm />
+        </AccountContainer>
       </Wrapper>
     </MyPageContainer>
   );

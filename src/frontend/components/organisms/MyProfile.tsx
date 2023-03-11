@@ -14,19 +14,19 @@ const Container = styled.div`
   margin-right: 30px;
 `;
 
-const Title = styled.text`
+const Title = styled.span`
   font-family: 'NanumGothic';
   font-size: 20px;
   font-weight: 600;
 `;
 
-const Name = styled.text`
+const Name = styled.span`
   font-family: 'NanumGothic';
   font-size: 25px;
   font-weight: 700;
 `;
 
-const Email = styled.text`
+const Email = styled.span`
   font-family: 'NanumGothic';
   font-size: 15px;
 `;
@@ -39,6 +39,7 @@ const SetProfileBtn = styled.button`
   height: 25px;
   color: white;
   background-color: #5666e5;
+  border-radius: 10px;
   border: none;
   cursor: pointer;
 `;
