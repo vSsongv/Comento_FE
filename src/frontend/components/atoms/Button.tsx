@@ -6,12 +6,21 @@ import { mainGradient } from '../../styles/styleUtil';
 type ButtonProps = {
   children: React.ReactNode;
   width: number;
+  height?: number;
+  fontSize?: number;
   onClick?: () => void;
+};
+
+Button.defaultProps = {
+  height: 50,
+  fontSize: 17,
 };
 
 const StyledButton = styled.button<ButtonProps>`
   ${(props) => {
     const WIDTH = props.width;
+    const HEIGHT = props.height;
+    const FONT_SIZE = props.fontSize;
     return css`
       /* 공통 스타일 */
       display: inline-block;
@@ -27,8 +36,8 @@ const StyledButton = styled.button<ButtonProps>`
       /* 크기 */
       padding: 1rem 2rem;
       width: ${WIDTH}px;
-      height: auto;
-      font-size: 1rem;
+      height: ${HEIGHT}px;
+      font-size: ${FONT_SIZE}px;
       /* 색상 */
       background-color: 'blue';
       ${mainGradient}
