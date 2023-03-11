@@ -106,6 +106,11 @@ module.exports = {
     code: 1121,
     message: "설문을 저장했습니다.",
   },
+  MENTO_AUTH_SUCCESS: {
+    isSuccess: true,
+    code: 1122,
+    message: "멘토 권한을 부여했습니다.",
+  },
   //FAIL
   DUP_EMAIL: {
     isSuccess: false,
@@ -334,9 +339,19 @@ module.exports = {
     code: 2046,
     message: "모든 문항에 체크해주세요.",
   },
-  TOKEN_NOT_MATCH: {
+  ALREADY_MENTO: {
     isSuccess: false,
     code: 2047,
+    message: "이미 멘토 권한을 갖고 있습니다.",
+  },
+  BAD_STATUS_URI: {
+    isSuccess: false,
+    code: 2048,
+    message: "올바른 url을 입력해주세요.",
+  },
+  TOKEN_NOT_MATCH: {
+    isSuccess: false,
+    code: 2049,
     message: "토큰이 일치하지 않아요.",
   },
   //데이터베이스오류
