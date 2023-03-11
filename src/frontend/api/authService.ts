@@ -177,6 +177,7 @@ export const SignIn = async (
     return true;
   } catch (error: any) {
     console.log(error);
+    alert(error.response.data.message);
   }
 };
 
