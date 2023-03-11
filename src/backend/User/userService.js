@@ -20,7 +20,74 @@ exports.checkEmail = async function (email) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
+exports.getUserPassword = async function (userid) {
+  try {
+    const result = await User.findOne({
+      raw: true,
+      attributes: ["password"],
+      where: {
+        userid,
+      },
+    });
+    return result; //해당 유저가 있으면 user email넘겨줌
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
+exports.updateUserNickname = async function (nickname, userid) {
+  try {
+    await User.update(
+      {
+        nickname,
+      },
+      {
+        where: {
+          userid,
+        },
+      }
+    );
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
 
+exports.updateUserPassword = async function (password, userid) {
+  try {
+    await User.update(
+      {
+        password,
+      },
+      {
+        where: {
+          userid,
+        },
+      }
+    );
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
+
+exports.updateProfile = async function (image, userid) {
+  try {
+    await User.update(
+      {
+        image,
+      },
+      {
+        where: {
+          userid,
+        },
+      }
+    );
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
 exports.saveRefreshToken = async function (refreshToken, userid) {
   try {
     await User.update(
@@ -109,9 +176,26 @@ exports.issueAccessToken = async function (userInfo) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
+exports.getUserRole = async function (userid) {
+  try {
+    let result = await User.findOne({
+      attributes: ["role", "userid"],
+      raw: true,
+      where: {
+        userid,
+      },
+    });
+    return result;
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
+
 exports.getUserInfo = async function (userid) {
   try {
     let result = await User.findOne({
+      attributes: ["email", "nickname", "mentos", "image"],
       raw: true,
       where: {
         userid,
@@ -207,11 +291,14 @@ exports.deleteCertNum = async function (email) {
 
 exports.updateMentoRole = async function (userIdx) {
   try {
-    await User.update({
-      role: 'A'
-    },{
-      where:{
-          userid: userIdx
+    await User.update(
+      {
+        role: "A",
+      },
+      {
+        where: {
+          userid: userIdx,
+        },
       }
     );
   } catch (error) {

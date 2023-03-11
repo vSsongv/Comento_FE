@@ -1,36 +1,24 @@
 const bcrypt = require("bcrypt");
-const fs = require("fs");
-const imageDir = __dirname + "/../user/";
 // const path = require("path");
 const userService = require("./userService");
 const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const asyncHandler = require("../config/asyncHandler");
 const errorResponse = require("../config/errorResponse");
-const jwt = require("../config/token");
 const regEmail = require("regex-email");
 const { sendEmail } = require("../config/email");
+const { deleteSingleFile } = require("../config/s3");
 const regPassword =
   /^(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*-_+=\\(\\)\])(?=.*[0-9]).{8,16}/;
 const regPhoneNum = /^\d{3}\d{3,4}\d{4}$/;
 const regNickname = /^[a-zA-Z가-힣]*$/;
 const regNumber = /^[0-9]/;
 
-if (!fs.existsSync(imageDir)) {
-  fs.mkdirSync(imageDir);
-}
-
 const member = {
   signup: asyncHandler(async (req, res, next) => {
     const { email, nickname, password, phone } = JSON.parse(req.body.data);
-    let profile;
-    let length = !req.files ? 0 : req.files.length;
+    let profile = req.file.key || null;
 
-    for (let i = 0; i < length; i++) {
-      profile = req.files[i]["key"];
-    }
-
-    profile = profile || null;
     if (!email) return next(new errorResponse(detailResponse.EMPTY_EMAIL), 400);
 
     if (email.length > 30)
@@ -81,18 +69,6 @@ const member = {
         new errorResponse(basicResponse(detailResponse.DUP_PHONE), 400)
       );
 
-    /* 이미지 업로드 코드는 aws s3설정 완료이후 할 것  
-        let newpath;
-        if(oldpath){
-            newpath = path.join(imageDir , path.basename(oldpath));
-            console.log(newpath);
-            fs.rename(oldpath, newpath, function(err) {
-                newpath = null;
-            });      
-        }else{
-            newpath = null;
-        }*/
-    console.log(profile);
     const hashedpw = await bcrypt.hash(password, 12);
     await userService.createUser(nickname, email, hashedpw, profile, phone);
     return res.send(basicResponse(detailResponse.SIGNUP_SUCCESS));
@@ -192,26 +168,148 @@ const member = {
     }
     return res.send(basicResponse(detailResponse.SEND_EMAIL));
   }),
-  updateUserInfo: asyncHandler(async (req, res) => {
-    const { email, nickname, password, profile, phone } = req.body;
-  }),
-  updateMentoRole : asyncHandler(async function(req,res,next){
+  updateMentoRole: asyncHandler(async function (req, res, next) {
     const userIdx = req.user.userid;
-    if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
-    if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
-    
-    const userInfo = req.user;
-    if(userInfo.role === 'A') return next(new errorResponse(basicResponse(detailResponse.ALREADY_MENTO), 400));
+    if (!userIdx)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
+      );
+    if (!regNumber.test(userIdx))
+      return next(
+        new errorResponse(
+          basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
+          400
+        )
+      );
 
-    userInfo.role='A'; //권한을 멘토로 변경
+    const userInfo = req.user;
+    if (userInfo.role === "A")
+      return next(
+        new errorResponse(basicResponse(detailResponse.ALREADY_MENTO), 400)
+      );
+
+    userInfo.role = "A"; //권한을 멘토로 변경
 
     await userService.updateMentoRole(userIdx);
     const token = await userService.signin(userInfo, userInfo.isKeep); //토큰 재발급
-    if(token.refreshToken) await userService.saveRefreshToken(token.refreshToken, userInfo.userid);
+    if (token.refreshToken)
+      await userService.saveRefreshToken(token.refreshToken, userInfo.userid);
 
     return res.send(resultResponse(detailResponse.MENTO_AUTH_SUCCESS, token));
+  }),
+  getUserInfo: asyncHandler(async function (req, res, next) {
+    const userIdx = req.user.userid;
+    if (!userIdx)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
+      );
+    if (!regNumber.test(userIdx))
+      return next(
+        new errorResponse(
+          basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
+          400
+        )
+      );
+    const userInfo = await userService.getUserInfo(userIdx);
+    return res.send(resultResponse(detailResponse.SUCCESS, userInfo));
+  }),
+  updateNickname: asyncHandler(async function (req, res, next) {
+    const userIdx = req.user.userid;
+    const nickname = req.body.nickname;
+    if (!userIdx)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
+      );
+    if (!regNumber.test(userIdx))
+      return next(
+        new errorResponse(
+          basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
+          400
+        )
+      );
+    if (!nickname)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_NICKNAME), 400)
+      );
+    const userInfo = await userService.getUserInfo(userIdx);
+    if (nickname !== userInfo.nickname)
+      return next(
+        new errorResponse(basicResponse(detailResponse.NOT_MATCH_NICKNAME), 400)
+      );
+    await userService.updateUserNickname(nickname, userIdx);
+    return res.send(
+      resultResponse(detailResponse.PATCH_NICKNAME_SUCCESS, nickname)
+    );
+  }),
+  updatePassword: asyncHandler(async function (req, res, next) {
+    const userIdx = req.user.userid;
+    const { prevPassword, password } = req.body;
+    if (!userIdx)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
+      );
+    if (!regNumber.test(userIdx))
+      return next(
+        new errorResponse(
+          basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
+          400
+        )
+      );
+    if (prevPassword && password == 0)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_PASSWORD), 400)
+      );
+    const userInfo = await userService.getUserPassword(userIdx);
+    let hashedpw = await bcrypt.hash(prevPassword, 12);
 
-})
+    if (hashedpw !== userInfo.password)
+      return next(
+        new errorResponse(basicResponse(detailResponse.NOT_MATCH_PASSWORD), 400)
+      );
+
+    hashedpw = await bcrypt.hash(password, 12);
+    await userService.updateUserPassword(hashedpw, userIdx);
+    return res.send(basicResponse(detailResponse.PATCH_PASSWORD_SUCCESS));
+  }),
+  updateProfile: asyncHandler(async function (req, res, next) {
+    const profile = req.file.key || null;
+    try {
+      const userIdx = req.user.userid;
+      if (!profile)
+        next(
+          new errorResponse(basicResponse(detailResponse.EMPTY_PROFILE), 400)
+        );
+
+      if (!userIdx)
+        return next(
+          new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
+        );
+      if (!regNumber.test(userIdx))
+        return next(
+          new errorResponse(
+            basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
+            400
+          )
+        );
+      const prevProfile = await userService.getUserInfo(userIdx);
+      await userService.updateProfile(profile, userIdx);
+      if (prevProfile.image) {
+        const params = {
+          Bucket: secret.bucket,
+          Key: prevProfile,
+        };
+        deleteSingleFile(params);
+      }
+      return res.send(basicResponse(detailResponse.PATCH_PROFILE_SUCCESS));
+    } catch (error) {
+      const params = {
+        Bucket: secret.bucket,
+        Key: profile,
+      };
+      deleteSingleFile(params);
+      return next(new errorResponse(basicResponse(detailResponse.DB_ERROR)));
+    }
+  }),
   //     renewalToken : async (req, res, err) => {
 
   //     // refreshToken만유효 => refreshToken에서 이메일 꺼내와서 해당 유저찾고 refreshToken 값비교 일치하면 재발급

@@ -33,8 +33,22 @@ const upload = multer({
   }),
 });
 
-const deleteFile = async function deleteImage(params) {
+const deleteFiles = async function deleteImage(params) {
   await s3.deleteObjects(params).promise();
 };
+const deleteSingleFile = async function deleteImages(params) {
+  try {
+    s3.deleteObject(params, function (error, data) {
+      if (error) {
+        console.log("err: ", error, error.stack);
+      } else {
+        console.log(data, " 정상 삭제 되었습니다.");
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
 
-module.exports = { s3, upload, deleteFile };
+module.exports = { s3, upload, deleteFiles, deleteSingleFile };

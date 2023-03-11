@@ -31,7 +31,7 @@ const refresh = async (req, res, next) => {
   const DB_token = temp.refreshToken;
   if (!DB_token || DB_token != refreshToken)
     return next(new errorResponse(responseDetail.TOKEN_NOT_MATCH));
-  const userInfo = await userService.getUserInfo(userid);
+  const userInfo = await userService.getUserRole(userid);
   const token = await userService.issueAccessToken(userInfo);
   return res.send(
     resultResponse(detailResponse.REFRESH_SUCCESS, token.accessToken)
