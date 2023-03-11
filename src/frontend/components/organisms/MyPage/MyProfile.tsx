@@ -65,7 +65,7 @@ const MyProfile = () => {
   return (
     <Container>
       <Title>프로필</Title>
-      <ImageAddForm width={130} height={130} setProfileImage={setProfileImage} />
+      <ImageAddForm width={140} height={140} setProfileImage={setProfileImage} />
       <SetProfileBtn onClick={setNewProfile}>현재 프로필 저장</SetProfileBtn>
       <Wrapper>
         <Name>{user.nickname}</Name>

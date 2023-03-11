@@ -38,7 +38,6 @@ const StyledButton = styled.button<ButtonProps>`
       height: ${HEIGHT}px;
       font-size: ${FONT_SIZE}px;
       /* 색상 */
-      background-color: 'blue';
       ${mainGradient}
       &:hover {
         color: ${lighten(0.1, 'white')};
