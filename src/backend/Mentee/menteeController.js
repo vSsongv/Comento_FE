@@ -226,7 +226,6 @@ const mentee = {
       keys.forEach((key) => {
         fileArray.push({ Key: deleteList[key] });
       });
-      console.log(fileArray);
       const params = {
         Bucket: secret.bucket,
         Delete: {

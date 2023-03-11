@@ -20,7 +20,6 @@ exports.checkMentoring = async function (mentoringid) {
 };
 exports.getSpecificQuestion = async function (language, userid) {
   try {
-    console.log(userid);
     const result = await Mentoring.findAll({
       where: {
         language,
@@ -38,7 +37,6 @@ exports.getSpecificQuestion = async function (language, userid) {
 };
 exports.getAllQuestion = async function (userid) {
   try {
-    console.log(userid);
     const result = await Mentoring.findAll({
       where: {
         status: "N",
