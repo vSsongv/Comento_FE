@@ -26,26 +26,7 @@ exports.getSpecificQuestion = async function (language, userid) {
       attributes: ["menteeid","title", "date", "language"],
       where: {
         language,
-        status: "N",
-        menteeid: {
-          [Op.ne]: userid,
-        },
-      },
-    });
-    return result;
-  } catch (error) {
-    logger.error(`${error.message}`);
-    throw new errorResponse(responseDetail.DB_ERROR);
-  }
-};
-exports.getAllQuestion = async function (userid) {
-  try {
-    console.log(userid);
-    const result = await Mentoring.findAll({
-      raw: true,
-      attributes: ["menteeid","title", "date", "language"],
-      where: {
-        status: "N",
+        status : "N",
         menteeid: {
           [Op.ne]: userid,
         },
@@ -85,13 +66,13 @@ exports.connectMentoring = async function (userid, mentoringid) {
   }
 };
 
-exports.getQuestionList = async function(status, mentoid){
+exports.getQuestionList = async function(language, status){
   try {
     const result = await Mentoring.findAll({
       raw: true,
       attributes: ["menteeid","title", "date", "language"],
       where: {
-        mentoid,
+        language,
         status,
       },
     });
@@ -105,6 +86,8 @@ exports.getQuestionList = async function(status, mentoid){
 exports.getQuestion = async function(mentoringid){
   try {
     const result = await Mentoring.findOne({
+      raw: true,
+      attributes: ["title", "createdAt", "language", "content", "content_image"],
       where: {
         mentoringid
       },
