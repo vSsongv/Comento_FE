@@ -3,7 +3,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import Button from '../atoms/Button';
 import InputForm from '../molescules/InputForm';
-import { FormValue } from '../../api/authService';
+import { FormValue, SignIn } from '../../api/authService';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { signInState, userInfo, UserInfoType } from '../../recoil/atom';
+import { useCookies } from 'react-cookie';
 
 const SignInFormContainer = styled.form`
   display: flex;
@@ -11,10 +15,29 @@ const SignInFormContainer = styled.form`
   margin-top: 20px;
 `;
 
-const SignInForm = () => {
-  const onSubmit: SubmitHandler<FormValue> = (data) => {
-    console.log(data.password);
-    console.log(data.password_confirm);
+interface SignInFormProps {
+  keepSignIn: boolean;
+}
+
+const SignInForm = ({ keepSignIn }: SignInFormProps) => {
+  const navigate = useNavigate();
+  const setSignInState = useSetRecoilState(signInState);
+  const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
+  const [cookies, setCookie] = useCookies(['refresh-token']);
+
+  const onSubmit: SubmitHandler<FormValue> = async (data) => {
+    const userData = {
+      email: data.email,
+      crt_password: data.crt_password,
+      isKeep: keepSignIn,
+      setUserInfo: setUserInfo,
+      refreshToken: cookies['refresh-token'] || null,
+    };
+    const signIn = await SignIn(userData, cookies, setCookie, setSignInState);
+    if (signIn === true) {
+      setSignInState(true);
+      navigate(-1);
+    }
   };
 
   const {

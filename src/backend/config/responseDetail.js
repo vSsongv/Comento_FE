@@ -344,6 +344,11 @@ module.exports = {
     code: 2047,
     message: "이미 멘토 권한을 갖고 있습니다.",
   },
+  BAD_STATUS_URI: {
+    isSuccess: false,
+    code: 2048,
+    message: "올바른 url을 입력해주세요.",
+  },
   
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },

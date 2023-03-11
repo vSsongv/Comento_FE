@@ -51,9 +51,16 @@ const SignIn = () => {
   return (
     <SignInContainer>
       <img style={{ display: 'block', margin: 'auto' }} src={SignLogo} />
-      <SignInForm />
+      <SignInForm keepSignIn={keepSignIn} />
       <label style={{ position: 'absolute', bottom: '140px' }}>
-        <input style={{ cursor: 'pointer', marginRight: '5px' }} checked={keepSignIn} onChange={KeepUser} type='checkbox' name='color' value='saveUserInfo' />
+        <input
+          style={{ cursor: 'pointer', marginRight: '5px' }}
+          checked={keepSignIn}
+          onChange={KeepUser}
+          type='checkbox'
+          name='color'
+          value='saveUserInfo'
+        />
         로그인 상태 유지
       </label>
       <SignUpImg src={toSignUp} />
