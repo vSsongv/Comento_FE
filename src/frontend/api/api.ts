@@ -25,7 +25,7 @@ export const Auth = {
 };
 
 export const SignApi = {
-  userInfo: () => api.get('user/userInfo'),
+  getUserInfo: () => api.get('user/userInfo'),
   signUp: (userData: FormData) => api.post('user/signup', userData),
   checkDupleEmail: (email: string) => api.get(`user/check/email?email=${email}`),
   checkDupleNick: (nickname: string) => api.get(`user/check/nickname?nickname=${nickname}`),
@@ -33,5 +33,5 @@ export const SignApi = {
 };
 
 export const Mentee = {
-  question: (questionContents: FormData) => api.post('mentee/question', questionContents),
+  askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
 };
