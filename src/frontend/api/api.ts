@@ -19,7 +19,7 @@ export const Auth = {
   signIn: (userData: SignInService) =>
     auth.post('user/signin', {
       email: userData.email,
-      password: userData.password_signin,
+      password: userData.crt_password,
       isKeep: userData.isKeep,
     }),
 };
