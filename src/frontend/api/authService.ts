@@ -2,7 +2,7 @@ import { SignApi } from './api';
 
 export interface SignInProps {
   email: string;
-  password_signin: string;
+  crt_password: string;
 }
 
 export interface FormValue extends SignInProps {

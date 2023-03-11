@@ -7,7 +7,7 @@ import hidePasswordImg from '../../assets/images/hidePassword.png';
 import showPasswordImg from '../../assets/images/ShowPassword.png';
 
 interface InputFormProps {
-  purpose: 'email' | 'password' | 'password_signin' | 'password_confirm' | 'nickname' | 'phone';
+  purpose: 'email' | 'password' | 'crt_password' | 'password_confirm' | 'nickname' | 'phone';
   label: string;
   placeholder: string;
   option?: string;
@@ -19,7 +19,7 @@ interface InputFormProps {
 
 interface FormValue {
   email: string;
-  password_signin: string;
+  crt_password: string;
   password: string;
   password_confirm: string;
   nickname: string;
@@ -102,7 +102,7 @@ const ShowPwdBtn = styled.button<PwdState>`
  **/
 
 const InputForm = ({ purpose, reg, error, label, placeholder, option, crtVal, setAvailable }: InputFormProps) => {
-  const isPwd = purpose === 'password' || purpose === 'password_confirm' || purpose === 'password_signin';
+  const isPwd = purpose === 'password' || purpose === 'password_confirm' || purpose === 'crt_password';
   const [type, setType] = useState(isPwd ? 'password' : 'text');
 
   const showPwd = () => {
@@ -113,7 +113,7 @@ const InputForm = ({ purpose, reg, error, label, placeholder, option, crtVal, se
     return value === crtVal?.password || '* 비밀번호가 다릅니다.';
   };
 
-  const checkDuple = async (purpose: 'email' | 'password' | 'password_signin' | 'password_confirm' | 'nickname' | 'phone', crtVal: FormValue) => {
+  const checkDuple = async (purpose: 'email' | 'password' | 'crt_password' | 'password_confirm' | 'nickname' | 'phone', crtVal: FormValue) => {
     if (error[purpose]) return;
     if (setAvailable && (await isDuple(purpose, crtVal))) setAvailable(true);
   };
