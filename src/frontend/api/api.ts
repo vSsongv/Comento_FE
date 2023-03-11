@@ -25,6 +25,7 @@ export const Auth = {
 };
 
 export const SignApi = {
+  userInfo: () => api.get('user/userInfo'),
   signUp: (userData: FormData) => api.post('user/signup', userData),
   checkDupleEmail: (email: string) => api.get(`user/check/email?email=${email}`),
   checkDupleNick: (nickname: string) => api.get(`user/check/nickname?nickname=${nickname}`),

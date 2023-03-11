@@ -59,16 +59,30 @@ export const signUp = async (userData: FormData) => {
   }
 };
 
-export const TokenConfig = (token: any): UserInfoType => {
+export const getUserInfo = async (role: string): Promise<UserInfoType | boolean> => {
+  try {
+    const res = await SignApi.userInfo();
+    const userInfo = {
+      name: res.data.result.nickname,
+      profileImage: res.data.result.image ? process.env.REACT_APP_BASE_URL + res.data.result.image : defaultProfile,
+      mentos: res.data.result.mentos,
+      email: res.data.result.email,
+      role: role,
+    };
+    console.log(process.env.REACT_APP_BASE_URL);
+    console.log(userInfo.profileImage);
+    return userInfo;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const TokenConfig = async (token: any): Promise<UserInfoType | boolean> => {
   api.defaults.headers.common['x-access-token'] = token;
   const decodedUser: any = jwt_decode(token);
-  const userInfo = {
-    name: decodedUser.nickname,
-    profileImage: decodedUser.profileImage ? decodedUser.profileImage : defaultProfile,
-    mentos: decodedUser.mentos,
-    role: decodedUser.type,
-  };
   sessionStorage.setItem('token_exp', decodedUser.exp);
+  const userInfo = await getUserInfo(decodedUser.role);
   return userInfo;
 };
 
@@ -83,7 +97,11 @@ export const refresh = async (
     const res = await Auth.refresh(refreshToken);
     console.log(res);
     const token = res.data.result;
-    const userInfo = TokenConfig(token);
+    const userInfo = await TokenConfig(token);
+    if (userInfo === false || userInfo === true) {
+      alert('다시 로그인해주세요.');
+      return false;
+    }
     setUserInfo(userInfo);
     authInterceptor(cookies, setUserInfo, setSignInState);
     return token;
@@ -99,7 +117,6 @@ export const authInterceptor = (
   cookies: { 'refresh-token'?: any },
   setUserInfo: SetterOrUpdater<UserInfoType>,
   setSignInState: SetterOrUpdater<boolean>
-  // navigate?: NavigateFunction
 ) => {
   api.interceptors.request.use(
     async (config) => {
@@ -148,7 +165,11 @@ export const SignIn = async (
   try {
     const res = await Auth.signIn(userData);
     const token = res.data.result.accessToken;
-    const userInfo = TokenConfig(token);
+    const userInfo = await TokenConfig(token);
+    if (userInfo === false || userInfo === true) {
+      alert('다시 로그인해주세요.');
+      return false;
+    }
     userData.setUserInfo(userInfo);
 
     const decoded_refresh: any = jwt_decode(res.data.result.refreshToken);
@@ -170,9 +191,7 @@ export const askQuestion = async (questionContents: FormData): Promise<void | bo
   try {
     const res = await Mentee.question(questionContents);
     console.log(res);
-    // if (res.status && res.status === 200) {
     return true;
-    // }
   } catch (error: any) {
     console.log(error);
     if (error.response.status === 400) {
