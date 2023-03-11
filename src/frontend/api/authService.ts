@@ -23,7 +23,7 @@ export interface FormValue extends SignInProps {
   phone: string;
 }
 
-export const isDuple = async (purpose: string, target: FormValue) => {
+export const isDuple = async (purpose: string, target: FormValue): Promise<boolean | undefined> => {
   try {
     switch (purpose) {
       case 'email': {
@@ -50,7 +50,7 @@ export const isDuple = async (purpose: string, target: FormValue) => {
   }
 };
 
-export const signUp = async (userData: FormData) => {
+export const signUp = async (userData: FormData): Promise<boolean | undefined> => {
   try {
     const res = await SignApi.signUp(userData);
     if (res.status === 200) return true;
@@ -63,7 +63,7 @@ export const getUserInfo = async (role: string): Promise<UserInfoType | boolean>
   try {
     const res = await SignApi.getUserInfo();
     const userInfo = {
-      name: res.data.result.nickname,
+      nickname: res.data.result.nickname,
       profileImage: res.data.result.image ? process.env.REACT_APP_BASE_URL + res.data.result.image : defaultProfile,
       mentos: res.data.result.mentos,
       email: res.data.result.email,

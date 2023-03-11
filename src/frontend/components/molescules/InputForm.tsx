@@ -105,15 +105,15 @@ const InputForm = ({ purpose, reg, error, label, placeholder, option, crtVal, se
   const isPwd = purpose === 'password' || purpose === 'password_confirm' || purpose === 'crt_password';
   const [type, setType] = useState(isPwd ? 'password' : 'text');
 
-  const showPwd = () => {
+  const showPwd = (): void => {
     type === 'password' ? setType('text') : setType('password');
   };
 
-  const checkPwd = (value: string | number) => {
+  const checkPwd = (value: string | number): string | boolean => {
     return value === crtVal?.password || '* 비밀번호가 다릅니다.';
   };
 
-  const checkDuple = async (purpose: 'email' | 'password' | 'crt_password' | 'password_confirm' | 'nickname' | 'phone', crtVal: FormValue) => {
+  const checkDuple = async (purpose: 'email' | 'password' | 'crt_password' | 'password_confirm' | 'nickname' | 'phone', crtVal: FormValue): Promise<void> => {
     if (error[purpose]) return;
     if (setAvailable && (await isDuple(purpose, crtVal))) setAvailable(true);
   };
