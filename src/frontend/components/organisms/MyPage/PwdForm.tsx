@@ -26,13 +26,18 @@ const PwdForm = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValue>();
 
   const crtVal = watch();
 
-  const onSubmit: SubmitHandler<FormValue> = (data) => {
-    changePwd(data.crt_password, data.password);
+  const onSubmit: SubmitHandler<FormValue> = async (data) => {
+    if (await changePwd(data.crt_password, data.password)) {
+      setValue('crt_password', '');
+      setValue('password', '');
+      setValue('password_confirm', '');
+    }
   };
 
   return (

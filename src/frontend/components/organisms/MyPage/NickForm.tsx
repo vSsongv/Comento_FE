@@ -22,6 +22,7 @@ const NickForm = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<FormValue>();
 
@@ -33,6 +34,7 @@ const NickForm = () => {
     } else {
       const nickname = await changeNick(data.nickname);
       setUser({ ...user, nickname: nickname });
+      setValue('nickname', '');
     }
   };
 
