@@ -23,13 +23,18 @@ const ChattingBox = styled.div`
   height: 595px;
   width: 97%;
   ${border(2)}
+  overflow: scroll;
 `;
 
 const ChattingRoom = () => {
   const messageRef = useRef<HTMLInputElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messageRef.current?.focus();
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
+    }
   }, []);
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
@@ -37,7 +42,10 @@ const ChattingRoom = () => {
   };
   return (
     <ChattingRoomContainer>
-      <ChattingBox>
+      <ChattingBox ref={scrollRef}>
+        <Message />
+        <Message />
+        <Message />
         <Message />
       </ChattingBox>
       <ChattingInput handleFile={handleFile} messageRef={messageRef} />
