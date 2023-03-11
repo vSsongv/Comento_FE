@@ -1,6 +1,6 @@
 const errorResponse = require("../config/errorResponse");
 const responseDetail = require("../config/responseDetail");
-const { Mentoring, Room, Chat } = require("../models");
+const { Mentoring, Room, Chat, User } = require("../models");
 const Op = require("sequelize").Op;
 const { logger } = require("../config/winston");
 exports.checkMentoring = async function (mentoringid) {
@@ -27,7 +27,7 @@ exports.getSpecificQuestion = async function (language, userid) {
       where: {
         language,
         status : "N",
-        menteeid: {
+        mentoid: {
           [Op.ne]: userid,
         },
       },
@@ -87,10 +87,10 @@ exports.getQuestion = async function(mentoringid){
   try {
     const result = await Mentoring.findOne({
       raw: true,
-      attributes: ["title", "createdAt", "language", "content", "content_image"],
+      attributes: ["menteeid", "title", "createdAt", "language", "content", "content_image"],
       where: {
         mentoringid
-      },
+      }
     });
     return result;
   } catch (error) {

@@ -1,8 +1,10 @@
 const mentoService = require('./mentoService');
+const userService = require('../User/userService');
 const {basicResponse, resultResponse}  = require('../config/response');
 const detailResponse = require('../config/responseDetail');
 const asyncHandler = require('../config/asyncHandler');
 const errorResponse = require('../config/errorResponse');
+const { json } = require('stream/consumers');
 const regNumber = /^[0-9]/;
 const mento = {
     connectMentoring : asyncHandler(async function(req, res, next){
@@ -46,6 +48,11 @@ const mento = {
         const question = await mentoService.getQuestion(mentoringid);
         if(!question) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
 
+        const nickname = await userService.getNickname(question.menteeid);
+    
+        delete question.menteeid;
+        question.nickname = nickname.nickname;
+        
         return res.send(resultResponse(detailResponse.GET_QUESTION, question));
     }),
 };
