@@ -1,13 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const chatController = require('./chatController');
-const { checkToken } = require('../middlewares/auth');
-const { Room } = require('../models');
-const detailResponse = require('../config/responseDetail');
-const errorResponse = require('../config/errorResponse');
-router.get('/chat', checkToken, chatController.getRoom);
+const chatController = require("./chatController");
+const { checkToken } = require("../middlewares/auth");
 
-router.post('/chat/:roomid', checkToken, chatController.postChat); //ㅁ
+router.get("/chat", checkToken, chatController.getRoom);
+
+router.post("/chat/:roomid", checkToken, chatController.postChat);
 
 // // 새로운 채팅방 생성 api
 // router.get('/', async(req, res, next) => {
@@ -35,6 +33,5 @@ router.post('/chat/:roomid', checkToken, chatController.postChat); //ㅁ
 //         roomId: roomIdx++
 //     });
 // });
-
 
 module.exports = router;

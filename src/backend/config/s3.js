@@ -19,16 +19,13 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE, // 자동으로 콘텐츠 타입 세팅,
     acl: "public-read",
     key: (req, file, cb) => {
-      let nickname = req.user
-        ? req.user.nickname
-        : JSON.parse(req.body.data).nickname;
       const uploadDir = req.body.uploadDir
         ? JSON.parse(req.body.data).uploadDir
         : "etc";
       file.originalname = Buffer.from(file.originalname, "latin1").toString(
         "utf8"
       );
-      cb(null, `${uploadDir}/${nickname}/` + file.originalname);
+      cb(null, `${uploadDir}/` + file.originalname);
     },
   }),
 });
