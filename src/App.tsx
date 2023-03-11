@@ -17,6 +17,7 @@ import { refresh } from './frontend/api/authService';
 import { signInState, userInfo, UserInfoType } from './frontend/recoil/atom';
 import CheckAuth from './frontend/utils/CheckAuth';
 import MyPage from './frontend/pages/MyPage';
+import Chatting from './frontend/pages/Chatting';
 
 function App() {
   const [cookies] = useCookies(['refresh-token']);
@@ -39,6 +40,7 @@ function App() {
     }
     if (cookies['refresh-token']) {
       Refresh();
+      console.log('hi');
     }
   }, []);
 
@@ -60,6 +62,7 @@ function App() {
                 <Route path='/question' element={<Question />}></Route>
                 <Route path='/answer' element={<Answer />}></Route>
                 <Route path='/myPage' element={<MyPage />} />
+                <Route path='/chatting/:roomid' element={<Chatting />} />
               </Route>
             </Routes>
           )}
