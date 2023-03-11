@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { FormValue } from '../../api/authService';
+import { changeNick } from '../../api/userService';
 import { userInfo, UserInfoType } from '../../recoil/atom';
 import Button from '../atoms/Button';
 import InputForm from '../molescules/InputForm';
@@ -14,7 +15,9 @@ const Container = styled.form`
 `;
 
 const NickForm = () => {
-  const user = useRecoilValue<UserInfoType>(userInfo);
+  const [user, setUser] = useRecoilState<UserInfoType>(userInfo);
+  const [availableNick, setAvailableNick] = useState<boolean>(false);
+
   const {
     register,
     handleSubmit,
@@ -24,13 +27,18 @@ const NickForm = () => {
 
   const crtVal = watch();
 
-  const onSubmit: SubmitHandler<FormValue> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FormValue> = async (data) => {
+    if (!availableNick) {
+      alert('닉네임 중복확인 체크를 해주세요.');
+    } else {
+      const nickname = await changeNick(data.nickname);
+      setUser(nickname);
+    }
   };
 
   return (
     <Container onSubmit={handleSubmit(onSubmit)}>
-      <InputForm reg={register} error={errors} label='Nickname' purpose='nickname' placeholder={user.name} option='중복확인' crtVal={crtVal} />
+      <InputForm reg={register} error={errors} label='Nickname' purpose='nickname' placeholder={user.nickname} option='중복확인' crtVal={crtVal} setAvailable={setAvailableNick} />
       <Button width={230}>닉네임 변경</Button>
     </Container>
   );

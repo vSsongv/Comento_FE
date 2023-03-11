@@ -35,3 +35,9 @@ export const SignApi = {
 export const Mentee = {
   askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
 };
+
+export const User = {
+  changePwd: (prevPassword: string, password: string) => api.patch('user/update/password', { prevPassword: prevPassword, password: password }),
+  changeNick: (nickname: string) => api.patch('user/update/nickname', { nickname: nickname }),
+  // changeProfile: () => api.patch()
+};
