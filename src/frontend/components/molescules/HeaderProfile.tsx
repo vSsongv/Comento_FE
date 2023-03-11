@@ -35,7 +35,7 @@ const HeaderProfile = () => {
   return (
     <ProfileContainer>
       <SimpleProfile height='83%' />
-      <ProfileEdit to='/question' onClick={() => setHeaderState(!headerState)}>
+      <ProfileEdit to='/MyPage' onClick={() => setHeaderState(!headerState)}>
         프로필 수정
       </ProfileEdit>
     </ProfileContainer>

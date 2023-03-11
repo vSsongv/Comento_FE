@@ -11,13 +11,11 @@ module.exports = {
         {
           type: "JWT",
           userid: user.userid,
-          nickname: user.nickname,
           role: user.role,
-          mentos: user.mentos,
         },
         process.env.ACCESS_SECRET,
         {
-          expiresIn: "2s",
+          expiresIn: "3h",
           issuer: "Comento",
           subject: "accessToken",
         }
@@ -43,13 +41,11 @@ module.exports = {
         {
           type: "JWT",
           userid: user.userid,
-          nickname: user.nickname,
           role: user.role,
-          mentos: user.mentos,
         },
         process.env.ACCESS_SECRET,
         {
-          expiresIn: "20m",
+          expiresIn: "3h",
           issuer: "Comento",
           subject: "accessToken",
         }

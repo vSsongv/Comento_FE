@@ -1,5 +1,10 @@
 module.exports = {
   //SUCCESS
+  SUCCESS: {
+    isSuccess: true,
+    code: 1000,
+    message: "성공",
+  },
   SIGNUP_SUCCESS: {
     isSuccess: true,
     code: 1100,
@@ -105,6 +110,26 @@ module.exports = {
     isSuccess: true,
     code: 1121,
     message: "설문을 저장했습니다.",
+  },
+  MENTO_AUTH_SUCCESS: {
+    isSuccess: true,
+    code: 1122,
+    message: "멘토 권한을 부여했습니다.",
+  },
+  PATCH_PROFILE_SUCCESS: {
+    isSuccess: true,
+    code: 1123,
+    message: "프로필을 변경하였습니다.",
+  },
+  PATCH_PASSWORD_SUCCESS: {
+    isSuccess: true,
+    code: 1124,
+    message: "비밀번호를 변경하였습니다.",
+  },
+  PATCH_NICKNAME_SUCCESS: {
+    isSuccess: true,
+    code: 1125,
+    message: "닉네임을 변경하였습니다.",
   },
   //FAIL
   DUP_EMAIL: {
@@ -334,10 +359,35 @@ module.exports = {
     code: 2046,
     message: "모든 문항에 체크해주세요.",
   },
-  TOKEN_NOT_MATCH: {
+  ALREADY_MENTO: {
     isSuccess: false,
     code: 2047,
+    message: "이미 멘토 권한을 갖고 있습니다.",
+  },
+  BAD_STATUS_URI: {
+    isSuccess: false,
+    code: 2048,
+    message: "올바른 url을 입력해주세요.",
+  },
+  TOKEN_NOT_MATCH: {
+    isSuccess: false,
+    code: 2049,
     message: "토큰이 일치하지 않아요.",
+  },
+  NOT_MATCH_NICKNAME: {
+    isSuccess: false,
+    code: 2050,
+    message: "닉네임이 일치하지 않습니다.",
+  },
+  NOT_MATCH_PASSWORD: {
+    isSuccess: false,
+    code: 2051,
+    message: "비밀번호가 일치하지 않습니다.",
+  },
+  EMPTY_PROFILE: {
+    isSuccess: false,
+    code: 2052,
+    message: "변경하고자하는 이미지가 누락되었습니다.",
   },
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },

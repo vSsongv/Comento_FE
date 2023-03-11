@@ -4,7 +4,7 @@ const detailResponse = require("../config/responseDetail");
 const asyncHandler = require("../config/asyncHandler");
 const errorResponse = require("../config/errorResponse");
 const secret = require("../config/secret");
-const { s3, deleteFile } = require("../config/s3");
+const { s3, deleteFiles } = require("../config/s3");
 const regNumber = /^[0-9]/;
 
 const mentee = {
@@ -82,7 +82,7 @@ const mentee = {
           Quiet: false,
         },
       };
-      deleteFile(params);
+      deleteFiles(params);
       //TODO: detailResponse재정의
       return next(
         new errorResponse(basicResponse(detailResponse.EXIST_QUESTION), 400)
@@ -226,7 +226,6 @@ const mentee = {
       keys.forEach((key) => {
         fileArray.push({ Key: deleteList[key] });
       });
-      console.log(fileArray);
       const params = {
         Bucket: secret.bucket,
         Delete: {
@@ -234,7 +233,7 @@ const mentee = {
           Quiet: false,
         },
       };
-      deleteFile(params);
+      deleteFiles(params);
       return res.send(basicResponse(detailResponse.MODIFY_SUCCESS));
     } catch (error) {
       let fileArray = [];
@@ -251,10 +250,10 @@ const mentee = {
           Quiet: false,
         },
       };
-      deleteFile(params);
+      deleteFiles(params);
       //TODO: detailResponse재정의
       return next(
-        new errorResponse(basicResponse(detailResponse.EXIST_QUESTION), 400)
+        new errorResponse(basicResponse(detailResponse.DB_ERROR), 400)
       );
     }
   }),
@@ -311,7 +310,7 @@ const mentee = {
         Quiet: false,
       },
     };
-    deleteFile(params);
+    deleteFiles(params);
     return res.send(basicResponse(detailResponse.DELETE_QUESTION));
   }),
 };

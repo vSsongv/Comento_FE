@@ -19,22 +19,24 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
       background-image: linear-gradient(#fff, #fff), linear-gradient(90deg, #033bff, #00e0ff);
       background-origin: border-box;
       background-clip: content-box, border-box;
-      color: #236AD6;
-      font-weight: bold;
+      color: #236ad6;
+      font-weight: 700;
       font-family: 'NanumGothic';
       cursor: pointer;
       text-align: center;
-      margin: auto;
-      margin-top: 20px;
       /* 크기 */
       padding: 1rem auto;
       width: ${WIDTH}px;
-      height: 5vh;
-      font-size: 1.4rem;
+      height: 30px;
+      font-size: 15px;
       /* 색상 */
-      background-color: #FFFFFF;
-      &:hover { color: ${lighten(0.1, 'blue')}; }
-      &:active { color: ${darken(0.1, 'blue')}; }
+      background-color: #ffffff;
+      &:hover {
+        color: ${lighten(0.1, 'blue')};
+      }
+      &:active {
+        color: ${darken(0.1, 'blue')};
+      }
     `;
   }}
 `;

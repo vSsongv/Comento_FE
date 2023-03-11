@@ -23,7 +23,6 @@ exports.upload = function (req, res) {
 
 exports.delete = function (req, res) {
   const data = req.body;
-  console.log(data);
   const result = deleteFile(data);
   if (!result)
     return res.status(500).send(basicResponse(detailResponse.DB_ERROR));

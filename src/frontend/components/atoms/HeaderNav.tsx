@@ -37,7 +37,7 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
         navigate('/signIn');
         break;
       case '마이페이지':
-        navigate('/answer');
+        navigate('/myPage');
         break;
       case '로그아웃':
         alert('TODO');
