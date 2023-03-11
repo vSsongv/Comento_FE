@@ -31,15 +31,20 @@ function App() {
       try {
         if (await refresh(cookies['refresh-token'], cookies, setUserInfo, setSignInState)) {
           setSignInState(true);
+        } else {
+          sessionStorage.removeItem('token_exp');
         }
       } catch (err) {
         console.log(err);
+        sessionStorage.removeItem('token_exp');
       } finally {
         setLoading(false);
       }
     }
     if (cookies['refresh-token']) {
       Refresh();
+    } else {
+      sessionStorage.removeItem('token_exp');
     }
   }, []);
 
