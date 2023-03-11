@@ -7,7 +7,7 @@ import QuestionFile from '../molescules/Question/QeustionFile';
 import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
 import { Languages } from '../../utils/Languages';
-import { askQuestion } from '../../api/authService';
+import { askQuestion } from '../../api/menteeService';
 
 const QuestionBox = styled.div`
   display: flex;
