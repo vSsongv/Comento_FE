@@ -36,7 +36,7 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
     const signIn = await SignIn(userData, cookies, setCookie, setSignInState);
     if (signIn === true) {
       setSignInState(true);
-      navigate(-1);
+      navigate('/');
     }
   };
 
