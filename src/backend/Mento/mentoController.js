@@ -4,7 +4,6 @@ const {basicResponse, resultResponse}  = require('../config/response');
 const detailResponse = require('../config/responseDetail');
 const asyncHandler = require('../config/asyncHandler');
 const errorResponse = require('../config/errorResponse');
-const { json } = require('stream/consumers');
 const regNumber = /^[0-9]/;
 const mento = {
     connectMentoring : asyncHandler(async function(req, res, next){
