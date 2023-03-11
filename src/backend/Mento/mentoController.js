@@ -19,18 +19,19 @@ const mento = {
         return res.send(basicResponse(detailResponse.CONNECT_MENTORING))
     }),
     getQuestionList : asyncHandler(async function(req, res, next){
-        const status = req.query.status;
+        const type = req.query.type;
         const language = req.query.language;
-        if(!status || !language || language<=0) return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
-        if(status != 'before' && status != 'mentoring' && status!= 'end') return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
+        if(!type || !language || language<=0) return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
+        if(type != 0 && type != 1 && type!= 2) return next(new errorResponse(basicResponse(detailResponse.BAD_STATUS_URI)));
 
         const userIdx = req.user.userid;
         if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
         if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
         
-        (status === 'mentoring') ? disc='I' : disc='F';
-        if(status === 'before') list = await mentoService.getSpecificQuestion(language, userIdx);
-        else list = await mentoService.getQuestionList(language, disc);
+        let status;
+        (type == 1) ? status='I' : status='F';
+        if(type == 0) list = await mentoService.getSpecificQuestion(language);
+        else list = await mentoService.getQuestionList(language, status, userIdx); 
 
         if(list.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
 

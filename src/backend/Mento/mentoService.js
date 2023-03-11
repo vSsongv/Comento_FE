@@ -18,7 +18,7 @@ exports.checkMentoring = async function (mentoringid) {
     throw new errorResponse(responseDetail.DB_ERROR);
   }
 };
-exports.getSpecificQuestion = async function (language, userid) {
+exports.getSpecificQuestion = async function (language) {
   try {
     console.log(userid);
     const result = await Mentoring.findAll({
@@ -27,9 +27,6 @@ exports.getSpecificQuestion = async function (language, userid) {
       where: {
         language,
         status : "N",
-        mentoid: {
-          [Op.ne]: userid,
-        },
       },
     });
     return result;
@@ -66,7 +63,7 @@ exports.connectMentoring = async function (userid, mentoringid) {
   }
 };
 
-exports.getQuestionList = async function(language, status){
+exports.getQuestionList = async function(language, status, userid){
   try {
     const result = await Mentoring.findAll({
       raw: true,
@@ -74,6 +71,7 @@ exports.getQuestionList = async function(language, status){
       where: {
         language,
         status,
+        mentoid : userid,
       },
     });
     return result;
