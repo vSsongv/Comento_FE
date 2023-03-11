@@ -1,6 +1,6 @@
 const errorResponse = require("../config/errorResponse");
 const responseDetail = require("../config/responseDetail");
-const { Mentoring, Room, Chat } = require("../models");
+const { Mentoring, Room, Chat, User } = require("../models");
 const Op = require("sequelize").Op;
 const { logger } = require("../config/winston");
 exports.checkMentoring = async function (mentoringid) {
@@ -18,7 +18,7 @@ exports.checkMentoring = async function (mentoringid) {
     throw new errorResponse(responseDetail.DB_ERROR);
   }
 };
-exports.getSpecificQuestion = async function (language, userid) {
+exports.getSpecificQuestion = async function (language) {
   try {
     console.log(userid);
     const result = await Mentoring.findAll({
@@ -26,29 +26,7 @@ exports.getSpecificQuestion = async function (language, userid) {
       attributes: ["menteeid","title", "date", "language"],
       where: {
         language,
-        status: "N",
-        menteeid: {
-          [Op.ne]: userid,
-        },
-      },
-    });
-    return result;
-  } catch (error) {
-    logger.error(`${error.message}`);
-    throw new errorResponse(responseDetail.DB_ERROR);
-  }
-};
-exports.getAllQuestion = async function (userid) {
-  try {
-    console.log(userid);
-    const result = await Mentoring.findAll({
-      raw: true,
-      attributes: ["menteeid","title", "date", "language"],
-      where: {
-        status: "N",
-        menteeid: {
-          [Op.ne]: userid,
-        },
+        status : "N",
       },
     });
     return result;
@@ -85,14 +63,15 @@ exports.connectMentoring = async function (userid, mentoringid) {
   }
 };
 
-exports.getQuestionList = async function(status, mentoid){
+exports.getQuestionList = async function(language, status, userid){
   try {
     const result = await Mentoring.findAll({
       raw: true,
       attributes: ["menteeid","title", "date", "language"],
       where: {
-        mentoid,
+        language,
         status,
+        mentoid : userid,
       },
     });
     return result;
@@ -105,9 +84,11 @@ exports.getQuestionList = async function(status, mentoid){
 exports.getQuestion = async function(mentoringid){
   try {
     const result = await Mentoring.findOne({
+      raw: true,
+      attributes: ["menteeid", "title", "createdAt", "language", "content", "content_image"],
       where: {
         mentoringid
-      },
+      }
     });
     return result;
   } catch (error) {
