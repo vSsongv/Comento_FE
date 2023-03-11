@@ -22,12 +22,13 @@ if (!fs.existsSync(imageDir)) {
 const member = {
   signup: asyncHandler(async (req, res, next) => {
     const { email, nickname, password, phone } = JSON.parse(req.body.data);
-    console.log(email, nickname, password, phone);
     let profile;
     let length = !req.files ? 0 : req.files.length;
+
     for (let i = 0; i < length; i++) {
-      profile = req.files[i]["path"];
+      profile = req.files[i]["key"];
     }
+
     profile = profile || null;
     if (!email) return next(new errorResponse(detailResponse.EMPTY_EMAIL), 400);
 
@@ -90,7 +91,7 @@ const member = {
         }else{
             newpath = null;
         }*/
-
+    console.log(profile);
     const hashedpw = await bcrypt.hash(password, 12);
     await userService.createUser(nickname, email, hashedpw, profile, phone);
     return res.send(basicResponse(detailResponse.SIGNUP_SUCCESS));
