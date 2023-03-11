@@ -7,7 +7,7 @@ export const signInState = atom<boolean>({
 });
 
 export interface UserInfoType {
-  name: string;
+  nickname: string;
   email: string;
   profileImage: string;
   mentos: number;
@@ -17,7 +17,7 @@ export interface UserInfoType {
 export const userInfo = atom<UserInfoType>({
   key: 'UserInfo',
   default: {
-    name: 'Comento',
+    nickname: 'Comento',
     email: 'Comento@mentos.com',
     profileImage: defaultProfile,
     mentos: 0,

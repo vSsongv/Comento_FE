@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import SignupDefaultImage from '../../assets/images/SignupDefaultImage.png';
 import { userInfo, UserInfoType } from '../../recoil/atom';
-import Button from '../atoms/Button';
 import FlashBtn from '../atoms/FlashBtn';
 import ImageAddForm from '../molescules/ImageAddForm';
 
@@ -62,7 +60,7 @@ const MyProfile = () => {
       <ImageAddForm width={130} height={130} setProfileImage={setProfileImage} />
       <SetProfileBtn type='button'>현재 프로필 저장</SetProfileBtn>
       <Wrapper>
-        <Name>{user.name}</Name>
+        <Name>{user.nickname}</Name>
         <Email>{user.email}</Email>
         <FlashBtn width={160}>답변자 권한 요청하기</FlashBtn>
       </Wrapper>
