@@ -5,6 +5,7 @@ import { lighten, darken } from 'polished';
 type FlashBtnProps = {
   children: React.ReactNode;
   width: number;
+  onClick: () => void;
 };
 
 const StyledFlashBtn = styled.button<FlashBtnProps>`
@@ -41,6 +42,10 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
   }}
 `;
 
-export default function FlashBtn({ children, ...rest }: FlashBtnProps) {
-  return <StyledFlashBtn {...rest}>{children}</StyledFlashBtn>;
+export default function FlashBtn({ children, onClick, ...rest }: FlashBtnProps) {
+  return (
+    <StyledFlashBtn {...rest} onClick={onClick}>
+      {children}
+    </StyledFlashBtn>
+  );
 }
