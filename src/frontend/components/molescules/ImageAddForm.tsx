@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SignupDefaultImage from '../../assets/images/SignupDefaultImage.png';
 import AddBtnImage from '../../assets/images/AddBtnImage.png';
+import { useRecoilValue } from 'recoil';
+import { userInfo, UserInfoType } from '../../recoil/atom';
 
 interface ImageSizeProps {
   width?: number;
@@ -55,7 +56,8 @@ const AddBtn = styled.img<ImageSizeProps>`
 `;
 
 const ImageAddForm = ({ width, height, setProfileImage }: ImageAddFormProps) => {
-  const [profile, setprofile] = useState<string>(SignupDefaultImage);
+  const user = useRecoilValue<UserInfoType>(userInfo);
+  const [profile, setprofile] = useState<string>(user.profileImage);
 
   const setProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files;

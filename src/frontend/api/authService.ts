@@ -23,7 +23,7 @@ export interface FormValue extends SignInProps {
   phone: string;
 }
 
-export const isDuple = async (purpose: string, target: FormValue): Promise<boolean | undefined> => {
+export const isDuple = async (purpose: string, target: FormValue) => {
   try {
     switch (purpose) {
       case 'email': {

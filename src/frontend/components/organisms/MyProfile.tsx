@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { userInfo, UserInfoType } from '../../recoil/atom';
+import { changeProfile } from '../../api/userService';
 import FlashBtn from '../atoms/FlashBtn';
 import ImageAddForm from '../molescules/ImageAddForm';
 
@@ -51,18 +52,27 @@ const Wrapper = styled.div`
 `;
 
 const MyProfile = () => {
-  const user = useRecoilValue<UserInfoType>(userInfo);
   const [profileImage, setProfileImage] = useState<Blob>();
+  const [user, setUser] = useRecoilState<UserInfoType>(userInfo);
+
+  const setNewProfile = async (): Promise<void> => {
+    const formData: FormData = new FormData();
+    formData.append('images', profileImage ?? '');
+    const newProfile = await changeProfile(formData);
+    setUser({ ...user, profileImage: process.env.REACT_APP_BASE_URL + newProfile });
+  };
 
   return (
     <Container>
       <Title>프로필</Title>
       <ImageAddForm width={130} height={130} setProfileImage={setProfileImage} />
-      <SetProfileBtn type='button'>현재 프로필 저장</SetProfileBtn>
+      <SetProfileBtn onClick={setNewProfile}>현재 프로필 저장</SetProfileBtn>
       <Wrapper>
         <Name>{user.nickname}</Name>
         <Email>{user.email}</Email>
-        <FlashBtn width={160}>답변자 권한 요청하기</FlashBtn>
+        <FlashBtn onClick={() => console.log()} width={160}>
+          답변자 권한 요청하기
+        </FlashBtn>
       </Wrapper>
     </Container>
   );

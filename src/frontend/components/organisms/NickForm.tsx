@@ -32,7 +32,7 @@ const NickForm = () => {
       alert('닉네임 중복확인 체크를 해주세요.');
     } else {
       const nickname = await changeNick(data.nickname);
-      setUser(nickname);
+      setUser({ ...user, nickname: nickname });
     }
   };
 
