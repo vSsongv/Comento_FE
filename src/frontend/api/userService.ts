@@ -7,8 +7,8 @@ export const changePwd = async (prevPassword: string, password: string) => {
     if (res.status === 200) {
       alert(res.data.message);
     }
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    alert(error.response.data.message);
   }
 };
 
@@ -19,7 +19,19 @@ export const changeNick = async (nickname: string) => {
       alert(res.data.message);
       return res.data.result;
     }
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    alert(error.response.data.message);
+  }
+};
+
+export const changeProfile = async (profile: FormData) => {
+  try {
+    const res = await User.changeProfile(profile);
+    if (res.status === 200) {
+      alert(res.data.message);
+      return res.data.result;
+    }
+  } catch (error: any) {
+    alert(error.response.data.message);
   }
 };

@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { FormValue } from '../../api/authService';
-import { changeNick } from '../../api/userService';
-import { userInfo, UserInfoType } from '../../recoil/atom';
-import Button from '../atoms/Button';
-import InputForm from '../molescules/InputForm';
+import { FormValue } from '../../../api/authService';
+import { changeNick } from '../../../api/userService';
+import { userInfo, UserInfoType } from '../../../recoil/atom';
+import Button from '../../atoms/Button';
+import InputForm from '../../molescules/InputForm';
 
 const Container = styled.form`
   display: flex;
@@ -32,7 +32,7 @@ const NickForm = () => {
       alert('닉네임 중복확인 체크를 해주세요.');
     } else {
       const nickname = await changeNick(data.nickname);
-      setUser(nickname);
+      setUser({ ...user, nickname: nickname });
     }
   };
 

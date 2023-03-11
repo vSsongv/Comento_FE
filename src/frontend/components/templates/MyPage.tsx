@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { border, boxShadow, mainGradient } from '../../styles/styleUtil';
-import MyProfile from '../organisms/MyProfile';
-import NickForm from '../organisms/NickForm';
-import PwdForm from '../organisms/PwdForm';
+import MyProfile from '../organisms/MyPage/MyProfile';
+import NickForm from '../organisms/MyPage/NickForm';
+import PwdForm from '../organisms/MyPage/PwdForm';
 
 const MyPageContainer = styled.div`
   width: 895px;

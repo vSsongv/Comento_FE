@@ -1,10 +1,10 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import styled from 'styled-components';
-import { FormValue } from '../../api/authService';
-import { changePwd } from '../../api/userService';
-import Button from '../atoms/Button';
-import InputForm from '../molescules/InputForm';
+import { FormValue } from '../../../api/authService';
+import { changePwd } from '../../../api/userService';
+import Button from '../../atoms/Button';
+import InputForm from '../../molescules/InputForm';
 
 const Container = styled.form`
   display: flex;
