@@ -34,7 +34,6 @@ const StyledButton = styled.button<ButtonProps>`
       margin-top: 20px;
       cursor: pointer;
       /* 크기 */
-      padding: 1rem 2rem;
       width: ${WIDTH}px;
       height: ${HEIGHT}px;
       font-size: ${FONT_SIZE}px;
