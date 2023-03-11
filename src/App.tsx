@@ -40,7 +40,6 @@ function App() {
     }
     if (cookies['refresh-token']) {
       Refresh();
-      console.log('hi');
     }
   }, []);
 
