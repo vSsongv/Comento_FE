@@ -89,8 +89,10 @@ const mentee = {
       );
     }
   }),
+
   getQuestion: asyncHandler(async function (req, res, next) {
     const userIdx = req.user.userid;
+    const { type, language } = req.query;
     if (!userIdx)
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
@@ -104,12 +106,35 @@ const mentee = {
         )
       );
 
-    const question = await menteeService.getUnderwayQuestion(userIdx);
-
-    if (!question)
+    if (!type || !language)
       return next(
-        new errorResponse(basicResponse(detailResponse.NONE_QUESTION), 400)
+        new errorResponse(basicResponse(detailResponse.EMPTY_PARAM), 400)
       );
+    let question, status;
+    switch (type) {
+      case 0:
+        status = "B";
+        break;
+      case 1:
+        status = "I";
+        break;
+      case 2:
+        status = "F";
+        break;
+      default:
+        return next(
+          new errorResponse(
+            basicResponse(detailResponse.QUESTION_TYPE_ERROR),
+            400
+          )
+        );
+    }
+
+    question = await menteeService.getQuestion(status, language, userIdx);
+
+    if (question.length === 0)
+      return res.send(resultResponse(detailResponse.NONE_QUESTION, []));
+
     return res.send(resultResponse(detailResponse.GET_QUESTION, question));
   }),
   getFinishQuestion: asyncHandler(async function (req, res, next) {
@@ -136,7 +161,7 @@ const mentee = {
     return res.send(resultResponse(detailResponse.GET_QUESTION, question));
   }),
   getSpecificQuestion: asyncHandler(async function (req, res, next) {
-    const questionid = req.params.questionid;
+    const questionid = req.query.mentoringid;
     const userIdx = req.user.userid;
     if (!questionid)
       return next(
@@ -159,6 +184,8 @@ const mentee = {
     const files = req.files;
     try {
       const userIdx = req.user.userid;
+
+      //TODO: req.user.nickname 수정
       const nickname = req.user.nickname;
       const { questionid, title, content, language, deleteList } = JSON.parse(
         req.body.data
@@ -272,15 +299,16 @@ const mentee = {
         )
       );
 
-    const { questionid } = req.params;
-    if (!questionid)
+    const mentoringid = req.query.mentoringid;
+
+    if (!mentoringid)
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_QUESTIONID))
       );
 
     const isQuestion = await menteeService.getSpecificQuestion(
       userIdx,
-      questionid
+      mentoringid
     );
     if (!isQuestion)
       return next(
@@ -294,9 +322,9 @@ const mentee = {
         )
       );
 
-    await menteeService.deleteQuestion(questionid);
-    await menteeService.deleteChat(questionid);
-    await menteeService.deleteRoom(questionid);
+    await menteeService.deleteQuestion(mentoringid);
+    await menteeService.deleteChat(mentoringid);
+    await menteeService.deleteRoom(mentoringid);
     let keys = Object.keys(isQuestion.content_image);
     let fileArray = [];
     keys.forEach((key) => {

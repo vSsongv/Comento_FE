@@ -38,7 +38,7 @@ module.exports = {
   SEND_EMAIL: {
     isSuccess: true,
     code: 1106,
-    message: "이메일로 인증번호를 전송하였습니다.",
+    message: "멘토 권한 요청 이메일을 성공적으로 전송하였습니다.",
   },
   POST_QUESTION: {
     isSuccess: true,
@@ -382,12 +382,27 @@ module.exports = {
   NOT_MATCH_PASSWORD: {
     isSuccess: false,
     code: 2051,
-    message: "비밀번호가 일치하지 않습니다.",
+    message: "기존 비밀번호를 잘못 입력하였습니다.",
   },
   EMPTY_PROFILE: {
     isSuccess: false,
     code: 2052,
     message: "변경하고자하는 이미지가 누락되었습니다.",
+  },
+  NOT_BEFORE_STATUS: {
+    isSuccess: false,
+    code: 2053,
+    message: "이미 진행중이거나 완료된 질문입니다.",
+  },
+  NOT_MENTEE: {
+    isSuccess: false,
+    code: 2054,
+    message: "멘티가 아닙니다.",
+  },
+  CONTENT_LENGTH_OVER: {
+    isSuccess: false,
+    code: 2055,
+    message: "글 내용이 너무 길어요. 조금만 더 줄여주세요 :)",
   },
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },

@@ -1,14 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { CookiesProvider } from 'react-cookie';
+import { RecoilRoot } from 'recoil';
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root") as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <CookiesProvider>
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
+    </CookiesProvider>
   </React.StrictMode>
 );
 

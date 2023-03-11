@@ -18,7 +18,7 @@ export const sizes: sizes = {
 export const boxShadow = '5px 5px 10px #b8b8b8';
 
 export const mainGradient = css`
-  background-image: linear-gradient(90deg, ${colors.firstColor}, ${colors.secondColor});
+  background-image: linear-gradient(90deg, ${colors.firstColor}, ${colors.primaryColor}, ${colors.secondColor});
 `;
 
 export const border = (position: number) => {

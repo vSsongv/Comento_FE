@@ -1,13 +1,13 @@
 import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import { border, boxShadow } from '../../styles/styleUtil';
+import { border, mainGradient, boxShadow } from '../../styles/styleUtil';
 import QuestionTitle from '../molescules/Question/QuestionTitle';
 import QuestionContent from '../molescules/Question/QuestionContent';
 import QuestionFile from '../molescules/Question/QeustionFile';
 import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
 import { Languages } from '../../utils/Languages';
-import axios from 'axios';
+import { askQuestion } from '../../api/authService';
 
 const QuestionBox = styled.div`
   display: flex;
@@ -25,7 +25,7 @@ const FormHead = styled.div`
   width: 70vw;
   height: 5vh;
   margin-top: -4vh;
-  background: linear-gradient(87.94deg, #3c02bb 17.59%, #4c51e4 48.07%, #01fbfc 121%);
+  ${mainGradient}
 `;
 
 const Top = styled.div`
@@ -73,7 +73,7 @@ const QuestionForm = () => {
     titleRef.current?.focus();
   }, []);
 
-  const onSubmit = (): void => {
+  const onSubmit = async (): Promise<void> => {
     if (titleRef.current?.value === '') {
       alert('제목을 입력해주세요.');
       titleRef.current.focus();
@@ -88,26 +88,15 @@ const QuestionForm = () => {
     }
 
     const dataSet = {
-      userid: 1,
-      nickname: '김준하',
       language: Languages.indexOf(languageRef.current),
       title: titleRef.current?.value,
       content: contentRef.current?.value,
     };
     formData.append('data', JSON.stringify(dataSet));
 
-    //TODO: axios 모듈화하기
-    axios
-      .post('//3.37.84.147:8081/mentee/question', formData)
-      .then((res) => {
-        alert('테스트성공!');
-        console.log(res);
-      })
-      .catch((err) => {
-        if (err.response.status === 400) {
-          alert(err.response.data.message);
-        }
-      });
+    if (await askQuestion(formData)) {
+      alert('질문이 등록되었습니다.');
+    }
   };
 
   return (

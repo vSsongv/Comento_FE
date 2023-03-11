@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-// const path = require("path");
+const secret = require("../config/secret");
 const userService = require("./userService");
 const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
@@ -8,6 +8,7 @@ const errorResponse = require("../config/errorResponse");
 const regEmail = require("regex-email");
 const { sendEmail } = require("../config/email");
 const { deleteSingleFile } = require("../config/s3");
+const { equal } = require("assert");
 const regPassword =
   /^(?=.*[a-zA-Z])(?=.*[`~!@#$%^&*-_+=\\(\\)\])(?=.*[0-9]).{8,16}/;
 const regPhoneNum = /^\d{3}\d{3,4}\d{4}$/;
@@ -231,11 +232,6 @@ const member = {
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_NICKNAME), 400)
       );
-    const userInfo = await userService.getUserInfo(userIdx);
-    if (nickname !== userInfo.nickname)
-      return next(
-        new errorResponse(basicResponse(detailResponse.NOT_MATCH_NICKNAME), 400)
-      );
     await userService.updateUserNickname(nickname, userIdx);
     return res.send(
       resultResponse(detailResponse.PATCH_NICKNAME_SUCCESS, nickname)
@@ -244,6 +240,7 @@ const member = {
   updatePassword: asyncHandler(async function (req, res, next) {
     const userIdx = req.user.userid;
     const { prevPassword, password } = req.body;
+
     if (!userIdx)
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
@@ -259,10 +256,11 @@ const member = {
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_PASSWORD), 400)
       );
-    const userInfo = await userService.getUserPassword(userIdx);
-    let hashedpw = await bcrypt.hash(prevPassword, 12);
 
-    if (hashedpw !== userInfo.password)
+    const userInfo = await userService.getUserPassword(userIdx);
+
+    let isEqualPw = await bcrypt.compare(prevPassword, userInfo.password);
+    if (!isEqualPw)
       return next(
         new errorResponse(basicResponse(detailResponse.NOT_MATCH_PASSWORD), 400)
       );
@@ -296,11 +294,13 @@ const member = {
       if (prevProfile.image) {
         const params = {
           Bucket: secret.bucket,
-          Key: prevProfile,
+          Key: prevProfile.image,
         };
         deleteSingleFile(params);
       }
-      return res.send(basicResponse(detailResponse.PATCH_PROFILE_SUCCESS));
+      return res.send(
+        resultResponse(detailResponse.PATCH_PROFILE_SUCCESS, profile)
+      );
     } catch (error) {
       const params = {
         Bucket: secret.bucket,
@@ -309,6 +309,38 @@ const member = {
       deleteSingleFile(params);
       return next(new errorResponse(basicResponse(detailResponse.DB_ERROR)));
     }
+  }),
+  authRequestEmail: asyncHandler(async function (req, res, next) {
+    const userIdx = req.user.userid;
+    const content = req.body.content;
+    let email = req.body.email;
+    let emailData = {};
+    if (!userIdx)
+      return next(
+        new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
+      );
+    if (!regNumber.test(userIdx))
+      return next(
+        new errorResponse(
+          basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
+          400
+        )
+      );
+    if (content.length > 200)
+      return next(
+        new errorResponse(
+          basicResponse(detailResponse.CONTENT_LENGTH_OVER),
+          400
+        )
+      );
+    const userInfo = await userService.getUserInfo(userIdx);
+    const nickname = userInfo.nickname;
+    email = email || userInfo.email;
+    emailData["nickname"] = nickname;
+    emailData["content"] = content;
+    emailData["email"] = email;
+    await sendEmail(emailData);
+    return res.send(basicResponse(detailResponse.SEND_EMAIL));
   }),
   //     renewalToken : async (req, res, err) => {
 
