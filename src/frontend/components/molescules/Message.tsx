@@ -2,9 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import DefaultProfile from '../../assets/images/defaultProfile.svg';
 
-const MessageContainer = styled.div`
+interface IsMeProp {
+  isMe: boolean;
+}
+
+const MessageContainer = styled.div<IsMeProp>`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props) => (props.isMe ? 'row-reverse' : 'row')};
 `;
 
 const Profile = styled.img`
@@ -19,13 +23,14 @@ const NameAndContents = styled.div`
   padding: 6px;
 `;
 
-const UserName = styled.p`
+const UserName = styled.p<IsMeProp>`
   font-size: 11px;
+  text-align: ${(props) => (props.isMe ? 'right' : 'left')};
 `;
 
-const ContentsBox = styled.div`
+const ContentsBox = styled.div<IsMeProp>`
   display: flex;
-  flex-direction: row;
+  flex-direction: ${(props) => (props.isMe ? 'row-reverse' : 'row')};
 `;
 
 const Contents = styled.div`
@@ -34,6 +39,12 @@ const Contents = styled.div`
   background-color: #ececec;
   border-radius: 10px;
   line-height: 25px;
+`;
+
+const Image = styled.img`
+  height: 120px;
+  width: 120px;
+  border-radius: 10px;
 `;
 
 const Time = styled.p`
@@ -45,20 +56,23 @@ const Time = styled.p`
   white-space: nowrap;
 `;
 
-const Message = () => {
+interface Props extends IsMeProp {
+  writer: string;
+  content?: string;
+  image?: string;
+  time: string;
+}
+
+const Message = ({ isMe, writer, content, image, time }: Props) => {
   return (
-    <MessageContainer>
+    <MessageContainer isMe={isMe}>
       <Profile src={DefaultProfile} alt='profile image' />
       <NameAndContents>
-        <UserName>코멘토 사용자</UserName>
-        <ContentsBox>
-          <Contents>
-            여기서 이렇게 구현하고 싶은데 어떻게 해야 할까요 이 부분은 이렇게 해서 이런 식으로 했는데 여기서는 코드를
-            어떻게 짜야 할지 모르겠어요 여기서 이렇게 구현하고 싶은데 어떻게 해야 할까요 이 부분은 이렇게 해서 이런
-            식으로 했는데 여기서는 코드를 어떻게 짜야 할지 모르겠어요 여기서 이렇게 구현하고 싶은데 어떻게 해야 할까요
-            이 부분은 이렇게 해서 이런 식으로 했는데 여기서는 코드를 어떻게 짜야 할지 모르겠어요
-          </Contents>
-          <Time>AM 01:32</Time>
+        <UserName isMe={isMe}>{writer}</UserName>
+        <ContentsBox isMe={isMe}>
+          {content && <Contents>{content}</Contents>}
+          {image && <Image src={image} alt='사진' />}
+          <Time>{time}</Time>
         </ContentsBox>
       </NameAndContents>
     </MessageContainer>

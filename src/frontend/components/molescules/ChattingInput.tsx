@@ -44,11 +44,13 @@ const Submit = styled.button`
 interface Props {
   handleFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
   messageRef: RefObject<HTMLInputElement>;
+  sendMessage: () => void;
 }
 
-const ChattingInput = ({ handleFile, messageRef }: Props) => {
+const ChattingInput = ({ handleFile, messageRef, sendMessage }: Props) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    sendMessage();
   };
 
   return (
