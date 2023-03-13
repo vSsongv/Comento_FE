@@ -3,7 +3,7 @@ import defaultProfile from '../assets/images/defaultProfile.svg';
 
 export const signInState = atom<boolean>({
   key: 'signInState',
-  default: false,
+  default: true,
 });
 
 export interface UserInfoType {
@@ -27,5 +27,10 @@ export const userInfo = atom<UserInfoType>({
 
 export const headerMenu = atom<boolean>({
   key: 'headerMenuState',
+  default: false,
+});
+
+export const modalVisibleState = atom<boolean>({
+  key: 'modalVisibleState',
   default: false,
 });

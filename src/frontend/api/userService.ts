@@ -36,4 +36,13 @@ export const changeProfile = async (profile: FormData) => {
   }
 };
 
-export const askMentoRole = async (content: string) => {};
+export const askMentoRole = async (email: string, info: string) => {
+  try {
+    const res = await User.askMentoRole(email, info);
+    if (res.status === 200) {
+      alert(res.data.message);
+    }
+  } catch (error: any) {
+    alert(error.response.data.message);
+  }
+};

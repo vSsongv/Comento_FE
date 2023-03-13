@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { userInfo, UserInfoType } from '../../../recoil/atom';
+import { modalVisibleState, userInfo, UserInfoType } from '../../../recoil/atom';
 import { changeProfile } from '../../../api/userService';
 import FlashBtn from '../../atoms/FlashBtn';
 import ImageAddForm from '../../molescules/ImageAddForm';
+import Modal from '../Modal';
+import MentoAuthReq from '../../molescules/MentoAuthReq';
 
 const Container = styled.div`
   position: relative;
-  text-align: center;
   width: 100%;
   margin-right: 30px;
 `;
 
 const Title = styled.span`
+  text-align: center;
+  display: block;
   font-family: 'NanumGothic';
   font-size: 20px;
   font-weight: 600;
@@ -54,6 +57,7 @@ const Wrapper = styled.div`
 const MyProfile = () => {
   const [profileImage, setProfileImage] = useState<Blob>();
   const [user, setUser] = useRecoilState<UserInfoType>(userInfo);
+  const [modalVisible, setModalVisible] = useRecoilState<boolean>(modalVisibleState);
 
   const setNewProfile = async (): Promise<void> => {
     const formData: FormData = new FormData();
@@ -70,10 +74,11 @@ const MyProfile = () => {
       <Wrapper>
         <Name>{user.nickname}</Name>
         <Email>{user.email}</Email>
-        <FlashBtn onClick={() => console.log()} width={160}>
+        <FlashBtn onClick={() => setModalVisible(true)} width={160}>
           답변자 권한 요청하기
         </FlashBtn>
       </Wrapper>
+      {modalVisible ? <Modal title={'답변자 권한 요청하기'} content={MentoAuthReq}></Modal> : null}
     </Container>
   );
 };
