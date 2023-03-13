@@ -3,9 +3,9 @@ const router = express.Router();
 const chatController = require("./chatController");
 const { checkToken } = require("../middlewares/auth");
 
-router.get("/chat", checkToken, chatController.getRoom);
+router.get("/chat/:roomid", chatController.getRoom);
 
-router.post("/chat/:roomid", checkToken, chatController.postChat);
+router.post("/chat/:roomid", chatController.postChat);
 
 // // 새로운 채팅방 생성 api
 // router.get('/', async(req, res, next) => {

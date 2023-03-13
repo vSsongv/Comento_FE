@@ -22,6 +22,7 @@ exports.checkMentoring = async function (mentoringId) {
 
 exports.getRoomNumber = async function (roomid) {
   try {
+    //TODO: room status 체크하는 조건 추가
     const result = await Room.findOne({
       raw: true,
       attributes: ["roomid"],
@@ -35,12 +36,12 @@ exports.getRoomNumber = async function (roomid) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
-exports.postChat = async function (nickname, content, roomid) {
+exports.postChat = async function (roomid, nickname, message) {
   try {
     await Chat.create({
       nickname,
       roomid,
-      content,
+      message,
     });
   } catch (error) {
     logger.error(`${error.message}`);
@@ -48,20 +49,14 @@ exports.postChat = async function (nickname, content, roomid) {
   }
 };
 
-exports.getRoom = async function (userid) {
+exports.getRoom = async function (roomid, userid) {
   try {
     const result = await Room.findAll({
       raw: true,
-      attributes: ["roomid", "createdAt"],
+      attributes: ["nickname", "message", "createdAt"],
       where: {
-        [Op.or]: [
-          {
-            mentoid: userid,
-          },
-          {
-            menteeid: userid,
-          },
-        ],
+        roomid,
+        userid,
       },
       order: [["createdAt", "DESC"]],
     });
