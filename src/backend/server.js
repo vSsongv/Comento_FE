@@ -4,6 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const db = require("./models");
 const env = process.env.NODE_ENV || "development";
+const webSocket = require("./socket");
 
 // 라우터 부분
 //TODO: next, errorHandler 부분 나중에 일괄 수정해야함.
@@ -40,15 +41,10 @@ if (env == "development") {
   port = secret.localPort;
 }
 
-const server = app.listen(app.get("port"), () => {
-  console.log(app.get("port"), "번 포트에서 대기중");
-});
-// const io = require("socket.io")(server);
-// const socketRoutes = require("./socket")(io);
 //라우터는 이사이에 표시
 
 // app.use("/socket", socketRoutes);
-
+app.use("/", chatRouter);
 app.use("/mento", mentoRouter);
 app.use("/user", userRouter);
 app.use("/mentee", menteeRouter);
@@ -62,4 +58,8 @@ app.use((req, res, next) => {
   const error = new errorResponse(basicResponse(responseDetail.NO_ROUTER), 404);
   next(error);
 });
-// 커밋추가
+
+const server = app.listen(app.get("port"), () => {
+  console.log(app.get("port"), "번 포트에서 대기중");
+});
+webSocket(server, app);

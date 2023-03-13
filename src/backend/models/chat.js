@@ -12,13 +12,18 @@ module.exports = function (sequelize) {
         autoIncrement: true,
         primaryKey: true,
       },
-      content: {
+      message: {
         type: Sequelize.TEXT,
         allowNull: false,
       },
       nickname: {
         type: Sequelize.TEXT,
         allowNull: false,
+      },
+      readStatus: {
+        type: Sequelize.TINYINT(1),
+        allowNull: true,
+        defaultValue: 0,
       },
     },
     {
