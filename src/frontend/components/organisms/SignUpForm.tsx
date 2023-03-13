@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from '../atoms/Button';
 import InputForm from '../molescules/InputForm';
 import styled from 'styled-components';

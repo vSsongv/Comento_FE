@@ -1,6 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { FieldValues, UseFormRegister, FieldErrors, useForm } from 'react-hook-form';
-import { useRecoilValue } from 'recoil';
+import React, { useState } from 'react';
+import { FieldValues, UseFormRegister, FieldErrors } from 'react-hook-form';
 import styled from 'styled-components';
 import { isDuple } from '../../api/authService';
 import hidePasswordImg from '../../assets/images/hidePassword.png';

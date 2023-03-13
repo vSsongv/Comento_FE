@@ -63,7 +63,6 @@ const Submit = styled.img`
 `;
 
 const QuestionForm = () => {
-  // const [language, setLanguage] = useState<string>(Languages[0]);
   const languageRef = useRef<string>(Languages[0]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
