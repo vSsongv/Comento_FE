@@ -17,20 +17,15 @@ const chat = {
   }),
   postChat: asyncHandler(async function (req, res, next) {
     console.log("asd", req.url);
-    const roomId = req.params.roomId;
-    let abc;
+    const roomid = req.params.roomid;
     const { nickname, message } = req.body;
     const io = req.app.get("io");
     if (!message)
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_MESSAGE), 400)
       );
-    console.log(message);
-    io.to(roomId).emit("message", { message });
-    // const roomCheck = await chatService.getRoomNumber(roomId);
-    // if (!roomCheck)
-    //   return next(new errorResponse(basicResponse(detailResponse.EMPTY_ROOM)));
-    await chatService.postChat(roomId, nickname, message);
+    io.to(roomid).emit("message", message);
+    await chatService.postChat(roomid, nickname, message);
 
     let data = {};
     data.nickname = nickname;

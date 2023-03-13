@@ -39,9 +39,9 @@ exports.getRoomNumber = async function (roomid) {
 exports.postChat = async function (roomid, nickname, message) {
   try {
     await Chat.create({
-      nickname,
-      roomid,
-      message,
+      roomid: roomid,
+      nickname: nickname,
+      message: message,
     });
   } catch (error) {
     logger.error(`${error.message}`);
