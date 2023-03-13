@@ -17,7 +17,6 @@ const Images = styled.img`
 `;
 
 const XIcon = styled.div`
-  /* position: absolute; */
   position: sticky;
   z-index: 9;
   margin-left: 7.2rem;

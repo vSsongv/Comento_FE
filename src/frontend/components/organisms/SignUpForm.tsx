@@ -62,7 +62,7 @@ const SignUpForm = () => {
 
   return (
     <SignUpFormContainer onSubmit={handleSubmit(onSubmit)}>
-      <ImageAddForm setProfileImage={setProfileImage} />
+      <ImageAddForm width={204} height={204} setProfileImage={setProfileImage} />
       <Span># 사진은 필수가 아닙니다.</Span>
       <InputForm
         reg={register}
