@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { User } from './api';
 
 export const changePwd = async (prevPassword: string, password: string) => {
@@ -6,6 +5,7 @@ export const changePwd = async (prevPassword: string, password: string) => {
     const res = await User.changePwd(prevPassword, password);
     if (res.status === 200) {
       alert(res.data.message);
+      return true;
     }
   } catch (error: any) {
     alert(error.response.data.message);
@@ -35,3 +35,5 @@ export const changeProfile = async (profile: FormData) => {
     alert(error.response.data.message);
   }
 };
+
+export const askMentoRole = async (content: string) => {};
