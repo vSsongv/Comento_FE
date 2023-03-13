@@ -13,6 +13,14 @@ const SignUpFormContainer = styled.form`
   flex-direction: column;
 `;
 
+const Span = styled.span`
+  font-size: 14px;
+  position: relative;
+  top: -25px;
+  color: #b4b4b4;
+  text-align: center;
+`;
+
 const SignUpForm = () => {
   const formData: FormData = new FormData();
   const navigate = useNavigate();
@@ -21,6 +29,15 @@ const SignUpForm = () => {
   const [availableEmail, setAvailableEmail] = useState<boolean>(false);
   const [availableNick, setAvailableNick] = useState<boolean>(false);
   const [availablePhone, setAvailablePhone] = useState<boolean>(false);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<FormValue>({ mode: 'onChange' });
+
+  const crtVal = watch();
 
   const onSubmit: SubmitHandler<FormValue> = async (data) => {
     const userData = {
@@ -43,18 +60,10 @@ const SignUpForm = () => {
     }
   };
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<FormValue>({ mode: 'onChange' });
-
-  const crtVal = watch();
-
   return (
     <SignUpFormContainer onSubmit={handleSubmit(onSubmit)}>
       <ImageAddForm setProfileImage={setProfileImage} />
+      <Span># 사진은 필수가 아닙니다.</Span>
       <InputForm
         reg={register}
         error={errors}
