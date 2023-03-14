@@ -26,16 +26,20 @@ exports.postQuestion = async function (
   language,
   title,
   content,
-  content_image
+  content_image,
+  t
 ) {
   try {
-    await Mentoring.create({
-      menteeid: userIdx,
-      language,
-      title,
-      content,
-      content_image,
-    });
+    await Mentoring.create(
+      {
+        menteeid: userIdx,
+        language,
+        title,
+        content,
+        content_image,
+      },
+      { transaction: t }
+    );
   } catch (error) {
     console.log(error);
     logger.error(`${error.message}`);

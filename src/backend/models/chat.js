@@ -14,11 +14,15 @@ module.exports = function (sequelize) {
       },
       message: {
         type: Sequelize.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       nickname: {
         type: Sequelize.TEXT,
         allowNull: false,
+      },
+      image: {
+        type: Sequelize.STRING(200),
+        allowNull: true,
       },
       readStatus: {
         type: Sequelize.TINYINT(1),

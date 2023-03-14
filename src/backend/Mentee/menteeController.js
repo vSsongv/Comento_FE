@@ -6,86 +6,89 @@ const errorResponse = require("../config/errorResponse");
 const secret = require("../config/secret");
 const { s3, deleteFiles } = require("../config/s3");
 const regNumber = /^[0-9]/;
-
+const db = require("../models");
 const mentee = {
   postQuestion: asyncHandler(async function (req, res, next) {
     const files = req.files;
+
     try {
-      let fileList = [];
-      if (files.length > 0) {
-        for (let object of files) {
-          fileList.push(object.key);
+      await db.sequelize.transaction(async (t) => {
+        let fileList = null;
+        if (files.length > 0) {
+          fileList = [];
+          for (let object of files) {
+            fileList.push(object.key);
+          }
+          fileList = { ...fileList };
         }
-      }
-      fileList = { ...fileList };
-      const { language, title, content } = JSON.parse(req.body.data);
-      const { userid, nickname } = req.user;
-      const userIdx = userid;
-      if (!userIdx)
-        return next(
-          new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
-        );
 
-      if (!regNumber.test(userIdx))
-        return next(
-          new errorResponse(
-            basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
-            400
-          )
-        );
+        const { language, title, content } = JSON.parse(req.body.data);
+        const userIdx = req.user.userid;
+        if (!userIdx)
+          return next(
+            new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
+          );
 
-      if (!language)
-        return next(
-          new errorResponse(basicResponse(detailResponse.EMPTY_LANGUAGE), 400)
-        );
+        if (!regNumber.test(userIdx))
+          return next(
+            new errorResponse(
+              basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
+              400
+            )
+          );
 
-      if (!title)
-        return next(
-          new errorResponse(basicResponse(detailResponse.EMPTY_TITLE), 400)
-        );
+        if (!language)
+          return next(
+            new errorResponse(basicResponse(detailResponse.EMPTY_LANGUAGE), 400)
+          );
 
-      if (!content)
-        return next(
-          new errorResponse(basicResponse(detailResponse.EMPTY_CONTENT), 400)
-        );
+        if (!title)
+          return next(
+            new errorResponse(basicResponse(detailResponse.EMPTY_TITLE), 400)
+          );
 
-      const dupTitle = await menteeService.checkTitle(userIdx, title);
-      const dupContent = await menteeService.checkContent(userIdx, content);
-      if (dupTitle || dupContent)
-        return next(
-          new errorResponse(basicResponse(detailResponse.EXIST_QUESTION), 400)
-        );
+        if (!content)
+          return next(
+            new errorResponse(basicResponse(detailResponse.EMPTY_CONTENT), 400)
+          );
 
-      await menteeService.postQuestion(
-        userIdx,
-        language,
-        title,
-        content,
-        fileList
-      );
-      let newRoom = await menteeService.createRoom(userIdx);
-      newRoom = newRoom.dataValues.roomid;
-      await menteeService.createChat(nickname, content);
-      return res.send(resultResponse(detailResponse.POST_QUESTION, newRoom)); //response받음과 동시에 `/room/${newRoom}` 으로 redirect시키기
-    } catch (error) {
-      let fileArray = [];
-      files.forEach((obj) => {
-        let file = {
-          Key: `${obj.key}`,
-        };
-        fileArray.push(file);
+        const dupTitle = await menteeService.checkTitle(userIdx, title);
+        const dupContent = await menteeService.checkContent(userIdx, content);
+        if (dupTitle || dupContent)
+          return next(
+            new errorResponse(basicResponse(detailResponse.EXIST_QUESTION), 400)
+          );
+
+        await menteeService.postQuestion(
+          userIdx,
+          language,
+          title,
+          content,
+          fileList,
+          t
+        );
+        return res.send(basicResponse(detailResponse.POST_QUESTION)); //response받음과 동시에 `/room/${newRoom}` 으로 redirect시키기
       });
-      const params = {
-        Bucket: secret.bucket,
-        Delete: {
-          Objects: fileArray,
-          Quiet: false,
-        },
-      };
-      deleteFiles(params);
-      //TODO: detailResponse재정의
+    } catch (error) {
+      if (files.length > 0) {
+        let fileArray = [];
+        files.forEach((obj) => {
+          let file = {
+            Key: `${obj.key}`,
+          };
+          fileArray.push(file);
+        });
+        const params = {
+          Bucket: secret.bucket,
+          Delete: {
+            Objects: fileArray,
+            Quiet: false,
+          },
+        };
+        deleteFiles(params);
+      }
       return next(
-        new errorResponse(basicResponse(detailResponse.EXIST_QUESTION), 400)
+        new errorResponse(basicResponse(detailResponse.DB_ERROR), 400)
       );
     }
   }),
@@ -339,7 +342,9 @@ const mentee = {
       },
     };
     deleteFiles(params);
-    return res.send(basicResponse(detailResponse.DELETE_QUESTION));
+    return next(
+      new errorResponse(basicResponse(detailResponse.DELETE_QUESTION), 400)
+    );
   }),
 };
 

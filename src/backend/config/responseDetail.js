@@ -80,7 +80,7 @@ module.exports = {
     code: 1114,
     message: "진행중인 질문 리스트입니다",
   },
-  POST_MSG: { isSuccess: true, code: 1115, message: "채팅을 저장하였습니다." },
+  POST_MSG: { isSuccess: true, code: 1115, message: "채팅을 보냈습니다." },
   UPLOAD_SUCCESS: {
     isSuccess: true,
     code: 1116,
@@ -403,6 +403,16 @@ module.exports = {
     isSuccess: false,
     code: 2055,
     message: "글 내용이 너무 길어요. 조금만 더 줄여주세요 :)",
+  },
+  USER_NOT_EXIST_INROOM: {
+    isSuccess: false,
+    code: 2056,
+    message: "해당 유저는 채팅방 권한이 없어요.",
+  },
+  EMPTY_IMAGE: {
+    isSuccess: false,
+    code: 2057,
+    message: "채팅으로 보낸 이미지가 비었어요.",
   },
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },
