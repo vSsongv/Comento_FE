@@ -35,12 +35,12 @@ interface Props {
   width: string;
   top: string;
   languageRef: MutableRefObject<string>;
-  // setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const DropDownList = ({ languageRef, ...dropDownProps }: Props) => {
   const changeLanguage = (language: string) => {
     languageRef.current = language;
+    console.log(language);
   };
 
   const LanguageList: JSX.Element[] = Languages.map((language) => {

@@ -9,7 +9,6 @@ import SignIn from './frontend/pages/SignIn';
 import SignUp from './frontend/pages/SignUp';
 import Header from './frontend/components/organisms/Header';
 import Question from './frontend/pages/Question';
-import Answer from './frontend/pages/Answer';
 import Footer from './frontend/components/molescules/Footer';
 import { ScrollToTop } from './frontend/utils/ScrollToTop';
 import { useCookies } from 'react-cookie';
@@ -17,6 +16,7 @@ import { refresh } from './frontend/api/authService';
 import { signInState, userInfo, UserInfoType } from './frontend/recoil/atom';
 import CheckAuth from './frontend/utils/CheckAuth';
 import MyPage from './frontend/pages/MyPage';
+import QuestionLists from './frontend/pages/QuestionLists';
 
 function App() {
   const [cookies] = useCookies(['refresh-token']);
@@ -58,7 +58,7 @@ function App() {
               <Route path='/signUp' element={<SignUp />}></Route>
               <Route element={<CheckAuth />}>
                 <Route path='/question' element={<Question />}></Route>
-                <Route path='/answer' element={<Answer />}></Route>
+                <Route path='/questionList' element={<QuestionLists />}></Route>
                 <Route path='/myPage' element={<MyPage />} />
               </Route>
             </Routes>
