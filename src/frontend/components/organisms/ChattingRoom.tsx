@@ -82,7 +82,7 @@ const ChattingRoom = () => {
       }
     };
     enterChattingRoom();
-    const socket = io('http://192.168.43.228:8080');
+    const socket = io('http://3.39.213.48:8080');
     socket.on('connect', () => {
       socket.emit('join', roomid);
     });

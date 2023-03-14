@@ -25,6 +25,7 @@ const NameAndContents = styled.div`
 const UserName = styled.p<IsMeProp>`
   font-size: 11px;
   text-align: ${(props) => (props.isMe ? 'right' : 'left')};
+  margin-bottom: 5px;
 `;
 
 const ContentsBox = styled.div<IsMeProp>`
@@ -33,7 +34,6 @@ const ContentsBox = styled.div<IsMeProp>`
 `;
 
 const Contents = styled.div`
-  margin: 5px 0;
   padding: 10px 15px;
   background-color: #ececec;
   border-radius: 10px;
