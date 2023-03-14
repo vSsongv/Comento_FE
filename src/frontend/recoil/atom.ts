@@ -3,7 +3,7 @@ import defaultProfile from '../assets/images/defaultProfile.svg';
 
 export const signInState = atom<boolean>({
   key: 'signInState',
-  default: true,
+  default: false,
 });
 
 export interface UserInfoType {
