@@ -18,11 +18,9 @@ const Desc = styled.span`
   display: block;
 `;
 
-const Form = styled.form``;
-
 const Input = styled.input`
   display: block;
-  padding: 5px;
+  padding: 10px;
   width: 610px;
 `;
 
@@ -30,8 +28,8 @@ const TextArea = styled.textarea`
   margin-top: 15px;
   width: 610px;
   height: 120px;
-  padding: 10px;
   resize: none;
+  padding: 10px 5px;
 `;
 
 const Wrapper = styled.div`
@@ -58,13 +56,13 @@ const MentoAuthReq = () => {
         <br /> 입력하신 이메일로 멘토 권한 승인 결과가 발송되며 최대 3~4일 소요됩니다. <br />
         (이메일을 입력하지 않으시면 가입하신 이메일로 전송됩니다.)
       </Desc>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Input {...register('email')} placeholder={user.email}></Input>
         <TextArea
           {...register('content', { required: true, maxLength: 200 })}
           maxLength={200}
-          placeholder=' 깃허브 링크: https://github.com/github
-        개발 관련 경험: 간단한 CRUD 웹사이트를 개발해본 경험이 있습니다. / 백준 gold4 입니다.'
+          placeholder=' 깃허브 링크: https://github.com/github 
+          개발 관련 경험: 간단한 CRUD 웹사이트를 개발해본 경험이 있습니다. / 백준 gold4 입니다.'
         />
         {errors.content && <small style={{ color: 'red' }}>정보를 입력해주세요.</small>}
         <Wrapper>
@@ -72,7 +70,7 @@ const MentoAuthReq = () => {
             제출하기
           </Button>
         </Wrapper>
-      </Form>
+      </form>
     </>
   );
 };
