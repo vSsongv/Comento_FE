@@ -23,7 +23,7 @@ function App() {
   const [cookies] = useCookies(['refresh-token']);
   const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
   const setSignInState = useSetRecoilState<boolean>(signInState);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function Refresh() {
@@ -44,6 +44,7 @@ function App() {
     if (cookies['refresh-token']) {
       Refresh();
     } else {
+      setLoading(false);
       sessionStorage.removeItem('token_exp');
     }
   }, []);
