@@ -14,7 +14,9 @@ module.exports = (server, app) => {
     socket.on("join", (data) => {
       socket.join(data);
     });
-
+    socket.on("connect", () => {
+      console.log("connect");
+    });
     socket.on("disconnect", () => {
       console.log("A user disconnected");
     });

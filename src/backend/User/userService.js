@@ -321,3 +321,19 @@ exports.getToken = async function (useridx) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
+
+exports.getNickname = async function (userid) {
+  try {
+    const result = await User.findOne({
+      raw: true,
+      attributes: ["nickname"],
+      where: {
+        userid,
+      },
+    });
+    return result; //해당 유저가 있으면 user nickname 넘겨줌
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};

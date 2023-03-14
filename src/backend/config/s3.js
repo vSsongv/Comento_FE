@@ -19,9 +19,13 @@ const upload = multer({
     contentType: multerS3.AUTO_CONTENT_TYPE, // 자동으로 콘텐츠 타입 세팅,
     acl: "public-read",
     key: (req, file, cb) => {
-      const uploadDir = req.body.uploadDir
-        ? JSON.parse(req.body.data).uploadDir
-        : "etc";
+      let uploadDir;
+      if (req.url.includes("user")) uploadDir = "profile";
+      else if (req.url.includes("question"))
+        uploadDir = "mentoring/" + req.user.userid;
+      else if (req.url.includes("chat"))
+        uploadDir = "chat/" + req.params.roomid;
+      else uploadDir = "etc";
       file.originalname = Buffer.from(file.originalname, "latin1").toString(
         "utf8"
       );
@@ -31,12 +35,17 @@ const upload = multer({
 });
 
 const deleteFiles = async function deleteImage(params) {
-  await s3.deleteObjects(params).promise();
+  await s3.deleteObjects(params, function (err, data) {
+    if (err) console.log(err, err.stack);
+    else console.log(data);
+  });
 };
+
 const deleteSingleFile = async function deleteImages(params) {
   try {
-    s3.deleteObject(params, function (error, data) {
+    await s3.deleteObjects(params, function (error, data) {
       if (error) {
+        console.log("asdasd");
         console.log("err: ", error, error.stack);
       } else {
         console.log(data, " 정상 삭제 되었습니다.");
