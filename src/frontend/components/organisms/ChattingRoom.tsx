@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { io } from 'socket.io-client';
 import { userInfo, UserInfoType } from '../../recoil/atom';
 import { border, boxShadow } from '../../styles/styleUtil';
 import ChattingInput from '../molescules/ChattingInput';
 import Message from '../molescules/Message';
-import TestImage from '../../assets/images/MainAdvantage_rocket.png';
+import { EnterChattingRoom, SendImage, SendMessage } from '../../api/chattingService';
+import { useParams } from 'react-router-dom';
 
 const ChattingRoomContainer = styled.div`
   position: relative;
@@ -30,52 +32,98 @@ const ChattingBox = styled.div`
 `;
 
 const ChattingRoom = () => {
+  interface messageProp {
+    chatid: string;
+    isMe: boolean;
+    nickname: string;
+    message?: string;
+    image?: string;
+    createdAt: string;
+  }
+
   const messageRef = useRef<HTMLInputElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const messages_test = [
-    {
-      id: 1,
-      isMe: true,
-      writer: '김준하',
-      content:
-        '여기서 이렇게 구현하고싶은데 어떻게 해야 할까요 이 부분은 이렇게 해서 이런 식으로 했는데 여기서는 코드를 어떻게 짜야 할지 모르겠어요 여기서 이렇게 구현하고 싶은데 어떻게 해야 할까요 이 부분은 이렇게 해서 이런 식으로 했는데 여기서는 코드를 어떻게 짜야 할지 모르겠어요 여기서 이렇게 구현하고 싶은데 어떻게 해야 할까요 이 부분은 이렇게 해서 이런 식으로 했는데 여기서는 코드를 어떻게 짜야 할지 모르겠어요',
-      time: 'PM 01:32',
-    },
-    {
-      id: 2,
-      isMe: false,
-      writer: '유정호',
-      content: '이렇게 해보세용',
-      time: 'PM 03:33',
-    },
-    {
-      id: 3,
-      isMe: true,
-      writer: '김준하',
-      content: '시러여',
-      time: 'PM 03:35',
-    },
-    {
-      id: 4,
-      isMe: false,
-      writer: '유정호',
-      content: '그냥 파쿠르할게ㅇㅇ',
-      // image: TestImage,
-      time: 'PM 03:33',
-    },
-    {
-      id: 4,
-      isMe: false,
-      writer: '유정호',
-      // content: '그냥 파쿠르할게ㅇㅇ',
-      image: TestImage,
-      time: 'PM 03:33',
-    },
-  ];
   const myInfo = useRecoilValue<UserInfoType>(userInfo);
+  const [messages, setMessages] = useState<messageProp[]>([]);
+  const [newMessage, setNewMessage] = useState<messageProp>();
+  const [image, setImage] = useState<Blob>();
+  const [counterPartProfile, setCounterPartProfile] = useState<string>('');
+  const topRef = useRef<HTMLDivElement>(null);
+  const { roomid } = useParams();
+  const formData: FormData = new FormData();
 
-  const [messages, setMessages] = useState(messages_test);
-  const [image, setImage] = useState<string>('');
+  const options = {
+    threshold: 1.0,
+  };
+  const moreMessage = () => {
+    console.log('ㅋㅋㅎㅇ');
+  };
+  const scrollObserver = new IntersectionObserver(moreMessage, options);
+
+  useEffect(() => {
+    const enterChattingRoom = async (): Promise<void> => {
+      if (roomid) {
+        const counterPartInfo = await EnterChattingRoom(roomid);
+        if (typeof counterPartInfo !== 'boolean') {
+          setCounterPartProfile(counterPartInfo.profile);
+          const newMessages: messageProp[] = counterPartInfo.chat.map((chat: messageProp) => {
+            const message: messageProp = {
+              chatid: chat.chatid,
+              isMe: chat.nickname === myInfo.name ? true : false,
+              nickname: chat.nickname,
+              message: chat.message ? chat.message : undefined,
+              image: chat.image ? process.env.REACT_APP_BASE_URL + chat.image : undefined,
+              createdAt: chat.createdAt,
+            };
+            return message;
+          });
+          setMessages(newMessages);
+        }
+      }
+    };
+    enterChattingRoom();
+    const socket = io('http://192.168.43.228:8080');
+    socket.on('connect', () => {
+      socket.emit('join', roomid);
+    });
+    socket.on('message', (message) => {
+      const newMessage = {
+        chatid: message.chatid,
+        isMe: message.nickname === myInfo.name ? true : false,
+        nickname: message.nickname,
+        message: message.message,
+        createdAt: message.createdAt,
+      };
+      setNewMessage(newMessage);
+    });
+    socket.on('image', (message) => {
+      const newMessage = {
+        chatid: message.chatid,
+        isMe: message.nickname === myInfo.name ? true : false,
+        nickname: message.nickname,
+        image: process.env.REACT_APP_BASE_URL + message.image,
+        createdAt: message.createdAt,
+      };
+      setNewMessage(newMessage);
+    });
+    if (topRef.current) {
+      console.log('hi');
+      scrollObserver.observe(topRef.current);
+      // return () => {
+      //   scrollObserver.unobserve(topRef.current!);
+      // };
+    }
+    return () => {
+      socket.disconnect();
+      socket.off();
+    };
+  }, []);
+
+  useEffect((): void => {
+    if (newMessage) {
+      setMessages([...messages, newMessage]);
+    }
+  }, [newMessage]);
 
   useEffect((): void => {
     messageRef.current?.focus();
@@ -84,50 +132,45 @@ const ChattingRoom = () => {
     }
   }, [messages]);
 
-  const sendMessage = (): void => {
-    const now = new Date();
-    const hour = (now.getHours() % 12).toString();
-    const minute = now.getMinutes().toString();
-    const AMPM = now.getHours() / 12 < 1 ? 'AM' : 'PM';
-    if (messageRef.current && messageRef.current.value !== '') {
-      const newMessage = {
-        id: 5,
-        isMe: true,
-        writer: myInfo.name,
-        content: messageRef.current.value,
-        time: AMPM + ' ' + hour.padStart(2, '0') + ':' + minute.padStart(2, '0'),
-      };
-      setMessages([...messages, newMessage]);
-      messageRef.current.value = '';
-    } else {
-      const newMessage = {
-        id: 5,
-        isMe: true,
-        writer: myInfo.name,
-        image: image,
-        time: AMPM + ' ' + hour.padStart(2, '0') + ':' + minute.padStart(2, '0'),
-      };
-      setMessages([...messages, newMessage]);
+  const sendMessage = async (): Promise<void> => {
+    if (roomid) {
+      if (messageRef.current && messageRef.current.value !== '') {
+        const message = messageRef.current.value;
+        messageRef.current.value = '';
+        await SendMessage(roomid, myInfo.name, message);
+        // setMessages([...messages, newMessage]);
+      } else if (image) {
+        formData.append('images', image);
+        formData.append('data', myInfo.name);
+        if (!(await SendImage(roomid, formData))) {
+          alert('메세지 전송에 실패했습니다.');
+        }
+        formData.delete('images');
+        formData.delete('data');
+      }
     }
   };
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const fileList = e.target.files;
     if (fileList && fileList[0]) {
-      setImage(URL.createObjectURL(fileList[0]));
+      setImage(fileList[0]);
+      // formData.append('images', fileList[0]);
     }
   };
 
   const Messages = () => {
-    return messages.map((message) => {
+    return messages.map((message, index) => {
       return (
         <Message
-          key={message.id}
+          key={message.chatid}
+          topRef={index === 0 ? topRef : undefined}
           isMe={message.isMe}
-          writer={message.writer}
-          content={message.content ? message.content : undefined}
+          nickname={message.nickname}
+          message={message.message ? message.message : undefined}
           image={message.image ? message.image : undefined}
-          time={message.time}
+          createdAt={message.createdAt}
+          profile={message.isMe ? myInfo.profileImage : counterPartProfile}
         />
       );
     });

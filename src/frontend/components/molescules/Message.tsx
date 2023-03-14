@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import styled from 'styled-components';
-import DefaultProfile from '../../assets/images/defaultProfile.svg';
 
 interface IsMeProp {
   isMe: boolean;
@@ -57,22 +56,24 @@ const Time = styled.p`
 `;
 
 interface Props extends IsMeProp {
-  writer: string;
-  content?: string;
+  topRef?: RefObject<HTMLDivElement>;
+  nickname: string;
+  message?: string;
   image?: string;
-  time: string;
+  createdAt: string;
+  profile: string;
 }
 
-const Message = ({ isMe, writer, content, image, time }: Props) => {
+const Message = ({ isMe, topRef, nickname, message, image, createdAt, profile }: Props) => {
   return (
-    <MessageContainer isMe={isMe}>
-      <Profile src={DefaultProfile} alt='profile image' />
+    <MessageContainer isMe={isMe} ref={topRef}>
+      <Profile src={profile} alt='profile image' />
       <NameAndContents>
-        <UserName isMe={isMe}>{writer}</UserName>
+        <UserName isMe={isMe}>{nickname}</UserName>
         <ContentsBox isMe={isMe}>
-          {content && <Contents>{content}</Contents>}
+          {message && <Contents>{message}</Contents>}
           {image && <Image src={image} alt='사진' />}
-          <Time>{time}</Time>
+          <Time>{createdAt}</Time>
         </ContentsBox>
       </NameAndContents>
     </MessageContainer>
