@@ -21,7 +21,7 @@ export const userInfo = atom<UserInfoType>({
     email: 'Comento@mentos.com',
     profileImage: defaultProfile,
     mentos: 0,
-    role: '',
+    role: 'Q',
   },
 });
 

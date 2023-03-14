@@ -5,7 +5,7 @@ import { lighten, darken } from 'polished';
 type FlashBtnProps = {
   children: React.ReactNode;
   width: number;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 const StyledFlashBtn = styled.button<FlashBtnProps>`

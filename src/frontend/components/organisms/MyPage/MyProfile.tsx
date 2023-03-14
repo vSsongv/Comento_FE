@@ -47,13 +47,12 @@ const SetProfileBtn = styled.button`
 `;
 
 const Wrapper = styled.div`
-  height: 140px;
+  height: 110px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
 `;
-
 const MyProfile = () => {
   const [profileImage, setProfileImage] = useState<Blob>();
   const [user, setUser] = useRecoilState<UserInfoType>(userInfo);
@@ -74,9 +73,13 @@ const MyProfile = () => {
       <Wrapper>
         <Name>{user.nickname}</Name>
         <Email>{user.email}</Email>
-        <FlashBtn onClick={() => setModalVisible(true)} width={160}>
-          답변자 권한 요청하기
-        </FlashBtn>
+        {user.role === 'Q' ? (
+          <FlashBtn onClick={() => setModalVisible(true)} width={160}>
+            답변자 권한 요청하기
+          </FlashBtn>
+        ) : (
+          <FlashBtn width={160}>답변자 권한 승인 완료</FlashBtn>
+        )}
       </Wrapper>
       {modalVisible ? <Modal title={'답변자 권한 요청하기'} content={MentoAuthReq}></Modal> : null}
     </Container>
