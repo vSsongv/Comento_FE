@@ -39,10 +39,11 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
       case '결제하기':
         navigate('/signIn');
         break;
-      case '마이페이지':
+      case '질문 목록 확인':
         navigate('/myPage');
         break;
       case '로그아웃':
+        sessionStorage.removeItem('token_exp');
         setSignInState(false);
         removeCookie('refresh-token');
         navigate('/');
