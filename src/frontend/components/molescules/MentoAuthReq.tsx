@@ -8,7 +8,7 @@ import Button from '../atoms/Button';
 
 interface ReqProps {
   email: string;
-  info: string;
+  content: string;
 }
 
 const Desc = styled.span`
@@ -48,7 +48,7 @@ const MentoAuthReq = () => {
   } = useForm<ReqProps>();
 
   const onSubmit: SubmitHandler<ReqProps> = (data) => {
-    askMentoRole(data.email === '' ? user.email : data.email, data.info);
+    askMentoRole(data.email === '' ? user.email : data.email, data.content);
   };
 
   return (
@@ -61,14 +61,14 @@ const MentoAuthReq = () => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Input {...register('email')} placeholder={user.email}></Input>
         <TextArea
-          {...register('info', { required: true, maxLength: 200 })}
+          {...register('content', { required: true, maxLength: 200 })}
           maxLength={200}
-          placeholder='깃허브 링크: https://github.com/github
+          placeholder=' 깃허브 링크: https://github.com/github
         개발 관련 경험: 간단한 CRUD 웹사이트를 개발해본 경험이 있습니다. / 백준 gold4 입니다.'
         />
-        {errors.info && <small style={{ color: 'red' }}>정보를 입력해주세요.</small>}
+        {errors.content && <small style={{ color: 'red' }}>정보를 입력해주세요.</small>}
         <Wrapper>
-          <Button height={30} width={78} fontSize={10}>
+          <Button height={30} width={78} fontSize={12}>
             제출하기
           </Button>
         </Wrapper>

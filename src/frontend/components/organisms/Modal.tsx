@@ -3,6 +3,7 @@ import { MdClose } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { modalVisibleState } from '../../recoil/atom';
+import { boxShadow } from '../../styles/styleUtil';
 
 interface ModalProps {
   title: string;
@@ -11,6 +12,7 @@ interface ModalProps {
 
 const Container = styled.div`
   background-color: white;
+  box-shadow: ${boxShadow};
   padding: 30px;
   width: 680px;
   position: absolute;
