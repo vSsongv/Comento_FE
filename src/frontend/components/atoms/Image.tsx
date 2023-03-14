@@ -27,7 +27,7 @@ const XIcon = styled.div`
 
 interface Props {
   imageList: string[];
-  fileDelete(deleteIndex: number): void;
+  fileDelete?: (deleteIndex: number) => void;
 }
 
 const Image = ({ imageList, fileDelete }: Props) => {
@@ -37,9 +37,11 @@ const Image = ({ imageList, fileDelete }: Props) => {
         return (
           <ImageBox key={url}>
             <Images src={url} />
-            <XIcon onClick={() => fileDelete(index)}>
-              <MdClose style={{ padding: '0.1rem', fontSize: '1.2rem' }} />
-            </XIcon>
+            {fileDelete && (
+              <XIcon onClick={() => fileDelete(index)}>
+                <MdClose style={{ padding: '0.1rem', fontSize: '1.2rem' }} />
+              </XIcon>
+            )}
           </ImageBox>
         );
       })}
