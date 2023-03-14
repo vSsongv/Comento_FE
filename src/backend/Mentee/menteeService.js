@@ -5,21 +5,41 @@ const detailResponse = require("../config/responseDetail");
 const Op = require("sequelize").Op;
 const { logger } = require("../config/winston");
 
+exports.checkMentoringStatus = async function (mentoringid) {
+  try {
+    const status = await Mentoring.findOne({
+      raw: true,
+      attributes: ["status"],
+      where: {
+        mentoringid,
+      },
+    });
+    return status;
+  } catch (error) {
+    console.log(error);
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
 exports.postQuestion = async function (
   userIdx,
   language,
   title,
   content,
-  content_image
+  content_image,
+  t
 ) {
   try {
-    await Mentoring.create({
-      menteeid: userIdx,
-      language,
-      title,
-      content,
-      content_image,
-    });
+    await Mentoring.create(
+      {
+        menteeid: userIdx,
+        language,
+        title,
+        content,
+        content_image,
+      },
+      { transaction: t }
+    );
   } catch (error) {
     console.log(error);
     logger.error(`${error.message}`);
@@ -52,13 +72,16 @@ exports.createChat = async function (nickname, content) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
-exports.getUnderwayQuestion = async function (menteeid) {
+exports.getQuestion = async function (status, language, menteeid) {
   try {
     const question = await Mentoring.findAll({
       attributes: ["title", "content", "date", "language"],
       where: {
-        menteeid,
-        status: "N",
+        language,
+        status,
+        menteeid: {
+          [Op.ne]: menteeid,
+        },
       },
     });
     return question;

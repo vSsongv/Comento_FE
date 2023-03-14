@@ -1,14 +1,17 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const chatController = require('./chatController');
-const { checkToken } = require('../middlewares/auth');
-const { Room } = require('../models');
-const detailResponse = require('../config/responseDetail');
-const errorResponse = require('../config/errorResponse');
-router.get('/chat', checkToken, chatController.getRoom);
+const chatController = require("./chatController");
+const { checkToken } = require("../middlewares/auth");
+const { checkRoomAuth } = require("../middlewares/roomAuth");
+const { upload } = require("../config/s3");
+router.get("/chat/:roomid", checkToken, checkRoomAuth, chatController.getRoom);
 
-router.post('/chat/:roomid', checkToken, chatController.postChat); //ㅁ
-
+router.post(
+  "/chat/image/:roomid",
+  upload.single(["images"]),
+  chatController.postImage
+);
+router.post("/chat/:roomid", chatController.postChat);
 // // 새로운 채팅방 생성 api
 // router.get('/', async(req, res, next) => {
 //     try{
@@ -35,6 +38,5 @@ router.post('/chat/:roomid', checkToken, chatController.postChat); //ㅁ
 //         roomId: roomIdx++
 //     });
 // });
-
 
 module.exports = router;
