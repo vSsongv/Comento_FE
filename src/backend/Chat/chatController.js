@@ -62,7 +62,7 @@ const chat = {
       );
 
     await chatService.postChatImage(roomid, nickname, image);
-    const chatInfo = await chatService.getChatInfo(roomid, nickname, image);
+    const chatInfo = await chatService.getImageInfo(roomid, nickname, image);
     let data = {
       nickname,
       image,
