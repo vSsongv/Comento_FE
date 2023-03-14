@@ -335,7 +335,6 @@ const member = {
       );
     const userInfo = await userService.getUserInfo(userIdx);
     const nickname = userInfo.nickname;
-    email = email || userInfo.email;
     emailData["nickname"] = nickname;
     emailData["content"] = content;
     emailData["email"] = email;
