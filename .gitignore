@@ -15,7 +15,6 @@ package-lock.json
 /src/backend/views
 /src/backend/socket.js
 /src/backend/config/secret.js
-/src/backend/config/s3.js
 /src/backend/log
 
 /src/backend/tempimage

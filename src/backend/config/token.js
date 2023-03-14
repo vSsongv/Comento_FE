@@ -5,39 +5,52 @@ const TOKEN_EXPIRED = -3;
 const INVALID_TOKEN = -2;
 
 module.exports = {
-  sign: async (user, isKeep, expiresIn) => {
+  sign: async (user, expiresIn) => {
     let result = {
       accessToken: jwt.sign(
         {
           type: "JWT",
           userid: user.userid,
-          nickname: user.nickname,
           role: user.role,
-          mentos: user.mentos,
-          isKeep,
         },
         process.env.ACCESS_SECRET,
         {
-          expiresIn,
+          expiresIn: "3h",
           issuer: "Comento",
-          subject: "userInfo",
+          subject: "accessToken",
         }
       ),
-    };
-    if (isKeep) {
-      result["refreshToken"] = jwt.sign(
+      refreshToken: jwt.sign(
         {
           type: "JWT",
           userid: user.userid,
         },
         process.env.REFRESH_SECRET,
         {
-          expiresIn: "30d",
+          expiresIn: expiresIn,
           issuer: "Comento",
           subject: "userInfo",
         }
-      );
-    }
+      ),
+    };
+    return result;
+  },
+  signAccessToken: async (user) => {
+    let result = {
+      accessToken: jwt.sign(
+        {
+          type: "JWT",
+          userid: user.userid,
+          role: user.role,
+        },
+        process.env.ACCESS_SECRET,
+        {
+          expiresIn: "3h",
+          issuer: "Comento",
+          subject: "accessToken",
+        }
+      ),
+    };
     return result;
   },
   verifyToken: async (token) => {

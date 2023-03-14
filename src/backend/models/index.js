@@ -16,12 +16,12 @@ const sequelize = new Sequelize(
   config
 );
 
-const Mentoring = require('./mentoring')(sequelize);
-const User = require('./user')(sequelize);
-const Auth = require('./auth')(sequelize);
-const Room = require('./room')(sequelize);
-const Chat = require('./chat')(sequelize);
-const Survey = require('./survey')(sequelize);
+const Mentoring = require("./mentoring")(sequelize);
+const User = require("./user")(sequelize);
+const Auth = require("./auth")(sequelize);
+const Room = require("./room")(sequelize);
+const Chat = require("./chat")(sequelize);
+const Survey = require("./survey")(sequelize);
 
 // 외래키 설정: User : 멘토링  => 1:다
 
@@ -39,7 +39,7 @@ Room.hasMany(Chat, { foreignKey: "roomid", sourceKey: "roomid" });
 Chat.belongsTo(Room, { foreignKey: "roomid", sourceKey: "roomid" });
 
 // User : 설문 => 1:1
-User.hasOne(Survey, {foreignKey: 'userid', sourceKey: 'userid'});
+User.hasOne(Survey, { foreignKey: "userid", sourceKey: "userid" });
 
 db.sequelize = sequelize;
 db.Auth = Auth;

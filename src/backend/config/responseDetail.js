@@ -1,5 +1,10 @@
 module.exports = {
   //SUCCESS
+  SUCCESS: {
+    isSuccess: true,
+    code: 1000,
+    message: "성공",
+  },
   SIGNUP_SUCCESS: {
     isSuccess: true,
     code: 1100,
@@ -33,7 +38,7 @@ module.exports = {
   SEND_EMAIL: {
     isSuccess: true,
     code: 1106,
-    message: "이메일로 인증번호를 전송하였습니다.",
+    message: "멘토 권한 요청 이메일을 성공적으로 전송하였습니다.",
   },
   POST_QUESTION: {
     isSuccess: true,
@@ -75,7 +80,7 @@ module.exports = {
     code: 1114,
     message: "진행중인 질문 리스트입니다",
   },
-  POST_MSG: { isSuccess: true, code: 1115, message: "채팅을 저장하였습니다." },
+  POST_MSG: { isSuccess: true, code: 1115, message: "채팅을 보냈습니다." },
   UPLOAD_SUCCESS: {
     isSuccess: true,
     code: 1116,
@@ -110,6 +115,21 @@ module.exports = {
     isSuccess: true,
     code: 1122,
     message: "멘토 권한을 부여했습니다.",
+  },
+  PATCH_PROFILE_SUCCESS: {
+    isSuccess: true,
+    code: 1123,
+    message: "프로필을 변경하였습니다.",
+  },
+  PATCH_PASSWORD_SUCCESS: {
+    isSuccess: true,
+    code: 1124,
+    message: "비밀번호를 변경하였습니다.",
+  },
+  PATCH_NICKNAME_SUCCESS: {
+    isSuccess: true,
+    code: 1125,
+    message: "닉네임을 변경하였습니다.",
   },
   //FAIL
   DUP_EMAIL: {
@@ -349,7 +369,51 @@ module.exports = {
     code: 2048,
     message: "올바른 url을 입력해주세요.",
   },
-  
+  TOKEN_NOT_MATCH: {
+    isSuccess: false,
+    code: 2049,
+    message: "토큰이 일치하지 않아요.",
+  },
+  NOT_MATCH_NICKNAME: {
+    isSuccess: false,
+    code: 2050,
+    message: "닉네임이 일치하지 않습니다.",
+  },
+  NOT_MATCH_PASSWORD: {
+    isSuccess: false,
+    code: 2051,
+    message: "기존 비밀번호를 잘못 입력하였습니다.",
+  },
+  EMPTY_PROFILE: {
+    isSuccess: false,
+    code: 2052,
+    message: "변경하고자하는 이미지가 누락되었습니다.",
+  },
+  NOT_BEFORE_STATUS: {
+    isSuccess: false,
+    code: 2053,
+    message: "이미 진행중이거나 완료된 질문입니다.",
+  },
+  NOT_MENTEE: {
+    isSuccess: false,
+    code: 2054,
+    message: "멘티가 아닙니다.",
+  },
+  CONTENT_LENGTH_OVER: {
+    isSuccess: false,
+    code: 2055,
+    message: "글 내용이 너무 길어요. 조금만 더 줄여주세요 :)",
+  },
+  USER_NOT_EXIST_INROOM: {
+    isSuccess: false,
+    code: 2056,
+    message: "해당 유저는 채팅방 권한이 없어요.",
+  },
+  EMPTY_IMAGE: {
+    isSuccess: false,
+    code: 2057,
+    message: "채팅으로 보낸 이미지가 비었어요.",
+  },
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },
 };
