@@ -53,6 +53,20 @@ const Wrapper = styled.div`
   align-items: center;
   justify-content: space-around;
 `;
+
+const MentoRole = styled.div`
+  background-image: linear-gradient(90deg, #033bff, #00dbf8);
+  color: white;
+  border-radius: 10px;
+  width: 155px;
+  height: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  padding-top: 5px;
+  text-align: center;
+  font-family: 'NanumGothic';
+`;
+
 const MyProfile = () => {
   const [profileImage, setProfileImage] = useState<Blob>();
   const [user, setUser] = useRecoilState<UserInfoType>(userInfo);
@@ -74,14 +88,14 @@ const MyProfile = () => {
         <Name>{user.nickname}</Name>
         <Email>{user.email}</Email>
         {user.role === 'Q' ? (
-          <FlashBtn onClick={() => setModalVisible(true)} width={160}>
-            답변자 권한 요청하기
+          <FlashBtn onClick={() => setModalVisible(true)} width={155}>
+            답변 권한 요청하기
           </FlashBtn>
         ) : (
-          <FlashBtn width={160}>답변자 권한 승인 완료</FlashBtn>
+          <MentoRole>답변 권한 승인 완료</MentoRole>
         )}
       </Wrapper>
-      {modalVisible ? <Modal title={'답변자 권한 요청하기'} content={MentoAuthReq}></Modal> : null}
+      {modalVisible ? <Modal title={'답변 권한 요청하기'} content={MentoAuthReq}></Modal> : null}
     </Container>
   );
 };

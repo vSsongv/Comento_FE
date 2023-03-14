@@ -94,7 +94,7 @@ const Header = () => {
               {location.pathname !== '/' && (
                 <>
                   {user.role === 'Q' ? (
-                    <QALink to='/answer' style={{ marginRight: '1rem' }}>
+                    <QALink to='/mypage' style={{ marginRight: '1rem' }}>
                       <QALogo src={Edit} alt='Answer Logo' />
                       답변 권한 얻으러 가기
                     </QALink>
