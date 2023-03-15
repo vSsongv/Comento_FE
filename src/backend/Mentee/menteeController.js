@@ -164,7 +164,7 @@ const mentee = {
     return res.send(resultResponse(detailResponse.GET_QUESTION, question));
   }),
   getSpecificQuestion: asyncHandler(async function (req, res, next) {
-    const questionid = req.query.mentoringid;
+    const questionid = req.params.mentoringid;
     const userIdx = req.user.userid;
     if (!questionid)
       return next(

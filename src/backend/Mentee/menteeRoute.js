@@ -31,7 +31,7 @@ router.delete(
 );
 
 router.get(
-  "/question/questionInfo",
+  "/question/:mentoringid",
   checkToken,
   menteeController.getSpecificQuestion
 );
