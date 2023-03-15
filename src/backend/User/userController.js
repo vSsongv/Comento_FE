@@ -313,7 +313,9 @@ const member = {
   authRequestEmail: asyncHandler(async function (req, res, next) {
     const userIdx = req.user.userid;
     const content = req.body.content;
+    console.log(userIdx, content);
     let email = req.body.email;
+    console.log(email);
     let emailData = {};
     if (!userIdx)
       return next(
