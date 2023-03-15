@@ -79,9 +79,7 @@ exports.getQuestion = async function (status, language, menteeid) {
       where: {
         language,
         status,
-        menteeid: {
-          [Op.ne]: menteeid,
-        },
+        menteeid: menteeid,
       },
     });
     return question;
@@ -168,7 +166,6 @@ exports.getSpecificQuestion = async function (mentoringid) {
       attributes: [
         "title",
         "content",
-        "createdAt",
         "updatedAt",
         "language",
         "content_image",

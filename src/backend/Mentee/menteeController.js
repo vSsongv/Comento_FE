@@ -1,4 +1,5 @@
 const menteeService = require("./menteeService");
+const userService = require("../User/userService");
 const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const asyncHandler = require("../config/asyncHandler");
@@ -113,6 +114,7 @@ const mentee = {
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_PARAM), 400)
       );
+
     let question, status;
     switch (type) {
       case 0:
@@ -179,6 +181,8 @@ const mentee = {
       return next(
         new errorResponse(basicResponse(detailResponse.NOT_EXIST_QUESTION), 400)
       );
+    const userInfo = await userService.getUserInfo(userIdx);
+    questionInfo["nickname"] = userInfo.nickname;
     return res.send(
       resultResponse(detailResponse.GET_QUESTIONINFO, questionInfo)
     );

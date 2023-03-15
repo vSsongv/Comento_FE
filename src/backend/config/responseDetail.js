@@ -414,6 +414,11 @@ module.exports = {
     code: 2057,
     message: "채팅으로 보낸 이미지가 비었어요.",
   },
+  NOT_MENTORING_READY: {
+    isSuccess: false,
+    code: 2058,
+    message: "멘토링 체결이 아직 안됐습니다.",
+  },
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },
 };
