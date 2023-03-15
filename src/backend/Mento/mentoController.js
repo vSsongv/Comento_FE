@@ -32,7 +32,7 @@ const mento = {
         (type == 1) ? status='I' : status='F';
         if(type == 0) list = await mentoService.getSpecificQuestion(language);
         else list = await mentoService.getQuestionList(language, status, userIdx); 
-        if(!list) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
+        if(list.length === 0) return next(new errorResponse(basicResponse(detailResponse.NO_QUESTION)));
 
         const nickname = await userService.getNickname(list.menteeid);
         delete list.menteeid;

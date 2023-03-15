@@ -3,6 +3,7 @@ const responseDetail = require("../config/responseDetail");
 const { Mentoring, Room, Chat, User } = require("../models");
 const Op = require("sequelize").Op;
 const { logger } = require("../config/winston");
+const userService = require("../User/userService");
 exports.checkMentoring = async function (mentoringid) {
   try {
     const result = await Mentoring.findOne({
@@ -22,7 +23,7 @@ exports.getSpecificQuestion = async function (language) {
   try {
     const result = await Mentoring.findAll({
       raw: true,
-      plain: true,
+      //plain: true,
       attributes: ["menteeid", "mentoringid", "title", "date", "language"],
       where: {
         language,
@@ -67,7 +68,7 @@ exports.getQuestionList = async function (language, status, userid) {
   try {
     const result = await Mentoring.findAll({
       raw: true,
-      plain: true,
+      //plain: true,
       attributes: ["menteeid", "mentoringid", "title", "date", "language"],
       where: {
         language,
@@ -99,6 +100,37 @@ exports.getQuestion = async function (mentoringid) {
       },
     });
     return result;
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(responseDetail.DB_ERROR);
+  }
+};
+
+exports.CountQuestion = async function (userid) {
+  try {
+    const before = await Mentoring.findAndCountAll({
+      raw: true,
+      where: {
+        status: "N",
+      },
+    });
+
+    const ing = await Mentoring.findAndCountAll({
+      raw: true,
+      where: {
+        status: "I",
+        mentoid: userid,
+      },
+    });
+
+    const end = await Mentoring.findAndCountAll({
+      raw: true,
+      where: {
+        status: "F",
+        mentoid: userid,
+      },
+    });
+    return {before: before.count, ing: ing.count, end: end.count};
   } catch (error) {
     logger.error(`${error.message}`);
     throw new errorResponse(responseDetail.DB_ERROR);
