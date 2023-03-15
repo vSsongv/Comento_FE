@@ -22,7 +22,6 @@ module.exports = function (sequelize) {
       mentoid: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        unique: true,
       },
       menteeid: {
         type: Sequelize.INTEGER,

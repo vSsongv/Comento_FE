@@ -35,25 +35,17 @@ exports.getSpecificQuestion = async function (language) {
     throw new errorResponse(responseDetail.DB_ERROR);
   }
 };
-exports.connectMentoring = async function (userid, mentoringid) {
+exports.connectMentoring = async function (mentoringid, mentoid) {
   try {
     await Mentoring.update(
       {
-        mentoid: userid,
+        mentoid,
+        status: "I",
       },
       {
         where: {
           mentoringid,
-        },
-      }
-    );
-    await Room.update(
-      {
-        mentoid: userid,
-      },
-      {
-        where: {
-          roomid: mentoringid,
+          status: "B",
         },
       }
     );
@@ -67,12 +59,28 @@ exports.getQuestionList = async function (language, status, userid) {
   try {
     const result = await Mentoring.findAll({
       raw: true,
-      plain: true,
-      attributes: ["menteeid", "mentoringid", "title", "date", "language"],
+      attributes: ["mentoringid", "title", "date", "language"],
       where: {
         language,
         status,
         mentoid: userid,
+      },
+    });
+    return result;
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(responseDetail.DB_ERROR);
+  }
+};
+
+exports.getAllQuestionList = async function (language, status) {
+  try {
+    const result = await Mentoring.findAll({
+      raw: true,
+      attributes: ["mentoringid", "title", "date", "language"],
+      where: {
+        language,
+        status,
       },
     });
     return result;
