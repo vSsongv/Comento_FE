@@ -34,15 +34,4 @@ export const SignApi = {
 
 export const Mentee = {
   question: (questionContents: FormData) => api.post('mentee/question', questionContents),
-  getSpecificQuestion: (mentoringid: string) => api.get(`mentee/question/questionInfo?mentoringid=${mentoringid}`),
-};
-
-export const Chatting = {
-  enterChattingRoom: (roomId: string) => api.get(`chat/${roomId}`),
-  sendMessage: (roomId: string, nickname?: string, message?: string) =>
-    api.post(`chat/${roomId}`, {
-      nickname: nickname,
-      message: message,
-    }),
-  sendImage: (roomId: string, chattingContents: FormData) => api.post(`chat/image/${roomId}`, chattingContents),
 };

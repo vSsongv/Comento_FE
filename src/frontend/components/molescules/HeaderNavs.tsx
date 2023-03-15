@@ -15,7 +15,7 @@ const HeaderNavs = () => {
   return (
     <MenuContainer>
       <HeaderNav imageSrc={Pay} menu='결제하기' />
-      <HeaderNav imageSrc={MyPage} menu='질문 목록 확인' />
+      <HeaderNav imageSrc={MyPage} menu='마이페이지' />
       <HeaderNav imageSrc={Logout} menu='로그아웃' />
     </MenuContainer>
   );

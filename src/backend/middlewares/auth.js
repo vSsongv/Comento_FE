@@ -21,8 +21,10 @@ const authUtil = {
 
     if (accessResult.result === TOKEN_EXPIRED)
       return next(new errorResponse(responseDetail.TOKEN_EXPIRED, 400));
-    req.user = accessResult.validToken;
-    next();
+    else {
+      req.user = accessResult.validToken;
+      next();
+    }
   },
   checkMento: async (req, res, next) => {
     const userInfo = req.user;
