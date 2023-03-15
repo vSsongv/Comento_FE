@@ -34,7 +34,7 @@ const SimpleProfile = ({ height }: SimpleProfileProps) => {
       <ProfileImage src={user.profileImage} alt='프로필 이미지' />
       {user.name}
       <Mentos>
-        <img src={mentos} alt='멘토스 이미지' width='25rem' />
+        <img src={mentos} alt='멘토스 이미지' width='30rem' />
         {user.mentos}개
       </Mentos>
     </ProfileContainer>

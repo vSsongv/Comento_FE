@@ -1,15 +1,11 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { signInState } from '../recoil/atom';
 
 const CheckAuth = () => {
-  const timestamp = new Date().getTime() / 1000;
-  const exp = sessionStorage.getItem('token_exp');
-  if (exp) {
-    if (parseInt(exp) - timestamp < 10) {
-      alert('로그인이 필요합니다.');
-      window.location.href = '/signIn';
-    }
-  } else {
+  const isSignIn = useRecoilValue<boolean>(signInState);
+  if (!isSignIn) {
     alert('로그인이 필요합니다.');
     window.location.href = '/signIn';
   }

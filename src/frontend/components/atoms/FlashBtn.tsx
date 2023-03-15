@@ -5,21 +5,11 @@ import { lighten, darken } from 'polished';
 type FlashBtnProps = {
   children: React.ReactNode;
   width: number;
-  height?: number;
-  fontSize?: number;
-  onClick?: () => void;
-};
-
-FlashBtn.defaultProps = {
-  height: 50,
-  fontSize: 17,
 };
 
 const StyledFlashBtn = styled.button<FlashBtnProps>`
   ${(props) => {
     const WIDTH = props.width;
-    const HEIGHT = props.height;
-    const FONT_SIZE = props.fontSize;
     return css`
       /* 공통 스타일 */
       display: inline-block;
@@ -35,10 +25,10 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
       cursor: pointer;
       text-align: center;
       /* 크기 */
-      /* padding: 1rem auto; */
+      padding: 1rem auto;
       width: ${WIDTH}px;
-      height: ${HEIGHT}px;
-      font-size: ${FONT_SIZE}px;
+      height: 30px;
+      font-size: 15px;
       /* 색상 */
       background-color: #ffffff;
       &:hover {

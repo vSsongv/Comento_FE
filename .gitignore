@@ -13,6 +13,7 @@ loginkey.pem
 package-lock.json
 /src/backend/.env
 /src/backend/views
+/src/backend/socket.js
 /src/backend/config/secret.js
 /src/backend/log
 

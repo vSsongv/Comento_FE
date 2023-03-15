@@ -5,10 +5,7 @@ const result = {
   checkRoomAuth: async (req, res, next) => {
     const roomid = req.params.roomid;
     const userid = req.user.userid;
-    const isUserInRoom = await chatService.checkRoomAuth(roomid);
-    if (!isUserInRoom.menteeid || !isUserInRoom.mentoid)
-      return next(new errorResponse(responseDetail.NOT_MENTORING_READY));
-
+    const isUserInRoom = await chatService.checkRoomAuth(roomid, userid);
     if (userid == isUserInRoom.menteeid) req.role = "Q";
     else if (userid == isUserInRoom.mentoid) req.role = "A";
     else

@@ -81,24 +81,7 @@ exports.getMentoInfo = async function (roomid) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
-exports.getChatInfo = async function (roomid, nickname, message) {
-  try {
-    const result = await Chat.findOne({
-      raw: true,
-      attributes: ["createdAt", "chatid"],
-      where: {
-        roomid,
-        nickname,
-        message,
-      },
-    });
-    return result;
-  } catch (error) {
-    logger.error(`${error.message}`);
-    throw new errorResponse(detailResponse.DB_ERROR, 500);
-  }
-};
-exports.getImageInfo = async function (roomid, nickname, image) {
+exports.getChatInfo = async function (roomid, nickname, image) {
   try {
     const result = await Chat.findOne({
       raw: true,

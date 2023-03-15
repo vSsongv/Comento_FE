@@ -40,7 +40,6 @@ exports.connectMentoring = async function (userid, mentoringid) {
     await Mentoring.update(
       {
         mentoid: userid,
-        status: "I",
       },
       {
         where: {

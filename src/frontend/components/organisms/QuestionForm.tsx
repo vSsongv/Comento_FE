@@ -8,7 +8,6 @@ import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
 import { Languages } from '../../utils/Languages';
 import { askQuestion } from '../../api/authService';
-import { useNavigate } from 'react-router-dom';
 
 const QuestionBox = styled.div`
   display: flex;
@@ -69,7 +68,6 @@ const QuestionForm = () => {
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const formData: FormData = new FormData();
-  const navigate = useNavigate();
 
   useEffect(() => {
     titleRef.current?.focus();
@@ -98,7 +96,6 @@ const QuestionForm = () => {
 
     if (await askQuestion(formData)) {
       alert('질문이 등록되었습니다.');
-      navigate('/');
     }
   };
 
