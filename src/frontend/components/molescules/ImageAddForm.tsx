@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import SignupDefaultImage from '../../assets/images/SignupDefaultImage.png';
 import AddBtnImage from '../../assets/images/AddBtnImage.png';
+import { useRecoilValue } from 'recoil';
+import { userInfo, UserInfoType } from '../../recoil/atom';
 
 interface ImageSizeProps {
-  width?: number;
-  height?: number;
+  width: number;
+  height: number;
 }
 
 interface ImageAddFormProps extends ImageSizeProps {
@@ -28,8 +29,8 @@ const Input = styled.input`
 `;
 
 const ImageAddBtnContainer = styled.div<ImageSizeProps>`
-  width: ${(props) => props.width || 204}px;
-  height: ${(props) => props.height || 204}px;
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
   position: relative;
   margin: auto;
   margin-top: 20px;
@@ -45,9 +46,7 @@ const ImageArea = styled.img`
   cursor: pointer;
 `;
 
-const AddBtn = styled.img<ImageSizeProps>`
-  height: ${(props) => props.width || 204}* 5.7px;
-  width: ${(props) => props.width || 204}* 5.7px;
+const AddBtn = styled.img`
   position: absolute;
   top: 75%;
   right: 0;
@@ -55,7 +54,8 @@ const AddBtn = styled.img<ImageSizeProps>`
 `;
 
 const ImageAddForm = ({ width, height, setProfileImage }: ImageAddFormProps) => {
-  const [profile, setprofile] = useState<string>(SignupDefaultImage);
+  const user = useRecoilValue<UserInfoType>(userInfo);
+  const [profile, setprofile] = useState<string>(user.profileImage);
 
   const setProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files;
