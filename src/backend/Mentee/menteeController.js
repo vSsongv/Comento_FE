@@ -96,7 +96,8 @@ const mentee = {
 
   getQuestion: asyncHandler(async function (req, res, next) {
     const userIdx = req.user.userid;
-    const { type, language } = req.query;
+    const language = req.query.language;
+    let type = req.query.type;
     if (!userIdx)
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
@@ -114,6 +115,8 @@ const mentee = {
       return next(
         new errorResponse(basicResponse(detailResponse.EMPTY_PARAM), 400)
       );
+
+    type = parseInt(type);
 
     let question, status;
     switch (type) {
