@@ -17,12 +17,13 @@ import { refresh } from './frontend/api/authService';
 import { signInState, userInfo, UserInfoType } from './frontend/recoil/atom';
 import CheckAuth from './frontend/utils/CheckAuth';
 import MyPage from './frontend/pages/MyPage';
+import Chatting from './frontend/pages/Chatting';
 
 function App() {
   const [cookies] = useCookies(['refresh-token']);
   const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
   const setSignInState = useSetRecoilState<boolean>(signInState);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function Refresh() {
@@ -30,15 +31,21 @@ function App() {
       try {
         if (await refresh(cookies['refresh-token'], cookies, setUserInfo, setSignInState)) {
           setSignInState(true);
+        } else {
+          sessionStorage.removeItem('token_exp');
         }
       } catch (err) {
         console.log(err);
+        sessionStorage.removeItem('token_exp');
       } finally {
         setLoading(false);
       }
     }
     if (cookies['refresh-token']) {
       Refresh();
+    } else {
+      setLoading(false);
+      sessionStorage.removeItem('token_exp');
     }
   }, []);
 
@@ -60,6 +67,7 @@ function App() {
                 <Route path='/question' element={<Question />}></Route>
                 <Route path='/answer' element={<Answer />}></Route>
                 <Route path='/myPage' element={<MyPage />} />
+                <Route path='/chatting/:roomid' element={<Chatting />} />
               </Route>
             </Routes>
           )}

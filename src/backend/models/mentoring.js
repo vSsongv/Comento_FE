@@ -43,7 +43,7 @@ module.exports = function (sequelize) {
       status: {
         type: Sequelize.CHAR(1),
         allowNull: true,
-        defaultValue: "N", // N이면 멘토링 시작 전, I이면 멘토링중, F이면 멘토링 끝
+        defaultValue: "B", // B이면 멘토링 시작 전, I이면 멘토링중, F이면 멘토링 끝
       },
     },
     {
