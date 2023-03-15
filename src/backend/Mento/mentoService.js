@@ -4,6 +4,7 @@ const { Mentoring, Room, Chat, User } = require("../models");
 const Op = require("sequelize").Op;
 const { logger } = require("../config/winston");
 const userService = require("../User/userService");
+const { checkMentoringStatus } = require("../Mentee/menteeService");
 exports.checkMentoring = async function (mentoringid) {
   try {
     const result = await Mentoring.findOne({
@@ -19,23 +20,7 @@ exports.checkMentoring = async function (mentoringid) {
     throw new errorResponse(responseDetail.DB_ERROR);
   }
 };
-exports.getSpecificQuestion = async function (language) {
-  try {
-    const result = await Mentoring.findAll({
-      raw: true,
-      //plain: true,
-      attributes: ["menteeid", "mentoringid", "title", "date", "language"],
-      where: {
-        language,
-        status: "N",
-      },
-    });
-    return result;
-  } catch (error) {
-    logger.error(`${error.message}`);
-    throw new errorResponse(responseDetail.DB_ERROR);
-  }
-};
+
 exports.connectMentoring = async function (userid, mentoringid) {
   try {
     await Mentoring.update(
@@ -64,18 +49,69 @@ exports.connectMentoring = async function (userid, mentoringid) {
   }
 };
 
-exports.getQuestionList = async function (language, status, userid) {
+exports.getSpecificQuestion = async function (language) {
   try {
     const result = await Mentoring.findAll({
       raw: true,
-      //plain: true,
+      attributes: ["menteeid", "mentoringid", "title", "createdAt", "language"],
+      where: {
+        language,
+        status: "N",
+      },
+    });
+    
+    for(var i=0; i<result.length; i++)
+    {
+      const nickname = await userService.getNickname(result[i].menteeid);
+      delete result[i].menteeid;
+      result[i].nickname = nickname.nickname;
+    }
+    return result;
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(responseDetail.DB_ERROR);
+  }
+};
+
+exports.getQuestionList = async function (language, status, userid) {
+  try {
+    /*
+    const Result = await Mentoring.findAll({
+      where:{
+        language,
+        status,
+        mentoid: userid,
+      },
+      raw: true,
+      include:[
+        {
+          model: User,
+          attributes: ["nickname"],
+          
+        }
+      ],
       attributes: ["menteeid", "mentoringid", "title", "date", "language"],
+    });
+
+    console.log("REsult : ", Result);
+    */
+
+    const result = await Mentoring.findAll({
+      raw: true,
+      attributes: ["menteeid", "mentoringid", "title", "createdAt", "language"],
       where: {
         language,
         status,
         mentoid: userid,
       },
     });
+
+    for(var i=0; i<result.length; i++)
+    {
+      const nickname = await userService.getNickname(result[i].menteeid);
+      delete result[i].menteeid;
+      result[i].nickname = nickname.nickname;
+    }
     return result;
   } catch (error) {
     logger.error(`${error.message}`);
@@ -99,6 +135,10 @@ exports.getQuestion = async function (mentoringid) {
         mentoringid,
       },
     });
+    const nickname = await userService.getNickname(result.menteeid);
+    delete result.menteeid;
+    result.nickname = nickname.nickname;
+
     return result;
   } catch (error) {
     logger.error(`${error.message}`);
@@ -106,7 +146,7 @@ exports.getQuestion = async function (mentoringid) {
   }
 };
 
-exports.CountQuestion = async function (userid) {
+exports.CountQuestionNum = async function (userid) {
   try {
     const before = await Mentoring.findAndCountAll({
       raw: true,
