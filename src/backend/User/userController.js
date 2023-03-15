@@ -126,7 +126,7 @@ const member = {
     const checkEmail = await userService.checkEmail(email);
     if (!checkEmail)
       return res.send(basicResponse(detailResponse.AVAILABLE_EMAIL));
-    return next(new errorResponse(detailResponse.DUP_NICKNAME, 400));
+    return next(new errorResponse(detailResponse.DUP_EMAIL, 400));
   }),
   checkPhone: asyncHandler(async (req, res, next) => {
     let { phone } = req.query;
@@ -313,7 +313,9 @@ const member = {
   authRequestEmail: asyncHandler(async function (req, res, next) {
     const userIdx = req.user.userid;
     const content = req.body.content;
+    console.log(userIdx, content);
     let email = req.body.email;
+    console.log(email);
     let emailData = {};
     if (!userIdx)
       return next(

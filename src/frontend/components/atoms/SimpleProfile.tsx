@@ -24,6 +24,7 @@ const ProfileImage = styled.img`
 const Mentos = styled.div`
   display: flex;
   align-items: center;
+  font-size: 15px;
 `;
 
 const SimpleProfile = ({ height }: SimpleProfileProps) => {
@@ -32,7 +33,7 @@ const SimpleProfile = ({ height }: SimpleProfileProps) => {
   return (
     <ProfileContainer height={height}>
       <ProfileImage src={user.profileImage} alt='프로필 이미지' />
-      {user.name}
+      {user.nickname}
       <Mentos>
         <img src={mentos} alt='멘토스 이미지' width='30rem' />
         {user.mentos}개

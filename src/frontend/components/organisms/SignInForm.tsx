@@ -28,7 +28,7 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
   const onSubmit: SubmitHandler<FormValue> = async (data) => {
     const userData = {
       email: data.email,
-      password_signin: data.password_signin,
+      crt_password: data.crt_password,
       isKeep: keepSignIn,
       setUserInfo: setUserInfo,
       refreshToken: cookies['refresh-token'] || null,
@@ -51,23 +51,8 @@ const SignInForm = ({ keepSignIn }: SignInFormProps) => {
 
   return (
     <SignInFormContainer onSubmit={handleSubmit(onSubmit)}>
-      <InputForm
-        reg={register}
-        error={errors}
-        label='E-mail'
-        purpose='email'
-        placeholder='이메일을 입력해주세요.'
-        crtVal={crtVal}
-      />
-      <InputForm
-        reg={register}
-        error={errors}
-        label='Password'
-        purpose='password_signin'
-        placeholder='비밀번호를 입력해주세요.'
-        option='비밀번호확인'
-        crtVal={crtVal}
-      />
+      <InputForm reg={register} error={errors} label='E-mail' purpose='email' placeholder='이메일을 입력해주세요.' crtVal={crtVal} />
+      <InputForm reg={register} error={errors} label='Password' purpose='crt_password' placeholder='비밀번호를 입력해주세요.' option='비밀번호확인' crtVal={crtVal} />
       <Button width={180}>로그인</Button>
     </SignInFormContainer>
   );

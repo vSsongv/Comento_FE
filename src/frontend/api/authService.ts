@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { api, Auth, Mentee, SignApi } from './api';
+import { api, Auth, SignApi } from './api';
 import jwt_decode from 'jwt-decode';
 import { SetterOrUpdater } from 'recoil';
 import { UserInfoType } from '../recoil/atom';
@@ -7,7 +7,7 @@ import defaultProfile from '../assets/images/defaultProfile.svg';
 
 export interface SignInProps {
   email: string;
-  password_signin: string;
+  crt_password: string;
 }
 
 export interface SignInService extends SignInProps {
@@ -23,7 +23,7 @@ export interface FormValue extends SignInProps {
   phone: string;
 }
 
-export const isDuple = async (purpose: string, target: FormValue) => {
+export const isDuple = async (purpose: string, target: FormValue): Promise<boolean | undefined> => {
   try {
     switch (purpose) {
       case 'email': {
@@ -50,7 +50,7 @@ export const isDuple = async (purpose: string, target: FormValue) => {
   }
 };
 
-export const signUp = async (userData: FormData) => {
+export const signUp = async (userData: FormData): Promise<boolean | undefined> => {
   try {
     const res = await SignApi.signUp(userData);
     if (res.status === 200) return true;
@@ -61,9 +61,9 @@ export const signUp = async (userData: FormData) => {
 
 export const getUserInfo = async (role: string): Promise<UserInfoType | boolean> => {
   try {
-    const res = await SignApi.userInfo();
+    const res = await SignApi.getUserInfo();
     const userInfo = {
-      name: res.data.result.nickname,
+      nickname: res.data.result.nickname,
       profileImage: res.data.result.image ? process.env.REACT_APP_BASE_URL + res.data.result.image : defaultProfile,
       mentos: res.data.result.mentos,
       email: res.data.result.email,
@@ -84,12 +84,7 @@ export const TokenConfig = async (token: any): Promise<UserInfoType | boolean> =
   return userInfo;
 };
 
-export const refresh = async (
-  refreshToken: any,
-  cookies: { 'refresh-token'?: any },
-  setUserInfo: SetterOrUpdater<UserInfoType>,
-  setSignInState: SetterOrUpdater<boolean>
-): Promise<void | boolean> => {
+export const refresh = async (refreshToken: any, cookies: { 'refresh-token'?: any }, setUserInfo: SetterOrUpdater<UserInfoType>, setSignInState: SetterOrUpdater<boolean>): Promise<void | boolean> => {
   try {
     const res = await Auth.refresh(refreshToken);
     console.log(res);
@@ -108,11 +103,7 @@ export const refresh = async (
   }
 };
 
-export const authInterceptor = (
-  cookies: { 'refresh-token'?: any },
-  setUserInfo: SetterOrUpdater<UserInfoType>,
-  setSignInState: SetterOrUpdater<boolean>
-) => {
+export const authInterceptor = (cookies: { 'refresh-token'?: any }, setUserInfo: SetterOrUpdater<UserInfoType>, setSignInState: SetterOrUpdater<boolean>) => {
   api.interceptors.request.use(
     async (config) => {
       const timestamp = new Date().getTime() / 1000;
@@ -145,7 +136,7 @@ export const authInterceptor = (
       } else {
         alert(error.response.data.message);
       }
-    }
+    },
   );
   return true;
 };
@@ -154,7 +145,7 @@ export const SignIn = async (
   userData: SignInService,
   cookies: { 'refresh-token'?: any },
   setCookie: (name: 'refresh-token', value: string | object, options?: object) => void,
-  setSignInState: SetterOrUpdater<boolean>
+  setSignInState: SetterOrUpdater<boolean>,
 ): Promise<void | boolean> => {
   try {
     const res = await Auth.signIn(userData);
@@ -178,18 +169,5 @@ export const SignIn = async (
   } catch (error: any) {
     console.log(error);
     alert(error.response.data.message);
-  }
-};
-
-export const askQuestion = async (questionContents: FormData): Promise<void | boolean> => {
-  try {
-    const res = await Mentee.question(questionContents);
-    console.log(res);
-    return true;
-  } catch (error: any) {
-    console.log(error);
-    if (error.response.status === 400) {
-      alert(error.response.data.message);
-    }
   }
 };
