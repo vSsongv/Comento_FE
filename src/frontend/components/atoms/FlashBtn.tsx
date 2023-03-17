@@ -51,6 +51,10 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
   }}
 `;
 
-export default function FlashBtn({ children, ...rest }: FlashBtnProps) {
-  return <StyledFlashBtn {...rest}>{children}</StyledFlashBtn>;
+export default function FlashBtn({ children, onClick, ...rest }: FlashBtnProps) {
+  return (
+    <StyledFlashBtn {...rest} onClick={onClick}>
+      {children}
+    </StyledFlashBtn>
+  );
 }

@@ -39,7 +39,7 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
       case '결제하기':
         navigate('/signIn');
         break;
-      case '질문 목록 확인':
+      case '내 질문 목록':
         navigate('/myPage');
         break;
       case '로그아웃':

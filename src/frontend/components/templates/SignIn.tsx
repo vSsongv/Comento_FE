@@ -13,7 +13,7 @@ const SignInContainer = styled.div`
   background: white;
   box-shadow: ${boxShadow};
   margin: auto;
-  margin-top: 120px;
+  margin-top: 100px;
   padding-top: 50px;
   padding-left: 140px;
   padding-right: 140px;

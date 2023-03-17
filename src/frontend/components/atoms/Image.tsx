@@ -5,7 +5,6 @@ import { MdClose } from 'react-icons/md';
 interface ImageProp {
   isDeleteFunction: boolean;
 }
-
 const ImageBox = styled.div`
   /* position: relative; */
   margin: 0 1rem;

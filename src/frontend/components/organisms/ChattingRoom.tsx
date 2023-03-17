@@ -69,7 +69,7 @@ const ChattingRoom = () => {
           const newMessages: messageProp[] = counterPartInfo.chat.map((chat: messageProp) => {
             const message: messageProp = {
               chatid: chat.chatid,
-              isMe: chat.nickname === myInfo.name ? true : false,
+              isMe: chat.nickname === myInfo.nickname ? true : false,
               nickname: chat.nickname,
               message: chat.message ? chat.message : undefined,
               image: chat.image ? process.env.REACT_APP_BASE_URL + chat.image : undefined,
@@ -89,7 +89,7 @@ const ChattingRoom = () => {
     socket.on('message', (message) => {
       const newMessage = {
         chatid: message.chatid,
-        isMe: message.nickname === myInfo.name ? true : false,
+        isMe: message.nickname === myInfo.nickname ? true : false,
         nickname: message.nickname,
         message: message.message,
         createdAt: message.createdAt,
@@ -99,7 +99,7 @@ const ChattingRoom = () => {
     socket.on('image', (message) => {
       const newMessage = {
         chatid: message.chatid,
-        isMe: message.nickname === myInfo.name ? true : false,
+        isMe: message.nickname === myInfo.nickname ? true : false,
         nickname: message.nickname,
         image: process.env.REACT_APP_BASE_URL + message.image,
         createdAt: message.createdAt,
@@ -137,11 +137,11 @@ const ChattingRoom = () => {
       if (messageRef.current && messageRef.current.value !== '') {
         const message = messageRef.current.value;
         messageRef.current.value = '';
-        await SendMessage(roomid, myInfo.name, message);
+        await SendMessage(roomid, myInfo.nickname, message);
         // setMessages([...messages, newMessage]);
       } else if (image) {
         formData.append('images', image);
-        formData.append('data', myInfo.name);
+        formData.append('data', myInfo.nickname);
         if (!(await SendImage(roomid, formData))) {
           alert('메세지 전송에 실패했습니다.');
         }

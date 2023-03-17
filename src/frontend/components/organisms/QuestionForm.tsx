@@ -7,7 +7,7 @@ import QuestionFile from '../molescules/Question/QeustionFile';
 import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
 import { Languages } from '../../utils/Languages';
-import { askQuestion } from '../../api/authService';
+import { askQuestion } from '../../api/menteeService';
 import { useNavigate } from 'react-router-dom';
 
 const QuestionBox = styled.div`
@@ -64,7 +64,6 @@ const Submit = styled.img`
 `;
 
 const QuestionForm = () => {
-  // const [language, setLanguage] = useState<string>(Languages[0]);
   const languageRef = useRef<string>(Languages[0]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
