@@ -84,7 +84,12 @@ export const TokenConfig = async (token: any): Promise<UserInfoType | boolean> =
   return userInfo;
 };
 
-export const refresh = async (refreshToken: any, cookies: { 'refresh-token'?: any }, setUserInfo: SetterOrUpdater<UserInfoType>, setSignInState: SetterOrUpdater<boolean>): Promise<void | boolean> => {
+export const refresh = async (
+  refreshToken: any,
+  cookies: { 'refresh-token'?: any },
+  setUserInfo: SetterOrUpdater<UserInfoType>,
+  setSignInState: SetterOrUpdater<boolean>
+): Promise<void | boolean> => {
   try {
     const res = await Auth.refresh(refreshToken);
     console.log(res);
@@ -103,7 +108,11 @@ export const refresh = async (refreshToken: any, cookies: { 'refresh-token'?: an
   }
 };
 
-export const authInterceptor = (cookies: { 'refresh-token'?: any }, setUserInfo: SetterOrUpdater<UserInfoType>, setSignInState: SetterOrUpdater<boolean>) => {
+export const authInterceptor = (
+  cookies: { 'refresh-token'?: any },
+  setUserInfo: SetterOrUpdater<UserInfoType>,
+  setSignInState: SetterOrUpdater<boolean>
+) => {
   api.interceptors.request.use(
     async (config) => {
       const timestamp = new Date().getTime() / 1000;
@@ -136,7 +145,7 @@ export const authInterceptor = (cookies: { 'refresh-token'?: any }, setUserInfo:
       } else {
         alert(error.response.data.message);
       }
-    },
+    }
   );
   return true;
 };
@@ -145,7 +154,7 @@ export const SignIn = async (
   userData: SignInService,
   cookies: { 'refresh-token'?: any },
   setCookie: (name: 'refresh-token', value: string | object, options?: object) => void,
-  setSignInState: SetterOrUpdater<boolean>,
+  setSignInState: SetterOrUpdater<boolean>
 ): Promise<void | boolean> => {
   try {
     const res = await Auth.signIn(userData);

@@ -34,10 +34,23 @@ export const SignApi = {
 
 export const Mentee = {
   askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
+  getSpecificQuestion: (mentoringid: string) => api.get(`mentee/question/questionInfo?mentoringid=${mentoringid}`),
+};
+
+export const Chatting = {
+  enterChattingRoom: (roomId: string) => api.get(`chat/${roomId}`),
+  sendMessage: (roomId: string, nickname?: string, message?: string) =>
+    api.post(`chat/${roomId}`, {
+      nickname: nickname,
+      message: message,
+    }),
+  sendImage: (roomId: string, chattingContents: FormData) => api.post(`chat/image/${roomId}`, chattingContents),
+  askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
 };
 
 export const User = {
-  changePwd: (prevPassword: string, password: string) => api.patch('user/update/password', { prevPassword: prevPassword, password: password }),
+  changePwd: (prevPassword: string, password: string) =>
+    api.patch('user/update/password', { prevPassword: prevPassword, password: password }),
   changeNick: (nickname: string) => api.patch('user/update/nickname', { nickname: nickname }),
   changeProfile: (profile: FormData) => api.patch('user/update/profile', profile),
   askMentoRole: (email: string, content: string) => api.post('user/email', { email: email, content: content }),

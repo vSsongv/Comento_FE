@@ -112,7 +112,10 @@ const InputForm = ({ purpose, reg, error, label, placeholder, option, crtVal, se
     return value === crtVal?.password || '* 비밀번호가 다릅니다.';
   };
 
-  const checkDuple = async (purpose: 'email' | 'password' | 'crt_password' | 'password_confirm' | 'nickname' | 'phone', crtVal: FormValue): Promise<void> => {
+  const checkDuple = async (
+    purpose: 'email' | 'password' | 'crt_password' | 'password_confirm' | 'nickname' | 'phone',
+    crtVal: FormValue
+  ): Promise<void> => {
     if (error[purpose]) return;
     if (setAvailable && (await isDuple(purpose, crtVal))) setAvailable(true);
   };
