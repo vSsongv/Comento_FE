@@ -85,7 +85,6 @@ const QuestionForm = () => {
       return;
     } else if (languageRef.current === Languages[0]) {
       alert('질문 언어를 선택해주세요.');
-      navigate('/');
       return;
     }
 
@@ -98,6 +97,7 @@ const QuestionForm = () => {
 
     if (await askQuestion(formData)) {
       alert('질문이 등록되었습니다.');
+      navigate('/');
     }
   };
 
