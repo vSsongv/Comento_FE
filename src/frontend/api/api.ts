@@ -42,3 +42,7 @@ export const User = {
   changeProfile: (profile: FormData) => api.patch('user/update/profile', profile),
   askMentoRole: (email: string, content: string) => api.post('user/email', { email: email, content: content }),
 };
+
+export const Mentor = {
+  getQuestionList: (type: number, language: number) => api.get(`mento/question?type=${type}&language=${language}`),
+};
