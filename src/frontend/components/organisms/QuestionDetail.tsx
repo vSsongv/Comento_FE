@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { border, boxShadow } from '../../styles/styleUtil';
-import zz from '../../assets/images/MainAdvantage_approval.png';
-import tt from '../../assets/images/MainAdvantage_idea.png';
 import Image from '../atoms/Image';
 import Button from '../atoms/Button';
 import { GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
@@ -55,7 +53,6 @@ const ImageContainer = styled.div`
 `;
 
 const QuestionDetail = () => {
-  const images = [zz, tt, tt, tt];
   const { roomid } = useParams();
   const [question, setQuestion] = useState<QuestionProp>();
 
@@ -81,7 +78,9 @@ const QuestionDetail = () => {
       </TitleContainer>
       <ContentContainer>
         <Contents>{question?.content}</Contents>
-        <ImageContainer>{/* <Image imageList={question?.content_image} /> */}</ImageContainer>
+        <ImageContainer>
+          <Image imageList={question?.content_image} />
+        </ImageContainer>
       </ContentContainer>
       <Button width={110} height={50} fontSize={12}>
         멘토링 끝내기
