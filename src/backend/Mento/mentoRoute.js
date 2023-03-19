@@ -29,5 +29,12 @@ router.get(
   checkMento,
   mentoController.getQuestion
 );
+//질문 상태별로 질문 개수 가져옴 -> (페이지 위쪽 질문 개수 page)
+router.get(
+  "/count",
+  checkToken,
+  checkMento,
+  mentoController.CountQuestionNum
+);
 
 module.exports = router;

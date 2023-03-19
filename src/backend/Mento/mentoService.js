@@ -5,6 +5,8 @@ const Op = require("sequelize").Op;
 const { logger } = require("../config/winston");
 const userService = require("../User/userService");
 const { checkMentoringStatus } = require("../Mentee/menteeService");
+const db = require('../models');
+const { Sequelize } = require('sequelize');
 exports.checkMentoring = async function (mentoringid) {
   try {
     const result = await Mentoring.findOne({
@@ -56,16 +58,16 @@ exports.getSpecificQuestion = async function (language) {
       attributes: ["menteeid", "mentoringid", "title", "createdAt", "language"],
       where: {
         language,
-        status: "N",
+        status: "B",
       },
     });
-    
-    for(var i=0; i<result.length; i++)
-    {
+
+    for(var i=0; i<result.length; i++){
       const nickname = await userService.getNickname(result[i].menteeid);
       delete result[i].menteeid;
       result[i].nickname = nickname.nickname;
     }
+
     return result;
   } catch (error) {
     logger.error(`${error.message}`);
@@ -77,20 +79,22 @@ exports.getQuestionList = async function (language, status, userid) {
   try {
     /*
     const Result = await Mentoring.findAll({
-      where:{
+      where: {
         language,
         status,
         mentoid: userid,
       },
       raw: true,
-      include:[
+      include: [
         {
           model: User,
           attributes: ["nickname"],
-          
-        }
+          where: {
+            userid: db.sequelize.col('mentoring.menteeid')
+          },
+        },
       ],
-      attributes: ["menteeid", "mentoringid", "title", "date", "language"],
+      attributes: ["mentoringid", "title", "createdAt"],
     });
 
     console.log("REsult : ", Result);
@@ -106,8 +110,7 @@ exports.getQuestionList = async function (language, status, userid) {
       },
     });
 
-    for(var i=0; i<result.length; i++)
-    {
+    for(var i=0; i<result.length; i++){
       const nickname = await userService.getNickname(result[i].menteeid);
       delete result[i].menteeid;
       result[i].nickname = nickname.nickname;
@@ -135,9 +138,12 @@ exports.getQuestion = async function (mentoringid) {
         mentoringid,
       },
     });
-    const nickname = await userService.getNickname(result.menteeid);
-    delete result.menteeid;
-    result.nickname = nickname.nickname;
+
+    if(result){
+      const nickname = await userService.getNickname(result.menteeid);
+      delete result.menteeid;
+      result.nickname = nickname.nickname;
+    }
 
     return result;
   } catch (error) {
@@ -151,7 +157,7 @@ exports.CountQuestionNum = async function (userid) {
     const before = await Mentoring.findAndCountAll({
       raw: true,
       where: {
-        status: "N",
+        status: "B",
       },
     });
 

@@ -49,6 +49,16 @@ const mento = {
 
         return res.send(resultResponse(detailResponse.GET_QUESTION, question));
     }),
+    CountQuestionNum : asyncHandler(async function(req, res, next){
+        const userIdx = req.user.userid;
+        if(!userIdx) return next(new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400));
+        if(!regNumber.test(userIdx)) return next(new errorResponse(basicResponse(detailResponse.TOKEN_VERFICATION_FAIL), 400));
+
+        const count = await mentoService.CountQuestionNum(userIdx);
+        if(!count) return next(new errorResponse(basicResponse(detailResponse.FAIL_QUESTION_COUNT)));
+
+        return res.send(resultResponse(detailResponse.GET_QUESTION_COUNT, count));
+    }),
 };
 
 module.exports = mento;

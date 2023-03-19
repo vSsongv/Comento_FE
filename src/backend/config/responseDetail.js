@@ -131,6 +131,11 @@ module.exports = {
     code: 1125,
     message: "닉네임을 변경하였습니다.",
   },
+  GET_QUESTION_COUNT: {
+    isSuccess: true,
+    code: 1126,
+    message: "질문 개수를 가져왔습니다.",
+  },
   //FAIL
   DUP_EMAIL: {
     isSuccess: false,
@@ -413,6 +418,11 @@ module.exports = {
     isSuccess: false,
     code: 2057,
     message: "채팅으로 보낸 이미지가 비었어요.",
+  },
+  FAIL_QUESTION_COUNT: {
+    isSuccess: false,
+    code: 2058,
+    message: "질문 개수를 가져오는데 실패했습니다.",
   },
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },
