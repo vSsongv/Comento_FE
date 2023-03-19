@@ -37,6 +37,7 @@ exports.postQuestion = async function (
         title,
         content,
         content_image,
+        status: "B"
       },
       { transaction: t }
     );
@@ -79,9 +80,7 @@ exports.getQuestion = async function (status, language, menteeid) {
       where: {
         language,
         status,
-        menteeid: {
-          [Op.ne]: menteeid,
-        },
+        menteeid,
       },
     });
     return question;

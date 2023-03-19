@@ -140,29 +140,7 @@ const mentee = {
 
     return res.send(resultResponse(detailResponse.GET_QUESTION, question));
   }),
-  getFinishQuestion: asyncHandler(async function (req, res, next) {
-    const userIdx = req.user.userid;
-    if (!userIdx)
-      return next(
-        new errorResponse(basicResponse(detailResponse.EMPTY_TOKEN), 400)
-      );
 
-    if (!regNumber.test(userIdx))
-      return next(
-        new errorResponse(
-          basicResponse(detailResponse.TOKEN_VERFICATION_FAIL),
-          400
-        )
-      );
-
-    const question = await menteeService.getFinishedQuestion(userIdx);
-
-    if (!question)
-      return next(
-        new errorResponse(basicResponse(detailResponse.NONE_QUESTION), 400)
-      );
-    return res.send(resultResponse(detailResponse.GET_QUESTION, question));
-  }),
   getSpecificQuestion: asyncHandler(async function (req, res, next) {
     const questionid = req.params.mentoringid;
     const userIdx = req.user.userid;

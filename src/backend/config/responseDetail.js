@@ -424,6 +424,11 @@ module.exports = {
     code: 2060,
     message: "쿼리 파라미터가 누락되었습니다.",
   },
+  UNABLE_ENTER_ROOM: {
+    isSuccess:false,
+    code:2061,
+    message:"멘토링 체결전이므로 채팅방에 입장할 수 없습니다."
+  },
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },
 };

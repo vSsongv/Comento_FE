@@ -22,6 +22,7 @@ router.get(
   checkMento,
   mentoController.getQuestionList
 );
+
 //각 질문에 대한 세부사항 가져옴 -> (오른쪽 질문 상세 page)
 router.get(
   "/question/:mentoringid",

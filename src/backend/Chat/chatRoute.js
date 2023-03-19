@@ -4,6 +4,7 @@ const chatController = require("./chatController");
 const { checkToken } = require("../middlewares/auth");
 const { checkRoomAuth } = require("../middlewares/roomAuth");
 const { upload } = require("../config/s3");
+//TODO: checkRoomAuth 추가
 router.get("/chat/:roomid", checkToken, checkRoomAuth, chatController.getRoom);
 
 router.post(

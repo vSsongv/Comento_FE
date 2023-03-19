@@ -23,7 +23,7 @@ exports.checkRoomAuth = async function (roomid) {
   try {
     const result = await Room.findOne({
       raw: true,
-      attributes: ["mentoid", "menteeid"],
+      attributes: ["mentoid", "menteeid", "status"],
       where: {
         roomid,
       },
