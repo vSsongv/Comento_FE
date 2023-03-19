@@ -1,22 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
-import { boxShadow, mainGradient } from '../../styles/styleUtil';
-import MyPageForm from '../organisms/MyPageForm';
-import MyPageProfile from '../organisms/MyPageProfile';
+import { border, boxShadow, mainGradient } from '../../styles/styleUtil';
+import MyProfile from '../organisms/MyPage/MyProfile';
+import NickForm from '../organisms/MyPage/NickForm';
+import PwdForm from '../organisms/MyPage/PwdForm';
 
 const MyPageContainer = styled.div`
   width: 895px;
-  height: 1085px;
+  height: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 55px;
+  padding: 90px 40px;
   box-shadow: ${boxShadow};
   background: white;
   position: relative;
   margin: auto;
   margin-top: 70px;
-  padding-top: 70px;
 `;
 
 const TopGradient = styled.div`
@@ -27,12 +27,32 @@ const TopGradient = styled.div`
   ${mainGradient};
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-between;
+`;
+
+const AccountContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 60px 0px 0px 50px;
+  ${border(3)}
+  align-items: center;
+`;
+
 const MyPage = () => {
   return (
     <MyPageContainer>
       <TopGradient />
-      <MyPageProfile />
-      <MyPageForm />
+      <Wrapper>
+        <MyProfile />
+        <AccountContainer>
+          <PwdForm />
+          <NickForm />
+        </AccountContainer>
+      </Wrapper>
     </MyPageContainer>
   );
 };

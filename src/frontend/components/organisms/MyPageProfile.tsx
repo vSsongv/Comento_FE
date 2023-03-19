@@ -46,7 +46,7 @@ const MyPageProfile = () => {
       <Title>프로필</Title>
       <ImageAddForm width={120} height={120} setProfileImage={setProfileImage} />
       <Wrapper>
-        <Name>{user.name}</Name>
+        <Name>{user.nickname}</Name>
         <Email>{user.email}</Email>
         <FlashBtn width={160}>답변자 권한 요청하기</FlashBtn>
       </Wrapper>

@@ -34,12 +34,10 @@ const StyledButton = styled.button<ButtonProps>`
       margin-top: 20px;
       cursor: pointer;
       /* 크기 */
-      padding: 1rem 2rem;
       width: ${WIDTH}px;
       height: ${HEIGHT}px;
       font-size: ${FONT_SIZE}px;
       /* 색상 */
-      background-color: 'blue';
       ${mainGradient}
       &:hover {
         color: ${lighten(0.1, 'white')};

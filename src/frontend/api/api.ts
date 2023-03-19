@@ -19,13 +19,13 @@ export const Auth = {
   signIn: (userData: SignInService) =>
     auth.post('user/signin', {
       email: userData.email,
-      password: userData.password_signin,
+      password: userData.crt_password,
       isKeep: userData.isKeep,
     }),
 };
 
 export const SignApi = {
-  userInfo: () => api.get('user/userInfo'),
+  getUserInfo: () => api.get('user/userInfo'),
   signUp: (userData: FormData) => api.post('user/signup', userData),
   checkDupleEmail: (email: string) => api.get(`user/check/email?email=${email}`),
   checkDupleNick: (nickname: string) => api.get(`user/check/nickname?nickname=${nickname}`),
@@ -33,5 +33,25 @@ export const SignApi = {
 };
 
 export const Mentee = {
-  question: (questionContents: FormData) => api.post('mentee/question', questionContents),
+  askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
+  getSpecificQuestion: (mentoringid: string) => api.get(`mentee/question/questionInfo?mentoringid=${mentoringid}`),
+};
+
+export const Chatting = {
+  enterChattingRoom: (roomId: string) => api.get(`chat/${roomId}`),
+  sendMessage: (roomId: string, nickname?: string, message?: string) =>
+    api.post(`chat/${roomId}`, {
+      nickname: nickname,
+      message: message,
+    }),
+  sendImage: (roomId: string, chattingContents: FormData) => api.post(`chat/image/${roomId}`, chattingContents),
+  askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
+};
+
+export const User = {
+  changePwd: (prevPassword: string, password: string) =>
+    api.patch('user/update/password', { prevPassword: prevPassword, password: password }),
+  changeNick: (nickname: string) => api.patch('user/update/nickname', { nickname: nickname }),
+  changeProfile: (profile: FormData) => api.patch('user/update/profile', profile),
+  askMentoRole: (email: string, content: string) => api.post('user/email', { email: email, content: content }),
 };
