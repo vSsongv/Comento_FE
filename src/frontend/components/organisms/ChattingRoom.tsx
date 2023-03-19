@@ -7,7 +7,7 @@ import { border, boxShadow } from '../../styles/styleUtil';
 import ChattingInput from '../molescules/ChattingInput';
 import Message from '../molescules/Message';
 import { EnterChattingRoom, SendImage, SendMessage } from '../../api/chattingService';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ChattingRoomContainer = styled.div`
   position: relative;
@@ -51,6 +51,7 @@ const ChattingRoom = () => {
   const topRef = useRef<HTMLDivElement>(null);
   const { roomid } = useParams();
   const formData: FormData = new FormData();
+  const navigate = useNavigate();
 
   const options = {
     threshold: 1.0,
@@ -64,6 +65,9 @@ const ChattingRoom = () => {
     const enterChattingRoom = async (): Promise<void> => {
       if (roomid) {
         const counterPartInfo = await EnterChattingRoom(roomid);
+        if (!counterPartInfo) {
+          navigate('/');
+        }
         if (typeof counterPartInfo !== 'boolean') {
           setCounterPartProfile(counterPartInfo.profile);
           const newMessages: messageProp[] = counterPartInfo.chat.map((chat: messageProp) => {

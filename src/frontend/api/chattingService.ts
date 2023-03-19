@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Chatting, Mentee } from './api';
 import defaultProfile from '../assets/images/defaultProfile.svg';
 import { Languages } from '../utils/Languages';
@@ -25,8 +26,12 @@ export const EnterChattingRoom = async (roomId: string): Promise<CounterPartInfo
     };
     console.log(res);
     return userInfo;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.code === 2062) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
