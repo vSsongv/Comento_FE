@@ -18,7 +18,7 @@ export interface QuestionContent {
   mentoringId: number;
   title: string;
   date: string;
-  languages: number;
+  language: number;
 }
 
 export const userInfo = atom<UserInfoType>({

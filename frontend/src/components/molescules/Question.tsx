@@ -3,6 +3,7 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { QuestionContent, userInfo, UserInfoType } from '../../recoil/atom';
 import { border } from '../../styles/styleUtil';
+import { Languages } from '../../utils/Languages';
 
 interface Props {
   backColor: string;
@@ -18,7 +19,7 @@ const Li = styled.li<Props>`
   padding: 15px;
   ${border(2)};
   width: 90%;
-  height: 95px;
+  height: 100px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -40,9 +41,7 @@ const Nick = styled.span`
 `;
 
 const Wrapper = styled.div`
-  width: 135px;
-  display: flex;
-  justify-content: space-between;
+  width: 145px;
 `;
 
 const Date = styled.span`
@@ -55,28 +54,21 @@ const Lang = styled.span`
   font-size: 12px;
   color: black;
   font-family: 'NanumGothic';
+  margin-left: 10px;
 `;
 
-const Question = () => {
-  // const Question = (data: questionProps) => {
+const Question = (data: questionProps) => {
   const [test, setTest] = useState(true);
   const user = useRecoilValue<UserInfoType>(userInfo);
 
   return (
     <Li onClick={() => setTest(!test)} backColor={test ? 'white' : '#F5F5F5'}>
-      {/* <Title>${data.data.title}</Title>
-      {/* TODO: 질문자 모드면 user.email, 답변자면 data.nick */}
-      {/*<Nick>{user.nickname}</Nick>
-      <Wrapper>
-        <Date>{data.data.date}</Date>
-        <Lang>{data.data.languages}</Lang>
-      </Wrapper> */}
-      <Title>s</Title>
+      <Title>{data.data.title}</Title>
       {/* TODO: 질문자 모드면 user.email, 답변자면 data.nick */}
       <Nick>{user.nickname}</Nick>
       <Wrapper>
-        <Date>f</Date>
-        <Lang>s</Lang>
+        <Date>{data.data.date.slice(0, 11)}</Date>
+        <Lang>{Languages[data.data.language]}</Lang>
       </Wrapper>
     </Li>
   );

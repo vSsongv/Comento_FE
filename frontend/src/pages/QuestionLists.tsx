@@ -5,8 +5,7 @@ import ListTemplate from '../components/templates/ListTemplate';
 import { QuestionContent, questionList, questionType } from '../recoil/atom';
 
 const QuestionLists = () => {
-  // const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
-  const [q, setQuestions] = useRecoilState<QuestionContent[]>(questionList);
+  const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
   const type = useRecoilValue(questionType);
 
   useEffect(() => {
@@ -18,7 +17,6 @@ const QuestionLists = () => {
     };
     getQuestions();
   }, []);
-  console.log(q);
 
   return <ListTemplate />;
 };

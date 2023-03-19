@@ -24,14 +24,10 @@ const QuestionList = () => {
   return (
     <Container>
       <ul>
-        {/* {questions &&
+        {questions &&
           questions.map((question) => {
             return <Question key={question.mentoringId} data={question} />;
-          })} */}
-        <Question></Question>
-        <Question></Question>
-        <Question></Question>
-        <Question></Question>
+          })}
       </ul>
     </Container>
   );
