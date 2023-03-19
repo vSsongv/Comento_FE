@@ -14,6 +14,13 @@ export interface UserInfoType {
   role: string;
 }
 
+export interface QuestionContent {
+  mentoringId: number;
+  title: string;
+  date: string;
+  languages: number;
+}
+
 export const userInfo = atom<UserInfoType>({
   key: 'UserInfo',
   default: {
@@ -33,4 +40,14 @@ export const headerMenu = atom<boolean>({
 export const modalVisibleState = atom<boolean>({
   key: 'modalVisibleState',
   default: false,
+});
+
+export const questionList = atom<Array<QuestionContent>>({
+  key: 'questionList',
+  default: [],
+});
+
+export const questionType = atom<number>({
+  key: 'questionType',
+  default: 0,
 });

@@ -60,12 +60,12 @@ function App() {
             <div>loading</div>
           ) : (
             <Routes>
-              <Route path='/' element={<Home />}></Route>
-              <Route path='/signIn' element={<SignIn />}></Route>
-              <Route path='/signUp' element={<SignUp />}></Route>
+              <Route path='/' element={<Home />} />
+              <Route path='/signIn' element={<SignIn />} />
+              <Route path='/signUp' element={<SignUp />} />
               <Route element={<CheckAuth />}>
-                <Route path='/question' element={<Question />}></Route>
-                <Route path='/questionList' element={<QuestionLists />}></Route>
+                <Route path='/question' element={<Question />} />
+                <Route path='/questionList' element={<QuestionLists />} />
                 <Route path='/myPage' element={<MyPage />} />
                 <Route path='/chatting/:roomid' element={<Chatting />} />
               </Route>
