@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import QuestionList from '../organisms/QuestionList';
 import QuestionTypeNum from '../organisms/QuestionTypeNum';
+import QuestionList from '../organisms/QuestionList';
 
 const Container = styled.div`
   background-color: white;

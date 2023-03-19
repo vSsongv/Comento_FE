@@ -1,5 +1,7 @@
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { questionType } from '../../recoil/atom';
 import { mainGradient } from '../../styles/styleUtil';
 
 const Container = styled.div`
@@ -48,12 +50,14 @@ const TypeButton = styled.button`
 `;
 
 const QuestionTypeNum = () => {
+  const setType = useSetRecoilState<number>(questionType);
+
   return (
     <Container>
       <Wrapper>
-        <TypeButton>1</TypeButton>
-        <TypeButton>2</TypeButton>
-        <TypeButton>3</TypeButton>
+        <TypeButton onClick={() => setType(0)}>1</TypeButton>
+        <TypeButton onClick={() => setType(1)}>2</TypeButton>
+        <TypeButton onClick={() => setType(2)}>3</TypeButton>
       </Wrapper>
       <BottomGradient>
         <Type>매칭 전</Type>

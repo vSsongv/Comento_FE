@@ -99,7 +99,7 @@ const Header = () => {
                       답변 권한 얻으러 가기
                     </QALink>
                   ) : (
-                    <QALink to='/answer' style={{ marginRight: '1rem' }}>
+                    <QALink to='/questionList' style={{ marginRight: '1rem' }}>
                       <QALogo src={Edit} alt='Answer Logo' />
                       답변하기
                     </QALink>

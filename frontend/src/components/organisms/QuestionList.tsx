@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { QuestionContent, questionList } from '../../recoil/atom';
 import { boxShadow } from '../../styles/styleUtil';
 import Question from '../molescules/Question';
+import QuestionListTop from '../molescules/QuestionListTop';
 
 const Container = styled.div`
   width: 40%;
@@ -22,14 +23,17 @@ const QuestionList = () => {
   }, [questions]);
 
   return (
-    <Container>
-      <ul>
-        {questions &&
-          questions.map((question) => {
-            return <Question key={question.mentoringId} data={question} />;
-          })}
-      </ul>
-    </Container>
+    <>
+      <QuestionListTop />
+      <Container>
+        <ul>
+          {questions &&
+            questions.map((question) => {
+              return <Question key={question.mentoringId} data={question} />;
+            })}
+        </ul>
+      </Container>
+    </>
   );
 };
 
