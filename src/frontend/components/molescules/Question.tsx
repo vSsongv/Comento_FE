@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { QuestionContent, userInfo, UserInfoType } from '../../recoil/atom';
 import { border } from '../../styles/styleUtil';
 
 interface Props {
   backColor: string;
 }
 
+type questionProps = {
+  data: QuestionContent;
+};
+
 const Li = styled.li<Props>`
   cursor: pointer;
   background-color: ${(props) => props.backColor};
   padding: 15px;
   ${border(2)};
-  width: 100%;
+  width: 90%;
   height: 95px;
   display: flex;
   flex-direction: column;
@@ -52,14 +58,25 @@ const Lang = styled.span`
 `;
 
 const Question = () => {
+  // const Question = (data: questionProps) => {
   const [test, setTest] = useState(true);
+  const user = useRecoilValue<UserInfoType>(userInfo);
+
   return (
     <Li onClick={() => setTest(!test)} backColor={test ? 'white' : '#F5F5F5'}>
-      <Title>이거 어떻게 구현해야 할까요?</Title>
-      <Nick>Ssong</Nick>
+      {/* <Title>${data.data.title}</Title>
+      {/* TODO: 질문자 모드면 user.email, 답변자면 data.nick */}
+      {/*<Nick>{user.nickname}</Nick>
       <Wrapper>
-        <Date>2023.03.25</Date>
-        <Lang>Java Script</Lang>
+        <Date>{data.data.date}</Date>
+        <Lang>{data.data.languages}</Lang>
+      </Wrapper> */}
+      <Title>s</Title>
+      {/* TODO: 질문자 모드면 user.email, 답변자면 data.nick */}
+      <Nick>{user.nickname}</Nick>
+      <Wrapper>
+        <Date>f</Date>
+        <Lang>s</Lang>
       </Wrapper>
     </Li>
   );

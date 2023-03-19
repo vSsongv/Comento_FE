@@ -9,7 +9,6 @@ const Container = styled.div`
   border-radius: 10px;
   position: relative;
   margin: auto;
-  margin-top: 60px;
 `;
 
 const BottomGradient = styled.div`
