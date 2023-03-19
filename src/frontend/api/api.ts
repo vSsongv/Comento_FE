@@ -34,7 +34,7 @@ export const SignApi = {
 
 export const Mentee = {
   askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
-  getSpecificQuestion: (mentoringid: string) => api.get(`mentee/question/questionInfo?mentoringid=${mentoringid}`),
+  getSpecificQuestion: (mentoringid: string) => api.get(`mentee/question/${mentoringid}`),
 };
 
 export const Chatting = {
