@@ -24,7 +24,6 @@ export const EnterChattingRoom = async (roomId: string): Promise<CounterPartInfo
       profile: res.data.result.image ? process.env.REACT_APP_BASE_URL + res.data.result.image : defaultProfile,
       chat: res.data.result.chat,
     };
-    console.log(res);
     return userInfo;
   } catch (error: any) {
     if (error.response.data && error.response.data.code === 2062) {
@@ -68,7 +67,7 @@ export const GetSpecificQuestion = async (mentoringid: string): Promise<Question
     const questionInfo = {
       title: res.data.result.title,
       content: res.data.result.content,
-      updatedAt: res.data.result.updatedAt.slice(11, 20),
+      updatedAt: res.data.result.updatedAt.slice(0, 10),
       language: Languages[res.data.result.language],
       content_image: content_image,
       nickname: res.data.result.nickname,

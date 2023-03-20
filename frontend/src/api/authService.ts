@@ -92,7 +92,6 @@ export const refresh = async (
 ): Promise<void | boolean> => {
   try {
     const res = await Auth.refresh(refreshToken);
-    console.log(res);
     const token = res.data.result;
     const userInfo = await TokenConfig(token);
     if (userInfo === false || userInfo === true) {
