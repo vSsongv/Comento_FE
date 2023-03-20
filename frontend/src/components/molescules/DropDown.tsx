@@ -6,11 +6,13 @@ import { border } from '../../styles/styleUtil';
 import useClickState from '../../hooks/useClickState';
 
 interface ChoiceBoxProps {
+  width: number;
   borders: string[];
 }
 
 const ChoiceBox = styled.div<ChoiceBoxProps>`
   ${(props) => {
+    const WIDTH = props.width;
     const BORDER = props.borders.map((item) => {
       return border(parseInt(item));
     });
@@ -19,7 +21,7 @@ const ChoiceBox = styled.div<ChoiceBoxProps>`
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 23%;
+      width: ${WIDTH}px;
       height: 100%;
       margin-left: 5%;
       margin-right: 0.5rem;
@@ -41,9 +43,10 @@ const ChoiceButton = styled.div`
 interface Props {
   languageRef: MutableRefObject<string>;
   border: string;
+  width: number;
 }
 
-const DropDown = ({ languageRef, border }: Props) => {
+const DropDown = ({ languageRef, border, width }: Props) => {
   const [choosing, setChoosing] = useState<boolean>(false);
   const [searchInputRef, handleClickOutside] = useClickState(setChoosing);
   const borders = border.split(' ');
@@ -60,7 +63,7 @@ const DropDown = ({ languageRef, border }: Props) => {
   };
 
   return (
-    <ChoiceBox onClick={choosingToggle} borders={borders} ref={searchInputRef}>
+    <ChoiceBox onClick={choosingToggle} borders={borders} width={width} ref={searchInputRef}>
       <ChoiceButton>
         {languageRef.current}
         {choosing ? <IoIosArrowUp /> : <IoIosArrowDown />}
