@@ -4,9 +4,11 @@ import { border, boxShadow } from '../../styles/styleUtil';
 import Image from '../atoms/Image';
 import Button from '../atoms/Button';
 import { GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import FlashBtn from '../atoms/FlashBtn';
 
 const QuestionDetailContainer = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 43vw;
@@ -52,19 +54,29 @@ const ImageContainer = styled.div`
   flex-wrap: wrap;
 `;
 
+const ButtonContainer = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  top: 45px;
+  right: 30px;
+  width: 230px;
+`;
+
 const QuestionDetail = () => {
   const { roomid } = useParams();
   const [question, setQuestion] = useState<QuestionProp>();
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const getSpecificQuestion = async (id: string) => {
+      const questionInfo = await GetSpecificQuestion(id);
+      if (typeof questionInfo !== 'boolean') {
+        setQuestion(questionInfo);
+      }
+    };
     if (roomid) {
-      const getSpecificQuestion = async () => {
-        const questionInfo = await GetSpecificQuestion(roomid);
-        if (typeof questionInfo !== 'boolean') {
-          setQuestion(questionInfo);
-        }
-      };
-      getSpecificQuestion();
+      getSpecificQuestion(roomid);
     }
   }, []);
 
@@ -82,9 +94,16 @@ const QuestionDetail = () => {
           <Image imageList={question?.content_image} />
         </ImageContainer>
       </ContentContainer>
-      <Button width={110} height={50} fontSize={12}>
-        멘토링 끝내기
-      </Button>
+      {roomid && (
+        <ButtonContainer>
+          <FlashBtn width={110} height={35} fontSize={12} onClick={() => navigate('/')}>
+            목록으로 이동
+          </FlashBtn>
+          <Button width={110} height={35} fontSize={12} onClick={() => navigate('/')}>
+            멘토링 끝내기
+          </Button>
+        </ButtonContainer>
+      )}
     </QuestionDetailContainer>
   );
 };
