@@ -1,9 +1,10 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
-import { questionType } from '../../recoil/atom';
+import { QuestionContent, questionList, questionType } from '../../recoil/atom';
 import { mainGradient } from '../../styles/styleUtil';
+import { getQuestionList } from '../../api/mentorService';
 
 const Container = styled.div`
   width: 850px;
@@ -64,19 +65,29 @@ const QuestionNum = styled.span`
 `;
 
 const QuestionTypeNum = () => {
-  const setType = useSetRecoilState<number>(questionType);
+  const [type, setType] = useRecoilState<number>(questionType);
+  const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
+
+  const getQuestions = async (qType: number): Promise<void> => {
+    setType(qType);
+    console.log('sdfsd', type);
+    const questions = await getQuestionList(qType, 1);
+    if (typeof questions !== 'boolean') {
+      setQuestions(questions);
+    }
+  };
 
   return (
     <Container>
       <Wrapper>
         {/* TODO: 질문 개수 */}
-        <TypeButton onClick={() => setType(0)}>
+        <TypeButton type='button' onClick={() => getQuestions(0)}>
           <QuestionNum>1</QuestionNum>건
         </TypeButton>
-        <TypeButton onClick={() => setType(1)}>
+        <TypeButton type='button' onClick={() => getQuestions(1)}>
           <QuestionNum>1</QuestionNum>건
         </TypeButton>
-        <TypeButton onClick={() => setType(2)}>
+        <TypeButton type='button' onClick={() => getQuestions(2)}>
           <QuestionNum>1</QuestionNum>건
         </TypeButton>
       </Wrapper>

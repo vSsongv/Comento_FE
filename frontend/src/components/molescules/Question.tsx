@@ -16,9 +16,9 @@ type questionProps = {
 const Li = styled.li<Props>`
   cursor: pointer;
   background-color: ${(props) => props.backColor};
-  padding: 15px;
+  padding: 15px 20px;
   ${border(2)};
-  width: 90%;
+  width: 100%;
   height: 100px;
   display: flex;
   flex-direction: column;
@@ -26,13 +26,13 @@ const Li = styled.li<Props>`
 `;
 
 const Title = styled.span`
-  font-size: 16px;
+  font-size: 17px;
   color: black;
   font-family: 'NanumGothic';
 `;
 
 const Nick = styled.span`
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 800;
   font-family: 'NanumGothic';
   background: -webkit-linear-gradient(#0037ff, #00aeff);
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
 `;
 
 const Date = styled.span`
-  font-size: 12px;
+  font-size: 14px;
   color: #909090;
   font-family: 'NanumGothic';
 `;

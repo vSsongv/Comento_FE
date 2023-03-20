@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { QuestionContent, questionList } from '../../recoil/atom';
@@ -7,33 +7,30 @@ import Question from '../molescules/Question';
 import QuestionListTop from '../molescules/QuestionListTop';
 
 const Container = styled.div`
-  width: 40%;
+  width: 35%;
   height: 550px;
   margin-top: 30px;
   background-color: white;
-  overflow: auto;
   box-shadow: ${boxShadow};
+`;
+
+const List = styled.ul`
+  overflow: auto;
 `;
 
 const QuestionList = () => {
   const questions = useRecoilValue<QuestionContent[]>(questionList);
 
-  useEffect(() => {
-    console.log(questions);
-  }, [questions]);
-
   return (
-    <>
+    <Container>
       <QuestionListTop />
-      <Container>
-        <ul>
-          {questions &&
-            questions.map((question) => {
-              return <Question key={question.mentoringId} data={question} />;
-            })}
-        </ul>
-      </Container>
-    </>
+      <List>
+        {questions &&
+          questions.map((question) => {
+            return <Question key={question.mentoringId} data={question} />;
+          })}
+      </List>
+    </Container>
   );
 };
 

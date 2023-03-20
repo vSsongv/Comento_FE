@@ -6,7 +6,7 @@ import DropDown from '../molescules/DropDown';
 
 const Container = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 15%;
@@ -15,19 +15,19 @@ const Container = styled.div`
 `;
 
 const CurrentList = styled.span`
-  justify-content: space-between;
   font-family: 'NanumGothic';
   font-size: 16px;
   font-weight: 800;
-  background: -webkit-linear-gradient(#0023a1, #00aeff);
+  background: -webkit-linear-gradient(45deg, #0023a1, #00aeff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;
 
 const LeftWrapper = styled.div`
-  /* display: flex; */
-  justify-content: space-between;
-  background-color: aqua;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 60%;
 `;
 
 const QuestionListTop = () => {
@@ -37,8 +37,8 @@ const QuestionListTop = () => {
     <Container>
       <CurrentList>내 질문 리스트</CurrentList>
       <LeftWrapper>
-        <span>매칭 전</span>
-        <DropDown languageRef={languageRef} border='' />
+        <span style={{ display: 'block', marginLeft: '30px' }}>매칭 전</span>
+        <DropDown languageRef={languageRef} border='' width={150} />
       </LeftWrapper>
     </Container>
   );
