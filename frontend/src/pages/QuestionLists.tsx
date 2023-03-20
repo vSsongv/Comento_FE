@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { getQuestionList } from '../api/mentorService';
+import { getAnswerList } from '../api/mentorService';
 import ListTemplate from '../components/templates/ListTemplate';
 import { QuestionContent, questionList, questionType } from '../recoil/atom';
 
 const QuestionLists = () => {
   const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
   const type = useRecoilValue(questionType);
+  const { role } = useParams();
 
   useEffect(() => {
     const getQuestions = async (): Promise<void> => {
-      const questions = await getQuestionList(type, 1);
+      const questions = role === 'mento' ? await getAnswerList(type, 1) : await getAnswerList(type, 1);
       if (typeof questions !== 'boolean') {
         setQuestions(questions);
       }
