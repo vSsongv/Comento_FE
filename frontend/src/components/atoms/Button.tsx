@@ -30,6 +30,7 @@ const StyledButton = styled.button<ButtonProps>`
       color: white;
       font-family: 'NanumGothic';
       text-align: center;
+      margin: auto;
       cursor: pointer;
       /* 크기 */
       width: ${WIDTH}px;

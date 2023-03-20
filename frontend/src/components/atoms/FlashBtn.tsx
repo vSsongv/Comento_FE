@@ -24,7 +24,7 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
       /* 공통 스타일 */
       display: inline-block;
       outline: none;
-      border: 1.5px solid transparent;
+      border: 2px solid transparent;
       border-radius: 10px;
       background-image: linear-gradient(#fff, #fff), linear-gradient(90deg, #033bff, #00e0ff);
       background-origin: border-box;
@@ -32,6 +32,7 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
       color: #236ad6;
       font-weight: 700;
       font-family: 'NanumGothic';
+      margin: auto;
       cursor: pointer;
       text-align: center;
       /* 크기 */
