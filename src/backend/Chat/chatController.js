@@ -4,21 +4,24 @@ const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const chatService = require("./chatService");
 const userService = require("../User/userService");
+const { io } = require("socket.io-client");
 
 const chat = {
   getRoom: asyncHandler(async function (req, res, next) {
     const roomid = req.params.roomid;
     const role = req.role;
+    const io = req.app.get("io");
     let partnerInfo, userid;
     if (role == "Q") {
       partnerInfo = await chatService.getMentoInfo(roomid);
-      userid = partnerInfo.mentoid;
+      userid = partnerInfo? partnerInfo.mentoid : userid;
     } else {
       partnerInfo = await chatService.getMenteeInfo(roomid);
-      userid = partnerInfo.menteeid;
+      userid = partnerInfo? partnerInfo.menteeid : userid;
     }
+    if(!userid) throw new errorResponse(detailResponse.NO_PARTNER, 400);
     const userInfo = await userService.getUserInfo(userid);
-
+    io.socket.join(roomid);
     let data = userInfo.image;
     let result = await chatService.getChatByRoomId(roomid);
     if (result.length == 0) result = [];
@@ -39,11 +42,10 @@ const chat = {
     let data = {
       nickname,
       message,
-      createdAt: chatInfo.createdAt.toLocaleString("en-US", {
-        timeZone: "Asia/Seoul",
-      }),
+      createdAt: chatInfo.createdAt,
       chatid: chatInfo.chatid,
     };
+
     io.to(roomid).emit("message", data);
     return res.send(basicResponse(detailResponse.POST_MSG));
   }),
@@ -62,7 +64,7 @@ const chat = {
       );
 
     await chatService.postChatImage(roomid, nickname, image);
-    const chatInfo = await chatService.getChatInfo(roomid, nickname, image);
+    const chatInfo = await chatService.getChatImageInfo(roomid, nickname, image);
     let data = {
       nickname,
       image,

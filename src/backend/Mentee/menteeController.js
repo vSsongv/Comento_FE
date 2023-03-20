@@ -1,4 +1,5 @@
 const menteeService = require("./menteeService");
+const userService = require("../User/userService");
 const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const asyncHandler = require("../config/asyncHandler");
@@ -157,6 +158,8 @@ const mentee = {
       return next(
         new errorResponse(basicResponse(detailResponse.NOT_EXIST_QUESTION), 400)
       );
+    const menteeNickname = await userService.getUserInfo(questionInfo.menteeid);
+    questionInfo["nickname"] = menteeNickname.nickname;
     return res.send(
       resultResponse(detailResponse.GET_QUESTIONINFO, questionInfo)
     );

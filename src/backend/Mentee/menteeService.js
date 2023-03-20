@@ -48,19 +48,7 @@ exports.postQuestion = async function (
   }
 };
 
-exports.createRoom = async function (menteeid) {
-  try {
-    const result = await Room.create({
-      raw: true,
-      attributes: ["roomid"],
-      menteeid,
-    });
-    return result;
-  } catch (error) {
-    logger.error(`${error.message}`);
-    throw new errorResponse(detailResponse.DB_ERROR, 500);
-  }
-};
+
 
 exports.createChat = async function (nickname, content) {
   try {
@@ -171,6 +159,7 @@ exports.getSpecificQuestion = async function (mentoringid) {
         "updatedAt",
         "language",
         "content_image",
+        "menteeid"
       ],
       where: {
         mentoringid: mentoringid,

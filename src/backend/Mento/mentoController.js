@@ -1,9 +1,12 @@
 const mentoService = require("./mentoService");
 const userService = require("../User/userService");
+const chatService = require("../Chat/chatService");
+const { sendMentoringEmail } = require("../config/email");
 const { basicResponse, resultResponse } = require("../config/response");
 const detailResponse = require("../config/responseDetail");
 const asyncHandler = require("../config/asyncHandler");
 const errorResponse = require("../config/errorResponse");
+
 const regNumber = /^[0-9]/;
 const mento = {
   connectMentoring: asyncHandler(async function (req, res, next) {
@@ -20,8 +23,7 @@ const mento = {
           400
         )
       );
-    const mentoringInfo = await mentoService.checkMentoring(mentoringid);
-
+    const mentoringInfo = await mentoService.getMentoringInfo(mentoringid);
     if (mentoringInfo.status === "I" || mentoringInfo.status === "F")
       return next(
         new errorResponse(
@@ -30,8 +32,17 @@ const mento = {
         )
       );
 
+    const menteeInfo = await userService.getUserInfo(mentoringInfo.menteeid);
+    const mentorInfo = await userService.getUserInfo(userIdx);
     await mentoService.connectMentoring(parseInt(mentoringid), userIdx);
-
+    await chatService.createRoom(parseInt(mentoringid), mentoringInfo.menteeid, userIdx);
+    let emailData = {
+      email : menteeInfo.email,
+      mentorNickname: mentorInfo.nickname,
+      menteeNickname: menteeInfo.nickname,
+      chattingLink:`localhost:3000/chatting/${mentoringid}`
+    };
+    sendMentoringEmail(emailData);
     return res.send(basicResponse(detailResponse.CONNECT_MENTORING));
   }),
   getQuestionList: asyncHandler(async function (req, res, next) {
@@ -80,7 +91,6 @@ const mento = {
       mentoringType == 0
         ? await mentoService.getAllQuestionList(language, status)
         : await mentoService.getQuestionList(language, status, userIdx);
-    console.log(question);
     if (question.length == 0)
       return res.send(resultResponse(detailResponse.NONE_MENTORING, []));
 

@@ -3,15 +3,21 @@ const responseDetail = require("../config/responseDetail");
 const chatService = require("../Chat/chatService");
 const result = {
   checkRoomAuth: async (req, res, next) => {
+    try{
     const roomid = req.params.roomid;
     const userid = req.user.userid;
     const isUserInRoom = await chatService.checkRoomAuth(roomid, userid);
-    if(isUserInRoom.status === "B") return next(new errorResponse(responseDetail.UNABLE_ENTER_ROOM));
+    if(!isUserInRoom) throw new errorResponse(responseDetail.EMPTY_ROOM, 400);
+    if(!isUserInRoom.menteeid || !isUserInRoom.mentoid) throw new errorResponse(responseDetail.UNABLE_ENTER_ROOM, 400);
     if (userid == isUserInRoom.menteeid) req.role = "Q";
     else if (userid == isUserInRoom.mentoid) req.role = "A";
     else
-      return next(new errorResponse(responseDetail.USER_NOT_EXIST_INROOM, 400));
+      throw new errorResponse(responseDetail.USER_NOT_EXIST_INROOM, 400);
     next();
+    }catch(error){
+      console.error(error);
+      next();
+    }
   },
 };
 

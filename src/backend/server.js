@@ -45,7 +45,7 @@ if (env == "development") {
 
 // app.use("/socket", socketRoutes);
 app.use("/", chatRouter);
-app.use("/mento", mentoRouter);
+app.use("/mentor", mentoRouter);
 app.use("/user", userRouter);
 app.use("/mentee", menteeRouter);
 app.use("/survey", surveyRouter);

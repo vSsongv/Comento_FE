@@ -3,11 +3,11 @@ const responseDetail = require("../config/responseDetail");
 const { Mentoring, Room, Chat, User } = require("../models");
 const Op = require("sequelize").Op;
 const { logger } = require("../config/winston");
-exports.checkMentoring = async function (mentoringid) {
+exports.getMentoringInfo = async function (mentoringid) {
   try {
     const result = await Mentoring.findOne({
       raw: true,
-      attributes: ["status"],
+      attributes: ["status", "menteeid"],
       where: {
         mentoringid,
       },

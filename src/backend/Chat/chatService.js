@@ -23,7 +23,7 @@ exports.checkRoomAuth = async function (roomid) {
   try {
     const result = await Room.findOne({
       raw: true,
-      attributes: ["mentoid", "menteeid", "status"],
+      attributes: ["mentoid", "menteeid"],
       where: {
         roomid,
       },
@@ -81,9 +81,27 @@ exports.getMentoInfo = async function (roomid) {
     throw new errorResponse(detailResponse.DB_ERROR, 500);
   }
 };
-exports.getChatInfo = async function (roomid, nickname, image) {
+exports.getChatInfo = async function (roomid, nickname, message) {
   try {
-    const result = await Chat.findOne({
+    const result = await Chat.findAll({
+      raw: true,
+      attributes: ["createdAt", "chatid"],
+      where: {
+        roomid,
+        nickname,
+        message,
+      },
+    });
+    return result;
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
+
+exports.getChatImageInfo = async function(roomid, nickname, image){
+  try {
+    const result = await Chat.findAll({
       raw: true,
       attributes: ["createdAt", "chatid"],
       where: {
@@ -165,6 +183,19 @@ exports.getChat = async function (mentoringId) {
       where: {
         mentoringId,
       },
+    });
+  } catch (error) {
+    logger.error(`${error.message}`);
+    throw new errorResponse(detailResponse.DB_ERROR, 500);
+  }
+};
+
+exports.createRoom = async function (roomid, menteeid, mentoid) {
+  try {
+    await Room.create({
+      roomid,
+      menteeid,
+      mentoid,
     });
   } catch (error) {
     logger.error(`${error.message}`);

@@ -429,6 +429,12 @@ module.exports = {
     code:2061,
     message:"멘토링 체결전이므로 채팅방에 입장할 수 없습니다."
   },
+  NO_PARTNER: {
+    isSuccess:false,
+    code:2062,
+    message:"멘토링 파트너가 없습니다"
+  },
+
   //데이터베이스오류
   DB_ERROR: { isSuccess: false, code: 5050, message: "데이터베이스 에러" },
 };
