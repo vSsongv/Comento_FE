@@ -63,7 +63,7 @@ export default function MainBtns() {
           </BtnContainer>
         </MainBtnStyle>
       </MainBtnLink>
-      <MainBtnLink to='/questionList'>
+      <MainBtnLink to='/questionList/mento'>
         <MainBtnStyle width={350}>
           <StartLabel>지금, 답변 시작해보세요!</StartLabel>
           <BtnContainer>

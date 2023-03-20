@@ -65,7 +65,7 @@ function App() {
               <Route path='/signUp' element={<SignUp />} />
               <Route element={<CheckAuth />}>
                 <Route path='/question' element={<Question />} />
-                <Route path='/questionList' element={<QuestionLists />} />
+                <Route path='/questionList/:role' element={<QuestionLists />} />
                 <Route path='/myPage' element={<MyPage />} />
                 <Route path='/chatting/:roomid' element={<Chatting />} />
               </Route>
