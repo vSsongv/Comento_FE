@@ -24,7 +24,7 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
       /* 공통 스타일 */
       display: inline-block;
       outline: none;
-      border: 3.5px solid transparent;
+      border: 1.5px solid transparent;
       border-radius: 10px;
       background-image: linear-gradient(#fff, #fff), linear-gradient(90deg, #033bff, #00e0ff);
       background-origin: border-box;
