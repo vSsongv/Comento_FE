@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import useClickState from '../../hooks/useClickState';
 import { modalVisibleState } from '../../recoil/atom';
 
-const Background = styled.div`
+export const Background = styled.div`
   position: fixed;
   top: 0;
   left: 0;
