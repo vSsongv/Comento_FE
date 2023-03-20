@@ -44,10 +44,11 @@ const Submit = styled.button`
 interface Props {
   handleFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
   messageRef: RefObject<HTMLInputElement>;
+  imageRef: RefObject<HTMLInputElement>;
   sendMessage: () => void;
 }
 
-const ChattingInput = ({ handleFile, messageRef, sendMessage }: Props) => {
+const ChattingInput = ({ handleFile, messageRef, sendMessage, imageRef }: Props) => {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     sendMessage();
@@ -60,7 +61,14 @@ const ChattingInput = ({ handleFile, messageRef, sendMessage }: Props) => {
           <img src={ChattingFileInput} alt='file input' />
         </InputBox>
       </label>
-      <UploadHidden type='file' name='file' id='file' accept='.jpg, .jpeg, .png, .img' onChange={handleFile} />
+      <UploadHidden
+        type='file'
+        name='file'
+        id='file'
+        accept='.jpg, .jpeg, .png, .img'
+        onChange={handleFile}
+        ref={imageRef}
+      />
       <ContentInput ref={messageRef} placeholder='메세지를 입력해주세요.' />
       <Submit />
     </ChattingInputContainer>
