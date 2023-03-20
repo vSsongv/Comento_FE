@@ -7,7 +7,7 @@ import Question from '../molescules/Question';
 import QuestionListTop from '../molescules/QuestionListTop';
 
 const Container = styled.div`
-  width: 35%;
+  width: 40%;
   height: 550px;
   margin-top: 30px;
   background-color: white;

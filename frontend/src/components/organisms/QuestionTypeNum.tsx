@@ -8,17 +8,17 @@ import { getAnswerList } from '../../api/mentorService';
 import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
-  width: 850px;
+  width: 75%;
   height: 100px;
   border: 1px solid rgb(168, 168, 168);
-  border-radius: 10px;
+  border-radius: 20px;
   position: relative;
   margin: auto;
 `;
 
 const BottomGradient = styled.div`
   width: 100%;
-  border-radius: 0px 0px 10px 10px;
+  border-radius: 0px 0px 20px 20px;
   height: 30px;
   position: absolute;
   bottom: 0;
@@ -36,7 +36,7 @@ const Type = styled.span`
 `;
 
 const Wrapper = styled.div`
-  width: 848px;
+  width: 100%;
   height: 70px;
   display: flex;
 `;
@@ -45,7 +45,7 @@ const TypeButton = styled.button`
   font-family: 'NanumGothic';
   font-size: 14px;
   font-weight: 400;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 20px 20px 0px 0px;
   border: none;
   cursor: pointer;
   display: flex;

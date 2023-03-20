@@ -97,7 +97,7 @@ const QuestionForm = () => {
 
     if (await askQuestion(formData)) {
       alert('질문이 등록되었습니다.');
-      navigate('/');
+      navigate('/questionList/mentee');
     }
   };
 

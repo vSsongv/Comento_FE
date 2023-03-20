@@ -12,13 +12,13 @@ const QuestionLists = () => {
 
   useEffect(() => {
     const getQuestions = async (): Promise<void> => {
-      const questions = role === 'mento' ? await getAnswerList(type, 1) : await getAnswerList(type, 1);
+      const questions = role === 'mento' ? await getAnswerList(type, 1) : await getAnswerList(type, 3);
       if (typeof questions !== 'boolean') {
         setQuestions(questions);
       }
     };
     getQuestions();
-  }, []);
+  });
 
   return <ListTemplate />;
 };
