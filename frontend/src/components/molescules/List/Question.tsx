@@ -1,16 +1,19 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { crtQuestion, QuestionContent, userInfo, UserInfoType } from '../../../recoil/atom';
 import { border } from '../../../styles/styleUtil';
 import { Languages } from '../../../utils/Languages';
+import Trashcan from '../../../assets/images/delete.png';
+import { deleteQuestion } from '../../../api/mentoringService';
 
 type questionProps = {
   data: QuestionContent;
 };
 
 const Li = styled.li`
+  position: relative;
   cursor: pointer;
   background-color: white;
   padding: 15px 20px;
@@ -54,10 +57,35 @@ const Lang = styled.span`
   margin-left: 10px;
 `;
 
+const DeleteBtn = styled.button`
+  cursor: pointer;
+  position: absolute;
+  width: 25px;
+  height: 27px;
+  right: 0;
+  top: 35%;
+  margin-right: 30px;
+  border: none;
+  z-index: 100;
+  background-color: transparent;
+  background-size: cover;
+  background-image: url(${Trashcan});
+`;
+
 const Question = (data: questionProps) => {
   const { role } = useParams();
-  const setMentoringId = useSetRecoilState<string>(crtQuestion);
+  const [mentoringId, setMentoringId] = useRecoilState<string>(crtQuestion);
   const user = useRecoilValue<UserInfoType>(userInfo);
+
+  const deleteQ = async (mentoringId: string): Promise<void> => {
+    const confirmDel = confirm('정말 삭제하시겠습니까?');
+    if (confirmDel) {
+      console.log(mentoringId);
+      // if (await deleteQuestion(mentoringId)) {
+      //   setMentoringId('');
+      // }
+    }
+  };
 
   return (
     <Li id={data.data.mentoringid} onClick={() => setMentoringId(data.data.mentoringid)}>
@@ -68,6 +96,7 @@ const Question = (data: questionProps) => {
         <Date>{data.data.date.slice(0, 11)}</Date>
         <Lang>{Languages[data.data.language]}</Lang>
       </Wrapper>
+      {data.data.mentoringid === mentoringId ? <DeleteBtn onClick={() => deleteQ(data.data.mentoringid)} /> : null}
     </Li>
   );
 };

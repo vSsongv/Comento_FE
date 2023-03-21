@@ -26,3 +26,14 @@ export const getQuestionTypeNum = async (): Promise<QuestionType | boolean> => {
     return false;
   }
 };
+
+export const deleteQuestion = async (mentoringId: string): Promise<boolean> => {
+  try {
+    const res = await Mentoring.deleteQuestion(mentoringId);
+    alert(res.data.message);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};

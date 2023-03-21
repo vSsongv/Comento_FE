@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
 import { getQuestionList } from '../api/mentoringService';
-import ListTemplate from '../components/templates/ListTemplate';
+import QuestionListTemplate from '../components/templates/QuestionLists';
 import { QuestionContent, questionList, questionType } from '../recoil/atom';
 
 const QuestionLists = () => {
@@ -22,7 +22,7 @@ const QuestionLists = () => {
     getQuestions();
   }, [role]);
 
-  return <ListTemplate />;
+  return <QuestionListTemplate />;
 };
 
 export default QuestionLists;
