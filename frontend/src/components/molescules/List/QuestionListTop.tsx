@@ -1,9 +1,9 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { border } from '../../styles/styleUtil';
-import { Languages } from '../../utils/Languages';
-import DropDown from '../molescules/DropDown';
+import { border } from '../../../styles/styleUtil';
+import { Languages } from '../../../utils/Languages';
+import DropDown from '../../molescules/DropDown';
 
 const Container = styled.div`
   display: flex;

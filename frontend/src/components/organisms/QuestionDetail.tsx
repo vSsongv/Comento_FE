@@ -91,7 +91,6 @@ const QuestionDetail = ({ width }: Props) => {
     if (roomid) {
       getSpecificQuestion(roomid);
     } else {
-      console.log(mentoringId);
       getSpecificQuestion(mentoringId);
     }
   }, [mentoringId]);

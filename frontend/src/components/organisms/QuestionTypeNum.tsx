@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
-import { QuestionContent, questionList, questionType } from '../../recoil/atom';
+import { crtQuestion, QuestionContent, questionList, questionType } from '../../recoil/atom';
 import { mainGradient } from '../../styles/styleUtil';
 import { getQuestionList, getQuestionTypeNum, QuestionType } from '../../api/mentoringService';
 import { useParams } from 'react-router-dom';
@@ -68,6 +68,7 @@ const QuestionNum = styled.span`
 const QuestionTypeNum = () => {
   const setType = useSetRecoilState<number>(questionType);
   const [typeNum, setTypeNum] = useState<QuestionType>();
+  const setMentoringId = useSetRecoilState<string>(crtQuestion);
   const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
 
   useEffect(() => {
@@ -75,6 +76,7 @@ const QuestionTypeNum = () => {
       const types = await getQuestionTypeNum();
       if (typeof types !== 'boolean') {
         setTypeNum(types);
+        setMentoringId('');
       }
     };
     getQuestionTypeNums();

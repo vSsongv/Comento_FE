@@ -2,9 +2,9 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { crtQuestion, QuestionContent, userInfo, UserInfoType } from '../../recoil/atom';
-import { border } from '../../styles/styleUtil';
-import { Languages } from '../../utils/Languages';
+import { crtQuestion, QuestionContent, userInfo, UserInfoType } from '../../../recoil/atom';
+import { border } from '../../../styles/styleUtil';
+import { Languages } from '../../../utils/Languages';
 
 type questionProps = {
   data: QuestionContent;

@@ -3,8 +3,8 @@ import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { QuestionContent, questionList } from '../../recoil/atom';
 import { boxShadow } from '../../styles/styleUtil';
-import Question from '../molescules/Question';
-import QuestionListTop from '../molescules/QuestionListTop';
+import Question from '../molescules/List/Question';
+import QuestionListTop from '../molescules/List/QuestionListTop';
 
 const Container = styled.div`
   width: 40%;
