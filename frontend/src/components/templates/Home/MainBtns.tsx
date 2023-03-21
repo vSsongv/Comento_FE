@@ -54,7 +54,7 @@ const ArrowImg = styled.div`
 export default function MainBtns() {
   return (
     <RowBtn>
-      <MainBtnLink to='/Question'>
+      <MainBtnLink to='/question'>
         <MainBtnStyle width={350}>
           <StartLabel>지금, 질문 시작해보세요!</StartLabel>
           <BtnContainer>
@@ -63,7 +63,7 @@ export default function MainBtns() {
           </BtnContainer>
         </MainBtnStyle>
       </MainBtnLink>
-      <MainBtnLink to='/questionList/mento'>
+      <MainBtnLink to='/questionList/mentor'>
         <MainBtnStyle width={350}>
           <StartLabel>지금, 답변 시작해보세요!</StartLabel>
           <BtnContainer>
