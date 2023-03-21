@@ -1,10 +1,10 @@
 import React from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
 import { QuestionContent, questionList, questionType } from '../../recoil/atom';
 import { mainGradient } from '../../styles/styleUtil';
-import { getAnswerList } from '../../api/mentorService';
+import { getQuestionList } from '../../api/mentoringService';
 import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
@@ -66,16 +66,17 @@ const QuestionNum = styled.span`
 `;
 
 const QuestionTypeNum = () => {
-  const [type, setType] = useRecoilState<number>(questionType);
+  const setType = useSetRecoilState<number>(questionType);
   const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
   const { role } = useParams();
 
-  const getAnswers = async (qType: number): Promise<void> => {
+  const getQuestions = async (qType: number): Promise<void> => {
     setType(qType);
-    console.log('sdfsd', type);
-    const questions = role === 'mento' ? await getAnswerList(qType, 1) : await getAnswerList(qType, 1);
-    if (typeof questions !== 'boolean') {
-      setQuestions(questions);
+    if (role) {
+      const questions = await getQuestionList(qType, 1, role);
+      if (typeof questions !== 'boolean') {
+        setQuestions(questions);
+      }
     }
   };
 
@@ -83,13 +84,13 @@ const QuestionTypeNum = () => {
     <Container>
       <Wrapper>
         {/* TODO: 질문 개수 */}
-        <TypeButton type='button' onClick={() => getAnswers(0)}>
+        <TypeButton type='button' onClick={() => getQuestions(0)}>
           <QuestionNum>1</QuestionNum>건
         </TypeButton>
-        <TypeButton type='button' onClick={() => getAnswers(1)}>
+        <TypeButton type='button' onClick={() => getQuestions(1)}>
           <QuestionNum>1</QuestionNum>건
         </TypeButton>
-        <TypeButton type='button' onClick={() => getAnswers(2)}>
+        <TypeButton type='button' onClick={() => getQuestions(2)}>
           <QuestionNum>1</QuestionNum>건
         </TypeButton>
       </Wrapper>

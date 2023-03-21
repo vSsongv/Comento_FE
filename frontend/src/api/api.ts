@@ -55,6 +55,6 @@ export const User = {
   askMentoRole: (email: string, content: string) => api.post('user/email', { email: email, content: content }),
 };
 
-export const Mentor = {
-  getAnswerList: (type: number, language: number) => api.get(`mento/question?type=${type}&language=${language}`),
+export const Mentoring = {
+  getQuestionList: (type: number, language: number, role: string) => api.get(`${role}/question?type=${type}&language=${language}`),
 };

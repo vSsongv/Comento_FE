@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSetRecoilState, useRecoilValue } from 'recoil';
-import { getAnswerList } from '../api/mentorService';
+import { getQuestionList } from '../api/mentoringService';
 import ListTemplate from '../components/templates/ListTemplate';
 import { QuestionContent, questionList, questionType } from '../recoil/atom';
 
@@ -12,9 +12,11 @@ const QuestionLists = () => {
 
   useEffect(() => {
     const getQuestions = async (): Promise<void> => {
-      const questions = role === 'mento' ? await getAnswerList(type, 1) : await getAnswerList(type, 3);
-      if (typeof questions !== 'boolean') {
-        setQuestions(questions);
+      if (role) {
+        const questions = await getQuestionList(type, 1, role);
+        if (typeof questions !== 'boolean') {
+          setQuestions(questions);
+        }
       }
     };
     getQuestions();

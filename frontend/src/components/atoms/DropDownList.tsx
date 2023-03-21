@@ -5,7 +5,7 @@ import { boxShadow } from '../../styles/styleUtil';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { QuestionContent, questionList, questionType } from '../../recoil/atom';
-import { getAnswerList } from '../../api/mentorService';
+import { getQuestionList } from '../../api/mentoringService';
 
 interface DropDownProps {
   width: string;
@@ -49,7 +49,7 @@ const DropDownList = ({ languageRef, ...dropDownProps }: Props) => {
   const changeLanguage = async (language: string, index: number) => {
     languageRef.current = language;
     if (role) {
-      const questions = role === 'mento' ? await getAnswerList(type, index) : await getAnswerList(type, index);
+      const questions = await getQuestionList(type, index, role);
       if (typeof questions !== 'boolean') {
         setQuestions(questions);
       }
