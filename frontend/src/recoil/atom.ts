@@ -15,7 +15,7 @@ export interface UserInfoType {
 }
 
 export interface QuestionContent {
-  mentoringId: number;
+  mentoringid: string;
   title: string;
   nickname: string;
   date: string;

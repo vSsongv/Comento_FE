@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
@@ -59,7 +59,7 @@ const Question = (data: questionProps) => {
   const user = useRecoilValue<UserInfoType>(userInfo);
 
   return (
-    <Li>
+    <Li id={data.data.mentoringid} onClick={() => console.log(data.data.mentoringid)}>
       <Title>{data.data.title}</Title>
       <Nick>{user.nickname}</Nick>
       {/* <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick> */}
