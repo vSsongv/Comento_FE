@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
 import { QuestionContent, questionList, questionType } from '../../recoil/atom';
 import { mainGradient } from '../../styles/styleUtil';
-import { getQuestionList } from '../../api/mentoringService';
+import { getQuestionList, getQuestionTypeNum, QuestionType } from '../../api/mentoringService';
 import { useParams } from 'react-router-dom';
 
 const Container = styled.div`
@@ -67,7 +67,19 @@ const QuestionNum = styled.span`
 
 const QuestionTypeNum = () => {
   const setType = useSetRecoilState<number>(questionType);
+  const [typeNum, setTypeNum] = useState<QuestionType>();
   const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
+
+  useEffect(() => {
+    const getQuestionTypeNums = async (): Promise<void> => {
+      const types = await getQuestionTypeNum();
+      if (typeof types !== 'boolean') {
+        setTypeNum(types);
+      }
+    };
+    getQuestionTypeNums();
+  });
+
   const { role } = useParams();
 
   const getQuestions = async (qType: number): Promise<void> => {
@@ -83,15 +95,14 @@ const QuestionTypeNum = () => {
   return (
     <Container>
       <Wrapper>
-        {/* TODO: 질문 개수 */}
         <TypeButton type='button' onClick={() => getQuestions(0)}>
-          <QuestionNum>1</QuestionNum>건
+          <QuestionNum>{typeNum?.before}</QuestionNum>건
         </TypeButton>
         <TypeButton type='button' onClick={() => getQuestions(1)}>
-          <QuestionNum>1</QuestionNum>건
+          <QuestionNum>{typeNum?.ing}</QuestionNum>건
         </TypeButton>
         <TypeButton type='button' onClick={() => getQuestions(2)}>
-          <QuestionNum>1</QuestionNum>건
+          <QuestionNum>{typeNum?.end}</QuestionNum>건
         </TypeButton>
       </Wrapper>
       <BottomGradient>
