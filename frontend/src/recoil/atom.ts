@@ -17,6 +17,7 @@ export interface UserInfoType {
 export interface QuestionContent {
   mentoringId: number;
   title: string;
+  nickname: string;
   date: string;
   language: number;
 }
@@ -49,5 +50,10 @@ export const questionList = atom<Array<QuestionContent>>({
 
 export const questionType = atom<number>({
   key: 'questionType',
+  default: 0,
+});
+
+export const crtQuestion = atom<number>({
+  key: 'crtQuestion',
   default: 0,
 });

@@ -1,21 +1,18 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { QuestionContent, userInfo, UserInfoType } from '../../recoil/atom';
 import { border } from '../../styles/styleUtil';
 import { Languages } from '../../utils/Languages';
 
-interface Props {
-  backColor: string;
-}
-
 type questionProps = {
   data: QuestionContent;
 };
 
-const Li = styled.li<Props>`
+const Li = styled.li`
   cursor: pointer;
-  background-color: ${(props) => props.backColor};
+  background-color: white;
   padding: 15px 20px;
   ${border(2)};
   width: 100%;
@@ -58,14 +55,14 @@ const Lang = styled.span`
 `;
 
 const Question = (data: questionProps) => {
-  const [test, setTest] = useState(true);
+  const { role } = useParams();
   const user = useRecoilValue<UserInfoType>(userInfo);
 
   return (
-    <Li onClick={() => setTest(!test)} backColor={test ? 'white' : '#F5F5F5'}>
+    <Li>
       <Title>{data.data.title}</Title>
-      {/* TODO: 질문자 모드면 user.email, 답변자면 data.nick */}
       <Nick>{user.nickname}</Nick>
+      {/* <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick> */}
       <Wrapper>
         <Date>{data.data.date.slice(0, 11)}</Date>
         <Lang>{Languages[data.data.language]}</Lang>
