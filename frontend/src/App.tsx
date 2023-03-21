@@ -56,9 +56,7 @@ function App() {
         <BrowserRouter>
           <ScrollToTop />
           <Header />
-          {loading ? (
-            <div>loading</div>
-          ) : (
+          {loading ? null : (
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/signIn' element={<SignIn />} />

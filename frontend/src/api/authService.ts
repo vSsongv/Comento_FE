@@ -92,7 +92,6 @@ export const refresh = async (
 ): Promise<void | boolean> => {
   try {
     const res = await Auth.refresh(refreshToken);
-    console.log(res);
     const token = res.data.result;
     const userInfo = await TokenConfig(token);
     if (userInfo === false || userInfo === true) {
@@ -169,8 +168,8 @@ export const SignIn = async (
     const exp = new Date(decoded_refresh.exp * 1000);
     setCookie('refresh-token', res.data.result.refreshToken, {
       path: '/',
-      secure: true,
-      sameSite: 'none',
+      // secure: true,
+      // sameSite: 'none',
       expires: exp,
     });
     authInterceptor(cookies, userData.setUserInfo, setSignInState);
