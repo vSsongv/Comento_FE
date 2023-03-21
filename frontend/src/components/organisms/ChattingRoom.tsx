@@ -109,15 +109,13 @@ const ChattingRoom = () => {
       const newMessage = returnNewMessage(message);
       setNewMessage(newMessage);
     });
-    if (topRef.current) {
-      scrollObserver.observe(topRef.current);
-      // return () => {
-      //   scrollObserver.unobserve(topRef.current!);
-      // };
-    }
+
+    topRef.current && scrollObserver.observe(topRef.current);
+
     return () => {
       socket.disconnect();
       socket.off();
+      topRef.current && scrollObserver.unobserve(topRef.current);
     };
   }, []);
 
