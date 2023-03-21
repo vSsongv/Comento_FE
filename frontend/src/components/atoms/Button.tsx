@@ -26,12 +26,11 @@ const StyledButton = styled.button<ButtonProps>`
       display: inline-block;
       outline: none;
       border: none;
-      border-radius: 25px;
+      border-radius: 20px;
       color: white;
       font-family: 'NanumGothic';
       text-align: center;
       margin: auto;
-      margin-top: 20px;
       cursor: pointer;
       /* 크기 */
       width: ${WIDTH}px;

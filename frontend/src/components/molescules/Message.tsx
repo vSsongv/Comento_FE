@@ -1,5 +1,8 @@
-import React, { RefObject } from 'react';
+import React, { RefObject, useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { modalVisibleState } from '../../recoil/atom';
+import ImageViewModal from '../atoms/ImageViewModal';
 
 interface IsMeProp {
   isMe: boolean;
@@ -44,6 +47,7 @@ const Image = styled.img`
   height: 120px;
   width: 120px;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const Time = styled.p`
@@ -65,6 +69,20 @@ interface Props extends IsMeProp {
 }
 
 const Message = ({ isMe, topRef, nickname, message, image, createdAt, profile }: Props) => {
+  const [modalVisibility, setModalVisibility] = useRecoilState<boolean>(modalVisibleState);
+  const [modalUrl, setModalUrl] = useState<string>('');
+
+  useEffect(() => {
+    if (!modalVisibility) {
+      setModalUrl('');
+    }
+  }, [modalVisibility]);
+
+  const viewModal = (url: string): void => {
+    setModalUrl(url);
+    setModalVisibility(true);
+  };
+
   return (
     <MessageContainer isMe={isMe} ref={topRef}>
       <Profile src={profile} alt='profile image' />
@@ -72,7 +90,8 @@ const Message = ({ isMe, topRef, nickname, message, image, createdAt, profile }:
         <UserName isMe={isMe}>{nickname}</UserName>
         <ContentsBox isMe={isMe}>
           {message && <Contents>{message}</Contents>}
-          {image && <Image src={image} alt='사진' />}
+          {image && <Image src={image} alt='사진' onClick={() => viewModal(image)} />}
+          {modalVisibility && modalUrl && <ImageViewModal imageSrc={modalUrl} />}
           <Time>{createdAt}</Time>
         </ContentsBox>
       </NameAndContents>
