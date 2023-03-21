@@ -4,7 +4,7 @@ import QuestionTypeNum from '../organisms/QuestionTypeNum';
 import QuestionList from '../organisms/QuestionList';
 import QuestionDetail from '../organisms/QuestionDetail';
 import { useRecoilValue } from 'recoil';
-import { questionType, userInfo, UserInfoType } from '../../recoil/atom';
+import { crtQuestion, questionType, userInfo, UserInfoType } from '../../recoil/atom';
 import RoleToggle from '../molescules/List/RoleToggle';
 import Button from '../atoms/Button';
 import { useParams } from 'react-router-dom';
@@ -35,6 +35,7 @@ const BtnWrrapper = styled.div`
 const ListTemplate = () => {
   const user = useRecoilValue<UserInfoType>(userInfo);
   const type = useRecoilValue<number>(questionType);
+  const mentoringId = useRecoilValue<string>(crtQuestion);
   const { role } = useParams();
 
   return (
@@ -43,14 +44,16 @@ const ListTemplate = () => {
       <QuestionTypeNum></QuestionTypeNum>
       <Wrapper>
         <QuestionList></QuestionList>
-        <div style={{ position: 'relative' }}>
-          <QuestionDetail width={48} />
-          <BtnWrrapper>
-            <Button width={95} height={40} fontSize={14}>
-              {type !== 0 ? '채팅방 이동' : role === 'mentee' ? '수정하기' : '답변하기'}
-            </Button>
-          </BtnWrrapper>
-        </div>
+        {mentoringId !== '' ? (
+          <div style={{ position: 'relative' }}>
+            <QuestionDetail width={48} />
+            <BtnWrrapper>
+              <Button width={95} height={40} fontSize={14}>
+                {type !== 0 ? '채팅방 이동' : role === 'mentee' ? '수정하기' : '답변하기'}
+              </Button>
+            </BtnWrrapper>
+          </div>
+        ) : null}
       </Wrapper>
     </Container>
   );

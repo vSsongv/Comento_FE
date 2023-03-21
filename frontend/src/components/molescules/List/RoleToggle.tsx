@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
-import { questionType } from '../../../recoil/atom';
+import { crtQuestion, questionType } from '../../../recoil/atom';
 import { mainGradient } from '../../../styles/styleUtil';
 
 interface Props {
@@ -50,6 +50,7 @@ const Desc = styled.span`
 const RoleToggle = () => {
   const { role } = useParams();
   const navigate = useNavigate();
+  const setMentoringId = useSetRecoilState<string>(crtQuestion);
   const setType = useSetRecoilState<number>(questionType);
 
   return (
@@ -61,6 +62,7 @@ const RoleToggle = () => {
           <ToggleBtn
             left={9.3}
             onClick={() => {
+              setMentoringId('');
               setType(0);
               navigate('/questionList/mentee');
             }}
@@ -72,6 +74,7 @@ const RoleToggle = () => {
           <ToggleBtn
             left={13}
             onClick={() => {
+              setMentoringId('');
               setType(0);
               navigate('/questionList/mentor');
             }}

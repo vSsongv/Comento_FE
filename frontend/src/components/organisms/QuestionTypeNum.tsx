@@ -85,6 +85,7 @@ const QuestionTypeNum = () => {
   const { role } = useParams();
 
   const getQuestions = async (qType: number): Promise<void> => {
+    setMentoringId('');
     setType(qType);
     if (role) {
       const questions = await getQuestionList(qType, 1, role);
