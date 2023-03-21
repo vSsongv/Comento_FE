@@ -12,10 +12,14 @@ type questionProps = {
   data: QuestionContent;
 };
 
-const Li = styled.li`
+interface Props {
+  backColor: string;
+}
+
+const Li = styled.li<Props>`
   position: relative;
   cursor: pointer;
-  background-color: white;
+  background-color: ${(props) => props.backColor};
   padding: 15px 20px;
   ${border(2)};
   width: 100%;
@@ -88,7 +92,7 @@ const Question = (data: questionProps) => {
   };
 
   return (
-    <Li id={data.data.mentoringid} onClick={() => setMentoringId(data.data.mentoringid)}>
+    <Li id={data.data.mentoringid} backColor={data.data.mentoringid === mentoringId ? '#F5F5F5' : 'white'} onClick={() => setMentoringId(data.data.mentoringid)}>
       <Title>{data.data.title}</Title>
       <Nick>{user.nickname}</Nick>
       {/* <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick> */}
