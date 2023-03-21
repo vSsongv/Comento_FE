@@ -7,7 +7,7 @@ import { useRecoilValue } from 'recoil';
 import { crtQuestion, questionType, userInfo, UserInfoType } from '../../recoil/atom';
 import RoleToggle from '../molescules/List/RoleToggle';
 import Button from '../atoms/Button';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Container = styled.div`
   background-color: white;
@@ -37,6 +37,15 @@ const ListTemplate = () => {
   const type = useRecoilValue<number>(questionType);
   const mentoringId = useRecoilValue<string>(crtQuestion);
   const { role } = useParams();
+  const navigate = useNavigate();
+
+  const handler = () => {
+    if (role === 'mentee') {
+      navigate(`/question/edit/${mentoringId}`);
+    } else {
+      navigate(`/chatting/${mentoringId}`);
+    }
+  };
 
   return (
     <Container>
@@ -48,7 +57,7 @@ const ListTemplate = () => {
           <div style={{ position: 'relative' }}>
             <QuestionDetail width={48} />
             <BtnWrrapper>
-              <Button width={95} height={40} fontSize={14}>
+              <Button onClick={handler} width={95} height={40} fontSize={14}>
                 {type !== 0 ? '채팅방 이동' : role === 'mentee' ? '수정하기' : '답변하기'}
               </Button>
             </BtnWrrapper>
