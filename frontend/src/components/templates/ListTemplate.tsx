@@ -63,7 +63,7 @@ const ListTemplate = () => {
     <Container>
       <Toggle />
 
-      {role === 'mento' ? (
+      {role === 'mentor' ? (
         <>
           <ToggleBtn
             left={9.3}
@@ -78,7 +78,7 @@ const ListTemplate = () => {
           <ToggleBtn
             left={13}
             onClick={() => {
-              navigate('/questionList/mento');
+              navigate('/questionList/mentor');
             }}
           />
           <Desc>답변자 전환</Desc>
