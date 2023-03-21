@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { border, boxShadow } from '../../styles/styleUtil';
 import Image from '../atoms/Image';
 import Button from '../atoms/Button';
@@ -9,15 +9,24 @@ import FlashBtn from '../atoms/FlashBtn';
 import { useRecoilValue } from 'recoil';
 import { crtQuestion } from '../../recoil/atom';
 
-const QuestionDetailContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 45vw;
-  height: 100%;
-  padding: 30px;
-  background-color: white;
-  box-shadow: ${boxShadow};
+interface Props {
+  width: number;
+}
+
+const QuestionDetailContainer = styled.div<Props>`
+  ${(props) => {
+    const WIDTH = props.width;
+    return css`
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: ${WIDTH}vw;
+      height: 100%;
+      padding: 30px;
+      background-color: white;
+      box-shadow: ${boxShadow};
+    `;
+  }};
 `;
 
 const TitleContainer = styled.div`
@@ -66,7 +75,7 @@ const ButtonContainer = styled.div`
   width: 230px;
 `;
 
-const QuestionDetail = () => {
+const QuestionDetail = ({ width }: Props) => {
   const { roomid } = useParams();
   const mentoringId = useRecoilValue<string>(crtQuestion);
   const [question, setQuestion] = useState<QuestionProp>();
@@ -88,7 +97,7 @@ const QuestionDetail = () => {
   }, [mentoringId]);
 
   return (
-    <QuestionDetailContainer>
+    <QuestionDetailContainer width={width}>
       <TitleContainer>
         <Title>{question?.title}</Title>
         <QuestionInfo>

@@ -59,7 +59,7 @@ const Desc = styled.span`
 const Wrapper = styled.div`
   display: flex;
   margin-top: 40px;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
 
 const ListTemplate = () => {
@@ -96,7 +96,7 @@ const ListTemplate = () => {
       <Wrapper>
         <QuestionList></QuestionList>
         <div style={{ height: '550px' }}>
-          <QuestionDetail />
+          <QuestionDetail width={48} />
         </div>
       </Wrapper>
     </Container>

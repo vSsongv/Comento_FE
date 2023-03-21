@@ -15,7 +15,7 @@ const ChattingContainer = styled.div`
 const Chatting = () => {
   return (
     <ChattingContainer>
-      <QuestionDetail />
+      <QuestionDetail width={45} />
       <ChattingRoom />
     </ChattingContainer>
   );
