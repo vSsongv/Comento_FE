@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { border, mainGradient, boxShadow } from '../../styles/styleUtil';
 import QuestionTitle from '../molescules/Question/QuestionTitle';
@@ -8,7 +8,9 @@ import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
 import DropDown from '../molescules/DropDown';
 import { Languages } from '../../utils/Languages';
 import { askQuestion } from '../../api/menteeService';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { GetSpecificQuestion } from '../../api/chattingService';
+import SubmitCompleteModal from './SubmitCompleteModal';
 
 const QuestionBox = styled.div`
   display: flex;
@@ -67,14 +69,29 @@ const QuestionForm = () => {
   const languageRef = useRef<string>(Languages[0]);
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
+  const [enrolledImageList, setEnrolledImageList] = useState<string[]>([]);
+  const [modal, setModal] = useState<boolean>(false);
   const formData: FormData = new FormData();
   const navigate = useNavigate();
+  const { questionId } = useParams();
 
   useEffect(() => {
     titleRef.current?.focus();
+    if (questionId) {
+      const getSpecificQuestion = async () => {
+        const questionInfo = await GetSpecificQuestion(questionId);
+        if (typeof questionInfo !== 'boolean') {
+          if (titleRef.current) titleRef.current.value = questionInfo.title;
+          if (contentRef.current) contentRef.current.value = questionInfo.content;
+          languageRef.current = questionInfo.language;
+          setEnrolledImageList(questionInfo.content_image);
+        }
+      };
+      getSpecificQuestion();
+    }
   }, []);
 
-  const onSubmit = async (): Promise<void> => {
+  const onSubmit = async (): Promise<JSX.Element | void> => {
     if (titleRef.current?.value === '') {
       alert('제목을 입력해주세요.');
       titleRef.current.focus();
@@ -96,13 +113,18 @@ const QuestionForm = () => {
     formData.append('data', JSON.stringify(dataSet));
 
     if (await askQuestion(formData)) {
-      alert('질문이 등록되었습니다.');
-      navigate('/');
+      setModal(true);
     }
+  };
+
+  const completeQuestion = (): void => {
+    setModal(false);
+    navigate('/');
   };
 
   return (
     <QuestionBox>
+      {modal && <SubmitCompleteModal completeQuestion={completeQuestion} />}
       <FormHead />
       <Top>
         <QuestionTitle titleRef={titleRef} />
@@ -113,7 +135,7 @@ const QuestionForm = () => {
         <QuestionContent contentRef={contentRef} />
       </Middle>
       <Bottom>
-        <QuestionFile formData={formData} />
+        <QuestionFile formData={formData} enrolledImageList={questionId ? enrolledImageList : undefined} />
       </Bottom>
     </QuestionBox>
   );

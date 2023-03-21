@@ -26,10 +26,11 @@ const UploadHidden = styled.input`
 
 interface Props {
   formData: FormData;
+  enrolledImageList?: string[];
 }
 
-const QuestionFile = ({ formData }: Props) => {
-  const [imageList, setImageList] = useState<string[]>([]);
+const QuestionFile = ({ formData, enrolledImageList }: Props) => {
+  const [imageList, setImageList] = useState<string[]>(enrolledImageList || []);
 
   const fileDelete = (deleteIndex: number): void => {
     const newFileList = formData.getAll('images').filter((item, index) => index !== deleteIndex);
