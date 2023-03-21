@@ -4,6 +4,7 @@ import QuestionTypeNum from '../organisms/QuestionTypeNum';
 import QuestionList from '../organisms/QuestionList';
 import { mainGradient } from '../../styles/styleUtil';
 import { useNavigate, useParams } from 'react-router-dom';
+import QuestionDetail from '../organisms/QuestionDetail';
 
 interface Props {
   left: number;
@@ -55,6 +56,12 @@ const Desc = styled.span`
   color: #236ad6;
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  margin-top: 40px;
+  justify-content: space-around;
+`;
+
 const ListTemplate = () => {
   const { role } = useParams();
   const navigate = useNavigate();
@@ -86,7 +93,12 @@ const ListTemplate = () => {
       )}
 
       <QuestionTypeNum></QuestionTypeNum>
-      <QuestionList></QuestionList>
+      <Wrapper>
+        <QuestionList></QuestionList>
+        <div style={{ height: '550px' }}>
+          <QuestionDetail />
+        </div>
+      </Wrapper>
     </Container>
   );
 };

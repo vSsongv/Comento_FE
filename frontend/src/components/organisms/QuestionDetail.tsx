@@ -6,12 +6,14 @@ import Button from '../atoms/Button';
 import { GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
 import { useNavigate, useParams } from 'react-router-dom';
 import FlashBtn from '../atoms/FlashBtn';
+import { useRecoilValue } from 'recoil';
+import { crtQuestion } from '../../recoil/atom';
 
 const QuestionDetailContainer = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  width: 43vw;
+  width: 45vw;
   height: 100%;
   padding: 30px;
   background-color: white;
@@ -30,6 +32,7 @@ const ContentContainer = styled.div`
   width: 100%;
   padding: 0 10px;
   overflow: scroll;
+  height: 100%;
 `;
 
 const Title = styled.h1`
@@ -65,6 +68,7 @@ const ButtonContainer = styled.div`
 
 const QuestionDetail = () => {
   const { roomid } = useParams();
+  const mentoringId = useRecoilValue<string>(crtQuestion);
   const [question, setQuestion] = useState<QuestionProp>();
   const navigate = useNavigate();
 
@@ -77,8 +81,11 @@ const QuestionDetail = () => {
     };
     if (roomid) {
       getSpecificQuestion(roomid);
+    } else {
+      console.log(mentoringId);
+      getSpecificQuestion(mentoringId);
     }
-  }, []);
+  }, [mentoringId]);
 
   return (
     <QuestionDetailContainer>

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { QuestionContent, userInfo, UserInfoType } from '../../recoil/atom';
+import { crtQuestion, QuestionContent, userInfo, UserInfoType } from '../../recoil/atom';
 import { border } from '../../styles/styleUtil';
 import { Languages } from '../../utils/Languages';
 
@@ -56,10 +56,11 @@ const Lang = styled.span`
 
 const Question = (data: questionProps) => {
   const { role } = useParams();
+  const setMentoringId = useSetRecoilState<string>(crtQuestion);
   const user = useRecoilValue<UserInfoType>(userInfo);
 
   return (
-    <Li id={data.data.mentoringid} onClick={() => console.log(data.data.mentoringid)}>
+    <Li id={data.data.mentoringid} onClick={() => setMentoringId(data.data.mentoringid)}>
       <Title>{data.data.title}</Title>
       <Nick>{user.nickname}</Nick>
       {/* <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick> */}

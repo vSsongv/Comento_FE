@@ -9,7 +9,6 @@ import QuestionListTop from '../molescules/QuestionListTop';
 const Container = styled.div`
   width: 40%;
   height: 550px;
-  margin-top: 30px;
   background-color: white;
   box-shadow: ${boxShadow};
 `;

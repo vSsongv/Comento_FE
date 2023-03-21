@@ -53,7 +53,7 @@ export const questionType = atom<number>({
   default: 0,
 });
 
-export const crtQuestion = atom<number>({
+export const crtQuestion = atom<string>({
   key: 'crtQuestion',
-  default: 0,
+  default: '',
 });
