@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { crtQuestion, QuestionContent, userInfo, UserInfoType } from '../../../recoil/atom';
+import { crtQuestion, QuestionContent, questionType, userInfo, UserInfoType } from '../../../recoil/atom';
 import { border } from '../../../styles/styleUtil';
 import { Languages } from '../../../utils/Languages';
 import Trashcan from '../../../assets/images/delete.png';
@@ -79,6 +79,7 @@ const DeleteBtn = styled.button`
 const Question = (data: questionProps) => {
   const { role } = useParams();
   const [mentoringId, setMentoringId] = useRecoilState<string>(crtQuestion);
+  const typeNum = useRecoilValue<number>(questionType);
   const user = useRecoilValue<UserInfoType>(userInfo);
 
   const deleteQ = async (mentoringId: string): Promise<void> => {
@@ -100,7 +101,7 @@ const Question = (data: questionProps) => {
         <Date>{data.data.date.slice(0, 11)}</Date>
         <Lang>{Languages[data.data.language]}</Lang>
       </Wrapper>
-      {data.data.mentoringid === mentoringId ? <DeleteBtn onClick={() => deleteQ(data.data.mentoringid)} /> : null}
+      {data.data.mentoringid === mentoringId && ((role === 'mentee' && typeNum !== 1) || (role === 'mentor' && typeNum === 2)) ? <DeleteBtn onClick={() => deleteQ(data.data.mentoringid)} /> : null}
     </Li>
   );
 };
