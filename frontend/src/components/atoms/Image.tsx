@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
+import { useRecoilState } from 'recoil';
+import { modalVisibleState } from '../../recoil/atom';
+import ImageViewModal from './ImageViewModal';
 
 interface ImageProp {
   isDeleteFunction: boolean;
@@ -18,6 +21,7 @@ const Images = styled.img<ImageProp>`
   height: 9rem;
   border: ${(props) => (props.isDeleteFunction ? 'solid 0.5px' : 'none')};
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 const XIcon = styled.div`
@@ -30,17 +34,26 @@ const XIcon = styled.div`
 `;
 
 interface Props {
-  imageList: string[];
+  imageList?: string[];
   fileDelete?: (deleteIndex: number) => void;
 }
 
 const Image = ({ imageList, fileDelete }: Props) => {
+  const [modalVisibility, setModalVisibility] = useRecoilState<boolean>(modalVisibleState);
+  const [modalUrl, setModalUrl] = useState<string>('');
+
+  const viewModal = (url: string): void => {
+    setModalUrl(url);
+    setModalVisibility(true);
+  };
+
   return (
     <>
-      {imageList.map((url: string, index: number) => {
+      {modalVisibility && <ImageViewModal imageSrc={modalUrl} />}
+      {imageList?.map((url: string, index: number) => {
         return (
           <ImageBox key={url}>
-            <Images src={url} isDeleteFunction={fileDelete ? true : false} />
+            <Images src={url} isDeleteFunction={fileDelete ? true : false} onClick={() => viewModal(url)} />
             {fileDelete && (
               <XIcon onClick={() => fileDelete(index)}>
                 <MdClose style={{ padding: '0.1rem', fontSize: '1.2rem' }} />
