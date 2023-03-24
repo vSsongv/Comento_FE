@@ -100,7 +100,7 @@ const MyProfile = () => {
           <MentoRole>답변 권한 승인 완료</MentoRole>
         )}
       </Wrapper>
-      {modalVisible ? <Modal title={'답변 권한 요청하기'} content={MentoAuthReq}></Modal> : null}
+      {modalVisible ? <Modal title={'답변 권한 요청하기'} content={MentoAuthReq} /> : null}
     </Container>
   );
 };
