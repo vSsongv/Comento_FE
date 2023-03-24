@@ -7,8 +7,7 @@ const MainPushLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10rem;
-  margin-bottom: 3rem;
+  margin-top: 6%;
 `;
 
 const MainPushTitle = styled.div`
@@ -18,10 +17,10 @@ const MainPushTitle = styled.div`
   .subTitle {
     font-family: Nanumgothic;
     font-weight: 100;
-    font-size: 25px;
+    font-size: 30px;
     color: #000000;
     text-align: start;
-    margin-bottom: 20px;
+    margin-bottom: 5%;
   }
   .Title {
     font-family: BHS;
@@ -42,11 +41,11 @@ const PushContainerLayout = styled.div`
 `;
 
 const PushContainer = styled.div`
-  width: 500px;
-  height: 500px;
+  width: auto;
+  height: auto;
   display: flex;
   margin-top: 70px;
-  margin-left: 40px;
+  margin-left: 80px;
   margin-bottom: 100px;
   padding-top: 4rem;
   align-items: center;
@@ -58,9 +57,10 @@ const PushContainer = styled.div`
 const PushImg = styled.div`
   display: flex;
   background-image: url(${Sample2});
+  background-size: cover;
   border: none;
-  width: 550px;
-  height: 430px;
+  width: 560px;
+  height: 431px;
 `;
 
 const PushFontLayout = styled.div`
@@ -72,7 +72,7 @@ const PushFontLayout = styled.div`
 
 const PushFont = styled.p`
   font-weight: bold;
-  font-size: 20px;
+  font-size: 25px;
   margin-top: 5px;
   margin-bottom: 5px;
   margin-left: 1.3rem;
@@ -84,13 +84,13 @@ const PushFont = styled.p`
 `;
 
 const NumberLogo = styled.div`
-  width: 38px;
-  height: 38px;
+  width: 50px;
+  height: 50px;
   background-color: #000000;
   font-size: 20px;
   font-weight: bold;
   text-align: center;
-  padding: 7px 5px 5px 5px;
+  padding-top: 10px;
   color: white;
 `;
 
