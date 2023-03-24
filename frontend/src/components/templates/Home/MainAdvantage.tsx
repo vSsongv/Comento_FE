@@ -19,14 +19,14 @@ const MainAdTitle = styled.div`
   .SmallTitle {
     font-family: BHS;
     font-weight: 100;
-    font-size: 30px;
+    font-size: 50px;
     color: #898787;
     text-align: center;
   }
   .BigTitle {
     font-family: BHS;
     font-weight: 100;
-    font-size: 50px;
+    font-size: 70px;
     background: linear-gradient(to bottom, #033bff, #00e0ff);
     -webkit-background-clip: text;
     background-clip: text;
@@ -42,14 +42,10 @@ const AdContainerLayout = styled.div`
 `;
 
 const AdContainer = styled.div`
-  width: 300px;
-  height: 300px;
+  width: 500px;
+  height: auto;
   display: flex;
-  margin-top: 70px;
-  margin-left: 50px;
-  margin-right: 50px;
-  margin-bottom: 100px;
-  padding-top: 4rem;
+  margin-top: 100px;
   align-items: center;
   border: 0;
   background-color: transparent;
@@ -60,23 +56,22 @@ const ContainerImg = styled.div`
   .Approval {
     background-image: url(${MainAdvantage_approval});
     border: none;
-    width: 150px;
-    height: 150px;
-    background-size: contain;
+    width: 120px;
+    height: 120px;
+    background-size: cover;
   }
   .Idea {
     background-image: url(${MainAdvantage_idea});
     border: none;
-    width: 150px;
-    height: 150px;
-    background-size: contain;
+    width: 120px;
+    height: 120px;
   }
   .Rocket {
     background-image: url(${MainAdvantage_rocket});
+    background-size: cover;
     border: none;
-    width: 150px;
-    height: 150px;
-    background-size: contain;
+    width: 120px;
+    height: 120px;
   }
 `;
 
@@ -84,16 +79,16 @@ const ContainerFont = styled.p`
   display: flex;
   text-align: center;
   .title {
-    font-family: Nanumgothic;
+    font-family: 'NanumGothic';
     font-weight: bold;
-    font-size: 40px;
+    font-size: 35px;
     padding-top: 50px;
   }
   .sub {
-    font-family: Nanumgothic;
-    font-weight: 100;
+    font-family: 'NanumGothic';
+    font-weight: 300;
     font-size: 25px;
-    padding-top: 25px;
+    padding-top: 10%;
   }
 `;
 
@@ -110,10 +105,12 @@ export default function MainAdvantage() {
             <div className='Approval' />
           </ContainerImg>
           <ContainerFont>
-            <span className='title'>간편하다&#33;</span>
+            <span className='title'>맞춤형 답변!</span>
           </ContainerFont>
           <ContainerFont>
-            <span className='sub'>이런 점이 간편합니다</span>
+            <span className='sub'>
+              1대 1매칭 형식으로<br></br> 맞춤형 답을 얻을 수 있습니다.
+            </span>
           </ContainerFont>
         </AdContainer>
         <AdContainer>
@@ -121,10 +118,12 @@ export default function MainAdvantage() {
             <div className='Idea' />
           </ContainerImg>
           <ContainerFont>
-            <span className='title'>명확하다&#33;</span>
+            <span className='title'>원하는 질문을 정확히!</span>
           </ContainerFont>
           <ContainerFont>
-            <span className='sub'>이런 점이 명확합니다</span>
+            <span className='sub'>
+              원하는 질문,키워드에<br></br>집중해서 질문할 수 있습니다.
+            </span>
           </ContainerFont>
         </AdContainer>
         <AdContainer>
@@ -132,10 +131,12 @@ export default function MainAdvantage() {
             <div className='Rocket' />
           </ContainerImg>
           <ContainerFont>
-            <span className='title'>빠르다&#33;</span>
+            <span className='title'>채팅 형식으로 빠르게!</span>
           </ContainerFont>
           <ContainerFont>
-            <span className='sub'>이런 점이 이래서 빠릅니다</span>
+            <span className='sub'>
+              채팅 방식으로 언제든 <br></br> 빠르게 답변을 받을 수 있습니다.
+            </span>
           </ContainerFont>
         </AdContainer>
       </AdContainerLayout>
