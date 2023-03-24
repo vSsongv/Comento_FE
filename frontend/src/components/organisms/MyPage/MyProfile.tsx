@@ -71,18 +71,23 @@ const MyProfile = () => {
   const [profileImage, setProfileImage] = useState<Blob>();
   const [user, setUser] = useRecoilState<UserInfoType>(userInfo);
   const [modalVisible, setModalVisible] = useRecoilState<boolean>(modalVisibleState);
+  const [isChanged, setIsChanged] = useState<boolean>(false);
 
   const setNewProfile = async (): Promise<void> => {
-    const formData: FormData = new FormData();
-    formData.append('images', profileImage ?? '');
-    const newProfile = await changeProfile(formData);
-    setUser({ ...user, profileImage: process.env.REACT_APP_BASE_URL + newProfile });
+    if (isChanged) {
+      const formData: FormData = new FormData();
+      formData.append('images', profileImage ?? '');
+      const newProfile = await changeProfile(formData);
+      setUser({ ...user, profileImage: process.env.REACT_APP_BASE_URL + newProfile });
+    } else {
+      alert('프로필 사진을 변경해주세요.');
+    }
   };
 
   return (
     <Container>
       <Title>프로필</Title>
-      <ImageAddForm width={140} height={140} setProfileImage={setProfileImage} />
+      <ImageAddForm width={140} height={140} setProfileImage={setProfileImage} setIsChanged={setIsChanged} />
       <SetProfileBtn onClick={setNewProfile}>현재 프로필 저장</SetProfileBtn>
       <Wrapper>
         <Name>{user.nickname}</Name>

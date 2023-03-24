@@ -74,34 +74,9 @@ const SignUpForm = () => {
         option='중복확인'
         setAvailable={setAvailableEmail}
       />
-      <InputForm
-        reg={register}
-        error={errors}
-        label='Password'
-        purpose='password'
-        placeholder='영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.'
-        option='비밀번호확인'
-        crtVal={crtVal}
-      />
-      <InputForm
-        reg={register}
-        error={errors}
-        label='Password Confirmation'
-        purpose='password_confirm'
-        placeholder='비밀번호를 다시 입력해주세요.'
-        option='비밀번호확인'
-        crtVal={crtVal}
-      />
-      <InputForm
-        reg={register}
-        error={errors}
-        label='Nickname'
-        purpose='nickname'
-        placeholder='닉네임을 입력해주세요.'
-        option='중복확인'
-        crtVal={crtVal}
-        setAvailable={setAvailableNick}
-      />
+      <InputForm reg={register} error={errors} label='Password' purpose='password' placeholder='영소문자, 숫자, 특수문자 포함 8자 이상으로 조합해주세요.' option='비밀번호확인' crtVal={crtVal} />
+      <InputForm reg={register} error={errors} label='Password Confirmation' purpose='password_confirm' placeholder='비밀번호를 다시 입력해주세요.' option='비밀번호확인' crtVal={crtVal} />
+      <InputForm reg={register} error={errors} label='Nickname' purpose='nickname' placeholder='닉네임을 입력해주세요.' option='중복확인' crtVal={crtVal} setAvailable={setAvailableNick} />
       <InputForm
         reg={register}
         error={errors}
