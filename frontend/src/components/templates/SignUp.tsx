@@ -11,7 +11,7 @@ const SignUpContainer = styled.div`
   background: white;
   box-shadow: ${boxShadow};
   position: relative;
-  margin-top: 100px auto;
+  margin: 100px auto;
   padding: 50px 140px 0px 140px;
 `;
 
