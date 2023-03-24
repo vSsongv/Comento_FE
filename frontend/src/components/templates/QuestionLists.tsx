@@ -13,8 +13,7 @@ const Container = styled.div`
   background-color: white;
   width: 90%;
   padding: 50px;
-  margin: auto;
-  margin-top: 60px;
+  margin: 60px auto 100px;
 `;
 
 const Wrapper = styled.div`
