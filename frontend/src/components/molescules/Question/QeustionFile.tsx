@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { border } from '../../../styles/styleUtil';
 import Drag_files_to_upload from '../../../assets/images/Drag_files_to_upload.png';
 import ImageUpload from '../../../assets/images/imageUpload.png';
 import Image from '../../atoms/Image';
+import { useRecoilState } from 'recoil';
+import { imageListAtom } from '../../../recoil/atom';
 
 const UploadBox = styled.div`
   width: 20%;
@@ -25,12 +27,12 @@ const UploadHidden = styled.input`
 `;
 
 interface Props {
-  formData: FormData;
+  setImage: React.Dispatch<React.SetStateAction<Blob[] | undefined>>;
   enrolledImageList?: string[];
 }
 
-const QuestionFile = ({ formData, enrolledImageList }: Props) => {
-  const [imageList, setImageList] = useState<string[]>([]);
+const QuestionFile = ({ setImage, enrolledImageList }: Props) => {
+  const [imageList, setImageList] = useRecoilState<string[]>(imageListAtom);
 
   useEffect(() => {
     if (enrolledImageList) {
@@ -39,11 +41,16 @@ const QuestionFile = ({ formData, enrolledImageList }: Props) => {
   }, [enrolledImageList]);
 
   const fileDelete = (deleteIndex: number): void => {
-    const newFileList = formData.getAll('images').filter((item, index) => index !== deleteIndex);
-    formData.delete('images');
-    for (let i = 0; i < newFileList.length; i++) {
-      formData.append('images', newFileList[i]);
-    }
+    setImage((prev) => {
+      if (prev) {
+        return prev.filter((item, index) => index !== deleteIndex);
+      }
+    });
+    // const newFileList = formData.getAll('images').filter((item, index) => index !== deleteIndex);
+    // formData.delete('images');
+    // for (let i = 0; i < newFileList.length; i++) {
+    //   formData.append('images', newFileList[i]);
+    // }
     setImageList(imageList.filter((item, index) => index !== deleteIndex));
   };
 
@@ -56,7 +63,14 @@ const QuestionFile = ({ formData, enrolledImageList }: Props) => {
         return;
       }
       for (let i = 0; i < fileList.length; i++) {
-        formData.append('images', fileList[i]);
+        setImage((prev) => {
+          if (prev) {
+            return [...prev, fileList[i]];
+          } else {
+            return [fileList[i]];
+          }
+        });
+        // formData.append('images', fileList[i]);
         const nowImageUrl: string = URL.createObjectURL(fileList[i]);
         nowImageList.push(nowImageUrl);
       }
