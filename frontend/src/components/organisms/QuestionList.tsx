@@ -14,6 +14,7 @@ const Container = styled.div`
 `;
 
 const List = styled.ul`
+  height: 465px;
   overflow: auto;
 `;
 
