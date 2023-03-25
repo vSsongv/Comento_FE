@@ -8,6 +8,9 @@ import MainFirst from '../components/templates/Home/MainFirst';
 import MainMentos from '../components/templates/Home/MainMentos';
 import MainPush from '../components/templates/Home/MainPush';
 import Qna from '../components/templates/Home/Qna';
+import { useRecoilValue } from 'recoil';
+import { modalVisibleState } from '../recoil/atom';
+import LaunchingModal from '../components/molescules/LaunchingModal';
 
 const BackgroundColor = styled.div`
   background-color: #ffffff;
@@ -42,6 +45,7 @@ const TopFont = styled.p`
 
 export default function Home() {
   const [showBtn, setShowBtn] = useState(false);
+  const modalVisible = useRecoilValue<boolean>(modalVisibleState);
 
   const scrolltoTop = () => {
     window.scroll({
@@ -81,6 +85,7 @@ export default function Home() {
       <MainPush />
       <MainMentos />
       <FAQbox />
+      {modalVisible ? <LaunchingModal /> : null}
     </BackgroundColor>
   );
 }

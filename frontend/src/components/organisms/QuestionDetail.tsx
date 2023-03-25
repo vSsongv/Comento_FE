@@ -1,21 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { border, boxShadow } from '../../styles/styleUtil';
 import Image from '../atoms/Image';
 import Button from '../atoms/Button';
 import { GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
 import { useNavigate, useParams } from 'react-router-dom';
 import FlashBtn from '../atoms/FlashBtn';
+import { useRecoilValue } from 'recoil';
+import { crtQuestion } from '../../recoil/atom';
 
-const QuestionDetailContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 43vw;
-  height: 100%;
-  padding: 30px;
-  background-color: white;
-  box-shadow: ${boxShadow};
+interface Props {
+  width: number;
+}
+
+const QuestionDetailContainer = styled.div<Props>`
+  ${(props) => {
+    const WIDTH = props.width;
+    return css`
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      width: ${WIDTH}vw;
+      height: 100%;
+      padding: 30px;
+      background-color: white;
+      box-shadow: ${boxShadow};
+    `;
+  }};
 `;
 
 const TitleContainer = styled.div`
@@ -30,6 +41,7 @@ const ContentContainer = styled.div`
   width: 100%;
   padding: 0 10px;
   overflow: scroll;
+  height: 100%;
 `;
 
 const Title = styled.h1`
@@ -63,8 +75,9 @@ const ButtonContainer = styled.div`
   width: 230px;
 `;
 
-const QuestionDetail = () => {
+const QuestionDetail = ({ width }: Props) => {
   const { roomid } = useParams();
+  const mentoringId = useRecoilValue<string>(crtQuestion);
   const [question, setQuestion] = useState<QuestionProp>();
   const navigate = useNavigate();
 
@@ -77,11 +90,13 @@ const QuestionDetail = () => {
     };
     if (roomid) {
       getSpecificQuestion(roomid);
+    } else {
+      getSpecificQuestion(mentoringId);
     }
-  }, []);
+  }, [mentoringId]);
 
   return (
-    <QuestionDetailContainer>
+    <QuestionDetailContainer width={width}>
       <TitleContainer>
         <Title>{question?.title}</Title>
         <QuestionInfo>

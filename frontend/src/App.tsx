@@ -9,7 +9,6 @@ import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Header from './components/organisms/Header';
 import Question from './pages/Question';
-import Answer from './pages/Answer';
 import Footer from './components/molescules/Footer';
 import { ScrollToTop } from './utils/ScrollToTop';
 import { useCookies } from 'react-cookie';
@@ -18,6 +17,7 @@ import { signInState, userInfo, UserInfoType } from './recoil/atom';
 import CheckAuth from './utils/CheckAuth';
 import MyPage from './pages/MyPage';
 import Chatting from './pages/Chatting';
+import QuestionLists from './pages/QuestionLists';
 
 function App() {
   const [cookies] = useCookies(['refresh-token']);
@@ -65,7 +65,7 @@ function App() {
                 <Route path='/question' element={<Question />}>
                   <Route path='edit/:questionId' element={<Question />} />
                 </Route>
-                <Route path='/answer' element={<Answer />} />
+                <Route path='/questionList/:role' element={<QuestionLists />} />
                 <Route path='/myPage' element={<MyPage />} />
                 <Route path='/chatting/:roomid' element={<Chatting />} />
               </Route>
