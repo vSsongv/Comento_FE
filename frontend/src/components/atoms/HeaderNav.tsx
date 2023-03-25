@@ -40,7 +40,7 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
         navigate('/signIn');
         break;
       case '내 질문 목록':
-        navigate('/myPage');
+        navigate('/questionList/mentee');
         break;
       case '로그아웃':
         sessionStorage.removeItem('token_exp');

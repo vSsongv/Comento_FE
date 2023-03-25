@@ -9,13 +9,13 @@ const ChattingContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 660px;
-  margin: 25px 80px;
+  margin: 135px 80px;
 `;
 
 const Chatting = () => {
   return (
     <ChattingContainer>
-      <QuestionDetail />
+      <QuestionDetail width={45} />
       <ChattingRoom />
     </ChattingContainer>
   );

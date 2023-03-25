@@ -58,12 +58,13 @@ const MentoRole = styled.div`
   background-image: linear-gradient(90deg, #033bff, #00dbf8);
   color: white;
   border-radius: 10px;
-  width: 155px;
+  width: 145px;
   height: 30px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
-  padding-top: 5px;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: 'NanumGothic';
 `;
 
@@ -71,24 +72,29 @@ const MyProfile = () => {
   const [profileImage, setProfileImage] = useState<Blob>();
   const [user, setUser] = useRecoilState<UserInfoType>(userInfo);
   const [modalVisible, setModalVisible] = useRecoilState<boolean>(modalVisibleState);
+  const [isChanged, setIsChanged] = useState<boolean>(false);
 
   const setNewProfile = async (): Promise<void> => {
-    const formData: FormData = new FormData();
-    formData.append('images', profileImage ?? '');
-    const newProfile = await changeProfile(formData);
-    setUser({ ...user, profileImage: process.env.REACT_APP_BASE_URL + newProfile });
+    if (isChanged) {
+      const formData: FormData = new FormData();
+      formData.append('images', profileImage ?? '');
+      const newProfile = await changeProfile(formData);
+      setUser({ ...user, profileImage: process.env.REACT_APP_BASE_URL + newProfile });
+    } else {
+      alert('프로필 사진을 변경해주세요.');
+    }
   };
 
   return (
     <Container>
       <Title>프로필</Title>
-      <ImageAddForm width={140} height={140} setProfileImage={setProfileImage} />
+      <ImageAddForm width={140} height={140} setProfileImage={setProfileImage} setIsChanged={setIsChanged} />
       <SetProfileBtn onClick={setNewProfile}>현재 프로필 저장</SetProfileBtn>
       <Wrapper>
         <Name>{user.nickname}</Name>
         <Email>{user.email}</Email>
         {user.role === 'Q' ? (
-          <FlashBtn onClick={() => setModalVisible(true)} width={155}>
+          <FlashBtn onClick={() => setModalVisible(true)} width={145} height={30} fontSize={14}>
             답변 권한 요청하기
           </FlashBtn>
         ) : (

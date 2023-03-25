@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import defaultProfile from '../../../assets/images/defaultProfile.svg';
 
 const BlackLayout = styled.div`
+  width: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,8 +53,8 @@ const PersonContainer = styled.div`
 const Personimg = styled.div`
   background-image: url(${defaultProfile});
   border: none;
-  width: 150px;
-  height: 150px;
+  width: 170px;
+  height: 170px;
   background-size: contain;
 `;
 
@@ -61,10 +63,10 @@ const PersonFont = styled.p`
   font-weight: 100;
   font-size: 30px;
   text-align: center;
-  padding-top: 50px;
+  padding-top: 48px;
 `;
 
-function MainBlack() {
+export default function MainBlack() {
   return (
     <BlackLayout>
       <BlackTitle>
@@ -88,5 +90,3 @@ function MainBlack() {
     </BlackLayout>
   );
 }
-
-export default MainBlack;

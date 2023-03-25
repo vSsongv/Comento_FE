@@ -10,12 +10,9 @@ const SignUpContainer = styled.div`
   height: 1050px;
   background: white;
   box-shadow: ${boxShadow};
-  margin: auto;
   position: relative;
-  margin-top: 100px;
-  padding-top: 50px;
-  padding-left: 140px;
-  padding-right: 140px;
+  margin: 100px auto;
+  padding: 50px 140px 0px 140px;
 `;
 
 const UserTerms = styled(Link)`

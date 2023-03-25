@@ -2,6 +2,10 @@ import React, { MutableRefObject } from 'react';
 import styled, { css } from 'styled-components';
 import { Languages } from '../../utils/Languages';
 import { boxShadow } from '../../styles/styleUtil';
+import { useParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { QuestionContent, questionList, questionType } from '../../recoil/atom';
+import { getQuestionList } from '../../api/mentoringService';
 
 interface DropDownProps {
   width: string;
@@ -35,17 +39,26 @@ interface Props {
   width: string;
   top: string;
   languageRef: MutableRefObject<string>;
-  // setLanguage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const DropDownList = ({ languageRef, ...dropDownProps }: Props) => {
-  const changeLanguage = (language: string) => {
+  const { role } = useParams();
+  const type = useRecoilValue<number>(questionType);
+  const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
+
+  const changeLanguage = async (language: string, index: number) => {
     languageRef.current = language;
+    if (role) {
+      const questions = await getQuestionList(type, index, role);
+      if (typeof questions !== 'boolean') {
+        setQuestions(questions);
+      }
+    }
   };
 
-  const LanguageList: JSX.Element[] = Languages.map((language) => {
+  const LanguageList: JSX.Element[] = Languages.map((language, index) => {
     return (
-      <Li key={language} onClick={() => changeLanguage(language)}>
+      <Li key={language} onClick={() => changeLanguage(language, index)}>
         {language}
       </Li>
     );
