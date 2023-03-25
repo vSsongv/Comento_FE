@@ -6,6 +6,7 @@ import Button from '../atoms/Button';
 import { GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
 import { useNavigate, useParams } from 'react-router-dom';
 import FlashBtn from '../atoms/FlashBtn';
+import FeedbackModal from './FeedbackModal';
 
 const QuestionDetailContainer = styled.div`
   position: relative;
@@ -66,6 +67,7 @@ const ButtonContainer = styled.div`
 const QuestionDetail = () => {
   const { roomid } = useParams();
   const [question, setQuestion] = useState<QuestionProp>();
+  const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -99,9 +101,10 @@ const QuestionDetail = () => {
           <FlashBtn width={110} height={35} fontSize={12} onClick={() => navigate('/')}>
             목록으로 이동
           </FlashBtn>
-          <Button width={110} height={35} fontSize={12} onClick={() => navigate('/')}>
+          <Button width={110} height={35} fontSize={12} onClick={ () => {setOpenModal(true)} }>
             멘토링 끝내기
           </Button>
+          {openModal === true ? <FeedbackModal /> : null}
         </ButtonContainer>
       )}
     </QuestionDetailContainer>
