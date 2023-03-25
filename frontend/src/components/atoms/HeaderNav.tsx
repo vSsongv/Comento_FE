@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { signInState, headerMenu } from '../../recoil/atom';
+import { signInState, headerMenu, modalVisibleState } from '../../recoil/atom';
 import { useCookies } from 'react-cookie';
 
 const ListContainer = styled.li`
@@ -31,13 +31,14 @@ interface Props {
 const HeaderNav = ({ imageSrc, menu }: Props) => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
   const [, , removeCookie] = useCookies(['refresh-token']);
+  const setModalVisible = useSetRecoilState<boolean>(modalVisibleState);
   const setSignInState = useSetRecoilState(signInState);
   const navigate = useNavigate();
 
   const moveTo = () => {
     switch (menu) {
       case '결제하기':
-        navigate('/signIn');
+        setModalVisible(true);
         break;
       case '내 질문 목록':
         navigate('/questionList/mentee');
