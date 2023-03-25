@@ -41,8 +41,8 @@ const XIcon = styled.button`
 const Title = styled.span`
   color: black;
   display: block;
-  margin-bottom: 15px;
-  font-size: 18px;
+  margin-bottom: 20px;
+  font-size: 25px;
   font-weight: 600;
 `;
 
