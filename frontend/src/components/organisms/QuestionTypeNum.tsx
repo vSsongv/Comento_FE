@@ -70,6 +70,7 @@ const QuestionTypeNum = () => {
   const [typeNum, setTypeNum] = useState<QuestionType>();
   const setMentoringId = useSetRecoilState<string>(crtQuestion);
   const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
+  const { role } = useParams();
 
   useEffect(() => {
     const getQuestionTypeNums = async (): Promise<void> => {
@@ -80,9 +81,7 @@ const QuestionTypeNum = () => {
       }
     };
     getQuestionTypeNums();
-  });
-
-  const { role } = useParams();
+  }, [role]);
 
   const getQuestions = async (qType: number): Promise<void> => {
     setMentoringId('');
