@@ -90,8 +90,6 @@ const QuestionTypeNum = () => {
       const questions = await getQuestionList(qType, 1, role);
       if (typeof questions !== 'boolean') {
         setQuestions(questions);
-        console.log(questions);
-        console.log('sfasd');
       }
     }
   };
@@ -99,7 +97,7 @@ const QuestionTypeNum = () => {
   return (
     <Container>
       <Wrapper>
-        {/* <TypeButton type='button' onClick={() => getQuestions(0)}>
+        <TypeButton type='button' onClick={() => getQuestions(0)}>
           <QuestionNum>{typeNum?.before}</QuestionNum>건
         </TypeButton>
         <TypeButton type='button' onClick={() => getQuestions(1)}>
@@ -107,7 +105,7 @@ const QuestionTypeNum = () => {
         </TypeButton>
         <TypeButton type='button' onClick={() => getQuestions(2)}>
           <QuestionNum>{typeNum?.end}</QuestionNum>건
-        </TypeButton> */}
+        </TypeButton>
       </Wrapper>
       <BottomGradient>
         <Type>매칭 전</Type>
