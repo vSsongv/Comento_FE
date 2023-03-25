@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { border } from '../../../styles/styleUtil';
 import Drag_files_to_upload from '../../../assets/images/Drag_files_to_upload.png';
@@ -30,7 +30,13 @@ interface Props {
 }
 
 const QuestionFile = ({ formData, enrolledImageList }: Props) => {
-  const [imageList, setImageList] = useState<string[]>(enrolledImageList || []);
+  const [imageList, setImageList] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (enrolledImageList) {
+      setImageList(enrolledImageList);
+    }
+  }, [enrolledImageList]);
 
   const fileDelete = (deleteIndex: number): void => {
     const newFileList = formData.getAll('images').filter((item, index) => index !== deleteIndex);

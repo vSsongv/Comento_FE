@@ -71,6 +71,7 @@ const QuestionForm = () => {
   const contentRef = useRef<HTMLTextAreaElement>(null);
   const [enrolledImageList, setEnrolledImageList] = useState<string[]>([]);
   const [modal, setModal] = useState<boolean>(false);
+  const [, setGetApi] = useState<boolean>(false);
   const formData: FormData = new FormData();
   const navigate = useNavigate();
   const { questionId } = useParams();
@@ -79,17 +80,23 @@ const QuestionForm = () => {
     titleRef.current?.focus();
     if (questionId) {
       const getSpecificQuestion = async () => {
+        setGetApi(true);
         const questionInfo = await GetSpecificQuestion(questionId);
         if (typeof questionInfo !== 'boolean') {
           if (titleRef.current) titleRef.current.value = questionInfo.title;
           if (contentRef.current) contentRef.current.value = questionInfo.content;
           languageRef.current = questionInfo.language;
-          setEnrolledImageList(questionInfo.content_image);
+          if (questionInfo.content_image) setEnrolledImageList(questionInfo.content_image);
         }
+        setGetApi(false);
       };
       getSpecificQuestion();
     }
   }, []);
+
+  useEffect(() => {
+    console.log(languageRef.current);
+  }, [languageRef.current]);
 
   const onSubmit = async (): Promise<JSX.Element | void> => {
     if (titleRef.current?.value === '') {
