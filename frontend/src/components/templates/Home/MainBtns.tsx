@@ -1,77 +1,82 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import Button from '../../atoms/Button';
+import { useNavigate } from 'react-router-dom';
+import { mainGradient } from '../../../styles/styleUtil';
 import arrowImage from '../../../assets/images/MainFirstButtonArrow.png';
+import { useRecoilValue } from 'recoil';
+import { signInState, userInfo, UserInfoType } from '../../../recoil/atom';
 
-const RowBtn = styled.div`
+const Container = styled.div`
   display: flex;
-  flex-direction: row;
-`;
-
-const MainBtnLink = styled(Link)`
-  padding-top: 10px;
-  width: 350px;
-  height: 77px;
-  display: flex;
-`;
-
-const MainBtnStyle = styled(Button)`
-  padding-top: 10px;
-  height: 77px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  margin-left: 30px;
-`;
-
-const StartLabel = styled.p`
-  font-size: 10pt;
-`;
-
-const BtnLabel = styled.p`
-  font-size: 20pt;
-`;
-
-const BtnContainer = styled.div`
-  padding-top: 8px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  justify-content: space-between;
+  width: 60%;
 `;
 
 const ArrowImg = styled.div`
-  margin-left: 10px;
+  margin-left: 12px;
+  margin-top: 7px;
   background: url('${arrowImage}');
   background-repeat: no-repeat;
-  background-position: center;
   background-size: cover;
   width: 10px;
   height: 17px;
 `;
 
-export default function MainBtns() {
+const MainBtn = styled.button`
+  cursor: pointer;
+  width: 480px;
+  height: 90px;
+  ${mainGradient}
+  border: none;
+  font-weight: 600;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  font-family: 'NanumGothic';
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+`;
+
+const Wrraper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const MainBtns = () => {
+  const UserInfo = useRecoilValue<UserInfoType>(userInfo);
+  const isSignIn = useRecoilValue<boolean>(signInState);
+  const navigate = useNavigate();
+
   return (
-    <RowBtn>
-      <MainBtnLink to='/Question'>
-        <MainBtnStyle width={350}>
-          <StartLabel>지금, 질문 시작해보세요!</StartLabel>
-          <BtnContainer>
-            <BtnLabel>질문하기</BtnLabel>
+    <Container>
+      {isSignIn && UserInfo.role === 'A' ? (
+        <MainBtn onClick={() => navigate('/questionList/mentor')}>
+          <p style={{ fontSize: '16px', paddingBottom: '8px' }}>지금, 답변 시작해보세요!</p>
+          <Wrraper>
+            <p style={{ fontSize: '27px' }}>답변하기</p>
             <ArrowImg />
-          </BtnContainer>
-        </MainBtnStyle>
-      </MainBtnLink>
-      <MainBtnLink to='/answer'>
-        <MainBtnStyle width={350}>
-          <StartLabel>지금, 답변 시작해보세요!</StartLabel>
-          <BtnContainer>
-            <BtnLabel>답변하기</BtnLabel>
+          </Wrraper>
+        </MainBtn>
+      ) : (
+        <MainBtn onClick={() => navigate('/myPage')}>
+          <p style={{ fontSize: '16px', paddingBottom: '8px' }}>지금, 답변 시작해보세요!</p>
+          <Wrraper>
+            <p style={{ fontSize: '27px' }}>답변 권한 얻으러 가기</p>
             <ArrowImg />
-          </BtnContainer>
-        </MainBtnStyle>
-      </MainBtnLink>
-    </RowBtn>
+          </Wrraper>
+        </MainBtn>
+      )}
+      <MainBtn onClick={() => navigate('/question')}>
+        <p style={{ fontSize: '16px', paddingBottom: '8px' }}>지금, 질문 시작해보세요!</p>
+        <Wrraper>
+          <p style={{ fontSize: '27px' }}>질문하기</p>
+          <ArrowImg />
+        </Wrraper>
+      </MainBtn>
+    </Container>
   );
-}
+};
+
+export default MainBtns;

@@ -11,6 +11,7 @@ interface ImageSizeProps {
 
 interface ImageAddFormProps extends ImageSizeProps {
   setProfileImage: React.Dispatch<React.SetStateAction<Blob | undefined>>;
+  setIsChanged?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**
@@ -53,11 +54,14 @@ const AddBtn = styled.img`
   cursor: pointer;
 `;
 
-const ImageAddForm = ({ width, height, setProfileImage }: ImageAddFormProps) => {
+const ImageAddForm = ({ width, height, setProfileImage, setIsChanged }: ImageAddFormProps) => {
   const user = useRecoilValue<UserInfoType>(userInfo);
   const [profile, setprofile] = useState<string>(user.profileImage);
 
   const setProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (setIsChanged) {
+      setIsChanged(true);
+    }
     const file = e.target.files;
     if (file && file[0]) {
       const profileUrl = URL.createObjectURL(file[0]);

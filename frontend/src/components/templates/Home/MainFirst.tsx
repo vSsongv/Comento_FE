@@ -4,17 +4,20 @@ import titleImage from '../../../assets/images/MainFirstTitle.png';
 import MainBtns from './MainBtns';
 
 const Title = styled.div`
-  font-family: NanumGothic;
+  font-family: 'NanumGothic';
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  height: auto;
 `;
 
 const TitleImage = styled.div`
   background: url('${titleImage}');
   background-size: cover;
-  width: 916px;
-  height: 467px;
+  width: 915px;
+  height: 470px;
+  margin-top: 50px;
   margin-bottom: 30px;
 `;
 

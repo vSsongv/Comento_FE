@@ -24,7 +24,7 @@ const ProfileImage = styled.img`
 const Mentos = styled.div`
   display: flex;
   align-items: center;
-  font-size: 15px;
+  font-size: 14px;
 `;
 
 const SimpleProfile = ({ height }: SimpleProfileProps) => {
