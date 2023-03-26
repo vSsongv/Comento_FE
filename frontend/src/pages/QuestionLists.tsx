@@ -20,7 +20,7 @@ const QuestionLists = () => {
       }
     };
     getQuestions();
-  }, [role]);
+  }, [type, role]);
 
   return <QuestionListTemplate />;
 };

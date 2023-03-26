@@ -94,6 +94,7 @@ const Question = (data: questionProps) => {
           setMentoringId('');
         }
       }
+      location.reload();
     }
   };
 

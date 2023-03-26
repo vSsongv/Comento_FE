@@ -17,6 +17,7 @@ const ChoiceBox = styled.div<ChoiceBoxProps>`
       return border(parseInt(item));
     });
     return css`
+      z-index: 100;
       position: relative;
       display: flex;
       flex-direction: column;
