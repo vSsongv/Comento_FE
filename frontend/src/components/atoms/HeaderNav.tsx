@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { signInState, headerMenu, modalVisibleState } from '../../recoil/atom';
+import { signInState, headerMenu, modalVisibleState, questionType } from '../../recoil/atom';
 import { useCookies } from 'react-cookie';
 
 const ListContainer = styled.li`
@@ -30,6 +30,7 @@ interface Props {
 
 const HeaderNav = ({ imageSrc, menu }: Props) => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
+  const seType = useSetRecoilState(questionType);
   const [, , removeCookie] = useCookies(['refresh-token']);
   const setModalVisible = useSetRecoilState<boolean>(modalVisibleState);
   const setSignInState = useSetRecoilState(signInState);
@@ -41,6 +42,7 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
         setModalVisible(true);
         break;
       case '내 질문 목록':
+        seType(0);
         navigate('/questionList/mentee');
         break;
       case '로그아웃':
