@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import colors from '../../styles/colors';
-import { crtQuestion, QuestionContent, questionList, questionType } from '../../recoil/atom';
+import { crtQuestion, QuestionContent, questionList, questionType, selectedLang } from '../../recoil/atom';
 import { mainGradient } from '../../styles/styleUtil';
 import { getQuestionList, getQuestionTypeNum, QuestionType } from '../../api/mentoringService';
 import { useParams } from 'react-router-dom';
@@ -68,6 +68,7 @@ const QuestionNum = styled.span`
 const QuestionTypeNum = () => {
   const setType = useSetRecoilState<number>(questionType);
   const [typeNum, setTypeNum] = useState<QuestionType>();
+  const lang = useRecoilValue<number>(selectedLang);
   const setMentoringId = useSetRecoilState<string>(crtQuestion);
   const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
   const { role } = useParams();
@@ -89,7 +90,7 @@ const QuestionTypeNum = () => {
     setMentoringId('');
     setType(qType);
     if (role) {
-      const questions = await getQuestionList(qType, 1, role);
+      const questions = await getQuestionList(qType, lang, role);
       if (typeof questions !== 'boolean') {
         setQuestions(questions);
       }
