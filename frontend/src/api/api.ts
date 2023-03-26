@@ -34,8 +34,8 @@ export const SignApi = {
 
 export const Mentee = {
   askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
-  editQuestion: (questionContents: FormData, mentoringId: string) =>
-    api.put(`mentee/question/${mentoringId}`, questionContents),
+  editQuestion: (questionContents: FormData, questionId: string) =>
+    api.put(`mentee/question?mentoringid=${questionId}`, questionContents),
   getSpecificQuestion: (mentoringid: string) => api.get(`mentee/question/${mentoringid}`),
 };
 

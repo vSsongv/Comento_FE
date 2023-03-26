@@ -13,9 +13,9 @@ export const askQuestion = async (questionContents: FormData): Promise<void | bo
   }
 };
 
-export const editQuestion = async (questionContents: FormData, mentoringId: string): Promise<void | boolean> => {
+export const editQuestion = async (questionContents: FormData, questionId: string): Promise<void | boolean> => {
   try {
-    const res = await Mentee.editQuestion(questionContents, mentoringId);
+    const res = await Mentee.editQuestion(questionContents, questionId);
     if (res) return true;
   } catch (error: any) {
     console.log(error);
