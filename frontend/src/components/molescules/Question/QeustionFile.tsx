@@ -37,6 +37,8 @@ const QuestionFile = ({ setImage, enrolledImageList }: Props) => {
   useEffect(() => {
     if (enrolledImageList) {
       setImageList(enrolledImageList);
+    } else {
+      setImageList([]);
     }
   }, [enrolledImageList]);
 

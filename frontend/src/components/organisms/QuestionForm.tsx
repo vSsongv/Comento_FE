@@ -95,8 +95,13 @@ const QuestionForm = () => {
         setGetApi(false);
       };
       getSpecificQuestion();
+    } else {
+      if (titleRef.current) titleRef.current.value = '';
+      if (contentRef.current) contentRef.current.value = '';
+      languageRef.current = Languages[0];
+      setEnrolledImageList([]);
     }
-  }, []);
+  }, [questionId]);
 
   useEffect(() => {
     console.log(languageRef.current);
