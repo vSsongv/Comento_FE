@@ -133,6 +133,7 @@ const QuestionForm = () => {
       image?.forEach((image) => formData.append('images', image));
       if (await editQuestion(formData, questionId)) {
         alert('수정이 완료되었습니다.');
+        navigate('/questionList/mentee');
       }
     } else {
       const dataSet = {
@@ -142,7 +143,6 @@ const QuestionForm = () => {
       };
       formData.append('data', JSON.stringify(dataSet));
       image?.forEach((image) => formData.append('images', image));
-      // formData.append('images', image ? image : '');
       if (await askQuestion(formData)) {
         setModal(true);
       }
@@ -153,7 +153,7 @@ const QuestionForm = () => {
 
   const completeQuestion = (): void => {
     setModal(false);
-    navigate('/');
+    navigate('/questionList/mentee');
   };
 
   return (
