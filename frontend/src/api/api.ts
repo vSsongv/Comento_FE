@@ -57,6 +57,6 @@ export const User = {
 
 export const Mentoring = {
   getQuestionList: (type: number, language: number, role: string) => api.get(`${role}/question?type=${type}&language=${language}`),
-  getQuestionTypeNum: () => api.get('mentor/count'),
-  deleteQuestion: (mentoringId: string) => api.delete(`mentee/question/${mentoringId}`),
+  getQuestionTypeNum: (role: string) => api.get(`${role}/count`),
+  deleteQuestion: (role: string, mentoringId: string) => api.delete(`${role}/question/${mentoringId}`),
 };

@@ -74,10 +74,12 @@ const QuestionTypeNum = () => {
 
   useEffect(() => {
     const getQuestionTypeNums = async (): Promise<void> => {
-      const types = await getQuestionTypeNum();
-      if (typeof types !== 'boolean') {
-        setTypeNum(types);
-        setMentoringId('');
+      if (role) {
+        const types = await getQuestionTypeNum(role);
+        if (typeof types !== 'boolean') {
+          setTypeNum(types);
+          setMentoringId('');
+        }
       }
     };
     getQuestionTypeNums();

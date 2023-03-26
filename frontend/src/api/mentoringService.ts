@@ -17,9 +17,9 @@ export const getQuestionList = async (type: number, language: number, role: stri
   }
 };
 
-export const getQuestionTypeNum = async (): Promise<QuestionType | boolean> => {
+export const getQuestionTypeNum = async (role: string): Promise<QuestionType | boolean> => {
   try {
-    const res = await Mentoring.getQuestionTypeNum();
+    const res = await Mentoring.getQuestionTypeNum(role);
     return res.data.result;
   } catch (error) {
     console.log(error);
@@ -27,9 +27,9 @@ export const getQuestionTypeNum = async (): Promise<QuestionType | boolean> => {
   }
 };
 
-export const deleteQuestion = async (mentoringId: string): Promise<boolean> => {
+export const deleteQuestion = async (role: string, mentoringId: string): Promise<boolean> => {
   try {
-    const res = await Mentoring.deleteQuestion(mentoringId);
+    const res = await Mentoring.deleteQuestion(role, mentoringId);
     alert(res.data.message);
     return true;
   } catch (error) {

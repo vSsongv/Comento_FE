@@ -84,19 +84,17 @@ const Question = (data: questionProps) => {
 
   const deleteQ = async (mentoringId: string): Promise<void> => {
     const confirmDel = confirm('정말 삭제하시겠습니까?');
-    if (confirmDel) {
-      console.log(mentoringId);
-      // if (await deleteQuestion(mentoringId)) {
-      //   setMentoringId('');
-      // }
+    if (confirmDel && role) {
+      if (await deleteQuestion(role, mentoringId)) {
+        setMentoringId('');
+      }
     }
   };
 
   return (
     <Li id={data.data.mentoringid} backColor={data.data.mentoringid === mentoringId ? '#F5F5F5' : 'white'} onClick={() => setMentoringId(data.data.mentoringid)}>
       <Title>{data.data.title}</Title>
-      <Nick>{user.nickname}</Nick>
-      {/* <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick> */}
+      <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick>
       <Wrapper>
         <Date>{data.data.date.slice(0, 11)}</Date>
         <Lang>{Languages[data.data.language]}</Lang>
