@@ -48,11 +48,6 @@ const QuestionFile = ({ setImage, enrolledImageList }: Props) => {
         return prev.filter((item, index) => index !== deleteIndex);
       }
     });
-    // const newFileList = formData.getAll('images').filter((item, index) => index !== deleteIndex);
-    // formData.delete('images');
-    // for (let i = 0; i < newFileList.length; i++) {
-    //   formData.append('images', newFileList[i]);
-    // }
     setImageList(imageList.filter((item, index) => index !== deleteIndex));
   };
 

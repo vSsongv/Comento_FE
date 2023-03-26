@@ -36,7 +36,6 @@ const StyledFlashBtn = styled.button<FlashBtnProps>`
       cursor: pointer;
       text-align: center;
       /* 크기 */
-      /* padding: 1rem auto; */
       width: ${WIDTH}px;
       height: ${HEIGHT}px;
       font-size: ${FONT_SIZE}px;

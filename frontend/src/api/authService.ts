@@ -168,8 +168,8 @@ export const SignIn = async (
     const exp = new Date(decoded_refresh.exp * 1000);
     setCookie('refresh-token', res.data.result.refreshToken, {
       path: '/',
-      // secure: true,
-      // sameSite: 'none',
+      secure: true,
+      sameSite: 'none',
       expires: exp,
     });
     authInterceptor(cookies, userData.setUserInfo, setSignInState);

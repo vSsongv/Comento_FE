@@ -141,7 +141,6 @@ const ChattingRoom = () => {
         if (!(await SendMessage(roomid, myInfo.nickname, message))) {
           alert('메세지 전송에 실패했습니다.');
         }
-        // setMessages([...messages, newMessage]);
       } else if (image) {
         formData.append('images', image);
         formData.append('data', myInfo.nickname);
