@@ -8,6 +8,7 @@ import { crtQuestion, questionType, userInfo, UserInfoType } from '../../recoil/
 import RoleToggle from '../molescules/List/RoleToggle';
 import Button from '../atoms/Button';
 import { useNavigate, useParams } from 'react-router-dom';
+import { confirmMentoring } from '../../api/mentoringService';
 
 const Container = styled.div`
   background-color: white;
@@ -38,11 +39,11 @@ const ListTemplate = () => {
   const { role } = useParams();
   const navigate = useNavigate();
 
-  const handler = () => {
+  const handler = async () => {
     if (role === 'mentee') {
       navigate(`/question/edit/${mentoringId}`);
     } else {
-      navigate(`/chatting/${mentoringId}`);
+      if (await confirmMentoring(mentoringId)) navigate(`/chatting/${mentoringId}`);
     }
   };
 

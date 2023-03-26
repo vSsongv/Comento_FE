@@ -27,6 +27,17 @@ export const getQuestionTypeNum = async (role: string): Promise<QuestionType | b
   }
 };
 
+export const confirmMentoring = async (mentoringId: string): Promise<boolean> => {
+  try {
+    const res = await Mentoring.confirmMentoring(mentoringId);
+    alert(res.data.message);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
 export const deleteQuestion = async (role: string, mentoringId: string): Promise<boolean> => {
   try {
     const res = await Mentoring.deleteQuestion(role, mentoringId);
