@@ -6,7 +6,7 @@ import { crtQuestion, QuestionContent, questionType, userInfo, UserInfoType } fr
 import { border } from '../../../styles/styleUtil';
 import { Languages } from '../../../utils/Languages';
 import Trashcan from '../../../assets/images/delete.png';
-import { deleteQuestion } from '../../../api/mentoringService';
+import { deleteAnswer, deleteQuestion } from '../../../api/mentoringService';
 
 type questionProps = {
   data: QuestionContent;
@@ -85,8 +85,14 @@ const Question = (data: questionProps) => {
   const deleteQ = async (mentoringId: string): Promise<void> => {
     const confirmDel = confirm('정말 삭제하시겠습니까?');
     if (confirmDel && role) {
-      if (await deleteQuestion(role, mentoringId)) {
-        setMentoringId('');
+      if (role === 'mentee') {
+        if (await deleteQuestion(mentoringId)) {
+          setMentoringId('');
+        }
+      } else {
+        if (await deleteAnswer(mentoringId)) {
+          setMentoringId('');
+        }
       }
     }
   };

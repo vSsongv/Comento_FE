@@ -38,9 +38,20 @@ export const confirmMentoring = async (mentoringId: string): Promise<boolean> =>
   }
 };
 
-export const deleteQuestion = async (role: string, mentoringId: string): Promise<boolean> => {
+export const deleteQuestion = async (mentoringId: string): Promise<boolean> => {
   try {
-    const res = await Mentoring.deleteQuestion(role, mentoringId);
+    const res = await Mentoring.deleteQuestion(mentoringId);
+    alert(res.data.message);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const deleteAnswer = async (mentoringId: string): Promise<boolean> => {
+  try {
+    const res = await Mentoring.deleteAnswer(mentoringId);
     alert(res.data.message);
     return true;
   } catch (error) {
