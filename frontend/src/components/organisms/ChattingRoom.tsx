@@ -31,7 +31,10 @@ const ChattingBox = styled.div`
   height: 595px;
   width: 97%;
   ${border(2)}
-  overflow: scroll;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ChattingRoom = () => {
@@ -58,14 +61,6 @@ const ChattingRoom = () => {
   const { roomid } = useParams();
   const formData: FormData = new FormData();
   const navigate = useNavigate();
-
-  const options = {
-    threshold: 1.0,
-  };
-  const moreMessage = () => {
-    console.log('ㅋㅋㅎㅇ');
-  };
-  const scrollObserver = new IntersectionObserver(moreMessage, options);
 
   const getTime = (createdAt: string): string => {
     const newCreatedAt = createdAt.slice(11, 16);
@@ -110,6 +105,7 @@ const ChattingRoom = () => {
     });
 
     socket.on('message', (message) => {
+      console.log(message);
       const newMessage = returnNewMessage(message);
       setNewMessage(newMessage);
     });
@@ -118,12 +114,9 @@ const ChattingRoom = () => {
       setNewMessage(newMessage);
     });
 
-    topRef.current && scrollObserver.observe(topRef.current);
-
     return () => {
       socket.disconnect();
       socket.off();
-      topRef.current && scrollObserver.unobserve(topRef.current);
     };
   }, []);
 
@@ -136,7 +129,7 @@ const ChattingRoom = () => {
   useEffect((): void => {
     messageRef.current?.focus();
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -179,20 +172,18 @@ const ChattingRoom = () => {
   };
 
   const Messages = () => {
-    return messages.map((message, index) => {
-      return (
-        <Message
-          key={message.chatid}
-          topRef={index === 0 ? topRef : undefined}
-          isMe={message.isMe}
-          nickname={message.nickname}
-          message={message.message ? message.message : undefined}
-          image={message.image ? message.image : undefined}
-          createdAt={message.createdAt}
-          profile={message.isMe ? myInfo.profileImage : counterPartProfile}
-        />
-      );
-    });
+    return messages.map((message, index) => (
+      <Message
+        key={message.chatid}
+        topRef={index === 0 ? topRef : undefined}
+        isMe={message.isMe}
+        nickname={message.nickname}
+        message={message.message ? message.message : undefined}
+        image={message.image ? message.image : undefined}
+        createdAt={message.createdAt}
+        profile={message.isMe ? myInfo.profileImage : counterPartProfile}
+      />
+    ));
   };
 
   return (

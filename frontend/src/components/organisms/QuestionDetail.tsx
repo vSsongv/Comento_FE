@@ -41,8 +41,11 @@ const TitleContainer = styled.div`
 const ContentContainer = styled.div`
   width: 100%;
   padding: 0 10px;
-  overflow: scroll;
+  overflow-y: scroll;
   height: 100%;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Title = styled.h1`
@@ -116,7 +119,14 @@ const QuestionDetail = ({ width }: Props) => {
           <FlashBtn width={110} height={35} fontSize={12} onClick={() => navigate('/')}>
             목록으로 이동
           </FlashBtn>
-          <Button width={110} height={35} fontSize={12} onClick={ () => {setOpenModal(true)} }>
+          <Button
+            width={110}
+            height={35}
+            fontSize={12}
+            onClick={() => {
+              setOpenModal(true);
+            }}
+          >
             멘토링 끝내기
           </Button>
           {openModal === true ? <FeedbackModal /> : null}
