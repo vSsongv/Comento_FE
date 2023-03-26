@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { questionType } from '../../../recoil/atom';
 import { border } from '../../../styles/styleUtil';
 import { Languages } from '../../../utils/Languages';
 import DropDown from '../../molescules/DropDown';
@@ -34,13 +36,14 @@ const LeftWrapper = styled.div`
 
 const QuestionListTop = () => {
   const languageRef = useRef<string>(Languages[1]);
+  const typeNum = useRecoilValue<number>(questionType);
   const { role } = useParams();
 
   return (
     <Container>
       <CurrentList>{role === 'mentee' ? '내 질문 리스트' : '답변 가능 질문 리스트'}</CurrentList>
       <LeftWrapper>
-        <span style={{ display: 'block', marginLeft: '30px' }}>매칭 전</span>
+        <span style={{ display: 'block', marginLeft: '30px' }}>{typeNum === 0 ? '매칭 전 질문' : typeNum === 1 ? '진행 중 질문' : '완료된 질문'}</span>
         <DropDown languageRef={languageRef} border='3' width={150} />
       </LeftWrapper>
     </Container>
