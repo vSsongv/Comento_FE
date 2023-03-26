@@ -67,6 +67,14 @@ const ChattingRoom = () => {
   };
   const scrollObserver = new IntersectionObserver(moreMessage, options);
 
+  const getTime = (createdAt: string): string => {
+    const newCreatedAt = createdAt.slice(11, 16);
+    const time = parseInt(newCreatedAt.slice(0, 2));
+    const AMPM = time / 12 < 1 ? 'AM ' : 'PM ';
+    const newTime = time % 12 === 0 ? 12 : time % 12;
+    return AMPM + newTime.toString() + newCreatedAt.slice(2, 5);
+  };
+
   const returnNewMessage = (chat: messageProp): messageProp => {
     const message = {
       chatid: chat.chatid,
@@ -74,7 +82,7 @@ const ChattingRoom = () => {
       nickname: chat.nickname,
       message: chat.message ? chat.message : undefined,
       image: chat.image ? process.env.REACT_APP_BASE_URL + chat.image : undefined,
-      createdAt: chat.createdAt,
+      createdAt: getTime(chat.createdAt),
     };
     return message;
   };
