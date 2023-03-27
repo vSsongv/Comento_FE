@@ -61,9 +61,9 @@ export const GetSpecificQuestion = async (mentoringid: string): Promise<Question
   try {
     const res = await Mentee.getSpecificQuestion(mentoringid);
     const content_images = res.data.result.content_image;
-    const content_image = Object.keys(content_images).map(
-      (item) => process.env.REACT_APP_BASE_URL + content_images[item].toString()
-    );
+    const content_image =
+      content_images &&
+      Object.keys(content_images).map((item) => process.env.REACT_APP_BASE_URL + content_images[item].toString());
     const questionInfo = {
       title: res.data.result.title,
       content: res.data.result.content,

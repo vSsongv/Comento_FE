@@ -57,3 +57,8 @@ export const crtQuestion = atom<string>({
   key: 'crtQuestion',
   default: '',
 });
+
+export const imageListAtom = atom<Array<string>>({
+  key: 'imageListAtom',
+  default: [],
+});

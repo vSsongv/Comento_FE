@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FlashBtn from '../atoms/FlashBtn';
 import FeedbackModal from './FeedbackModal';
 import { useRecoilValue } from 'recoil';
-import { crtQuestion } from '../../recoil/atom';
+import { crtQuestion, userInfo, UserInfoType } from '../../recoil/atom';
 
 interface Props {
   width: number;
@@ -41,8 +41,11 @@ const TitleContainer = styled.div`
 const ContentContainer = styled.div`
   width: 100%;
   padding: 0 10px;
-  overflow: scroll;
+  overflow-y: scroll;
   height: 100%;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Title = styled.h1`
@@ -79,6 +82,7 @@ const ButtonContainer = styled.div`
 const QuestionDetail = ({ width }: Props) => {
   const { roomid } = useParams();
   const mentoringId = useRecoilValue<string>(crtQuestion);
+  const userInfoVal = useRecoilValue<UserInfoType>(userInfo);
   const [question, setQuestion] = useState<QuestionProp>();
   const [openModal, setOpenModal] = useState(false);
   const navigate = useNavigate();
@@ -97,6 +101,11 @@ const QuestionDetail = ({ width }: Props) => {
     }
   }, [mentoringId]);
 
+  const goToList = () => {
+    if (userInfoVal.role === 'Q') navigate('/questionList/mentee');
+    else navigate('/questionList/mentor');
+  };
+
   return (
     <QuestionDetailContainer width={width}>
       <TitleContainer>
@@ -113,10 +122,17 @@ const QuestionDetail = ({ width }: Props) => {
       </ContentContainer>
       {roomid && (
         <ButtonContainer>
-          <FlashBtn width={110} height={35} fontSize={12} onClick={() => navigate('/')}>
+          <FlashBtn width={110} height={35} fontSize={12} onClick={goToList}>
             목록으로 이동
           </FlashBtn>
-          <Button width={110} height={35} fontSize={12} onClick={ () => {setOpenModal(true)} }>
+          <Button
+            width={110}
+            height={35}
+            fontSize={12}
+            onClick={() => {
+              setOpenModal(true);
+            }}
+          >
             멘토링 끝내기
           </Button>
           {openModal === true ? <FeedbackModal /> : null}
