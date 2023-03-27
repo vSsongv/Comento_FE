@@ -103,10 +103,6 @@ const QuestionForm = () => {
     }
   }, [questionId]);
 
-  useEffect(() => {
-    console.log(languageRef.current);
-  }, [languageRef.current]);
-
   const onSubmit = async (): Promise<JSX.Element | void> => {
     if (titleRef.current?.value === '') {
       alert('제목을 입력해주세요.');
