@@ -8,7 +8,7 @@ const MainAdLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 70rem;
+  margin-top: 63rem;
   margin-bottom: 3rem;
 `;
 
