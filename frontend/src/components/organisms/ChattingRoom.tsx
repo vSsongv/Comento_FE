@@ -18,7 +18,7 @@ const ChattingRoomContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 5px;
+  padding: 17px 10px;
   width: 43vw;
   height: 100%;
   background-color: white;

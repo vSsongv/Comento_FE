@@ -9,7 +9,7 @@ const ChattingContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 660px;
-  margin: 135px 80px;
+  margin: 40px 80px;
 `;
 
 const Chatting = () => {
