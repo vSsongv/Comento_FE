@@ -40,11 +40,13 @@ const ListTemplate = () => {
   const navigate = useNavigate();
 
   const handler = async () => {
-    if (role === 'mentee') {
-      navigate(`/question/edit/${mentoringId}`);
-    } else {
-      if (await confirmMentoring(mentoringId)) navigate(`/chatting/${mentoringId}`);
-    }
+    if (type === 0) {
+      if (role === 'mentor') {
+        if (await confirmMentoring(mentoringId)) navigate(`/chatting/${mentoringId}`);
+      } else {
+        navigate(`/question/edit/${mentoringId}`);
+      }
+    } else navigate(`/chatting/${mentoringId}`);
   };
 
   return (
