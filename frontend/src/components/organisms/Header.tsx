@@ -102,7 +102,7 @@ const Header = () => {
                   ) : (
                     <QALink onClick={() => seType(0)} to='/questionList/mentor' style={{ marginRight: '1rem' }}>
                       <QALogo src={Edit} alt='Answer Logo' />
-                      답npm start변하기
+                      답변하기
                     </QALink>
                   )}
                   <QALink to='/question'>
