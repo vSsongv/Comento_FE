@@ -31,7 +31,10 @@ const ChattingBox = styled.div`
   height: 595px;
   width: 97%;
   ${border(2)}
-  overflow: scroll;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const ChattingRoom = () => {
@@ -59,13 +62,13 @@ const ChattingRoom = () => {
   const formData: FormData = new FormData();
   const navigate = useNavigate();
 
-  const options = {
-    threshold: 1.0,
+  const getTime = (createdAt: string): string => {
+    const newCreatedAt = createdAt.slice(11, 16);
+    const time = parseInt(newCreatedAt.slice(0, 2));
+    const AMPM = time / 12 < 1 ? 'AM ' : 'PM ';
+    const newTime = time % 12 === 0 ? 12 : time % 12;
+    return AMPM + newTime.toString() + newCreatedAt.slice(2, 5);
   };
-  const moreMessage = () => {
-    console.log('ㅋㅋㅎㅇ');
-  };
-  const scrollObserver = new IntersectionObserver(moreMessage, options);
 
   const returnNewMessage = (chat: messageProp): messageProp => {
     const message = {
@@ -74,7 +77,7 @@ const ChattingRoom = () => {
       nickname: chat.nickname,
       message: chat.message ? chat.message : undefined,
       image: chat.image ? process.env.REACT_APP_BASE_URL + chat.image : undefined,
-      createdAt: chat.createdAt,
+      createdAt: getTime(chat.createdAt),
     };
     return message;
   };
@@ -102,6 +105,7 @@ const ChattingRoom = () => {
     });
 
     socket.on('message', (message) => {
+      console.log(message);
       const newMessage = returnNewMessage(message);
       setNewMessage(newMessage);
     });
@@ -110,12 +114,9 @@ const ChattingRoom = () => {
       setNewMessage(newMessage);
     });
 
-    topRef.current && scrollObserver.observe(topRef.current);
-
     return () => {
       socket.disconnect();
       socket.off();
-      topRef.current && scrollObserver.unobserve(topRef.current);
     };
   }, []);
 
@@ -128,7 +129,7 @@ const ChattingRoom = () => {
   useEffect((): void => {
     messageRef.current?.focus();
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current?.scrollHeight;
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -140,7 +141,6 @@ const ChattingRoom = () => {
         if (!(await SendMessage(roomid, myInfo.nickname, message))) {
           alert('메세지 전송에 실패했습니다.');
         }
-        // setMessages([...messages, newMessage]);
       } else if (image) {
         formData.append('images', image);
         formData.append('data', myInfo.nickname);
@@ -171,20 +171,18 @@ const ChattingRoom = () => {
   };
 
   const Messages = () => {
-    return messages.map((message, index) => {
-      return (
-        <Message
-          key={message.chatid}
-          topRef={index === 0 ? topRef : undefined}
-          isMe={message.isMe}
-          nickname={message.nickname}
-          message={message.message ? message.message : undefined}
-          image={message.image ? message.image : undefined}
-          createdAt={message.createdAt}
-          profile={message.isMe ? myInfo.profileImage : counterPartProfile}
-        />
-      );
-    });
+    return messages.map((message, index) => (
+      <Message
+        key={message.chatid}
+        topRef={index === 0 ? topRef : undefined}
+        isMe={message.isMe}
+        nickname={message.nickname}
+        message={message.message ? message.message : undefined}
+        image={message.image ? message.image : undefined}
+        createdAt={message.createdAt}
+        profile={message.isMe ? myInfo.profileImage : counterPartProfile}
+      />
+    ));
   };
 
   return (

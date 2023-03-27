@@ -9,7 +9,6 @@ interface ImageProp {
   isDeleteFunction: boolean;
 }
 const ImageBox = styled.div`
-  /* position: relative; */
   margin: 0 1rem;
 `;
 
@@ -25,7 +24,6 @@ const Images = styled.img<ImageProp>`
 `;
 
 const XIcon = styled.div`
-  /* position: absolute; */
   position: sticky;
   z-index: 9;
   margin-left: 7.2rem;

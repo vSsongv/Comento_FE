@@ -21,6 +21,7 @@ const Ul = styled.ul<DropDownProps>`
       width: ${WIDTH};
       margin-top: ${TOP};
       text-align: center;
+      z-index: 10;
     `;
   }}
 `;

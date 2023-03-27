@@ -4,8 +4,19 @@ import { Mentee } from './api';
 export const askQuestion = async (questionContents: FormData): Promise<void | boolean> => {
   try {
     const res = await Mentee.askQuestion(questionContents);
-    console.log(res);
-    return true;
+    if (res) return true;
+  } catch (error: any) {
+    console.log(error);
+    if (error.response.status === 400) {
+      alert(error.response.data.message);
+    }
+  }
+};
+
+export const editQuestion = async (questionContents: FormData, questionId: string): Promise<void | boolean> => {
+  try {
+    const res = await Mentee.editQuestion(questionContents, questionId);
+    if (res) return true;
   } catch (error: any) {
     console.log(error);
     if (error.response.status === 400) {
