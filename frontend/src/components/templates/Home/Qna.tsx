@@ -24,7 +24,7 @@ const QnaTitle = styled.div`
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    margin-top: 178px;
+    margin-top: 10px;
     margin-bottom: 20px;
   }
   .Title {
@@ -42,7 +42,7 @@ const QnaTitle = styled.div`
 
 const ExampleImg = styled.div`
   position: absolute;
-  margin-top: 28rem;
+  margin-top: 15rem;
   right: 25rem;
   width: 740px;
   height: 410px;
@@ -53,7 +53,7 @@ const ExampleImg = styled.div`
 const FadeTitle = styled.div`
   position: absolute;
   left: 25%;
-  margin-top: 37%;
+  margin-top: 35%;
   margin-bottom: 45%;
   font-family: BHS;
   font-weight: 100;
