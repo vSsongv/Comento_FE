@@ -3,12 +3,12 @@ import styled, { css } from 'styled-components';
 import { border, boxShadow } from '../../styles/styleUtil';
 import Image from '../atoms/Image';
 import Button from '../atoms/Button';
-import { GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
+import { EndMentoring, GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
 import { useNavigate, useParams } from 'react-router-dom';
 import FlashBtn from '../atoms/FlashBtn';
 import FeedbackModal from './FeedbackModal';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { crtQuestion, crtRoleAtom, modalVisibleState } from '../../recoil/atom';
+import { crtQuestion, crtRoleAtom, isFeedbackAtom, modalVisibleState } from '../../recoil/atom';
 
 interface Props {
   width: number;
@@ -85,6 +85,7 @@ const QuestionDetail = ({ width }: Props) => {
   const crtRole = useRecoilValue<string>(crtRoleAtom);
   const [question, setQuestion] = useState<QuestionProp>();
   const [modalVisible, setModalVisible] = useRecoilState<boolean>(modalVisibleState);
+  const isFeedback = useRecoilValue<boolean>(isFeedbackAtom);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -103,6 +104,13 @@ const QuestionDetail = ({ width }: Props) => {
 
   const goToList = () => {
     navigate(`/questionList/${crtRole}`);
+  };
+
+  const finishMentoring = () => {
+    if (roomid) {
+      EndMentoring(roomid);
+      if (!isFeedback) setModalVisible(true);
+    }
   };
 
   return (
@@ -133,17 +141,10 @@ const QuestionDetail = ({ width }: Props) => {
           <FlashBtn width={110} height={35} fontSize={12} onClick={goToList}>
             목록으로 이동
           </FlashBtn>
-          <Button
-            width={110}
-            height={35}
-            fontSize={12}
-            onClick={() => {
-              setModalVisible(true);
-            }}
-          >
+          <Button width={110} height={35} fontSize={12} onClick={finishMentoring}>
             멘토링 끝내기
           </Button>
-          {modalVisible ? <FeedbackModal /> : null}
+          {modalVisible && <FeedbackModal />}
         </ButtonContainer>
       )}
     </QuestionDetailContainer>

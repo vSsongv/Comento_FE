@@ -77,3 +77,8 @@ export const crtRoleAtom = atom<string>({
   key: 'crtRole',
   default: '',
 });
+
+export const isFeedbackAtom = atom<boolean>({
+  key: 'isFeedbackAtom',
+  default: true,
+});
