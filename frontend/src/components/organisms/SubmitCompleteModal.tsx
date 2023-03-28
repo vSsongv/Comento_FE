@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import Button from '../atoms/Button';
+import { Background } from '../atoms/ImageViewModal';
 
-const Background = styled.div`
-  //TODO: atoms에서 가져다가 쓰기
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 10000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.4);
-`;
+// const Background = styled.div`
+//   //TODO: atoms에서 가져다가 쓰기
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   right: 0;
+//   z-index: 10000;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   background-color: rgba(0, 0, 0, 0.4);
+// `;
 
 const Container = styled.div`
   display: flex;

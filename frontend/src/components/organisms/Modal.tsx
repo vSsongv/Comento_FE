@@ -3,21 +3,12 @@ import { MdClose } from 'react-icons/md';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { modalVisibleState } from '../../recoil/atom';
+import { Background } from '../atoms/ImageViewModal';
 
 interface ModalProps {
   title: string;
   content: () => JSX.Element;
 }
-
-const Background = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: 1;
-  background-color: rgba(0, 0, 0, 0.4);
-`;
 
 const Container = styled.div`
   background-color: white;
@@ -52,14 +43,15 @@ const Modal = ({ title, content }: ModalProps) => {
 
   return (
     <>
-      <Container>
-        <XIcon onClick={() => setModalVisible(false)}>
-          <MdClose style={{ padding: '0.1rem', fontSize: '1.5rem' }} />
-        </XIcon>
-        <Title>{title}</Title>
-        <Content />
-      </Container>
-      <Background />
+      <Background>
+        <Container>
+          <XIcon onClick={() => setModalVisible(false)}>
+            <MdClose style={{ padding: '0.1rem', fontSize: '1.5rem' }} />
+          </XIcon>
+          <Title>{title}</Title>
+          <Content />
+        </Container>
+      </Background>
     </>
   );
 };
