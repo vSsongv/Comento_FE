@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import GlobalStyle from './styles/GlobalStyle';
 import colors from './styles/colors';
 import Home from './pages/Home';
@@ -13,7 +13,7 @@ import Footer from './components/molescules/Footer';
 import { ScrollToTop } from './utils/ScrollToTop';
 import { useCookies } from 'react-cookie';
 import { refresh } from './api/authService';
-import { signInState, userInfo, UserInfoType } from './recoil/atom';
+import { crtRoleAtom, signInState, userInfo, UserInfoType } from './recoil/atom';
 import CheckAuth from './utils/CheckAuth';
 import MyPage from './pages/MyPage';
 import Chatting from './pages/Chatting';
@@ -21,8 +21,9 @@ import QuestionLists from './pages/QuestionLists';
 
 function App() {
   const [cookies] = useCookies(['refresh-token']);
-  const setUserInfo = useSetRecoilState<UserInfoType>(userInfo);
+  const [userInfoVal, setUserInfo] = useRecoilState<UserInfoType>(userInfo);
   const setSignInState = useSetRecoilState<boolean>(signInState);
+  const setCrtRole = useSetRecoilState<string>(crtRoleAtom);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -48,6 +49,11 @@ function App() {
       sessionStorage.removeItem('token_exp');
     }
   }, []);
+
+  useEffect(() => {
+    if (userInfoVal.role === 'Q') setCrtRole('mentee');
+    else setCrtRole('mentor');
+  }, [userInfoVal.role]);
 
   return (
     <div className='App'>
