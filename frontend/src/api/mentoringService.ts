@@ -17,9 +17,9 @@ export const getQuestionList = async (type: number, language: number, role: stri
   }
 };
 
-export const getQuestionTypeNum = async (role: string): Promise<QuestionType | boolean> => {
+export const getQuestionTypeNum = async (role: string, language: number): Promise<QuestionType | boolean> => {
   try {
-    const res = await Mentoring.getQuestionTypeNum(role);
+    const res = await Mentoring.getQuestionTypeNum(role, language);
     return res.data.result;
   } catch (error) {
     console.log(error);

@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { questionType } from '../../../recoil/atom';
+import { questionType, selectedLang } from '../../../recoil/atom';
 import { border } from '../../../styles/styleUtil';
 import { Languages } from '../../../utils/Languages';
 import DropDown from '../../molescules/DropDown';
@@ -40,7 +40,8 @@ const TypeText = styled.span`
 `;
 
 const QuestionListTop = () => {
-  const languageRef = useRef<string>(Languages[1]);
+  const lang = useRecoilValue<number>(selectedLang);
+  const languageRef = useRef<string>(Languages[lang]);
   const typeNum = useRecoilValue<number>(questionType);
   const { role } = useParams();
 

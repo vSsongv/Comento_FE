@@ -76,7 +76,7 @@ const QuestionTypeNum = () => {
   useEffect(() => {
     const getQuestionTypeNums = async (): Promise<void> => {
       if (role) {
-        const types = await getQuestionTypeNum(role);
+        const types = await getQuestionTypeNum(role, lang);
         if (typeof types !== 'boolean') {
           setTypeNum(types);
           setMentoringId('');
