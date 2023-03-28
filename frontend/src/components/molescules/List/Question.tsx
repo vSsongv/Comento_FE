@@ -45,7 +45,7 @@ const Nick = styled.span`
 `;
 
 const Wrapper = styled.div`
-  width: 145px;
+  width: 155px;
 `;
 
 const Date = styled.span`
