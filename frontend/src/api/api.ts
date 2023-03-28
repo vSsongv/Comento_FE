@@ -34,8 +34,7 @@ export const SignApi = {
 
 export const Mentee = {
   askQuestion: (questionContents: FormData) => api.post('mentee/question', questionContents),
-  editQuestion: (questionContents: FormData, questionId: string) =>
-    api.put(`mentee/question?mentoringid=${questionId}`, questionContents),
+  editQuestion: (questionContents: FormData, questionId: string) => api.put(`mentee/question?mentoringid=${questionId}`, questionContents),
   getSpecificQuestion: (mentoringid: string) => api.get(`mentee/question/${mentoringid}`),
 };
 
@@ -51,17 +50,16 @@ export const Chatting = {
 };
 
 export const User = {
-  changePwd: (prevPassword: string, password: string) =>
-    api.patch('user/update/password', { prevPassword: prevPassword, password: password }),
+  changePwd: (prevPassword: string, password: string) => api.patch('user/update/password', { prevPassword: prevPassword, password: password }),
   changeNick: (nickname: string) => api.patch('user/update/nickname', { nickname: nickname }),
   changeProfile: (profile: FormData) => api.patch('user/update/profile', profile),
   askMentoRole: (email: string, content: string) => api.post('user/email', { email: email, content: content }),
 };
 
 export const Mentoring = {
-  // getQuestionList: (type: number, language: number, role: string) => api.get(`${role}/question?type=${type}&language=${language}`),
-  getQuestionList: (type: number, language: number, role: string) =>
-    api.get(`mento/question?type=${type}&language=${language}`),
-  getQuestionTypeNum: () => api.get('mentor/count'),
-  deleteQuestion: (mentoringId: string) => api.delete(`mentee/question/${mentoringId}`),
+  getQuestionList: (type: number, language: number, role: string) => api.get(`${role}/question?type=${type}&language=${language}`),
+  getQuestionTypeNum: (role: string, language: number) => api.get(`${role}/count?language=${language}`),
+  confirmMentoring: (mentoringId: string) => api.post(`mentor/mentoring?mentoringid=${mentoringId}`),
+  deleteQuestion: (mentoringId: string) => api.delete(`mentee/question?mentoringid=${mentoringId}`),
+  deleteAnswer: (mentoringId: string) => api.delete(`mentor/question/${mentoringId}`),
 };

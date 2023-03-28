@@ -6,7 +6,7 @@ import { crtQuestion, QuestionContent, questionType, userInfo, UserInfoType } fr
 import { border } from '../../../styles/styleUtil';
 import { Languages } from '../../../utils/Languages';
 import Trashcan from '../../../assets/images/delete.png';
-import { deleteQuestion } from '../../../api/mentoringService';
+import { deleteAnswer, deleteQuestion } from '../../../api/mentoringService';
 
 type questionProps = {
   data: QuestionContent;
@@ -45,7 +45,7 @@ const Nick = styled.span`
 `;
 
 const Wrapper = styled.div`
-  width: 145px;
+  width: 155px;
 `;
 
 const Date = styled.span`
@@ -84,19 +84,24 @@ const Question = (data: questionProps) => {
 
   const deleteQ = async (mentoringId: string): Promise<void> => {
     const confirmDel = confirm('정말 삭제하시겠습니까?');
-    if (confirmDel) {
-      console.log(mentoringId);
-      // if (await deleteQuestion(mentoringId)) {
-      //   setMentoringId('');
-      // }
+    if (confirmDel && role) {
+      if (role === 'mentee') {
+        if (await deleteQuestion(mentoringId)) {
+          setMentoringId('');
+        }
+      } else {
+        if (await deleteAnswer(mentoringId)) {
+          setMentoringId('');
+        }
+      }
+      location.reload();
     }
   };
 
   return (
     <Li id={data.data.mentoringid} backColor={data.data.mentoringid === mentoringId ? '#F5F5F5' : 'white'} onClick={() => setMentoringId(data.data.mentoringid)}>
       <Title>{data.data.title}</Title>
-      <Nick>{user.nickname}</Nick>
-      {/* <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick> */}
+      <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick>
       <Wrapper>
         <Date>{data.data.date.slice(0, 11)}</Date>
         <Lang>{Languages[data.data.language]}</Lang>

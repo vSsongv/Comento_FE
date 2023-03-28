@@ -17,10 +17,21 @@ export const getQuestionList = async (type: number, language: number, role: stri
   }
 };
 
-export const getQuestionTypeNum = async (): Promise<QuestionType | boolean> => {
+export const getQuestionTypeNum = async (role: string, language: number): Promise<QuestionType | boolean> => {
   try {
-    const res = await Mentoring.getQuestionTypeNum();
+    const res = await Mentoring.getQuestionTypeNum(role, language);
     return res.data.result;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const confirmMentoring = async (mentoringId: string): Promise<boolean> => {
+  try {
+    const res = await Mentoring.confirmMentoring(mentoringId);
+    alert(res.data.message);
+    return true;
   } catch (error) {
     console.log(error);
     return false;
@@ -30,6 +41,17 @@ export const getQuestionTypeNum = async (): Promise<QuestionType | boolean> => {
 export const deleteQuestion = async (mentoringId: string): Promise<boolean> => {
   try {
     const res = await Mentoring.deleteQuestion(mentoringId);
+    alert(res.data.message);
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+export const deleteAnswer = async (mentoringId: string): Promise<boolean> => {
+  try {
+    const res = await Mentoring.deleteAnswer(mentoringId);
     alert(res.data.message);
     return true;
   } catch (error) {

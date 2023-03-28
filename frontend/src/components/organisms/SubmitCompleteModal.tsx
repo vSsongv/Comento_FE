@@ -34,6 +34,7 @@ const H1 = styled.h1`
 const P = styled.p`
   font-weight: 400;
   font-size: 13px;
+  margin-bottom: 20px;
 `;
 
 interface Props {

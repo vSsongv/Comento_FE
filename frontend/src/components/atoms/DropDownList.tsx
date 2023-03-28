@@ -4,7 +4,7 @@ import { Languages } from '../../utils/Languages';
 import { boxShadow } from '../../styles/styleUtil';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { QuestionContent, questionList, questionType } from '../../recoil/atom';
+import { QuestionContent, questionList, questionType, selectedLang } from '../../recoil/atom';
 import { getQuestionList } from '../../api/mentoringService';
 
 interface DropDownProps {
@@ -45,11 +45,13 @@ interface Props {
 const DropDownList = ({ languageRef, ...dropDownProps }: Props) => {
   const { role } = useParams();
   const type = useRecoilValue<number>(questionType);
+  const setLang = useSetRecoilState<number>(selectedLang);
   const setQuestions = useSetRecoilState<QuestionContent[]>(questionList);
 
   const changeLanguage = async (language: string, index: number) => {
     languageRef.current = language;
     if (role) {
+      setLang(index);
       const questions = await getQuestionList(type, index, role);
       if (typeof questions !== 'boolean') {
         setQuestions(questions);
