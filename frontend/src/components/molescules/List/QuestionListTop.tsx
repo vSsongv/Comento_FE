@@ -34,6 +34,11 @@ const LeftWrapper = styled.div`
   width: 60%;
 `;
 
+const TypeText = styled.span`
+  display: block;
+  margin-left: 30px;
+`;
+
 const QuestionListTop = () => {
   const languageRef = useRef<string>(Languages[1]);
   const typeNum = useRecoilValue<number>(questionType);
@@ -43,7 +48,7 @@ const QuestionListTop = () => {
     <Container>
       <CurrentList>{role === 'mentee' ? '내 질문 리스트' : '답변 가능 질문 리스트'}</CurrentList>
       <LeftWrapper>
-        <span style={{ display: 'block', marginLeft: '30px' }}>{typeNum === 0 ? '매칭 전 질문' : typeNum === 1 ? '진행 중 질문' : '완료된 질문'}</span>
+        <TypeText>{typeNum === 0 ? '매칭 전 질문' : typeNum === 1 ? '진행 중 질문' : '완료된 질문'}</TypeText>
         <DropDown languageRef={languageRef} border='3' width={150} />
       </LeftWrapper>
     </Container>
