@@ -7,8 +7,8 @@ import { GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
 import { useNavigate, useParams } from 'react-router-dom';
 import FlashBtn from '../atoms/FlashBtn';
 import FeedbackModal from './FeedbackModal';
-import { useRecoilValue } from 'recoil';
-import { crtQuestion, userInfo, UserInfoType } from '../../recoil/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { crtQuestion, crtRoleAtom, modalVisibleState } from '../../recoil/atom';
 
 interface Props {
   width: number;
@@ -82,9 +82,9 @@ const ButtonContainer = styled.div`
 const QuestionDetail = ({ width }: Props) => {
   const { roomid } = useParams();
   const mentoringId = useRecoilValue<string>(crtQuestion);
-  const userInfoVal = useRecoilValue<UserInfoType>(userInfo);
+  const crtRole = useRecoilValue<string>(crtRoleAtom);
   const [question, setQuestion] = useState<QuestionProp>();
-  const [openModal, setOpenModal] = useState(false);
+  const [modalVisible, setModalVisible] = useRecoilState<boolean>(modalVisibleState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -102,8 +102,7 @@ const QuestionDetail = ({ width }: Props) => {
   }, [mentoringId]);
 
   const goToList = () => {
-    if (userInfoVal.role === 'Q') navigate('/questionList/mentee');
-    else navigate('/questionList/mentor');
+    navigate(`/questionList/${crtRole}`);
   };
 
   return (
@@ -115,7 +114,16 @@ const QuestionDetail = ({ width }: Props) => {
         </QuestionInfo>
       </TitleContainer>
       <ContentContainer>
-        <Contents>{question?.content}</Contents>
+        <Contents>
+          {question?.content.split('\n').map((line, i) => {
+            return (
+              <span key={i}>
+                {line}
+                <br />
+              </span>
+            );
+          })}
+        </Contents>
         <ImageContainer>
           <Image imageList={question?.content_image} />
         </ImageContainer>
@@ -130,12 +138,12 @@ const QuestionDetail = ({ width }: Props) => {
             height={35}
             fontSize={12}
             onClick={() => {
-              setOpenModal(true);
+              setModalVisible(true);
             }}
           >
             멘토링 끝내기
           </Button>
-          {openModal === true ? <FeedbackModal /> : null}
+          {modalVisible ? <FeedbackModal /> : null}
         </ButtonContainer>
       )}
     </QuestionDetailContainer>
