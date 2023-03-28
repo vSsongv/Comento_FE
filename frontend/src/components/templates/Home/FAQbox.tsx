@@ -53,17 +53,6 @@ const FaqModal = styled.p`
   color: #000;
 `;
 
-const Toggle = styled.div`
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 5px;
-  margin-right: 10px;
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  cursor: pointer;
-`;
-
 const FaqTitle = styled.p`
   font-family: Arial;
   font-weight: bold;

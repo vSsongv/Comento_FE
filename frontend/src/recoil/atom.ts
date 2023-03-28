@@ -18,7 +18,7 @@ export interface QuestionContent {
   mentoringid: string;
   title: string;
   nickname: string;
-  date: string;
+  createdAt: string;
   language: number;
 }
 
