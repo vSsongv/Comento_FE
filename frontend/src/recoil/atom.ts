@@ -80,5 +80,5 @@ export const crtRoleAtom = atom<string>({
 
 export const isFeedbackAtom = atom<boolean>({
   key: 'isFeedbackAtom',
-  default: true,
+  default: false,
 });

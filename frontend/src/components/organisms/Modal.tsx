@@ -8,6 +8,7 @@ import { Background } from '../atoms/ImageViewModal';
 interface ModalProps {
   title: string;
   content: () => JSX.Element;
+  endMentoringApi?: () => Promise<void>;
 }
 
 const Container = styled.div`
@@ -37,15 +38,22 @@ const Title = styled.span`
   font-weight: 600;
 `;
 
-const Modal = ({ title, content }: ModalProps) => {
+const Modal = ({ title, content, endMentoringApi }: ModalProps) => {
   const Content = content;
   const setModalVisible = useSetRecoilState(modalVisibleState);
+
+  const modalHandler = async () => {
+    if (endMentoringApi) {
+      await endMentoringApi();
+    }
+    setModalVisible(false);
+  };
 
   return (
     <>
       <Background>
         <Container>
-          <XIcon onClick={() => setModalVisible(false)}>
+          <XIcon onClick={modalHandler}>
             <MdClose style={{ padding: '0.1rem', fontSize: '1.5rem' }} />
           </XIcon>
           <Title>{title}</Title>

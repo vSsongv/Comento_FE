@@ -106,10 +106,18 @@ const QuestionDetail = ({ width }: Props) => {
     navigate(`/questionList/${crtRole}`);
   };
 
-  const finishMentoring = () => {
+  const endMentoringApi = async () => {
     if (roomid) {
-      EndMentoring(roomid);
+      if (await EndMentoring(roomid)) {
+        goToList();
+      }
+    }
+  };
+
+  const finishMentoring = async () => {
+    if (roomid) {
       if (!isFeedback) setModalVisible(true);
+      else endMentoringApi();
     }
   };
 
@@ -144,7 +152,7 @@ const QuestionDetail = ({ width }: Props) => {
           <Button width={110} height={35} fontSize={12} onClick={finishMentoring}>
             멘토링 끝내기
           </Button>
-          {modalVisible && <FeedbackModal />}
+          {modalVisible && <FeedbackModal endMentoringApi={endMentoringApi} />}
         </ButtonContainer>
       )}
     </QuestionDetailContainer>
