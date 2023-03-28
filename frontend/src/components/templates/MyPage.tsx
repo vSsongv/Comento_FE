@@ -11,21 +11,13 @@ const MyPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 90px 40px;
+  padding: 60px 40px;
   box-shadow: ${boxShadow};
   background: white;
   position: relative;
   margin: auto;
   margin-top: 70px;
   margin-bottom: 100px;
-`;
-
-const TopGradient = styled.div`
-  position: absolute;
-  top: 0;
-  width: 895px;
-  height: 30px;
-  ${mainGradient};
 `;
 
 const Wrapper = styled.div`
@@ -46,7 +38,6 @@ const AccountContainer = styled.div`
 const MyPage = () => {
   return (
     <MyPageContainer>
-      <TopGradient />
       <Wrapper>
         <MyProfile />
         <AccountContainer>
