@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { FeedbackProps } from '../components/organisms/FeedbackModal';
 import { SignInService } from './authService';
 
 export const api = axios.create({
@@ -64,4 +65,14 @@ export const Mentoring = {
     api.get(`mento/question?type=${type}&language=${language}`),
   getQuestionTypeNum: () => api.get('mentor/count'),
   deleteQuestion: (mentoringId: string) => api.delete(`mentee/question/${mentoringId}`),
+};
+
+export const FeedBack = {
+  sendFeedback: (feedbackContents: FeedbackProps) =>
+    api.post('survey', {
+      firstQuestion: feedbackContents.firstQuestion,
+      secondQuestion: feedbackContents.secondQuestion,
+      thirdQuestion: feedbackContents.thirdQuestion,
+      evaluationText: feedbackContents.evaluationText,
+    }),
 };
