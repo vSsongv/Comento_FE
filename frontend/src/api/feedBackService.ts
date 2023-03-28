@@ -10,9 +10,10 @@ export const SendFeedback = async (feedbackContents: FeedbackProps): Promise<voi
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    console.log(error);
-    if (error.response.status === 400) {
+    if (error.response.data && error.response.data.message) {
       alert(error.response.data.message);
+    } else {
+      console.log(error);
     }
     return false;
   }

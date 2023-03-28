@@ -31,7 +31,7 @@ export const EnterChattingRoom = async (
     if (res.data.result.isSurvey && res.data.result.isSurvey === 0) isFeedbackAtom(false);
     return userInfo;
   } catch (error: any) {
-    if (error.response.data && error.response.data.code === 2062) {
+    if (error.response.data && error.response.data.message) {
       alert(error.response.data.message);
     } else {
       console.log(error);
@@ -45,8 +45,12 @@ export const SendMessage = async (roomId: string, nickname: string, message: str
     const res = await Chatting.sendMessage(roomId, nickname, message);
     console.log(res);
     return true;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
@@ -56,8 +60,12 @@ export const SendImage = async (roomId: string, chattingContents: FormData): Pro
     const res = await Chatting.sendImage(roomId, chattingContents);
     console.log(res);
     return true;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
@@ -78,8 +86,12 @@ export const GetSpecificQuestion = async (mentoringid: string): Promise<Question
       nickname: res.data.result.nickname,
     };
     return questionInfo;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
@@ -89,8 +101,12 @@ export const EndMentoring = async (mentoringId: string): Promise<boolean> => {
     const res = await Chatting.endMentoring(mentoringId);
     if (res) alert('채팅이 종료되었습니다.');
     return true;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
