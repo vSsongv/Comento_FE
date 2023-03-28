@@ -84,7 +84,7 @@ const QuestionTypeNum = () => {
       }
     };
     getQuestionTypeNums();
-  }, [role]);
+  }, [role, lang]);
 
   const getQuestions = async (qType: number): Promise<void> => {
     setMentoringId('');
