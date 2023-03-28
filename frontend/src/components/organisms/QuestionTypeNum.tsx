@@ -62,7 +62,7 @@ const QuestionNum = styled.span`
   font-family: 'NanumGothic';
   font-size: 18px;
   font-weight: 600;
-  margin-right: 5px;
+  margin: 0px 5px;
 `;
 
 const QuestionTypeNum = () => {
@@ -76,7 +76,7 @@ const QuestionTypeNum = () => {
   useEffect(() => {
     const getQuestionTypeNums = async (): Promise<void> => {
       if (role) {
-        const types = await getQuestionTypeNum(role);
+        const types = await getQuestionTypeNum(role, lang);
         if (typeof types !== 'boolean') {
           setTypeNum(types);
           setMentoringId('');
@@ -101,13 +101,13 @@ const QuestionTypeNum = () => {
     <Container>
       <Wrapper>
         <TypeButton type='button' onClick={() => getQuestions(0)}>
-          <QuestionNum>{typeNum?.before}</QuestionNum>건
+          총 <QuestionNum>{typeNum?.before}</QuestionNum>건
         </TypeButton>
         <TypeButton type='button' onClick={() => getQuestions(1)}>
-          <QuestionNum>{typeNum?.ing}</QuestionNum>건
+          총 <QuestionNum>{typeNum?.ing}</QuestionNum>건
         </TypeButton>
         <TypeButton type='button' onClick={() => getQuestions(2)}>
-          <QuestionNum>{typeNum?.end}</QuestionNum>건
+          총 <QuestionNum>{typeNum?.end}</QuestionNum>건
         </TypeButton>
       </Wrapper>
       <BottomGradient>
