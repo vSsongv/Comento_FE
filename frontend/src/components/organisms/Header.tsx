@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { Link, useLocation } from 'react-router-dom';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { signInState, UserInfoType, userInfo, headerMenu } from '../../recoil/atom';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
+import { signInState, UserInfoType, userInfo, headerMenu, questionType } from '../../recoil/atom';
 import HeaderMenu from './HeaderMenu';
 import Logo from '../../assets/images/Logo.png';
 import defaultProfile from '../../assets/images/defaultProfile.svg';
@@ -67,6 +67,7 @@ const QALogo = styled.img`
 const Header = () => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
   const [searchInputRef, handleClickOutside] = useClickState(setHeaderState);
+  const seType = useSetRecoilState(questionType);
   const isSignIn = useRecoilValue<boolean>(signInState);
   const user = useRecoilValue<UserInfoType>(userInfo);
   const location = useLocation();
@@ -99,7 +100,7 @@ const Header = () => {
                       답변 권한 얻으러 가기
                     </QALink>
                   ) : (
-                    <QALink to='/questionList/mentor' style={{ marginRight: '1rem' }}>
+                    <QALink onClick={() => seType(0)} to='/questionList/mentor' style={{ marginRight: '1rem' }}>
                       <QALogo src={Edit} alt='Answer Logo' />
                       답변하기
                     </QALink>

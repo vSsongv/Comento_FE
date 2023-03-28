@@ -58,6 +58,11 @@ export const questionType = atom<number>({
   default: 0,
 });
 
+export const selectedLang = atom<number>({
+  key: 'selectedLang',
+  default: 1,
+});
+
 export const crtQuestion = atom<string>({
   key: 'crtQuestion',
   default: '',
