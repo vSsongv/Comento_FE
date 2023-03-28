@@ -103,7 +103,7 @@ const Question = (data: questionProps) => {
       <Title>{data.data.title}</Title>
       <Nick>{role === 'mentee' ? user.nickname : data.data.nickname}</Nick>
       <Wrapper>
-        <Date>{data.data.date.slice(0, 11)}</Date>
+        <Date>{data.data.createdAt.slice(0, 11)}</Date>
         <Lang>{Languages[data.data.language]}</Lang>
       </Wrapper>
       {data.data.mentoringid === mentoringId && ((role === 'mentee' && typeNum !== 1) || (role === 'mentor' && typeNum === 2)) ? <DeleteBtn onClick={() => deleteQ(data.data.mentoringid)} /> : null}
