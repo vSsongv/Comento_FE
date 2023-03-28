@@ -43,6 +43,11 @@ export const modalVisibleState = atom<boolean>({
   default: false,
 });
 
+export const imgModalVisibleState = atom<boolean>({
+  key: 'imgModalVisibleState',
+  default: false,
+});
+
 export const questionList = atom<Array<QuestionContent>>({
   key: 'questionList',
   default: [],
@@ -61,4 +66,9 @@ export const crtQuestion = atom<string>({
 export const imageListAtom = atom<Array<string>>({
   key: 'imageListAtom',
   default: [],
+});
+
+export const crtRoleAtom = atom<string>({
+  key: 'crtRole',
+  default: '',
 });
