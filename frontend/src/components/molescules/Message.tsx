@@ -14,6 +14,7 @@ const MessageContainer = styled.div<IsMeProp>`
 `;
 
 const Profile = styled.img`
+  margin: 5px 5px 0px 3px;
   width: 42px;
   height: 42px;
   border-radius: 100%;
@@ -26,9 +27,10 @@ const NameAndContents = styled.div`
 `;
 
 const UserName = styled.p<IsMeProp>`
-  font-size: 11px;
+  font-size: 13px;
   text-align: ${(props) => (props.isMe ? 'right' : 'left')};
   margin-bottom: 5px;
+  margin-right: 5px;
 `;
 
 const ContentsBox = styled.div<IsMeProp>`
