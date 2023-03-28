@@ -62,7 +62,7 @@ const QuestionNum = styled.span`
   font-family: 'NanumGothic';
   font-size: 18px;
   font-weight: 600;
-  margin: 0px 5px;
+  margin-right: 5px;
 `;
 
 const QuestionTypeNum = () => {
@@ -101,13 +101,13 @@ const QuestionTypeNum = () => {
     <Container>
       <Wrapper>
         <TypeButton type='button' onClick={() => getQuestions(0)}>
-          총 <QuestionNum>{typeNum?.before}</QuestionNum>건
+          <QuestionNum>{typeNum?.before}</QuestionNum>건
         </TypeButton>
         <TypeButton type='button' onClick={() => getQuestions(1)}>
-          총 <QuestionNum>{typeNum?.ing}</QuestionNum>건
+          <QuestionNum>{typeNum?.ing}</QuestionNum>건
         </TypeButton>
         <TypeButton type='button' onClick={() => getQuestions(2)}>
-          총 <QuestionNum>{typeNum?.end}</QuestionNum>건
+          <QuestionNum>{typeNum?.end}</QuestionNum>건
         </TypeButton>
       </Wrapper>
       <BottomGradient>
