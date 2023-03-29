@@ -110,6 +110,7 @@ const QuestionDetail = ({ width }: Props) => {
     if (roomid) {
       if (await EndMentoring(roomid)) {
         goToList();
+        setModalVisible(false);
       }
     }
   };
@@ -149,9 +150,11 @@ const QuestionDetail = ({ width }: Props) => {
           <FlashBtn width={110} height={35} fontSize={12} onClick={goToList}>
             목록으로 이동
           </FlashBtn>
-          <Button width={110} height={35} fontSize={12} onClick={finishMentoring}>
-            멘토링 끝내기
-          </Button>
+          {crtRole === 'mentee' && (
+            <Button width={110} height={35} fontSize={12} onClick={finishMentoring}>
+              멘토링 끝내기
+            </Button>
+          )}
           {modalVisible && <FeedbackModal endMentoringApi={endMentoringApi} />}
         </ButtonContainer>
       )}

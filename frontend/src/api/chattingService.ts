@@ -28,7 +28,8 @@ export const EnterChattingRoom = async (
       profile: res.data.result.image ? process.env.REACT_APP_BASE_URL + res.data.result.image : defaultProfile,
       chat: res.data.result.chat,
     };
-    if (res.data.result.isSurvey) isFeedbackAtom(true);
+    if (res.data.result.isSurvey) isFeedbackAtom(false);
+    else isFeedbackAtom(true);
     return userInfo;
   } catch (error: any) {
     if (error.response.data && error.response.data.message) {
