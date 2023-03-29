@@ -97,7 +97,7 @@ export const GetSpecificQuestion = async (mentoringid: string): Promise<Question
   }
 };
 
-export const EndMentoring = async (mentoringId: string): Promise<boolean> => {
+export const EndMentoring = async (mentoringId: string, goToList: () => void): Promise<boolean> => {
   try {
     const res = await Chatting.endMentoring(mentoringId);
     if (res) alert('채팅이 종료되었습니다.');
@@ -105,6 +105,7 @@ export const EndMentoring = async (mentoringId: string): Promise<boolean> => {
   } catch (error: any) {
     if (error.response.data && error.response.data.message) {
       alert(error.response.data.message);
+      if (error.response.data.code === 2064) goToList();
     } else {
       console.log(error);
     }

@@ -108,7 +108,7 @@ const QuestionDetail = ({ width }: Props) => {
 
   const endMentoringApi = async () => {
     if (roomid) {
-      if (await EndMentoring(roomid)) {
+      if (await EndMentoring(roomid, goToList)) {
         goToList();
         setModalVisible(false);
       }
