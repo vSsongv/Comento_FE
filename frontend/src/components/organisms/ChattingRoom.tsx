@@ -107,7 +107,6 @@ const ChattingRoom = () => {
     });
 
     socket.on('message', (message) => {
-      console.log(message);
       const newMessage = returnNewMessage(message);
       setNewMessage(newMessage);
     });
