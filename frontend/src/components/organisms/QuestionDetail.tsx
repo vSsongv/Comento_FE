@@ -70,13 +70,13 @@ const ImageContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.div<Props>`
   position: absolute;
   display: flex;
   justify-content: space-between;
   top: 45px;
   right: 30px;
-  width: 230px;
+  width: ${(props) => props.width}px;
 `;
 
 const QuestionDetail = ({ width }: Props) => {
@@ -146,7 +146,7 @@ const QuestionDetail = ({ width }: Props) => {
         </ImageContainer>
       </ContentContainer>
       {roomid && (
-        <ButtonContainer>
+        <ButtonContainer width={crtRole === 'mentee' ? 230 : 115}>
           <FlashBtn width={110} height={35} fontSize={12} onClick={goToList}>
             목록으로 이동
           </FlashBtn>
