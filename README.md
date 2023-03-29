@@ -1,6 +1,6 @@
 # 프로젝트 이름 및 소개
 
-![코멘토 로고](./comento.png)<br></br>
+<img src="https://user-images.githubusercontent.com/55029807/228281412-8434711e-ff4f-454d-ac51-b31e87bb82ef.png" width="500" height="200"><br></br>
 
 <b>코멘토(Comento)</b> : 코딩을 입문하는 사람이나 코딩 도중에 어려움을 겪는 사람들을 위한 서비스로, Coding + Mento == Comento입니다.
 
@@ -32,7 +32,6 @@
 그 과정에서 어려움을 겪는 상황을 빈번하게 확인할 수 있습니다.</br> 이때 사용자가 겪는 어려움을 정확하게 설명해주고 해결해줄 멘토와 매칭하여
 해당 문제를 해결할 수 있도록 돕고자 하는 서비스입니다.
 
-<br><br>
 
 ## :busts_in_silhouette: 서비스 사용 대상
 
@@ -40,15 +39,12 @@
 [2] 특정 프레임워크나 언어를 처음 다루면서 어려움을 느끼는 사람<br>
 [3] 디버깅이 익숙하지 않아 코드의 잘못된 부분을 찾는데에 어려움을 느끼는 사람
 
-<br>
 
 ## 사용한 프레임워크(FrameWork)
 
-- FE : <b> React.js</b> <p> <img src="https://velog.velcdn.com/images/jtwjs/post/3ebdc992-342a-4895-8394-5cb14fee44c8/reactJS.png" width=100 height=80> </p>
-- BE : <b> Node.js </b> <p> <img src="https://t1.daumcdn.net/cfile/tistory/9929924F5A8FD98509" width=130 height=100> </p>
+- FE :  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/>
+- BE : <img src="https://img.shields.io/badge/node.js-339933?style=flat-square&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/mySQL-4479A1?style=flat-square&logo=mySQL&logoColor=white"/>
 
 #### UI/UX 및 Wireframe 링크
 
 피그마 링크: [Figma](https://www.figma.com/file/eu6TdzgDWUbj1ZUTUbLZcT/%EC%B4%88%EC%95%88?node-id=0%3A1)
-
-<br><br>

@@ -70,7 +70,6 @@ const DeleteBtn = styled.button`
   top: 35%;
   margin-right: 30px;
   border: none;
-  z-index: 100;
   background-color: transparent;
   background-size: cover;
   background-image: url(${Trashcan});
