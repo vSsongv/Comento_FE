@@ -34,10 +34,10 @@ const SimpleProfile = ({ height }: SimpleProfileProps) => {
     <ProfileContainer height={height}>
       <ProfileImage src={user.profileImage} alt='프로필 이미지' />
       {user.nickname}
-      <Mentos>
+      {/* <Mentos>
         <img src={mentos} alt='멘토스 이미지' width='25rem' />
         {user.mentos}개
-      </Mentos>
+      </Mentos> */}
     </ProfileContainer>
   );
 };

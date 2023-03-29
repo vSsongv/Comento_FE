@@ -83,7 +83,7 @@ export default function Home() {
       <Qna />
       <MainAdvantage />
       <MainPush />
-      <MainMentos />
+      {/* <MainMentos /> */}
       <FAQbox />
       {modalVisible ? <LaunchingModal /> : null}
     </BackgroundColor>
