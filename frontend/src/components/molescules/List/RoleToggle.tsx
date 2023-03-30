@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
-import { crtQuestion, questionType } from '../../../recoil/atom';
+import { crtQuestion, crtRoleAtom, questionType } from '../../../recoil/atom';
 import { mainGradient } from '../../../styles/styleUtil';
 
 interface Props {
@@ -52,6 +52,11 @@ const RoleToggle = () => {
   const navigate = useNavigate();
   const setMentoringId = useSetRecoilState<string>(crtQuestion);
   const setType = useSetRecoilState<number>(questionType);
+  const setCrtRole = useSetRecoilState(crtRoleAtom);
+
+  useEffect(() => {
+    if (role) setCrtRole(role);
+  }, [role]);
 
   return (
     <div>

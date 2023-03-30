@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import useClickState from '../../hooks/useClickState';
-import { modalVisibleState } from '../../recoil/atom';
+import { imgModalVisibleState } from '../../recoil/atom';
 
 export const Background = styled.div`
   position: fixed;
@@ -28,7 +28,7 @@ interface Props {
 }
 
 const ImageViewModal = ({ imageSrc }: Props) => {
-  const setModalVisibility = useSetRecoilState<boolean>(modalVisibleState);
+  const setModalVisibility = useSetRecoilState<boolean>(imgModalVisibleState);
   const [modalRef, handleClickOutside] = useClickState(setModalVisibility);
 
   useEffect(() => {

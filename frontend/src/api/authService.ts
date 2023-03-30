@@ -70,8 +70,12 @@ export const getUserInfo = async (role: string): Promise<UserInfoType | boolean>
       role: role,
     };
     return userInfo;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
@@ -102,7 +106,11 @@ export const refresh = async (
     authInterceptor(cookies, setUserInfo, setSignInState);
     return token;
   } catch (error: any) {
-    console.log(error);
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
@@ -142,7 +150,11 @@ export const authInterceptor = (
           return false;
         }
       } else {
-        alert(error.response.data.message);
+        if (error.response.data && error.response.data.message) {
+          alert(error.response.data.message);
+        } else {
+          console.log(error);
+        }
       }
     }
   );
@@ -175,7 +187,10 @@ export const SignIn = async (
     authInterceptor(cookies, userData.setUserInfo, setSignInState);
     return true;
   } catch (error: any) {
-    console.log(error);
-    alert(error.response.data.message);
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
   }
 };
