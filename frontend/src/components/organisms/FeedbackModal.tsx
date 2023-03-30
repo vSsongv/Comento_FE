@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { SendFeedback } from '../../api/feedBackService';
+import { SendFeedback } from '../../api/mentoringService';
 import Button from '../atoms/Button';
 import Modal from './Modal';
 
