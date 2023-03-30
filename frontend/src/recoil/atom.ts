@@ -82,3 +82,8 @@ export const isFeedbackAtom = atom<boolean>({
   key: 'isFeedbackAtom',
   default: false,
 });
+
+export const isFinishedMentoringAtom = atom<boolean>({
+  key: 'isFinishedMentoringAtom',
+  default: false,
+});
