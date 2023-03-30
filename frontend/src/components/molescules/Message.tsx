@@ -1,7 +1,7 @@
 import React, { RefObject, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { modalVisibleState } from '../../recoil/atom';
+import { imgModalVisibleState } from '../../recoil/atom';
 import ImageViewModal from '../atoms/ImageViewModal';
 
 interface IsMeProp {
@@ -71,7 +71,7 @@ interface Props extends IsMeProp {
 }
 
 const Message = ({ isMe, topRef, nickname, message, image, createdAt, profile }: Props) => {
-  const [modalVisibility, setModalVisibility] = useRecoilState<boolean>(modalVisibleState);
+  const [modalVisibility, setModalVisibility] = useRecoilState<boolean>(imgModalVisibleState);
   const [modalUrl, setModalUrl] = useState<string>('');
 
   useEffect(() => {

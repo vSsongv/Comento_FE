@@ -1,5 +1,6 @@
 import { QuestionContent } from '../recoil/atom';
-import { Mentoring } from './api';
+import { Mentoring, FeedBack } from './api';
+import { FeedbackProps } from '../components/organisms/FeedbackModal';
 
 export interface QuestionType {
   before: number;
@@ -7,7 +8,11 @@ export interface QuestionType {
   end: number;
 }
 
-export const getQuestionList = async (type: number, language: number, role: string): Promise<QuestionContent[] | boolean> => {
+export const getQuestionList = async (
+  type: number,
+  language: number,
+  role: string
+): Promise<QuestionContent[] | boolean> => {
   try {
     const res = await Mentoring.getQuestionList(type, language, role);
     return res.data.result;
@@ -56,6 +61,24 @@ export const deleteAnswer = async (mentoringId: string): Promise<boolean> => {
     return true;
   } catch (error) {
     console.log(error);
+    return false;
+  }
+};
+
+export const SendFeedback = async (feedbackContents: FeedbackProps): Promise<void | boolean> => {
+  try {
+    const res = await FeedBack.sendFeedback(feedbackContents);
+    if (res) {
+      alert('피드백이 전송되었습니다.');
+      return true;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };

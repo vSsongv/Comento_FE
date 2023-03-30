@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
+import { SendFeedback } from '../../api/mentoringService';
 import Button from '../atoms/Button';
 import Modal from './Modal';
 
@@ -51,9 +52,15 @@ const CheckFont = styled.span`
   margin-bottom: 5px;
   margin-left: 3px;
   margin-top: 3px;
-  .first{ margin-right: 60px; }
-  .second{ margin-right: 10px; }
-  .third{ margin-right: 80px; }
+  .first {
+    margin-right: 60px;
+  }
+  .second {
+    margin-right: 10px;
+  }
+  .third {
+    margin-right: 80px;
+  }
 `;
 
 const FeedBackInput = styled.textarea`
@@ -80,98 +87,133 @@ const FirstList = ['만족', '보통', '불만족'];
 const SecondList = ['1시간 이하', '1시간 ~ 3시간', '3시간 초과'];
 const ThirdList = ['네', '아니오'];
 
-const FeedbackContent = () => {
-  const [checkedList, setCheckedList] = useState<string[]>([]);
-  const [isChecked, setIsChecked] = useState(false);
-
-  const checkedItemHandler = (value: string, isChecked: boolean) => {
-    if(isChecked){ 
-      setCheckedList((prev) => [...prev, value]); 
-      return;
-    }
-    if(!isChecked && checkedList.includes(value)) {
-      setCheckedList(checkedList.filter((item) => item !== value));
-      return;
-    }
-    return;
-  };
-
-  const checkHandler = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
-    setIsChecked(!isChecked);
-    checkedItemHandler(value, e.target.checked);
-    console.log(value, e.target.checked);
-  };
-
-  return(
-    <>
-      <QuestionTitle>1. 서비스에 만족하시나요?</QuestionTitle>
-      <CheckBoxWrapper>
-        {FirstList.map((item, idx) => (
-          <div className='checkBox' key={idx}>
-            <CheckBox htmlFor={item}>
-              <HiddenCheckBox
-              type='checkBox'
-              id={item}
-              checked={checkedList.includes(item)}
-              onChange={(e) => checkHandler(e, item)}
-              />
-              <CheckFont><span className='first'>{item}</span></CheckFont>
-            </CheckBox>
-          </div>
-        ))}
-      </CheckBoxWrapper>
-      <QuestionTitle>2. 멘토링 시간은 얼마나 소요되었나요?</QuestionTitle>
-      <CheckBoxWrapper>
-        {SecondList.map((item, idx) => (
-          <div className='checkBox' key={idx}>
-            <CheckBox htmlFor={item}>
-              <HiddenCheckBox
-              type='checkBox'
-              id={item}
-              checked={checkedList.includes(item)}
-              onChange={(e) => checkHandler(e, item)}
-              />
-              <CheckFont><span className='second'>{item}</span></CheckFont>
-            </CheckBox>
-          </div>
-        ))}
-      </CheckBoxWrapper>
-      <QuestionTitle>3. 다시 사용할 의향이 있으신가요?</QuestionTitle>
-      <CheckBoxWrapper>
-        {ThirdList.map((item, idx) => (
-          <div className='checkBox' key={idx}>
-            <CheckBox htmlFor={item}>
-              <HiddenCheckBox
-              type='checkBox'
-              id={item}
-              checked={checkedList.includes(item)}
-              onChange={(e) => checkHandler(e, item)}
-              />
-              <CheckFont><span className='third'>{item}</span></CheckFont>
-            </CheckBox>
-          </div>
-        ))}
-      </CheckBoxWrapper>
-      <QuestionTitle>
-        4. 저희 서비스에 추가되었으면 하는 점, 부족하다고 느낀 점을 적어주세요.
-           저희 서비스 개선에 큰 도움이 됩니다. 추첨을 통해 가입하신 휴대폰 번호로 
-           기프티콘을 증정해드립니다.
-      </QuestionTitle>
-      <FeedBackInput />
-      <ButtonWrapper>
-        <Button width={130} height={45} fontSize={20}>제출하기</Button>
-      </ButtonWrapper>
-    </>
-  );
+export interface FeedbackProps {
+  firstQuestion: number;
+  secondQuestion: number;
+  thirdQuestion: number;
+  evaluationText: string;
 }
 
-const FeedbackModal = () => {
-  return(
-    <Modal
-    title='저희 서비스 어떠셨나요?'
-    content={FeedbackContent}
-    />
-  );
+interface Props {
+  endMentoringApi: () => Promise<void>;
 }
+
+const FeedbackModal = ({ endMentoringApi }: Props) => {
+  const FeedbackContent = () => {
+    const [firstChecked, setFirstChecked] = useState<number>(-1);
+    const [secondChecked, setSecondChecked] = useState<number>(-1);
+    const [thirdChecked, setThirdChecked] = useState<number>(-1);
+    const feedBackRef = useRef<HTMLTextAreaElement>(null);
+
+    const checkHandler = (e: React.ChangeEvent<HTMLInputElement>, value: number, num: number) => {
+      switch (num) {
+        case 1:
+          setFirstChecked(value);
+          break;
+        case 2:
+          setSecondChecked(value);
+          break;
+        case 3:
+          setThirdChecked(value);
+          break;
+        default:
+          break;
+      }
+    };
+
+    const submitHandler = async () => {
+      if (firstChecked === -1) {
+        alert('1번 문항을 선택해주세요.');
+        return;
+      }
+      if (secondChecked === -1) {
+        alert('2번 문항을 선택해주세요.');
+        return;
+      }
+      if (thirdChecked === -1) {
+        alert('3번 문항을 선택해주세요.');
+        return;
+      }
+      const feedbackContents = {
+        firstQuestion: firstChecked + 1,
+        secondQuestion: secondChecked + 1,
+        thirdQuestion: thirdChecked + 1,
+        evaluationText: feedBackRef.current?.value || '',
+      };
+      if (await SendFeedback(feedbackContents)) endMentoringApi();
+    };
+
+    return (
+      <>
+        <QuestionTitle>1. 서비스에 만족하시나요?</QuestionTitle>
+        <CheckBoxWrapper>
+          {FirstList.map((item, idx) => (
+            <div className='checkBox' key={idx}>
+              <CheckBox htmlFor={item}>
+                <HiddenCheckBox
+                  type='checkBox'
+                  id={item}
+                  checked={firstChecked === idx}
+                  onChange={(e) => checkHandler(e, idx, 1)}
+                />
+                <CheckFont>
+                  <span className='first'>{item}</span>
+                </CheckFont>
+              </CheckBox>
+            </div>
+          ))}
+        </CheckBoxWrapper>
+        <QuestionTitle>2. 멘토링 시간은 얼마나 소요되었나요?</QuestionTitle>
+        <CheckBoxWrapper>
+          {SecondList.map((item, idx) => (
+            <div className='checkBox' key={idx}>
+              <CheckBox htmlFor={item}>
+                <HiddenCheckBox
+                  type='checkBox'
+                  id={item}
+                  checked={secondChecked === idx}
+                  onChange={(e) => checkHandler(e, idx, 2)}
+                />
+                <CheckFont>
+                  <span className='second'>{item}</span>
+                </CheckFont>
+              </CheckBox>
+            </div>
+          ))}
+        </CheckBoxWrapper>
+        <QuestionTitle>3. 다시 사용할 의향이 있으신가요?</QuestionTitle>
+        <CheckBoxWrapper>
+          {ThirdList.map((item, idx) => (
+            <div className='checkBox' key={idx}>
+              <CheckBox htmlFor={item}>
+                <HiddenCheckBox
+                  type='checkBox'
+                  id={item}
+                  checked={thirdChecked === idx}
+                  onChange={(e) => checkHandler(e, idx, 3)}
+                />
+                <CheckFont>
+                  <span className='third'>{item}</span>
+                </CheckFont>
+              </CheckBox>
+            </div>
+          ))}
+        </CheckBoxWrapper>
+        <QuestionTitle>
+          4. 저희 서비스에 추가되었으면 하는 점, 부족하다고 느낀 점을 적어주세요. 저희 서비스 개선에 큰 도움이 됩니다.
+          추첨을 통해 가입하신 휴대폰 번호로 기프티콘을 증정해드립니다.
+        </QuestionTitle>
+        <FeedBackInput ref={feedBackRef} />
+        <ButtonWrapper>
+          <Button width={130} height={45} fontSize={20} onClick={submitHandler}>
+            제출하기
+          </Button>
+        </ButtonWrapper>
+      </>
+    );
+  };
+
+  return <Modal title='저희 서비스 어떠셨나요?' content={FeedbackContent} endMentoringApi={endMentoringApi} />;
+};
 
 export default FeedbackModal;

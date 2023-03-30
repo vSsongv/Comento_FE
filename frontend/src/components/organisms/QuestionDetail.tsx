@@ -3,12 +3,12 @@ import styled, { css } from 'styled-components';
 import { border, boxShadow } from '../../styles/styleUtil';
 import Image from '../atoms/Image';
 import Button from '../atoms/Button';
-import { GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
+import { EndMentoring, GetSpecificQuestion, QuestionProp } from '../../api/chattingService';
 import { useNavigate, useParams } from 'react-router-dom';
 import FlashBtn from '../atoms/FlashBtn';
 import FeedbackModal from './FeedbackModal';
-import { useRecoilValue } from 'recoil';
-import { crtQuestion, userInfo, UserInfoType } from '../../recoil/atom';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { crtQuestion, crtRoleAtom, isFeedbackAtom, modalVisibleState } from '../../recoil/atom';
 
 interface Props {
   width: number;
@@ -70,21 +70,22 @@ const ImageContainer = styled.div`
   flex-wrap: wrap;
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.div<Props>`
   position: absolute;
   display: flex;
   justify-content: space-between;
   top: 45px;
   right: 30px;
-  width: 230px;
+  width: ${(props) => props.width}px;
 `;
 
 const QuestionDetail = ({ width }: Props) => {
   const { roomid } = useParams();
   const mentoringId = useRecoilValue<string>(crtQuestion);
-  const userInfoVal = useRecoilValue<UserInfoType>(userInfo);
+  const crtRole = useRecoilValue<string>(crtRoleAtom);
   const [question, setQuestion] = useState<QuestionProp>();
-  const [openModal, setOpenModal] = useState(false);
+  const [modalVisible, setModalVisible] = useRecoilState<boolean>(modalVisibleState);
+  const isFeedback = useRecoilValue<boolean>(isFeedbackAtom);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -102,8 +103,23 @@ const QuestionDetail = ({ width }: Props) => {
   }, [mentoringId]);
 
   const goToList = () => {
-    if (userInfoVal.role === 'Q') navigate('/questionList/mentee');
-    else navigate('/questionList/mentor');
+    navigate(`/questionList/${crtRole}`);
+  };
+
+  const endMentoringApi = async () => {
+    if (roomid) {
+      if (await EndMentoring(roomid, goToList)) {
+        goToList();
+        setModalVisible(false);
+      }
+    }
+  };
+
+  const finishMentoring = async () => {
+    if (roomid) {
+      if (!isFeedback) setModalVisible(true);
+      else endMentoringApi();
+    }
   };
 
   return (
@@ -115,27 +131,31 @@ const QuestionDetail = ({ width }: Props) => {
         </QuestionInfo>
       </TitleContainer>
       <ContentContainer>
-        <Contents>{question?.content}</Contents>
+        <Contents>
+          {question?.content.split('\n').map((line, i) => {
+            return (
+              <span key={i}>
+                {line}
+                <br />
+              </span>
+            );
+          })}
+        </Contents>
         <ImageContainer>
           <Image imageList={question?.content_image} />
         </ImageContainer>
       </ContentContainer>
       {roomid && (
-        <ButtonContainer>
+        <ButtonContainer width={crtRole === 'mentee' ? 230 : 115}>
           <FlashBtn width={110} height={35} fontSize={12} onClick={goToList}>
             목록으로 이동
           </FlashBtn>
-          <Button
-            width={110}
-            height={35}
-            fontSize={12}
-            onClick={() => {
-              setOpenModal(true);
-            }}
-          >
-            멘토링 끝내기
-          </Button>
-          {openModal === true ? <FeedbackModal /> : null}
+          {crtRole === 'mentee' && (
+            <Button width={110} height={35} fontSize={12} onClick={finishMentoring}>
+              멘토링 끝내기
+            </Button>
+          )}
+          {modalVisible && <FeedbackModal endMentoringApi={endMentoringApi} />}
         </ButtonContainer>
       )}
     </QuestionDetailContainer>

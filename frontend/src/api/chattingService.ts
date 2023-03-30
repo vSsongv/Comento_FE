@@ -2,6 +2,7 @@
 import { Chatting, Mentee } from './api';
 import defaultProfile from '../assets/images/defaultProfile.svg';
 import { Languages } from '../utils/Languages';
+import { SetterOrUpdater } from 'recoil';
 
 export interface CounterPartInfo {
   profile: string;
@@ -17,16 +18,21 @@ export interface QuestionProp {
   nickname: string;
 }
 
-export const EnterChattingRoom = async (roomId: string): Promise<CounterPartInfo | boolean> => {
+export const EnterChattingRoom = async (
+  roomId: string,
+  isFeedbackAtom: SetterOrUpdater<boolean>
+): Promise<CounterPartInfo | boolean> => {
   try {
     const res = await Chatting.enterChattingRoom(roomId);
     const userInfo = {
       profile: res.data.result.image ? process.env.REACT_APP_BASE_URL + res.data.result.image : defaultProfile,
       chat: res.data.result.chat,
     };
+    if (res.data.result.isSurvey) isFeedbackAtom(false);
+    else isFeedbackAtom(true);
     return userInfo;
   } catch (error: any) {
-    if (error.response.data && error.response.data.code === 2062) {
+    if (error.response.data && error.response.data.message) {
       alert(error.response.data.message);
     } else {
       console.log(error);
@@ -40,8 +46,12 @@ export const SendMessage = async (roomId: string, nickname: string, message: str
     const res = await Chatting.sendMessage(roomId, nickname, message);
     console.log(res);
     return true;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
@@ -51,8 +61,12 @@ export const SendImage = async (roomId: string, chattingContents: FormData): Pro
     const res = await Chatting.sendImage(roomId, chattingContents);
     console.log(res);
     return true;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };
@@ -73,8 +87,28 @@ export const GetSpecificQuestion = async (mentoringid: string): Promise<Question
       nickname: res.data.result.nickname,
     };
     return questionInfo;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+    } else {
+      console.log(error);
+    }
+    return false;
+  }
+};
+
+export const EndMentoring = async (mentoringId: string, goToList: () => void): Promise<boolean> => {
+  try {
+    const res = await Chatting.endMentoring(mentoringId);
+    if (res) alert('채팅이 종료되었습니다.');
+    return true;
+  } catch (error: any) {
+    if (error.response.data && error.response.data.message) {
+      alert(error.response.data.message);
+      if (error.response.data.code === 2064) goToList();
+    } else {
+      console.log(error);
+    }
     return false;
   }
 };

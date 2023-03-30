@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdClose } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
-import { modalVisibleState } from '../../recoil/atom';
+import { imgModalVisibleState } from '../../recoil/atom';
 import ImageViewModal from './ImageViewModal';
 
 interface ImageProp {
@@ -37,7 +37,7 @@ interface Props {
 }
 
 const Image = ({ imageList, fileDelete }: Props) => {
-  const [modalVisibility, setModalVisibility] = useRecoilState<boolean>(modalVisibleState);
+  const [modalVisibility, setModalVisibility] = useRecoilState<boolean>(imgModalVisibleState);
   const [modalUrl, setModalUrl] = useState<string>('');
 
   const viewModal = (url: string): void => {
