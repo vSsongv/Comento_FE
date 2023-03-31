@@ -38,6 +38,11 @@ export const headerMenu = atom<boolean>({
   default: false,
 });
 
+export const launchingModalVisibleState = atom<boolean>({
+  key: 'launchingModalVisibleState',
+  default: false,
+});
+
 export const modalVisibleState = atom<boolean>({
   key: 'modalVisibleState',
   default: false,

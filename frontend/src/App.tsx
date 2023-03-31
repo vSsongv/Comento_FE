@@ -13,17 +13,19 @@ import Footer from './components/molescules/Footer';
 import { ScrollToTop } from './utils/ScrollToTop';
 import { useCookies } from 'react-cookie';
 import { refresh } from './api/authService';
-import { crtRoleAtom, signInState, userInfo, UserInfoType } from './recoil/atom';
+import { crtRoleAtom, launchingModalVisibleState, signInState, userInfo, UserInfoType } from './recoil/atom';
 import CheckAuth from './utils/CheckAuth';
 import MyPage from './pages/MyPage';
 import Chatting from './pages/Chatting';
 import QuestionLists from './pages/QuestionLists';
+import LaunchingModal from './components/molescules/LaunchingModal';
 
 function App() {
   const [cookies] = useCookies(['refresh-token']);
   const [userInfoVal, setUserInfo] = useRecoilState<UserInfoType>(userInfo);
   const setSignInState = useSetRecoilState<boolean>(signInState);
   const setCrtRole = useSetRecoilState<string>(crtRoleAtom);
+  const [modalVisible] = useRecoilState<boolean>(launchingModalVisibleState);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
@@ -78,6 +80,7 @@ function App() {
             </Routes>
           )}
           <Footer />
+          {modalVisible ? <LaunchingModal /> : null}
         </BrowserRouter>
       </ThemeProvider>
     </div>

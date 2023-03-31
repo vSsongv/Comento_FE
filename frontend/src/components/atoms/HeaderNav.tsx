@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { MdKeyboardArrowRight } from 'react-icons/md';
 import { useRecoilState, useSetRecoilState } from 'recoil';
-import { signInState, headerMenu, modalVisibleState, questionType } from '../../recoil/atom';
+import { signInState, headerMenu, launchingModalVisibleState, questionType } from '../../recoil/atom';
 import { useCookies } from 'react-cookie';
 
 const ListContainer = styled.li`
@@ -32,7 +32,7 @@ const HeaderNav = ({ imageSrc, menu }: Props) => {
   const [headerState, setHeaderState] = useRecoilState<boolean>(headerMenu);
   const seType = useSetRecoilState(questionType);
   const [, , removeCookie] = useCookies(['refresh-token']);
-  const setModalVisible = useSetRecoilState<boolean>(modalVisibleState);
+  const setModalVisible = useSetRecoilState<boolean>(launchingModalVisibleState);
   const setSignInState = useSetRecoilState(signInState);
   const navigate = useNavigate();
 
