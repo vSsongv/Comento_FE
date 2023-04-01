@@ -20,7 +20,8 @@ export interface QuestionProp {
 
 export const EnterChattingRoom = async (
   roomId: string,
-  isFeedbackAtom: SetterOrUpdater<boolean>
+  isFeedbackAtom: SetterOrUpdater<boolean>,
+  setIsFinishedMentoring: SetterOrUpdater<boolean>
 ): Promise<CounterPartInfo | boolean> => {
   try {
     const res = await Chatting.enterChattingRoom(roomId);
@@ -30,6 +31,8 @@ export const EnterChattingRoom = async (
     };
     if (res.data.result.isSurvey) isFeedbackAtom(false);
     else isFeedbackAtom(true);
+    if (res.data.result.status === 'I') setIsFinishedMentoring(false);
+    else setIsFinishedMentoring(true);
     return userInfo;
   } catch (error: any) {
     if (error.response.data && error.response.data.message) {

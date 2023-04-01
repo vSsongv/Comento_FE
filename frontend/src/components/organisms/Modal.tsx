@@ -16,8 +16,8 @@ const Container = styled.div`
   padding: 30px;
   width: 680px;
   position: absolute;
-  top: 15%;
-  left: 35%;
+  top: 35%;
+  left: 30%;
   z-index: 100;
 `;
 

@@ -1,7 +1,9 @@
 import React, { RefObject } from 'react';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import ChattingFileInput from '../../assets/images/ChattingFileInput.png';
 import SubmitIcon from '../../assets/images/QuestionSubmit.svg';
+import { isFinishedMentoringAtom } from '../../recoil/atom';
 
 const ChattingInputContainer = styled.form`
   display: flex;
@@ -49,6 +51,8 @@ interface Props {
 }
 
 const ChattingInput = ({ handleFile, messageRef, sendMessage, imageRef }: Props) => {
+  const isFinishedMentoring = useRecoilValue(isFinishedMentoringAtom);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     sendMessage();
@@ -68,9 +72,14 @@ const ChattingInput = ({ handleFile, messageRef, sendMessage, imageRef }: Props)
         accept='.jpg, .jpeg, .png, .img'
         onChange={handleFile}
         ref={imageRef}
+        disabled={isFinishedMentoring}
       />
-      <ContentInput ref={messageRef} placeholder='메세지를 입력해주세요.' />
-      <Submit />
+      <ContentInput
+        ref={messageRef}
+        placeholder={isFinishedMentoring ? '종료된 멘토링입니다.' : '메세지를 입력해주세요.'}
+        disabled={isFinishedMentoring}
+      />
+      <Submit disabled={isFinishedMentoring} />
     </ChattingInputContainer>
   );
 };

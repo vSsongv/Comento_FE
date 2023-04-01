@@ -38,6 +38,11 @@ export const headerMenu = atom<boolean>({
   default: false,
 });
 
+export const launchingModalVisibleState = atom<boolean>({
+  key: 'launchingModalVisibleState',
+  default: false,
+});
+
 export const modalVisibleState = atom<boolean>({
   key: 'modalVisibleState',
   default: false,
@@ -80,5 +85,10 @@ export const crtRoleAtom = atom<string>({
 
 export const isFeedbackAtom = atom<boolean>({
   key: 'isFeedbackAtom',
+  default: false,
+});
+
+export const isFinishedMentoringAtom = atom<boolean>({
+  key: 'isFinishedMentoringAtom',
   default: false,
 });

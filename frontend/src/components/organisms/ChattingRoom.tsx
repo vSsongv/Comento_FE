@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { io } from 'socket.io-client';
-import { crtRoleAtom, isFeedbackAtom, userInfo, UserInfoType } from '../../recoil/atom';
+import { crtRoleAtom, isFeedbackAtom, isFinishedMentoringAtom, userInfo, UserInfoType } from '../../recoil/atom';
 import { border, boxShadow } from '../../styles/styleUtil';
 import ChattingInput from '../molescules/ChattingInput';
 import Message from '../molescules/Message';
@@ -53,6 +53,7 @@ const ChattingRoom = () => {
   const topRef = useRef<HTMLDivElement>(null);
   const myInfo = useRecoilValue<UserInfoType>(userInfo);
   const crtRole = useRecoilValue<string>(crtRoleAtom);
+  const setIsFinishedMentoring = useSetRecoilState<boolean>(isFinishedMentoringAtom);
   const setIsFeedback = useSetRecoilState<boolean>(isFeedbackAtom);
   const [messages, setMessages] = useState<messageProp[]>([]);
   const [newMessage, setNewMessage] = useState<messageProp>();
@@ -87,7 +88,7 @@ const ChattingRoom = () => {
   useEffect(() => {
     const enterChattingRoom = async (): Promise<void> => {
       if (roomid) {
-        const counterPartInfo = await EnterChattingRoom(roomid, setIsFeedback);
+        const counterPartInfo = await EnterChattingRoom(roomid, setIsFeedback, setIsFinishedMentoring);
         if (!counterPartInfo) {
           navigate('/');
         }

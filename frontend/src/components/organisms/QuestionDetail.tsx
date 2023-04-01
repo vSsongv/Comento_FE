@@ -8,7 +8,13 @@ import { useNavigate, useParams } from 'react-router-dom';
 import FlashBtn from '../atoms/FlashBtn';
 import FeedbackModal from './FeedbackModal';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { crtQuestion, crtRoleAtom, isFeedbackAtom, modalVisibleState } from '../../recoil/atom';
+import {
+  crtQuestion,
+  crtRoleAtom,
+  isFeedbackAtom,
+  isFinishedMentoringAtom,
+  modalVisibleState,
+} from '../../recoil/atom';
 
 interface Props {
   width: number;
@@ -83,6 +89,7 @@ const QuestionDetail = ({ width }: Props) => {
   const { roomid } = useParams();
   const mentoringId = useRecoilValue<string>(crtQuestion);
   const crtRole = useRecoilValue<string>(crtRoleAtom);
+  const isFinishedMentoring = useRecoilValue(isFinishedMentoringAtom);
   const [question, setQuestion] = useState<QuestionProp>();
   const [modalVisible, setModalVisible] = useRecoilState<boolean>(modalVisibleState);
   const isFeedback = useRecoilValue<boolean>(isFeedbackAtom);
@@ -146,11 +153,11 @@ const QuestionDetail = ({ width }: Props) => {
         </ImageContainer>
       </ContentContainer>
       {roomid && (
-        <ButtonContainer width={crtRole === 'mentee' ? 230 : 115}>
+        <ButtonContainer width={crtRole === 'mentee' && !isFinishedMentoring ? 230 : 115}>
           <FlashBtn width={110} height={35} fontSize={12} onClick={goToList}>
             목록으로 이동
           </FlashBtn>
-          {crtRole === 'mentee' && (
+          {crtRole === 'mentee' && !isFinishedMentoring && (
             <Button width={110} height={35} fontSize={12} onClick={finishMentoring}>
               멘토링 끝내기
             </Button>

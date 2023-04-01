@@ -1,9 +1,9 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import launching from '../../assets/images/launching.png';
 import { MdClose } from 'react-icons/md';
-import { modalVisibleState } from '../../recoil/atom';
+import { launchingModalVisibleState } from '../../recoil/atom';
 
 const Background = styled.div`
   position: fixed;
@@ -67,7 +67,7 @@ const XIcon = styled.button`
   cursor: pointer;
 `;
 const LaunchingModal = () => {
-  const setModalVisible = useSetRecoilState(modalVisibleState);
+  const setModalVisible = useSetRecoilState(launchingModalVisibleState);
 
   return (
     <Background>
