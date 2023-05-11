@@ -1,6 +1,6 @@
 # 프로젝트 이름 및 소개
 
-![코멘토 로고](./comento.png)<br></br>
+<img src="https://user-images.githubusercontent.com/55029807/228281412-8434711e-ff4f-454d-ac51-b31e87bb82ef.png" width="500" height="200"><br></br>
 
 <b>코멘토(Comento)</b> : 코딩을 입문하는 사람이나 코딩 도중에 어려움을 겪는 사람들을 위한 서비스로, Coding + Mento == Comento입니다.
 
