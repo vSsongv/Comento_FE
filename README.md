@@ -54,6 +54,4 @@ Service for people who are beginner to programming or who are struggling with pr
 - FE :  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=white"/> <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white"/>
 - BE : <img src="https://img.shields.io/badge/node.js-339933?style=flat-square&logo=node.js&logoColor=white"/> <img src="https://img.shields.io/badge/mySQL-4479A1?style=flat-square&logo=mySQL&logoColor=white"/>
 
-#### UI/UX, Wireframe link
-
-[Figma](https://www.figma.com/file/eu6TdzgDWUbj1ZUTUbLZcT/%EC%B4%88%EC%95%88?node-id=0%3A1)
+#### UI/UX, Wireframe link 👉🏻 [Figma](https://www.figma.com/file/eu6TdzgDWUbj1ZUTUbLZcT/%EC%B4%88%EC%95%88?node-id=0%3A1)
